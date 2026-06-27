@@ -37,25 +37,18 @@ jobs:
     - name: Add emcc to PATH
       run: echo "$GITHUB_WORKSPACE/emsdk/upstream/emscripten" >> $GITHUB_PATH
 
-    - name: Verify emcc
-      run: emcc --version
-
     - name: Download Freedoom WAD
       run: |
         mkdir -p dist/assets
         curl -sL "https://github.com/freedoom/freedoom/releases/download/v0.13.0/freedoom-0.13.0.zip" -o freedoom.zip
         unzip -j freedoom.zip "*/freedoom1.wad" -d dist/assets/
-        ls -lh dist/assets/freedoom1.wad
 
     - name: Compile DOOM → WASM
       working-directory: linuxdoom-1.10
       run: |
         mkdir -p ../dist/wasm
 
-        # All portable C files EXCEPT original platform layer
         PORTABLE=$(ls *.c | grep -vE '^(i_video|i_sound|i_system|i_main|i_net)\.c$' | tr '\n' ' ')
-
-        # Web platform files (d_loop_web.c overrides D_DoomLoop)
         WEB="web/i_video_web.c web/i_sound_web.c web/i_system_web.c web/i_net_stub.c web/i_main_web.c web/d_loop_web.c"
 
         emcc $PORTABLE $WEB \
@@ -74,19 +67,22 @@ jobs:
           -s ERROR_ON_UNDEFINED_SYMBOLS=0 \
           -Wl,--allow-multiple-definition \
           --no-entry \
-          2>&1
+          2>&1 | tee /tmp/build_output.txt || true
 
-        echo "=== Output ==="
-        ls -lh ../dist/wasm/ 2>/dev/null || echo "No output files!"
+        echo "=== ERRORS ==="
+        grep -i "error\|undefined" /tmp/build_output.txt | head -30 || echo "No errors found in grep"
+        echo "=== OUTPUT FILES ==="
+        ls -lh ../dist/wasm/ 2>/dev/null || echo "No output!"
+        test -f ../dist/wasm/doom.wasm && echo "SUCCESS: doom.wasm exists!" || { echo "FAILED: doom.wasm missing"; exit 1; }
 
     - name: Copy frontend
+      if: success()
       run: |
         cp index.html manifest.json dist/ 2>/dev/null || true
         cp -r styles src dist/ 2>/dev/null || true
-        echo "=== dist/ ==="
-        find dist -type f | sort
 
     - name: Upload Pages artifact
+      if: success()
       uses: actions/upload-pages-artifact@v3
       with:
         path: dist/
