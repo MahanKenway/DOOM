@@ -54,6 +54,8 @@ jobs:
         emcc $PORTABLE $WEB \
           -o ../dist/wasm/doom.js \
           -O1 \
+          -std=gnu89 \
+          -w \
           -DNORMALUNIX -DLINUX -DSNDSERV -DSNDINTR \
           -s WASM=1 \
           -s MODULARIZE=1 \
@@ -66,23 +68,17 @@ jobs:
           -s ENVIRONMENT=web \
           -s ERROR_ON_UNDEFINED_SYMBOLS=0 \
           -Wl,--allow-multiple-definition \
-          --no-entry \
-          2>&1 | tee /tmp/build_output.txt || true
+          --no-entry
 
-        echo "=== ERRORS ==="
-        grep -i "error\|undefined" /tmp/build_output.txt | head -30 || echo "No errors found in grep"
-        echo "=== OUTPUT FILES ==="
-        ls -lh ../dist/wasm/ 2>/dev/null || echo "No output!"
-        test -f ../dist/wasm/doom.wasm && echo "SUCCESS: doom.wasm exists!" || { echo "FAILED: doom.wasm missing"; exit 1; }
+        ls -lh ../dist/wasm/
+        test -f ../dist/wasm/doom.wasm && echo "✅ doom.wasm built!" || exit 1
 
     - name: Copy frontend
-      if: success()
       run: |
         cp index.html manifest.json dist/ 2>/dev/null || true
         cp -r styles src dist/ 2>/dev/null || true
 
     - name: Upload Pages artifact
-      if: success()
       uses: actions/upload-pages-artifact@v3
       with:
         path: dist/
