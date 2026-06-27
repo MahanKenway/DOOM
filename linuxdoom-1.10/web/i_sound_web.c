@@ -118,3 +118,9 @@ void I_PauseSong(int h)        { (void)h; js_stop_music(); }
 void I_ResumeSong(int h)       { (void)h; }
 void I_StopSong(int h)         { (void)h; js_stop_music(); }
 int  I_QrySongPlaying(int h)   { (void)h; return 1; }
+
+/* Extra sound stubs required by D_DoomLoop */
+void I_SubmitSound(void) { }
+void I_UpdateSoundParams(int handle, int vol, int sep, int pitch) {
+    (void)handle; (void)vol; (void)sep; (void)pitch;
+}
