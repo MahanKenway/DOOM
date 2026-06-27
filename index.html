@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+  <meta name="theme-color" content="#000000" />
+  <meta name="description" content="Classic DOOM — playable in your browser via WebAssembly" />
+
+  <title>DOOM — Browser Edition</title>
+
+  <!-- PWA manifest -->
+  <link rel="manifest" href="manifest.json" />
+  <link rel="icon" href="assets/favicon.ico" type="image/x-icon" />
+
+  <!-- Preload critical assets -->
+  <link rel="preload" href="wasm/doom.wasm" as="fetch" crossorigin />
+
+  <link rel="stylesheet" href="styles/main.css" />
+</head>
+<body>
+
+<!-- ╔══════════════════════════════╗
+     ║  BOOT / LOADING SCREEN       ║
+     ╚══════════════════════════════╝ -->
+<div id="loading-screen" class="screen active" role="status" aria-live="polite">
+  <div class="loading-inner">
+    <div class="doom-logo" aria-hidden="true">
+      <svg viewBox="0 0 400 120" xmlns="http://www.w3.org/2000/svg">
+        <!-- Pixel-art DOOM logo text -->
+        <text x="50%" y="80" text-anchor="middle"
+              font-family="'Courier New', monospace" font-size="72"
+              font-weight="bold" fill="#ff2200"
+              filter="url(#glow)">DOOM</text>
+        <defs>
+          <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+            <feGaussianBlur stdDeviation="4" result="blur"/>
+            <feMerge>
+              <feMergeNode in="blur"/>
+              <feMergeNode in="SourceGraphic"/>
+            </feMerge>
+          </filter>
+        </defs>
+      </svg>
+    </div>
+
+    <div class="boot-log" id="boot-log" aria-label="Loading progress"></div>
+
+    <div class="progress-container">
+      <div class="progress-bar" id="progress-bar" role="progressbar"
+           aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+        <div class="progress-fill" id="progress-fill"></div>
+      </div>
+      <span class="progress-text" id="progress-text">0%</span>
+    </div>
+
+    <p class="loading-hint">Loading WAD data…</p>
+  </div>
+</div>
+
+<!-- ╔══════════════════════════════╗
+     ║  WAD PICKER (if no WAD)      ║
+     ╚══════════════════════════════╝ -->
+<div id="wad-picker" class="screen" role="dialog" aria-modal="true"
+     aria-labelledby="wad-title">
+  <div class="picker-inner">
+    <h1 id="wad-title" class="doom-title">DOOM</h1>
+    <p class="picker-sub">Browser Edition — WebAssembly</p>
+
+    <div class="picker-options">
+      <!-- Option A: use bundled Freedoom shareware WAD -->
+      <button id="btn-freedoom" class="doom-btn primary" type="button">
+        <span class="btn-icon">🎮</span>
+        <span class="btn-label">Play Freedoom (built-in)</span>
+        <span class="btn-sub">Free / open-source WAD, no download</span>
+      </button>
+
+      <!-- Option B: drag-and-drop / upload your own -->
+      <label class="doom-btn secondary" for="wad-upload">
+        <span class="btn-icon">📁</span>
+        <span class="btn-label">Load your own WAD</span>
+        <span class="btn-sub">DOOM1.WAD, DOOM2.WAD, or any PWAD</span>
+        <input type="file" id="wad-upload" accept=".wad,.WAD" hidden />
+      </label>
+    </div>
+
+    <div id="wad-drop-zone" class="drop-zone" aria-label="Drop WAD file here">
+      <span>⬇ Drop WAD file here</span>
+    </div>
+
+    <div class="controls-legend">
+      <h3>Controls</h3>
+      <div class="controls-grid">
+        <span>Move</span><span>↑ ↓ ← → or WASD</span>
+        <span>Shoot</span><span>Ctrl / Left Click</span>
+        <span>Open door</span><span>Space</span>
+        <span>Strafe</span><span>Alt + ← →</span>
+        <span>Menu</span><span>Esc</span>
+        <span>Map</span><span>Tab</span>
+        <span>Fullscreen</span><span>F11 / F</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ╔══════════════════════════════╗
+     ║  GAME CONTAINER              ║
+     ╚══════════════════════════════╝ -->
+<div id="game-screen" class="screen" role="main">
+
+  <!-- Letterbox / scanline overlay -->
+  <div id="crt-overlay" aria-hidden="true"></div>
+
+  <!-- The actual DOOM framebuffer canvas -->
+  <canvas id="doom-canvas"
+          width="320" height="200"
+          aria-label="DOOM game canvas"
+          tabindex="0">
+    Your browser does not support the HTML canvas element.
+  </canvas>
+
+  <!-- HUD overlay (fps, map name, etc.) -->
+  <div id="hud-overlay" aria-hidden="true">
+    <div id="hud-fps"  class="hud-chip">-- FPS</div>
+    <div id="hud-map"  class="hud-chip">E1M1</div>
+    <div id="hud-ping" class="hud-chip" style="display:none">🟢 LOCAL</div>
+  </div>
+
+  <!-- Pause overlay -->
+  <div id="pause-overlay" class="hidden" aria-live="polite">
+    <div class="pause-box">
+      <p class="pause-title">— PAUSED —</p>
+      <p class="pause-hint">Click or press Esc to resume</p>
+      <button id="btn-resume"    class="doom-btn small">▶ Resume</button>
+      <button id="btn-fullscreen" class="doom-btn small">⛶ Fullscreen</button>
+      <button id="btn-restart"   class="doom-btn small danger">↺ Restart</button>
+    </div>
+  </div>
+
+  <!-- Mobile on-screen controls -->
+  <div id="mobile-controls" aria-label="On-screen game controls">
+    <!-- D-Pad -->
+    <div class="dpad" id="dpad">
+      <button class="dpad-btn up"    data-key="up"    aria-label="Move forward">▲</button>
+      <button class="dpad-btn left"  data-key="left"  aria-label="Turn left">◀</button>
+      <button class="dpad-btn right" data-key="right" aria-label="Turn right">▶</button>
+      <button class="dpad-btn down"  data-key="down"  aria-label="Move backward">▼</button>
+    </div>
+
+    <!-- Action buttons -->
+    <div class="action-btns">
+      <button class="action-btn shoot"  data-key="shoot"  aria-label="Shoot">🔫</button>
+      <button class="action-btn use"    data-key="use"    aria-label="Use / Open">⚙</button>
+      <button class="action-btn strafe-l" data-key="sl"  aria-label="Strafe left">↰</button>
+      <button class="action-btn strafe-r" data-key="sr"  aria-label="Strafe right">↱</button>
+      <button class="action-btn run"    data-key="run"    aria-label="Run">💨</button>
+    </div>
+
+    <!-- Top mini bar -->
+    <div class="mobile-topbar">
+      <button class="mini-btn" id="btn-map-mobile"   aria-label="Toggle map">🗺</button>
+      <button class="mini-btn" id="btn-pause-mobile" aria-label="Pause">⏸</button>
+      <button class="mini-btn" id="btn-menu-mobile"  aria-label="Menu">☰</button>
+    </div>
+  </div>
+
+</div>
+
+<!-- ╔══════════════════════════════╗
+     ║  POINTER-LOCK PROMPT         ║
+     ╚══════════════════════════════╝ -->
+<div id="click-to-play" class="click-overlay hidden" role="button" tabindex="0"
+     aria-label="Click to capture mouse and start playing">
+  <div class="click-box">
+    <p>🖱 Click to capture mouse</p>
+    <p class="small">Press Esc to release</p>
+  </div>
+</div>
+
+<!-- Main game script (ES module) -->
+<script type="module" src="src/main.js"></script>
+
+</body>
+</html>
