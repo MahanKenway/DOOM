@@ -1,0 +1,91 @@
+# .github/workflows/build-and-deploy.yml
+name: Build DOOM WASM & Deploy
+
+on:
+  push:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  pages:    write
+  id-token: write
+
+env:
+  EMSDK_VERSION: 3.1.51
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Cache Emscripten SDK
+      id: cache-emsdk
+      uses: actions/cache@v4
+      with:
+        path: emsdk
+        key: emsdk-${{ env.EMSDK_VERSION }}
+
+    - name: Install Emscripten SDK
+      if: steps.cache-emsdk.outputs.cache-hit != 'true'
+      run: |
+        git clone https://github.com/emscripten-core/emsdk.git
+        ./emsdk/emsdk install  ${{ env.EMSDK_VERSION }}
+        ./emsdk/emsdk activate ${{ env.EMSDK_VERSION }}
+
+    - name: Add emcc to PATH
+      run: echo "$GITHUB_WORKSPACE/emsdk/upstream/emscripten" >> $GITHUB_PATH
+
+    - name: Verify emcc
+      run: emcc --version
+
+    - name: Download Freedoom WAD
+      run: |
+        mkdir -p dist/assets
+        curl -sL "https://github.com/freedoom/freedoom/releases/download/v0.13.0/freedoom-0.13.0.zip" -o freedoom.zip
+        unzip -j freedoom.zip "*/freedoom1.wad" -d dist/assets/
+        ls -lh dist/assets/
+
+    - name: Compile DOOM to WebAssembly
+      working-directory: linuxdoom-1.10
+      run: |
+        mkdir -p ../dist/wasm
+        PORTABLE=$(ls *.c | grep -vE '^(i_video|i_sound|i_system|i_main|i_net)\.c$' | tr '\n' ' ')
+        WEB="web/i_video_web.c web/i_sound_web.c web/i_system_web.c web/i_net_stub.c web/i_main_web.c"
+        emcc $PORTABLE $WEB \
+          -o ../dist/wasm/doom.wasm \
+          -O2 -DNORMALUNIX -DLINUX -DWEBASSEMBLY \
+          -s WASM=1 -s STANDALONE_WASM=1 \
+          -s INITIAL_MEMORY=33554432 -s ALLOW_MEMORY_GROWTH=1 \
+          -s MALLOC=emmalloc -s ERROR_ON_UNDEFINED_SYMBOLS=0 \
+          --no-entry \
+          -s EXPORTED_FUNCTIONS='["_initGame","_tickGame","_reportKeyDown","_reportKeyUp"]'
+        echo "doom.wasm: $(stat -c%s ../dist/wasm/doom.wasm) bytes"
+
+    - name: Assemble dist/
+      run: |
+        cp index.html dist/
+        cp -r styles src dist/
+        [ -d assets ] && cp -r assets dist/ || true
+        find dist -type f | sort
+
+    - name: Upload Pages artifact
+      uses: actions/upload-pages-artifact@v3
+      with:
+        path: dist/
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+    - uses: actions/deploy-pages@v4
+      id: deployment
