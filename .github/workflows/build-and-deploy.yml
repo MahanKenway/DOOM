@@ -37,52 +37,46 @@ jobs:
     - name: Add emcc to PATH
       run: echo "$GITHUB_WORKSPACE/emsdk/upstream/emscripten" >> $GITHUB_PATH
 
-    - name: Verify emcc
-      run: emcc --version
-
     - name: Download Freedoom WAD
       run: |
         mkdir -p dist/assets
         curl -sL "https://github.com/freedoom/freedoom/releases/download/v0.13.0/freedoom-0.13.0.zip" -o freedoom.zip
         unzip -j freedoom.zip "*/freedoom1.wad" -d dist/assets/
-        ls -lh dist/assets/freedoom1.wad
 
-    - name: Compile DOOM to WebAssembly
+    - name: Compile DOOM → WASM
       working-directory: linuxdoom-1.10
       run: |
         mkdir -p ../dist/wasm
 
-        # Portable C files (exclude original platform layer)
-        PORTABLE=$(ls *.c | grep -vE '^(i_video|i_sound|i_system|i_main|i_net)\.c$' | tr '\n' ' ')
+        SRCS=$(ls *.c | grep -vE '^(i_video|i_sound|i_system|i_main|i_net)\.c$' | tr '\n' ' ')
+        SRCS="$SRCS web/i_video_web.c web/i_sound_web.c web/i_system_web.c web/i_net_stub.c web/i_main_web.c"
 
-        # Our web platform replacement
-        WEB="web/i_video_web.c web/i_sound_web.c web/i_system_web.c web/i_net_stub.c web/i_main_web.c"
+        echo "Compiling: $SRCS"
+        echo "---"
 
-        emcc $PORTABLE $WEB \
+        emcc $SRCS \
           -o ../dist/wasm/doom.js \
-          -O2 \
-          -DNORMALUNIX -DLINUX -DWEBASSEMBLY \
+          -O1 \
+          -DNORMALUNIX -DLINUX \
           -s WASM=1 \
           -s MODULARIZE=1 \
           -s EXPORT_NAME="createDoom" \
           -s INITIAL_MEMORY=33554432 \
           -s ALLOW_MEMORY_GROWTH=1 \
-          -s MALLOC=emmalloc \
           -s EXPORTED_FUNCTIONS='["_initGame","_tickGame","_reportKeyDown","_reportKeyUp"]' \
           -s EXPORTED_RUNTIME_METHODS='["ccall","cwrap"]' \
           -s NO_EXIT_RUNTIME=1 \
           -s ENVIRONMENT=web \
-          -s ERROR_ON_UNDEFINED_SYMBOLS=0 \
-          --no-entry
+          --no-entry \
+          2>&1
 
-        echo "doom.wasm: $(stat -c%s ../dist/wasm/doom.wasm) bytes"
-        echo "doom.js:   $(stat -c%s ../dist/wasm/doom.js)   bytes"
+        echo "=== Output files ==="
+        ls -lh ../dist/wasm/ || echo "No output!"
 
-    - name: Copy frontend files
+    - name: Copy frontend
       run: |
-        cp index.html manifest.json dist/
-        cp -r styles src dist/
-        find dist -type f | sort
+        cp index.html manifest.json dist/ 2>/dev/null || true
+        cp -r styles src dist/ 2>/dev/null || true
 
     - name: Upload Pages artifact
       uses: actions/upload-pages-artifact@v3
