@@ -1,23 +1,66 @@
 shared:INFO: (Emscripten: Running sanity checks)
-am_map.c:786:12: error: type specifier missing, defaults to 'int'; ISO C99 and later do not support implicit int [-Wimplicit-int]
-  786 |     static nexttic = 0;
-      |     ~~~~~~ ^
-      |     int
-am_map.c:859:14: error: type specifier missing, defaults to 'int'; ISO C99 and later do not support implicit int [-Wimplicit-int]
-  859 |     register    outcode1 = 0;
-      |     ~~~~~~~~    ^
-      |     int
-am_map.c:860:14: error: type specifier missing, defaults to 'int'; ISO C99 and later do not support implicit int [-Wimplicit-int]
-  860 |     register    outcode2 = 0;
-      |     ~~~~~~~~    ^
-      |     int
-am_map.c:861:14: error: type specifier missing, defaults to 'int'; ISO C99 and later do not support implicit int [-Wimplicit-int]
-  861 |     register    outside;
-      |     ~~~~~~~~    ^
-      |     int
-am_map.c:992:12: error: type specifier missing, defaults to 'int'; ISO C99 and later do not support implicit int [-Wimplicit-int]
-  992 |     static fuck = 0;
-      |     ~~~~~~ ^
-      |     int
-5 errors generated.
-emcc: error: '/home/runner/work/DOOM/DOOM/emsdk/upstream/bin/clang -target wasm32-unknown-emscripten -fignore-exceptions -fvisibility=default -mllvm -combiner-global-alias-analysis=false -mllvm -enable-emscripten-sjlj -mllvm -disable-lsr --sysroot=/home/runner/work/DOOM/DOOM/emsdk/upstream/emscripten/cache/sysroot -DEMSCRIPTEN -Werror=implicit-function-declaration -Xclang -iwithsysroot/include/fakesdl -Xclang -iwithsysroot/include/compat -O1 -w -DNORMALUNIX am_map.c -c -o /tmp/emscripten_temp_5q67jt2o/am_map_0.o' failed (returned 1)
+m_misc.c:288:8: error: expected '}'
+  288 |     {""chatmacro0"", (int *) &chat_macros[0], 0},
+      |        ^
+m_misc.c:288:5: note: to match this '{'
+  288 |     {""chatmacro0"", (int *) &chat_macros[0], 0},
+      |     ^
+m_misc.c:289:8: error: expected '}'
+  289 |     {""chatmacro1"", (int *) &chat_macros[1], 0},
+      |        ^
+m_misc.c:289:5: note: to match this '{'
+  289 |     {""chatmacro1"", (int *) &chat_macros[1], 0},
+      |     ^
+m_misc.c:290:8: error: expected '}'
+  290 |     {""chatmacro2"", (int *) &chat_macros[2], 0},
+      |        ^
+m_misc.c:290:5: note: to match this '{'
+  290 |     {""chatmacro2"", (int *) &chat_macros[2], 0},
+      |     ^
+m_misc.c:291:8: error: expected '}'
+  291 |     {""chatmacro3"", (int *) &chat_macros[3], 0},
+      |        ^
+m_misc.c:291:5: note: to match this '{'
+  291 |     {""chatmacro3"", (int *) &chat_macros[3], 0},
+      |     ^
+m_misc.c:292:8: error: expected '}'
+  292 |     {""chatmacro4"", (int *) &chat_macros[4], 0},
+      |        ^
+m_misc.c:292:5: note: to match this '{'
+  292 |     {""chatmacro4"", (int *) &chat_macros[4], 0},
+      |     ^
+m_misc.c:293:8: error: expected '}'
+  293 |     {""chatmacro5"", (int *) &chat_macros[5], 0},
+      |        ^
+m_misc.c:293:5: note: to match this '{'
+  293 |     {""chatmacro5"", (int *) &chat_macros[5], 0},
+      |     ^
+m_misc.c:294:8: error: expected '}'
+  294 |     {""chatmacro6"", (int *) &chat_macros[6], 0},
+      |        ^
+m_misc.c:294:5: note: to match this '{'
+  294 |     {""chatmacro6"", (int *) &chat_macros[6], 0},
+      |     ^
+m_misc.c:295:8: error: expected '}'
+  295 |     {""chatmacro7"", (int *) &chat_macros[7], 0},
+      |        ^
+m_misc.c:295:5: note: to match this '{'
+  295 |     {""chatmacro7"", (int *) &chat_macros[7], 0},
+      |     ^
+m_misc.c:296:8: error: expected '}'
+  296 |     {""chatmacro8"", (int *) &chat_macros[8], 0},
+      |        ^
+m_misc.c:296:5: note: to match this '{'
+  296 |     {""chatmacro8"", (int *) &chat_macros[8], 0},
+      |     ^
+m_misc.c:297:8: error: expected '}'
+  297 |     {""chatmacro9"", (int *) &chat_macros[9], 0}
+      |        ^
+m_misc.c:297:5: note: to match this '{'
+  297 |     {""chatmacro9"", (int *) &chat_macros[9], 0}
+      |     ^
+m_misc.c:352:25: error: invalid application of 'sizeof' to an incomplete type 'default_t[]'
+  352 |     numdefaults = sizeof(defaults)/sizeof(defaults[0]);
+      |                         ^~~~~~~~~~
+11 errors generated.
+emcc: error: '/home/runner/work/DOOM/DOOM/emsdk/upstream/bin/clang -target wasm32-unknown-emscripten -fignore-exceptions -fvisibility=default -mllvm -combiner-global-alias-analysis=false -mllvm -enable-emscripten-sjlj -mllvm -disable-lsr --sysroot=/home/runner/work/DOOM/DOOM/emsdk/upstream/emscripten/cache/sysroot -DEMSCRIPTEN -Werror=implicit-function-declaration -Xclang -iwithsysroot/include/fakesdl -Xclang -iwithsysroot/include/compat -O2 -w -DNORMALUNIX m_misc.c -c -o /tmp/emscripten_temp_37gwgiwl/m_misc_18.o' failed (returned 1)
