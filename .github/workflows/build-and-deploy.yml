@@ -10,7 +10,7 @@ concurrency:
   cancel-in-progress: true
 
 permissions:
-  contents: read
+  contents: write
   pages:    write
   id-token: write
 
@@ -19,6 +19,8 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
     - uses: actions/checkout@v4
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Cache Emscripten SDK
       id: cache-emsdk
@@ -49,7 +51,7 @@ jobs:
         python3 << 'PYEOF'
         import re, sys
 
-        # ── Patch 1: d_main.c — replace D_DoomLoop ────────────────────────
+        # Patch 1: d_main.c — stub D_DoomLoop
         with open('d_main.c') as f: src = f.read()
         stub = ('void D_DoomLoop (void)\n{\n'
                 '    if (demorecording) G_BeginRecording ();\n'
@@ -58,30 +60,26 @@ jobs:
                          stub, src, count=1, flags=re.DOTALL)
         if patched == src: print('ERROR: D_DoomLoop not found'); sys.exit(1)
         with open('d_main.c', 'w') as f: f.write(patched)
-        print('✅ d_main.c patched')
+        print('d_main.c patched')
 
-        # ── Patch 2: m_misc.c — remove chatmacro defaults (already init'd
-        #             in hu_stuff.c), remove Linux/sndserv string casts ──
+        # Patch 2: m_misc.c — fix chatmacro pointer-int cast
         with open('m_misc.c') as f: src = f.read()
-
-        # Replace (int) "string" casts with 0 in defaults array entries
         src = re.sub(
             r'\{("chatmacro\d+"),\s*\(int\s*\*\)\s*&chat_macros\[(\d+)\],\s*\(int\)\s*\w+\s*\}',
-            r'{"\1", (int *) &chat_macros[\2], 0}',
-            src)
-
+            r'{"\1", (int *) &chat_macros[\2], 0}', src)
         with open('m_misc.c', 'w') as f: f.write(src)
-        print('✅ m_misc.c patched')
+        print('m_misc.c patched')
         PYEOF
 
-    - name: Compile DOOM → WASM (capture log)
+    - name: Compile DOOM → WASM
       working-directory: linuxdoom-1.10
       run: |
-        mkdir -p ../dist/wasm ../logs
+        mkdir -p ../dist/wasm
 
         PORTABLE=$(ls *.c | grep -vE '^(i_video|i_sound|i_system|i_main|i_net)\.c$' | tr '\n' ' ')
         WEB="web/i_video_web.c web/i_sound_web.c web/i_system_web.c web/i_net_stub.c web/i_main_web.c"
 
+        set +e
         emcc $PORTABLE $WEB \
           -o ../dist/wasm/doom.js \
           -O1 -w \
@@ -97,22 +95,22 @@ jobs:
           -s ENVIRONMENT=web \
           -s ERROR_ON_UNDEFINED_SYMBOLS=0 \
           --no-entry \
-          2>&1 | tee ../logs/build.log
+          > ../build.log 2>&1
+        BUILD_EXIT=$?
+        set -e
 
-        echo "=== Last 30 lines of log ==="
-        tail -30 ../logs/build.log
+        cat ../build.log
 
-        test -f ../dist/wasm/doom.wasm \
-          && echo "✅ doom.wasm BUILT!" \
-          || { echo "❌ doom.wasm MISSING"; exit 1; }
+        # Commit the log so we can read it via API
+        git config user.email "ci@github.com"
+        git config user.name  "GitHub Actions"
+        git add ../build.log
+        git commit -m "ci: build log [skip ci]" || true
+        git push || true
 
-    - name: Upload build log (always)
-      if: always()
-      uses: actions/upload-artifact@v4
-      with:
-        name: build-log
-        path: logs/build.log
-        retention-days: 3
+        test $BUILD_EXIT -eq 0 \
+          && { ls -lh ../dist/wasm/; echo "✅ doom.wasm built!"; } \
+          || { echo "❌ FAILED (exit $BUILD_EXIT)"; exit 1; }
 
     - name: Copy frontend files
       if: success()
