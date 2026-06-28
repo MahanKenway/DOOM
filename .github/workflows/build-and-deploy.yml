@@ -43,20 +43,49 @@ jobs:
         curl -sL "https://github.com/freedoom/freedoom/releases/download/v0.13.0/freedoom-0.13.0.zip" -o freedoom.zip
         unzip -j freedoom.zip "*/freedoom1.wad" -d dist/assets/
 
-    - name: Compile DOOM → WASM
+    - name: Patch source files
       working-directory: linuxdoom-1.10
       run: |
-        mkdir -p ../dist/wasm
+        python3 << 'PYEOF'
+        import re, sys
+
+        # ── Patch 1: d_main.c — replace D_DoomLoop ────────────────────────
+        with open('d_main.c') as f: src = f.read()
+        stub = ('void D_DoomLoop (void)\n{\n'
+                '    if (demorecording) G_BeginRecording ();\n'
+                '    I_InitGraphics ();\n}\n')
+        patched = re.sub(r'void D_DoomLoop \(void\)\s*\{.*?\n\}\n',
+                         stub, src, count=1, flags=re.DOTALL)
+        if patched == src: print('ERROR: D_DoomLoop not found'); sys.exit(1)
+        with open('d_main.c', 'w') as f: f.write(patched)
+        print('✅ d_main.c patched')
+
+        # ── Patch 2: m_misc.c — remove chatmacro defaults (already init'd
+        #             in hu_stuff.c), remove Linux/sndserv string casts ──
+        with open('m_misc.c') as f: src = f.read()
+
+        # Replace (int) "string" casts with 0 in defaults array entries
+        src = re.sub(
+            r'\{("chatmacro\d+"),\s*\(int\s*\*\)\s*&chat_macros\[(\d+)\],\s*\(int\)\s*\w+\s*\}',
+            r'{"\1", (int *) &chat_macros[\2], 0}',
+            src)
+
+        with open('m_misc.c', 'w') as f: f.write(src)
+        print('✅ m_misc.c patched')
+        PYEOF
+
+    - name: Compile DOOM → WASM (capture log)
+      working-directory: linuxdoom-1.10
+      run: |
+        mkdir -p ../dist/wasm ../logs
 
         PORTABLE=$(ls *.c | grep -vE '^(i_video|i_sound|i_system|i_main|i_net)\.c$' | tr '\n' ' ')
-        WEB="web/i_video_web.c web/i_sound_web.c web/i_system_web.c web/i_net_stub.c web/i_main_web.c web/d_loop_web.c"
+        WEB="web/i_video_web.c web/i_sound_web.c web/i_system_web.c web/i_net_stub.c web/i_main_web.c"
 
         emcc $PORTABLE $WEB \
           -o ../dist/wasm/doom.js \
-          -O1 \
-          -std=gnu89 \
-          -w \
-          -DNORMALUNIX -DLINUX -DSNDSERV -DSNDINTR \
+          -O1 -w \
+          -DNORMALUNIX \
           -s WASM=1 \
           -s MODULARIZE=1 \
           -s EXPORT_NAME="createDoom" \
@@ -67,18 +96,32 @@ jobs:
           -s NO_EXIT_RUNTIME=1 \
           -s ENVIRONMENT=web \
           -s ERROR_ON_UNDEFINED_SYMBOLS=0 \
-          -Wl,--allow-multiple-definition \
-          --no-entry
+          --no-entry \
+          2>&1 | tee ../logs/build.log
 
-        ls -lh ../dist/wasm/
-        test -f ../dist/wasm/doom.wasm && echo "✅ doom.wasm built!" || exit 1
+        echo "=== Last 30 lines of log ==="
+        tail -30 ../logs/build.log
 
-    - name: Copy frontend
+        test -f ../dist/wasm/doom.wasm \
+          && echo "✅ doom.wasm BUILT!" \
+          || { echo "❌ doom.wasm MISSING"; exit 1; }
+
+    - name: Upload build log (always)
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: build-log
+        path: logs/build.log
+        retention-days: 3
+
+    - name: Copy frontend files
+      if: success()
       run: |
         cp index.html manifest.json dist/ 2>/dev/null || true
         cp -r styles src dist/ 2>/dev/null || true
 
     - name: Upload Pages artifact
+      if: success()
       uses: actions/upload-pages-artifact@v3
       with:
         path: dist/
