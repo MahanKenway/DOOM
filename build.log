@@ -1,0 +1,23 @@
+shared:INFO: (Emscripten: Running sanity checks)
+am_map.c:786:12: error: type specifier missing, defaults to 'int'; ISO C99 and later do not support implicit int [-Wimplicit-int]
+  786 |     static nexttic = 0;
+      |     ~~~~~~ ^
+      |     int
+am_map.c:859:14: error: type specifier missing, defaults to 'int'; ISO C99 and later do not support implicit int [-Wimplicit-int]
+  859 |     register    outcode1 = 0;
+      |     ~~~~~~~~    ^
+      |     int
+am_map.c:860:14: error: type specifier missing, defaults to 'int'; ISO C99 and later do not support implicit int [-Wimplicit-int]
+  860 |     register    outcode2 = 0;
+      |     ~~~~~~~~    ^
+      |     int
+am_map.c:861:14: error: type specifier missing, defaults to 'int'; ISO C99 and later do not support implicit int [-Wimplicit-int]
+  861 |     register    outside;
+      |     ~~~~~~~~    ^
+      |     int
+am_map.c:992:12: error: type specifier missing, defaults to 'int'; ISO C99 and later do not support implicit int [-Wimplicit-int]
+  992 |     static fuck = 0;
+      |     ~~~~~~ ^
+      |     int
+5 errors generated.
+emcc: error: '/home/runner/work/DOOM/DOOM/emsdk/upstream/bin/clang -target wasm32-unknown-emscripten -fignore-exceptions -fvisibility=default -mllvm -combiner-global-alias-analysis=false -mllvm -enable-emscripten-sjlj -mllvm -disable-lsr --sysroot=/home/runner/work/DOOM/DOOM/emsdk/upstream/emscripten/cache/sysroot -DEMSCRIPTEN -Werror=implicit-function-declaration -Xclang -iwithsysroot/include/fakesdl -Xclang -iwithsysroot/include/compat -O1 -w -DNORMALUNIX am_map.c -c -o /tmp/emscripten_temp_5q67jt2o/am_map_0.o' failed (returned 1)
