@@ -45,13 +45,13 @@ jobs:
         curl -sL "https://github.com/freedoom/freedoom/releases/download/v0.13.0/freedoom-0.13.0.zip" -o freedoom.zip
         unzip -j freedoom.zip "*/freedoom1.wad" -d dist/assets/
 
-    - name: Patch source files
+    - name: Patch source files for web/wasm build
       working-directory: linuxdoom-1.10
       run: |
         python3 << 'PYEOF'
         import re, sys
 
-        # Patch 1: d_main.c — stub D_DoomLoop (remove blocking while-1)
+        # ── Patch 1: d_main.c — replace blocking D_DoomLoop ──────────────
         with open('d_main.c') as f: src = f.read()
         stub = ('void D_DoomLoop (void)\n{\n'
                 '    if (demorecording) G_BeginRecording ();\n'
@@ -60,16 +60,37 @@ jobs:
                          stub, src, count=1, flags=re.DOTALL)
         if patched == src: print('ERROR: D_DoomLoop not found'); sys.exit(1)
         with open('d_main.c', 'w') as f: f.write(patched)
-        print('✅ d_main.c: D_DoomLoop replaced')
+        print('✅ d_main.c: D_DoomLoop stubbed')
 
-        # Patch 2: m_misc.c — chatmacro pointer→int casts
-        # In gnu89 these are warnings (suppressed by -w) but patch anyway
+        # ── Patch 2: m_misc.c — chatmacro string-ptr defaults → 0 ────────
         with open('m_misc.c') as f: src = f.read()
         src = re.sub(
             r'\{("chatmacro\d+"),\s*\(int\s*\*\)\s*&chat_macros\[(\d+)\],\s*\(int\)\s*\w+\s*\}',
             r'{"\1", (int *) &chat_macros[\2], 0}', src)
         with open('m_misc.c', 'w') as f: f.write(src)
-        print('✅ m_misc.c: chatmacro defaults set to 0')
+        print('✅ m_misc.c: chatmacro defaults = 0')
+
+        # ── Patch 3: am_map.c — add missing 'int' type specifiers ─────────
+        # Emscripten/clang rejects implicit int (valid C89, invalid C99+)
+        with open('am_map.c') as f: src = f.read()
+
+        fixes = [
+            # static nexttic = 0  →  static int nexttic = 0
+            (r'\bstatic\s+nexttic\s*=', 'static int nexttic ='),
+            # register outcode1 = 0  →  register int outcode1 = 0
+            (r'\bregister\s+outcode1\s*=', 'register int outcode1 ='),
+            (r'\bregister\s+outcode2\s*=', 'register int outcode2 ='),
+            # register outside;  →  register int outside;
+            (r'\bregister\s+outside\s*;', 'register int outside;'),
+            # static fuck = 0  →  static int fuck = 0
+            (r'\bstatic\s+fuck\s*=', 'static int fuck ='),
+        ]
+
+        for pattern, replacement in fixes:
+            src = re.sub(pattern, replacement, src)
+
+        with open('am_map.c', 'w') as f: f.write(src)
+        print('✅ am_map.c: 5 implicit-int declarations fixed')
         PYEOF
 
     - name: Compile DOOM → WASM
@@ -83,9 +104,7 @@ jobs:
         set +e
         emcc $PORTABLE $WEB \
           -o ../dist/wasm/doom.js \
-          -O2 \
-          -std=gnu89 \
-          -w \
+          -O2 -w \
           -DNORMALUNIX \
           -s WASM=1 \
           -s MODULARIZE=1 \
@@ -102,7 +121,7 @@ jobs:
         BUILD_EXIT=$?
         set -e
 
-        tail -30 ../build.log
+        tail -20 ../build.log
 
         git config user.email "ci@github.com"
         git config user.name "GitHub Actions"
@@ -111,7 +130,7 @@ jobs:
         git push || true
 
         test $BUILD_EXIT -eq 0 \
-          && { ls -lh ../dist/wasm/; echo "✅ SUCCESS"; } \
+          && { ls -lh ../dist/wasm/; echo "✅ doom.wasm BUILT!"; } \
           || { echo "❌ FAILED (exit=$BUILD_EXIT)"; exit 1; }
 
     - name: Copy frontend files
