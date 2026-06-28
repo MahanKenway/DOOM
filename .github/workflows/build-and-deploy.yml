@@ -51,7 +51,7 @@ jobs:
         python3 << 'PYEOF'
         import re, sys
 
-        # Patch 1: d_main.c — stub D_DoomLoop
+        # Patch 1: d_main.c — stub D_DoomLoop (remove blocking while-1)
         with open('d_main.c') as f: src = f.read()
         stub = ('void D_DoomLoop (void)\n{\n'
                 '    if (demorecording) G_BeginRecording ();\n'
@@ -60,15 +60,16 @@ jobs:
                          stub, src, count=1, flags=re.DOTALL)
         if patched == src: print('ERROR: D_DoomLoop not found'); sys.exit(1)
         with open('d_main.c', 'w') as f: f.write(patched)
-        print('d_main.c patched')
+        print('✅ d_main.c: D_DoomLoop replaced')
 
-        # Patch 2: m_misc.c — fix chatmacro pointer-int cast
+        # Patch 2: m_misc.c — chatmacro pointer→int casts
+        # In gnu89 these are warnings (suppressed by -w) but patch anyway
         with open('m_misc.c') as f: src = f.read()
         src = re.sub(
             r'\{("chatmacro\d+"),\s*\(int\s*\*\)\s*&chat_macros\[(\d+)\],\s*\(int\)\s*\w+\s*\}',
             r'{"\1", (int *) &chat_macros[\2], 0}', src)
         with open('m_misc.c', 'w') as f: f.write(src)
-        print('m_misc.c patched')
+        print('✅ m_misc.c: chatmacro defaults set to 0')
         PYEOF
 
     - name: Compile DOOM → WASM
@@ -82,7 +83,9 @@ jobs:
         set +e
         emcc $PORTABLE $WEB \
           -o ../dist/wasm/doom.js \
-          -O1 -w \
+          -O2 \
+          -std=gnu89 \
+          -w \
           -DNORMALUNIX \
           -s WASM=1 \
           -s MODULARIZE=1 \
@@ -99,18 +102,17 @@ jobs:
         BUILD_EXIT=$?
         set -e
 
-        cat ../build.log
+        tail -30 ../build.log
 
-        # Commit the log so we can read it via API
         git config user.email "ci@github.com"
-        git config user.name  "GitHub Actions"
+        git config user.name "GitHub Actions"
         git add ../build.log
         git commit -m "ci: build log [skip ci]" || true
         git push || true
 
         test $BUILD_EXIT -eq 0 \
-          && { ls -lh ../dist/wasm/; echo "✅ doom.wasm built!"; } \
-          || { echo "❌ FAILED (exit $BUILD_EXIT)"; exit 1; }
+          && { ls -lh ../dist/wasm/; echo "✅ SUCCESS"; } \
+          || { echo "❌ FAILED (exit=$BUILD_EXIT)"; exit 1; }
 
     - name: Copy frontend files
       if: success()
