@@ -69,22 +69,73 @@ else:
 
 print('All patches done.')
 
-# ── Patch 4: r_data.c — alloca needs stdlib.h in clang/Emscripten ──
+# ── Patch 4: r_data.c — alloca() not available in Emscripten libc ──
+# Replace alloca(width) with malloc(width) + free() at both exit points
+# (the early 'return' inside the for-loop, and end of function)
 with open('r_data.c') as f:
     src = f.read()
 
-if '#include <stdlib.h>' not in src:
-    patched = src.replace(
-        '#include  <alloca.h>',
-        '#include <stdlib.h>\n#include  <alloca.h>'
+old_alloca = "    patchcount = (byte *)alloca (texture->width);\n    memset (patchcount, 0, texture->width);"
+new_malloc = "    patchcount = (byte *)malloc (texture->width);\n    memset (patchcount, 0, texture->width);"
+
+if old_alloca in src:
+    src = src.replace(old_alloca, new_malloc)
+
+    # Add free(patchcount) before the early return inside the loop
+    old_return = (
+        "\tif (!patchcount[x])\n"
+        "\t{\n"
+        "\t    printf (\"R_GenerateLookup: column without a patch (%s)\\n\",\n"
+        "\t\t    texture->name);\n"
+        "\t    return;\n"
+        "\t}"
     )
-    if patched == src:
-        print('WARNING: alloca.h include not found in r_data.c')
+    new_return = (
+        "\tif (!patchcount[x])\n"
+        "\t{\n"
+        "\t    printf (\"R_GenerateLookup: column without a patch (%s)\\n\",\n"
+        "\t\t    texture->name);\n"
+        "\t    free(patchcount);\n"
+        "\t    return;\n"
+        "\t}"
+    )
+    if old_return in src:
+        src = src.replace(old_return, new_return)
+        print('OK r_data.c: added free() before early return')
     else:
-        with open('r_data.c', 'w') as f:
-            f.write(patched)
-        print('OK r_data.c: added stdlib.h for alloca() declaration')
+        print('WARNING: early-return pattern not found')
+
+    # Add free(patchcount) at the natural end of the for-loop (before closing brace)
+    old_loopend = "\t    texturecompositesize[texnum] += texture->height;\n\t}\n    }\t\n}"
+    new_loopend = "\t    texturecompositesize[texnum] += texture->height;\n\t}\n    }\t\n    free(patchcount);\n}"
+    if old_loopend in src:
+        src = src.replace(old_loopend, new_loopend)
+        print('OK r_data.c: added free() at function end')
+    else:
+        print('WARNING: function-end pattern not found')
+
+    with open('r_data.c', 'w') as f:
+        f.write(src)
+    print('OK r_data.c: alloca() -> malloc()/free() conversion complete')
 else:
-    print('OK r_data.c: stdlib.h already present')
+    print('WARNING: alloca pattern not found in r_data.c (may already be patched)')
 
 print('All patches done (4 total).')
+
+# ── Patch 5: doomdef.h — undefine SNDSERV (external sound server)
+# We use direct Web Audio bridge in i_sound_web.c instead.
+# SNDSERV macro was hardcoded to 1, forcing unused/broken codepaths
+# in m_misc.c (string literal address in static initializer).
+with open('doomdef.h') as f:
+    src = f.read()
+
+patched = src.replace('#define SNDSERV  1', '// #define SNDSERV  1  // disabled for web build')
+
+if patched == src:
+    print('WARNING: SNDSERV define not found in doomdef.h')
+else:
+    with open('doomdef.h', 'w') as f:
+        f.write(patched)
+    print('OK doomdef.h: SNDSERV disabled (web build uses direct Web Audio bridge)')
+
+print('All patches done (5 total).')

@@ -1,5 +1,5 @@
 /*
- * i_system_web.c  —  Web platform system layer (FIXED)
+ * i_system_web.c  —  Web platform system layer
  */
 
 #include <stdlib.h>
@@ -65,6 +65,4 @@ byte* I_AllocLow(int length) {
     return mem;
 }
 
-void I_WaitVBL(int count) { (void)count; }
-void I_BeginRead(void)    { }
-void I_EndRead(void)      { }
+/* I_WaitVBL, I_BeginRead, I_EndRead are defined in i_video_web.c */
