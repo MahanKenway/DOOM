@@ -59,7 +59,7 @@ jobs:
         set +e
         emcc $PORTABLE $WEB \
           -o ../dist/wasm/doom.js \
-          -O2 -w \
+          -O2 -w -I. \
           -DNORMALUNIX \
           -s WASM=1 \
           -s MODULARIZE=1 \
