@@ -58,18 +58,14 @@ jobs:
         WEB="web/i_video_web.c web/i_sound_web.c web/i_system_web.c web/i_net_stub.c web/i_main_web.c"
         set +e
         emcc $PORTABLE $WEB \
-          -o ../dist/wasm/doom.js \
+          -o ../dist/wasm/doom.wasm \
           -O2 -w -I. \
           -DNORMALUNIX \
           -s WASM=1 \
-          -s MODULARIZE=1 \
-          -s EXPORT_NAME="createDoom" \
+          -s STANDALONE_WASM=1 \
           -s INITIAL_MEMORY=33554432 \
           -s ALLOW_MEMORY_GROWTH=1 \
           -s EXPORTED_FUNCTIONS='["_initGame","_tickGame","_reportKeyDown","_reportKeyUp"]' \
-          -s EXPORTED_RUNTIME_METHODS='["ccall","cwrap"]' \
-          -s NO_EXIT_RUNTIME=1 \
-          -s ENVIRONMENT=web \
           -s ERROR_ON_UNDEFINED_SYMBOLS=0 \
           --no-entry \
           > ../build.log 2>&1
