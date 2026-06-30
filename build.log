@@ -1,5 +1,4 @@
-shared:INFO: (Emscripten: Running sanity checks)
-cache:INFO: generating system asset: symbol_lists/fb33bd8f78e79baea053cd4e8fbbc6fb1c0fb642.json... (this will be cached in "/home/runner/work/DOOM/DOOM/emsdk/upstream/emscripten/cache/symbol_lists/fb33bd8f78e79baea053cd4e8fbbc6fb1c0fb642.json" for subsequent builds)
+cache:INFO: generating system asset: symbol_lists/76465bfffae193c55c984ff8e4a109a6bad3cfde.json... (this will be cached in "/home/runner/work/DOOM/DOOM/emsdk/upstream/emscripten/cache/symbol_lists/76465bfffae193c55c984ff8e4a109a6bad3cfde.json" for subsequent builds)
 cache:INFO:  - ok
 warning: undefined symbol: js_add_sfx_to_mixer (referenced by root reference (e.g. compiled C/C++ code))
 warning: undefined symbol: js_draw_screen (referenced by root reference (e.g. compiled C/C++ code))
