@@ -69,36 +69,34 @@ else:
 
 print('All patches done.')
 
-# ── Patch 4: r_data.c — alloca() needs stdlib.h + isn't safe to use
-# Emscripten/clang rejects implicit alloca/malloc/free without stdlib.h.
-# Also, alloca() inside loops/blocks is fragile; replace ALL 4 uses
-# with malloc(). These are called once during level setup (R_InitData
-# family), so the small leak-until-level-exit is harmless — DOOM's
-# zone allocator (Z_Init) owns the heap lifetime anyway.
+# ── Patch 4: r_data.c — alloca() unavailable; stdlib.h conditionally
+# excluded by #ifdef LINUX (we don't pass -DLINUX in the web build)
 with open('r_data.c') as f:
     src = f.read()
 
-# 1) Ensure stdlib.h is included (provides malloc/free declarations)
+# 1) Always add stdlib.h right after the includes block (unconditional,
+#    regardless of #ifdef LINUX guarding the original alloca.h include)
 if '#include <stdlib.h>' not in src:
     src = src.replace(
-        '#include  <alloca.h>',
-        '#include <stdlib.h>\n#include  <alloca.h>'
+        '#include "r_local.h"',
+        '#include <stdlib.h>\n#include "r_local.h"',
+        1
     )
-    print('OK r_data.c: added #include <stdlib.h>')
+    print('OK r_data.c: added unconditional #include <stdlib.h>')
 
 # 2) Replace every alloca(...) call with malloc(...)
-#    (4 occurrences: R_GenerateLookup, R_InitTextures x2, R_InitSpriteDefs)
-n_replaced = src.count('alloca')
+n_before = src.count('alloca(') + src.count('alloca (')
 src = src.replace('(byte *)alloca (texture->width)', '(byte *)malloc (texture->width)')
 src = src.replace('alloca (nummappatches*sizeof(*patchlookup))',
                    'malloc (nummappatches*sizeof(*patchlookup))')
 src = src.replace('alloca(numflats)',    'malloc(numflats)')
 src = src.replace('alloca(numtextures)', 'malloc(numtextures)')
 src = src.replace('alloca(numsprites)',  'malloc(numsprites)')
+n_after = src.count('alloca(') + src.count('alloca (')
 
 with open('r_data.c', 'w') as f:
     f.write(src)
-print(f'OK r_data.c: replaced all alloca() calls with malloc() (had {n_replaced} alloca refs)')
+print(f'OK r_data.c: alloca calls {n_before} -> {n_after} (remaining are header/comments)')
 
 print('All patches done (4 total).')
 
