@@ -127,7 +127,10 @@ export class DoomEngine {
     progress(40, `Fetching ${wasmPath}…`);
     const { instance } = await WebAssembly.instantiateStreaming(
       fetch(wasmPath),
-      { env: this.#makeWasmImports() }
+      {
+        env: this.#makeWasmImports(),
+        wasi_snapshot_preview1: this.#makeWasiShim(),
+      }
     );
     this.#wasm   = instance;
     this.#memory = instance.exports.memory;
@@ -292,6 +295,106 @@ export class DoomEngine {
           this.#audio.stopSfx(channel);
         },
       }
+    };
+  }
+
+  // ═══════════════════════════════════════════════════════════
+  //  WASI SNAPSHOT PREVIEW1 SHIM
+  //  Emscripten's STANDALONE_WASM=1 output imports a handful of
+  //  WASI functions (printf/exit/clock use these under the hood
+  //  via libc). We implement the minimal subset DOOM actually
+  //  triggers — fd_write (printf/fprintf), proc_exit (I_Quit/abort
+  //  paths), clock_time_get, and a few no-op stubs for fd_*
+  //  metadata calls some libc paths probe defensively.
+  //
+  //  Reference: https://github.com/WebAssembly/WASI/blob/main/legacy/preview1/docs.md
+  // ═══════════════════════════════════════════════════════════
+  #makeWasiShim() {
+    const decoder = new TextDecoder();
+
+    /** Read a little-endian uint32 from WASM memory at `ptr`. */
+    const u32 = (ptr) => new DataView(this.#memory.buffer).getUint32(ptr, true);
+    /** Write a little-endian uint32 into WASM memory at `ptr`. */
+    const setU32 = (ptr, val) => new DataView(this.#memory.buffer).setUint32(ptr, val, true);
+
+    return {
+      /**
+       * fd_write(fd, iovs_ptr, iovs_len, nwritten_ptr) -> errno
+       * Used by libc's printf/fprintf/puts (DOOM calls these ~224 times).
+       * iovs is an array of {buf_ptr: u32, buf_len: u32} structs (8 bytes each).
+       */
+      fd_write: (fd, iovsPtr, iovsLen, nwrittenPtr) => {
+        let totalWritten = 0;
+        let text = '';
+        for (let i = 0; i < iovsLen; i++) {
+          const base   = iovsPtr + i * 8;
+          const bufPtr = u32(base);
+          const bufLen = u32(base + 4);
+          if (bufLen > 0) {
+            const bytes = new Uint8Array(this.#memory.buffer, bufPtr, bufLen);
+            text += decoder.decode(bytes);
+            totalWritten += bufLen;
+          }
+        }
+        if (text) {
+          // fd 1 = stdout, fd 2 = stderr — both routed to our log
+          EventBus.emit('engine:log', { level: fd === 2 ? 'warn' : 'info', text: text.replace(/\n+$/, '') });
+        }
+        setU32(nwrittenPtr, totalWritten);
+        return 0; // WASI errno: success
+      },
+
+      /**
+       * proc_exit(code) -> never returns
+       * Called if DOOM's C runtime hits exit()/abort(). We treat
+       * this the same as I_Error: surface as a fatal error.
+       */
+      proc_exit: (code) => {
+        this.#running = false;
+        this.#onFatalError(`DOOM process exited (code ${code})`);
+        EventBus.emit('engine:fatal', `proc_exit(${code})`);
+        throw new Error(`WASI proc_exit(${code})`);
+      },
+
+      /**
+       * clock_time_get(clock_id, precision, time_ptr) -> errno
+       * Some libc init paths query the clock defensively even
+       * though we don't rely on it for game timing (js_get_time_ms
+       * handles that). Return current time in nanoseconds.
+       */
+      clock_time_get: (clockId, precision, timePtr) => {
+        const ns = BigInt(Math.floor(performance.now() * 1e6));
+        new DataView(this.#memory.buffer).setBigUint64(timePtr, ns, true);
+        return 0;
+      },
+
+      /** fd_seek — not used by DOOM's WAD I/O (we inject WAD via memory), stub only. */
+      fd_seek: (fd, offsetLow, offsetHigh, whence, newOffsetPtr) => {
+        setU32(newOffsetPtr, 0);
+        return 0;
+      },
+
+      /** fd_close — no real file descriptors to close. */
+      fd_close: (fd) => 0,
+
+      /** environ_sizes_get / environ_get — DOOM doesn't read env vars; report empty. */
+      environ_sizes_get: (countPtr, sizePtr) => {
+        setU32(countPtr, 0);
+        setU32(sizePtr, 0);
+        return 0;
+      },
+      environ_get: (environPtr, environBufPtr) => 0,
+
+      /** args_sizes_get / args_get — argv is supplied via myargv in i_main_web.c, not WASI. */
+      args_sizes_get: (countPtr, sizePtr) => {
+        setU32(countPtr, 0);
+        setU32(sizePtr, 0);
+        return 0;
+      },
+      args_get: (argvPtr, argvBufPtr) => 0,
+
+      /** fd_fdstat_get — minimal stat stub so isatty()-style checks don't crash. */
+      fd_fdstat_get: (fd, statPtr) => 0,
     };
   }
 
