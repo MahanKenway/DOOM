@@ -1,7 +1,9 @@
 shared:INFO: (Emscripten: Running sanity checks)
-r_data.c:323:26: error: call to undeclared library function 'malloc' with type 'void *(unsigned long)'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-  323 |     patchcount = (byte *)malloc (texture->width);
-      |                          ^
-r_data.c:323:26: note: include the header <stdlib.h> or explicitly provide a declaration for 'malloc'
+w_wad.c:69:6: error: conflicting types for 'strupr'
+   69 | void strupr (char* s)
+      |      ^
+/home/runner/work/DOOM/DOOM/emsdk/upstream/emscripten/cache/sysroot/include/compat/string.h:9:14: note: previous declaration is here
+    9 | extern char* strupr(char *);
+      |              ^
 1 error generated.
-emcc: error: '/home/runner/work/DOOM/DOOM/emsdk/upstream/bin/clang -target wasm32-unknown-emscripten -fignore-exceptions -fvisibility=default -mllvm -combiner-global-alias-analysis=false -mllvm -enable-emscripten-sjlj -mllvm -disable-lsr --sysroot=/home/runner/work/DOOM/DOOM/emsdk/upstream/emscripten/cache/sysroot -DEMSCRIPTEN -Werror=implicit-function-declaration -Xclang -iwithsysroot/include/fakesdl -Xclang -iwithsysroot/include/compat -O2 -w -DNORMALUNIX r_data.c -c -o /tmp/emscripten_temp_uwnwvwh0/r_data_41.o' failed (returned 1)
+emcc: error: '/home/runner/work/DOOM/DOOM/emsdk/upstream/bin/clang -target wasm32-unknown-emscripten -fignore-exceptions -fvisibility=default -mllvm -combiner-global-alias-analysis=false -mllvm -enable-emscripten-sjlj -mllvm -disable-lsr --sysroot=/home/runner/work/DOOM/DOOM/emsdk/upstream/emscripten/cache/sysroot -DEMSCRIPTEN -Werror=implicit-function-declaration -Xclang -iwithsysroot/include/fakesdl -Xclang -iwithsysroot/include/compat -O2 -w -DNORMALUNIX w_wad.c -c -o /tmp/emscripten_temp_vxi39r4q/w_wad_54.o' failed (returned 1)
