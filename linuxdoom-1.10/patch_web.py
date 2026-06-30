@@ -68,3 +68,23 @@ else:
     print('OK am_map.c: implicit-int fixed (5 declarations)')
 
 print('All patches done.')
+
+# ── Patch 4: r_data.c — alloca needs stdlib.h in clang/Emscripten ──
+with open('r_data.c') as f:
+    src = f.read()
+
+if '#include <stdlib.h>' not in src:
+    patched = src.replace(
+        '#include  <alloca.h>',
+        '#include <stdlib.h>\n#include  <alloca.h>'
+    )
+    if patched == src:
+        print('WARNING: alloca.h include not found in r_data.c')
+    else:
+        with open('r_data.c', 'w') as f:
+            f.write(patched)
+        print('OK r_data.c: added stdlib.h for alloca() declaration')
+else:
+    print('OK r_data.c: stdlib.h already present')
+
+print('All patches done (4 total).')
