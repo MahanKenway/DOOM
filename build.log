@@ -1,9 +1,6 @@
 shared:INFO: (Emscripten: Running sanity checks)
-w_wad.c:69:6: error: conflicting types for 'strupr'
-   69 | void strupr (char* s)
-      |      ^
-/home/runner/work/DOOM/DOOM/emsdk/upstream/emscripten/cache/sysroot/include/compat/string.h:9:14: note: previous declaration is here
-    9 | extern char* strupr(char *);
-      |              ^
+web/i_video_web.c:9:10: fatal error: 'doomdef.h' file not found
+    9 | #include "doomdef.h"
+      |          ^~~~~~~~~~~
 1 error generated.
-emcc: error: '/home/runner/work/DOOM/DOOM/emsdk/upstream/bin/clang -target wasm32-unknown-emscripten -fignore-exceptions -fvisibility=default -mllvm -combiner-global-alias-analysis=false -mllvm -enable-emscripten-sjlj -mllvm -disable-lsr --sysroot=/home/runner/work/DOOM/DOOM/emsdk/upstream/emscripten/cache/sysroot -DEMSCRIPTEN -Werror=implicit-function-declaration -Xclang -iwithsysroot/include/fakesdl -Xclang -iwithsysroot/include/compat -O2 -w -DNORMALUNIX w_wad.c -c -o /tmp/emscripten_temp_vxi39r4q/w_wad_54.o' failed (returned 1)
+emcc: error: '/home/runner/work/DOOM/DOOM/emsdk/upstream/bin/clang -target wasm32-unknown-emscripten -fignore-exceptions -fvisibility=default -mllvm -combiner-global-alias-analysis=false -mllvm -enable-emscripten-sjlj -mllvm -disable-lsr --sysroot=/home/runner/work/DOOM/DOOM/emsdk/upstream/emscripten/cache/sysroot -DEMSCRIPTEN -Werror=implicit-function-declaration -Xclang -iwithsysroot/include/fakesdl -Xclang -iwithsysroot/include/compat -O2 -w -DNORMALUNIX web/i_video_web.c -c -o /tmp/emscripten_temp_0nk82k89/i_video_web_57.o' failed (returned 1)
