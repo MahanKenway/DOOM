@@ -117,3 +117,30 @@ else:
     print('OK doomdef.h: SNDSERV disabled (web build uses direct Web Audio bridge)')
 
 print('All patches done (5 total).')
+
+# ── Patch 6: w_wad.c — strupr() conflicts with Emscripten's libc ───
+# Emscripten provides its own strupr(char*) -> char* in compat/string.h
+# DOOM's own strupr(char* s) -> void has a different return type.
+# Rename DOOM's version to avoid the symbol clash.
+with open('w_wad.c') as f:
+    src = f.read()
+
+patched = src.replace(
+    'void strupr (char* s)\n{\n    while (*s) { *s = toupper(*s); s++; }\n}',
+    'static void doom_strupr (char* s)\n{\n    while (*s) { *s = toupper(*s); s++; }\n}'
+)
+# Also rename all call sites: strupr( -> doom_strupr(
+# but NOT the #define strcmpi line, and not Emscripten's own strupr
+patched = patched.replace('strupr (', 'doom_strupr (')
+patched = patched.replace('strupr(',  'doom_strupr(')
+# Fix double-rename if the function definition already got renamed
+patched = patched.replace('static void doom_doom_strupr', 'static void doom_strupr')
+
+if patched == src:
+    print('WARNING: strupr pattern not found in w_wad.c')
+else:
+    with open('w_wad.c', 'w') as f:
+        f.write(patched)
+    print('OK w_wad.c: strupr -> doom_strupr (avoid Emscripten libc clash)')
+
+print('All patches done (6 total).')
