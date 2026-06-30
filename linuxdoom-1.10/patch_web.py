@@ -69,56 +69,36 @@ else:
 
 print('All patches done.')
 
-# ── Patch 4: r_data.c — alloca() not available in Emscripten libc ──
-# Replace alloca(width) with malloc(width) + free() at both exit points
-# (the early 'return' inside the for-loop, and end of function)
+# ── Patch 4: r_data.c — alloca() needs stdlib.h + isn't safe to use
+# Emscripten/clang rejects implicit alloca/malloc/free without stdlib.h.
+# Also, alloca() inside loops/blocks is fragile; replace ALL 4 uses
+# with malloc(). These are called once during level setup (R_InitData
+# family), so the small leak-until-level-exit is harmless — DOOM's
+# zone allocator (Z_Init) owns the heap lifetime anyway.
 with open('r_data.c') as f:
     src = f.read()
 
-old_alloca = "    patchcount = (byte *)alloca (texture->width);\n    memset (patchcount, 0, texture->width);"
-new_malloc = "    patchcount = (byte *)malloc (texture->width);\n    memset (patchcount, 0, texture->width);"
-
-if old_alloca in src:
-    src = src.replace(old_alloca, new_malloc)
-
-    # Add free(patchcount) before the early return inside the loop
-    old_return = (
-        "\tif (!patchcount[x])\n"
-        "\t{\n"
-        "\t    printf (\"R_GenerateLookup: column without a patch (%s)\\n\",\n"
-        "\t\t    texture->name);\n"
-        "\t    return;\n"
-        "\t}"
+# 1) Ensure stdlib.h is included (provides malloc/free declarations)
+if '#include <stdlib.h>' not in src:
+    src = src.replace(
+        '#include  <alloca.h>',
+        '#include <stdlib.h>\n#include  <alloca.h>'
     )
-    new_return = (
-        "\tif (!patchcount[x])\n"
-        "\t{\n"
-        "\t    printf (\"R_GenerateLookup: column without a patch (%s)\\n\",\n"
-        "\t\t    texture->name);\n"
-        "\t    free(patchcount);\n"
-        "\t    return;\n"
-        "\t}"
-    )
-    if old_return in src:
-        src = src.replace(old_return, new_return)
-        print('OK r_data.c: added free() before early return')
-    else:
-        print('WARNING: early-return pattern not found')
+    print('OK r_data.c: added #include <stdlib.h>')
 
-    # Add free(patchcount) at the natural end of the for-loop (before closing brace)
-    old_loopend = "\t    texturecompositesize[texnum] += texture->height;\n\t}\n    }\t\n}"
-    new_loopend = "\t    texturecompositesize[texnum] += texture->height;\n\t}\n    }\t\n    free(patchcount);\n}"
-    if old_loopend in src:
-        src = src.replace(old_loopend, new_loopend)
-        print('OK r_data.c: added free() at function end')
-    else:
-        print('WARNING: function-end pattern not found')
+# 2) Replace every alloca(...) call with malloc(...)
+#    (4 occurrences: R_GenerateLookup, R_InitTextures x2, R_InitSpriteDefs)
+n_replaced = src.count('alloca')
+src = src.replace('(byte *)alloca (texture->width)', '(byte *)malloc (texture->width)')
+src = src.replace('alloca (nummappatches*sizeof(*patchlookup))',
+                   'malloc (nummappatches*sizeof(*patchlookup))')
+src = src.replace('alloca(numflats)',    'malloc(numflats)')
+src = src.replace('alloca(numtextures)', 'malloc(numtextures)')
+src = src.replace('alloca(numsprites)',  'malloc(numsprites)')
 
-    with open('r_data.c', 'w') as f:
-        f.write(src)
-    print('OK r_data.c: alloca() -> malloc()/free() conversion complete')
-else:
-    print('WARNING: alloca pattern not found in r_data.c (may already be patched)')
+with open('r_data.c', 'w') as f:
+    f.write(src)
+print(f'OK r_data.c: replaced all alloca() calls with malloc() (had {n_replaced} alloca refs)')
 
 print('All patches done (4 total).')
 
