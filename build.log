@@ -1,7 +1,7 @@
 shared:INFO: (Emscripten: Running sanity checks)
-r_data.c:322:26: error: call to undeclared library function 'alloca' with type 'void *(unsigned long)'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-  322 |     patchcount = (byte *)alloca (texture->width);
+r_data.c:323:26: error: call to undeclared library function 'alloca' with type 'void *(unsigned long)'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+  323 |     patchcount = (byte *)alloca (texture->width);
       |                          ^
-r_data.c:322:26: note: include the header <stdlib.h> or explicitly provide a declaration for 'alloca'
+r_data.c:323:26: note: include the header <stdlib.h> or explicitly provide a declaration for 'alloca'
 1 error generated.
-emcc: error: '/home/runner/work/DOOM/DOOM/emsdk/upstream/bin/clang -target wasm32-unknown-emscripten -fignore-exceptions -fvisibility=default -mllvm -combiner-global-alias-analysis=false -mllvm -enable-emscripten-sjlj -mllvm -disable-lsr --sysroot=/home/runner/work/DOOM/DOOM/emsdk/upstream/emscripten/cache/sysroot -DEMSCRIPTEN -Werror=implicit-function-declaration -Xclang -iwithsysroot/include/fakesdl -Xclang -iwithsysroot/include/compat -O2 -w -DNORMALUNIX r_data.c -c -o /tmp/emscripten_temp_iohyla9i/r_data_41.o' failed (returned 1)
+emcc: error: '/home/runner/work/DOOM/DOOM/emsdk/upstream/bin/clang -target wasm32-unknown-emscripten -fignore-exceptions -fvisibility=default -mllvm -combiner-global-alias-analysis=false -mllvm -enable-emscripten-sjlj -mllvm -disable-lsr --sysroot=/home/runner/work/DOOM/DOOM/emsdk/upstream/emscripten/cache/sysroot -DEMSCRIPTEN -Werror=implicit-function-declaration -Xclang -iwithsysroot/include/fakesdl -Xclang -iwithsysroot/include/compat -O2 -w -DNORMALUNIX r_data.c -c -o /tmp/emscripten_temp_huk5jp7q/r_data_41.o' failed (returned 1)
