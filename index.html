@@ -12,8 +12,8 @@
   <link rel="manifest" href="manifest.json" />
   <link rel="icon" href="assets/favicon.ico" type="image/x-icon" />
 
-  <!-- Preload critical assets -->
-  <link rel="preload" href="wasm/doom.wasm" as="fetch" crossorigin />
+  <!-- Note: doom.wasm is fetched on-demand after WAD selection,
+       not on page load, so no <link rel="preload"> here. -->
 
   <link rel="stylesheet" href="styles/main.css" />
 </head>

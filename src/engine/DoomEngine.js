@@ -128,7 +128,7 @@ export class DoomEngine {
     const { instance } = await WebAssembly.instantiateStreaming(
       fetch(wasmPath),
       {
-        env: this.#makeWasmImports(),
+        ...this.#makeWasmImports(),   // already shaped as { env: {...} }
         wasi_snapshot_preview1: this.#makeWasiShim(),
       }
     );

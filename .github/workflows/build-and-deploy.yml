@@ -86,6 +86,12 @@ jobs:
       run: |
         cp index.html manifest.json dist/ 2>/dev/null || true
         cp -r styles src dist/ 2>/dev/null || true
+        # Merge repo assets/ (favicon, icons) into dist/assets/
+        # without clobbering freedoom1.wad already placed there
+        mkdir -p dist/assets
+        cp -n assets/* dist/assets/ 2>/dev/null || true
+        echo "=== dist/assets/ contents ==="
+        ls -la dist/assets/
 
     - name: Upload Pages artifact
       if: success()
