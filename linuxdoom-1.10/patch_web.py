@@ -288,3 +288,29 @@ else:
     print('OK d_net.c: fclose -> web_fclose')
 
 print('All patches done (11 total).')
+
+# ── Patch 12: inject w_io_web.h prototypes into every caller ─────
+# Emscripten's clang treats implicit function declarations as a
+# HARD ERROR unconditionally (baked into emcc's driver, -w cannot
+# suppress it). Every file calling a web_* function needs the
+# prototype visible via #include.
+_WEB_IO_CALLERS = ['d_main.c', 'w_wad.c', 'm_misc.c', 'm_menu.c', 'd_net.c']
+
+for fname in _WEB_IO_CALLERS:
+    with open(fname) as f:
+        src = f.read()
+    include_line = '#include "web/w_io_web.h"\n'
+    if include_line in src:
+        print(f'OK {fname}: w_io_web.h already included')
+        continue
+    idx = src.find('#include')
+    if idx == -1:
+        src = include_line + src
+    else:
+        line_end = src.find('\n', idx) + 1
+        src = src[:line_end] + include_line + src[line_end:]
+    with open(fname, 'w') as f:
+        f.write(src)
+    print(f'OK {fname}: injected #include "web/w_io_web.h"')
+
+print('All patches done (12 total).')

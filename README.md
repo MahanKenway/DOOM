@@ -1,212 +1,173 @@
-# 💀 DOOM — Browser Edition
+<div align="center">
 
-> Classic DOOM (linuxdoom-1.10) compiled to WebAssembly and running in your browser.
+```
+██████╗  ██████╗  ██████╗ ███╗   ███╗
+██╔══██╗██╔═══██╗██╔═══██╗████╗ ████║
+██║  ██║██║   ██║██║   ██║██╔████╔██║
+██║  ██║██║   ██║██║   ██║██║╚██╔╝██║
+██████╔╝╚██████╔╝╚██████╔╝██║ ╚═╝ ██║
+╚═════╝  ╚═════╝  ╚═════╝ ╚═╝     ╚═╝
+      B R O W S E R   E D I T I O N
+```
 
-[![Build & Deploy](../../actions/workflows/build-and-deploy.yml/badge.svg)](../../actions/workflows/build-and-deploy.yml)
-[![GitHub Pages](https://img.shields.io/badge/Play-GitHub%20Pages-red?style=flat&logo=github)](https://YOUR_USERNAME.github.io/doom-browser/)
+### The 1993 classic, rebuilt for 2026 — running natively in your browser via WebAssembly.
+
+[![Play Now](https://img.shields.io/badge/▶_PLAY_NOW-cc2200?style=for-the-badge&logo=googlechrome&logoColor=white)](https://mahankenway.github.io/DOOM/)
+[![Build Status](https://img.shields.io/github/actions/workflow/status/MahanKenway/DOOM/build-and-deploy.yml?style=for-the-badge&label=BUILD&logo=githubactions&logoColor=white&color=success)](../../actions/workflows/build-and-deploy.yml)
+[![License](https://img.shields.io/badge/LICENSE-DOOM_SOURCE-blueviolet?style=for-the-badge&logo=gnu&logoColor=white)](#-license)
+
+[![WebAssembly](https://img.shields.io/badge/WebAssembly-654FF0?style=flat-square&logo=webassembly&logoColor=white)](https://webassembly.org/)
+[![Emscripten](https://img.shields.io/badge/Emscripten-3.1.51-black?style=flat-square)](https://emscripten.org/)
+[![C89](https://img.shields.io/badge/C-89-A8B9CC?style=flat-square&logo=c&logoColor=white)](https://en.wikipedia.org/wiki/ANSI_C)
+[![JavaScript](https://img.shields.io/badge/JavaScript-ES2022-F7DF1E?style=flat-square&logo=javascript&logoColor=black)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
+[![GitHub Pages](https://img.shields.io/badge/Hosted_on-GitHub_Pages-222?style=flat-square&logo=github&logoColor=white)](https://pages.github.com/)
+[![Freedoom](https://img.shields.io/badge/WAD-Freedoom_Phase_1-orange?style=flat-square)](https://freedoom.github.io/)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen?style=flat-square)](../../pulls)
+[![Made with 💀](https://img.shields.io/badge/Made_with-💀-red?style=flat-square)]()
+
+<sub>No plugins. No Flash. No native app. Just a browser tab and 26.2 MB of pure id Software nostalgia.</sub>
+
+</div>
 
 ---
 
-## 🎮 Play
+## 🎮 [▶ Play it right now →](https://mahankenway.github.io/DOOM/)
 
-**[▶ Play Now →](https://YOUR_USERNAME.github.io/doom-browser/)**
+Runs entirely client-side. The original **linuxdoom-1.10** C source, compiled straight to **WebAssembly**, rendering into an HTML5 `<canvas>` at a rock-solid 35 Hz — exactly as id Software shipped it in 1997.
 
-Uses **Freedoom Phase 1** (open-source WAD). You can also load your own `DOOM1.WAD` or `DOOM2.WAD`.
-
-### Controls
-
-| Action         | Keyboard              | Gamepad         |
-|----------------|-----------------------|-----------------|
-| Move forward   | `↑` / `W`             | Left stick ↑    |
-| Move backward  | `↓` / `S`             | Left stick ↓    |
-| Turn left/right| `←` / `→` / `A` / `D`| Left stick ←→   |
-| Fire           | `Ctrl` / Left click   | A / Cross       |
-| Use / Open     | `Space`               | B / Circle      |
-| Strafe         | `Alt` + `←` / `→`    | LB              |
-| Run            | `Shift`               | X / Square      |
-| Automap        | `Tab`                 | Y / Triangle    |
-| Menu           | `Esc`                 | Start           |
-| Fullscreen     | `F` / `F11`           |                 |
-| Pause          | `P`                   |                 |
-| Mouse look     | Move mouse (click to lock pointer) |    |
+<div align="center">
+<sub>🖱 Click to lock the mouse · ⌨️ WASD or arrows to move · 🔫 Ctrl to fire · Esc for menu</sub>
+</div>
 
 ---
 
-## 🏗 Architecture
+## ⌨️ Controls
 
-```
-doom-browser/
-│
-├── index.html                  Main page (loading, WAD picker, game)
-├── styles/main.css             Doom-themed CSS (CRT effect, HUD, mobile)
-├── manifest.json               PWA manifest
-│
-├── src/
-│   ├── main.js                 Entry point — orchestrates everything
-│   ├── EventBus.js             Pub/sub decoupling between modules
-│   ├── WadLoader.js            WAD fetching / File API / drag-drop
-│   │
-│   ├── engine/
-│   │   ├── DoomEngine.js       WASM loader, game loop (rAF + accumulator)
-│   │   ├── Renderer.js         Canvas blit, pixel-perfect scaling
-│   │   ├── AudioManager.js     Web Audio API SFX + music routing graph
-│   │   └── InputHandler.js     Keyboard / Mouse / Pointer Lock / Gamepad
-│   │
-│   └── ui.js                   LoadingScreen, HUD, PauseMenu, MobileControls
-│
-├── linuxdoom-1.10/             Original id Software C source (unmodified)
-│   └── web/                    Our Emscripten platform layer (NEW)
-│       ├── i_video_web.c       Framebuffer → Canvas via js_draw_screen()
-│       ├── i_sound_web.c       PCM/MUS → Web Audio via JS imports
-│       ├── i_system_web.c      time / error / memory (no POSIX)
-│       ├── i_net_stub.c        Single-player network stub
-│       └── i_main_web.c        WASM exports: initGame / tickGame / key events
-│
-└── .github/workflows/
-    └── build-and-deploy.yml    Emscripten compilation + GitHub Pages deploy
-```
+|                | Keyboard                 | Gamepad          | Touch          |
+|----------------|---------------------------|-------------------|----------------|
+| Move           | `↑ ↓ ← →` / `WASD`        | Left stick        | D-Pad          |
+| Turn           | Mouse (pointer-locked)     | Right stick*       | Swipe          |
+| Fire           | `Ctrl` / Left click        | `A` / Cross        | 🔫 button      |
+| Use / Open     | `Space`                    | `B` / Circle       | ⚙ button       |
+| Strafe         | `Alt` + `← →`              | `LB`               | ↰ ↱ buttons    |
+| Run            | `Shift`                    | `X` / Square       | 💨 button      |
+| Automap        | `Tab`                      | `Y` / Triangle     | 🗺 button      |
+| Pause          | `P`                        | `Start`            | ⏸ button       |
+| Fullscreen     | `F` / `F11`                | —                  | —              |
 
 ---
 
-## 🔧 How It Works
-
-### WASM Interface
-
-The bridge between C (DOOM) and JavaScript uses 10 imports and 4 exports:
-
-**JS → WASM (exports we call):**
-```
-initGame()                  D_DoomMain() — one-time init
-tickGame()                  One 35 Hz game tick
-reportKeyDown(doomKey)      Inject key-press event
-reportKeyUp(doomKey)        Inject key-release event
-```
-
-**WASM → JS (imports we provide):**
-```
-js_draw_screen(ptr)         Copy RGBA framebuffer to canvas
-js_get_time_ms()            performance.now()
-js_get_wad_data(ptr)        Copy WAD bytes into WASM memory
-js_get_wad_data_length()    WAD size in bytes
-js_fatal_error(ptr)         Handle I_Error()
-js_print_string(ptr)        Console logging
-js_play_music(ptr, loop)    Start a music lump
-js_stop_music()             Stop music
-js_add_sfx_to_mixer(...)    Play a sound effect
-js_remove_sfx_from_mixer(n) Stop a sound effect channel
-```
-
-### Game Loop (Fixed Timestep)
+## 🏗️ How it works
 
 ```
-requestAnimationFrame(loop)
-  │
-  ├── accumulator += deltaTime
-  │
-  └── while (accumulator >= 28.571ms):   ← 1000/35 Hz
-        wasm.tickGame()                  ← one deterministic tick
-        accumulator -= 28.571ms
+┌─────────────────────────────────────────────────────────────┐
+│  linuxdoom-1.10/*.c   (original 1997 id Software source)     │
+│  + web/*.c            (browser platform layer — new)         │
+│           │                                                   │
+│           ▼  emcc -O2 --no-entry -s STANDALONE_WASM=1        │
+│  ┌───────────────────┐                                       │
+│  │    doom.wasm       │◄──── WAD bytes injected via JS       │
+│  └─────────┬───────────┘                                     │
+│            │  WebAssembly.instantiateStreaming()             │
+│            ▼                                                  │
+│  ┌────────────────────────────────────────────────────┐     │
+│  │  DoomEngine.js                                       │     │
+│  │   ├─ Renderer.js      320×200 → pixel-perfect canvas │     │
+│  │   ├─ AudioManager.js  Web Audio API mixer (8ch)       │     │
+│  │   ├─ InputHandler.js  Keyboard/Mouse/Gamepad/Touch    │     │
+│  │   └─ 35 Hz fixed-step loop (requestAnimationFrame)    │     │
+│  └────────────────────────────────────────────────────┘     │
+└─────────────────────────────────────────────────────────────┘
 ```
 
-This follows the [Fix Your Timestep](https://gafferongames.com/post/fix_your_timestep/) pattern — the simulation advances at exactly 35 Hz regardless of display refresh rate (60/120/144 Hz).
+The trickiest part wasn't the renderer — it was convincing 1997 C code that expects a real POSIX filesystem (`open()`, `fopen()`, `access()`) that it's living inside a sandboxed WebAssembly module with **zero** filesystem syscalls. See [`web/w_io_web.c`](linuxdoom-1.10/web/w_io_web.c) for the virtual filesystem shim that makes it possible — the WAD is injected directly into linear memory from JavaScript, no disk required.
 
-### Video Pipeline
+### Key engineering pieces
 
-```
-DOOM renderer writes 8-bit palette indices to screens[0] (320×200)
-           ↓
-I_FinishUpdate() applies current palette → RGBA buffer (256 KB)
-           ↓
-js_draw_screen(ptr) called from WASM
-           ↓
-JS creates ImageData from WASM memory slice
-           ↓
-putImageData() → offscreen 320×200 canvas
-           ↓
-drawImage() scaled to window (nearest-neighbour, pixel-perfect)
-```
-
-### Audio Pipeline
-
-```
-WASM calls js_add_sfx_to_mixer(pcmPtr, len, ch, vol, sep, pitch)
-           ↓
-JS decodes 8-bit unsigned PCM → Float32 AudioBuffer
-           ↓
-AudioBufferSourceNode → GainNode (volume) → StereoPannerNode (sep)
-           ↓
-sfxGain (bus) → masterGain → AudioContext.destination
-```
+| Piece | What it solves |
+|---|---|
+| [`i_video_web.c`](linuxdoom-1.10/web/i_video_web.c) | 8-bit paletted framebuffer → RGBA → `<canvas>`, with gamma correction |
+| [`i_sound_web.c`](linuxdoom-1.10/web/i_sound_web.c) | DMX 8-bit PCM lumps → Web Audio `AudioBufferSourceNode` graph |
+| [`i_system_web.c`](linuxdoom-1.10/web/i_system_web.c) | `I_Error`/`I_GetTime` without POSIX — `performance.now()`-backed |
+| [`w_io_web.c`](linuxdoom-1.10/web/w_io_web.c) | Virtual filesystem — the whole game lives in one memory buffer |
+| [`i_main_web.c`](linuxdoom-1.10/web/i_main_web.c) | The 4 exports JS calls: `initGame` / `tickGame` / key events |
+| [`patch_web.py`](linuxdoom-1.10/patch_web.py) | Surgical, auditable patches applied at CI time — original source stays untouched in the repo |
 
 ---
 
-## 🛠 Local Development
+## 🧩 Tech stack
 
-### Prerequisites
-- [Emscripten SDK](https://emscripten.org/docs/getting_started/downloads.html) ≥ 3.1
-- Node.js (optional, for a local HTTP server)
+- **Core engine:** unmodified `linuxdoom-1.10` — [id Software](https://www.idsoftware.com/), 1997
+- **Compiler:** [Emscripten](https://emscripten.org/) 3.1.51 (LLVM/clang → WebAssembly)
+- **Runtime:** vanilla ES2022 modules, zero frontend frameworks
+- **Audio:** Web Audio API (no `<audio>` tags, no polyfills)
+- **IWAD:** [Freedoom Phase 1](https://freedoom.github.io/) — 100% free-content replacement for `DOOM1.WAD`
+- **CI/CD:** GitHub Actions — every push auto-compiles and deploys to Pages
+- **Hosting:** GitHub Pages (static, no backend, no server costs)
 
-### Build
+---
+
+## 🛠️ Building it yourself
 
 ```bash
-# Source Emscripten
-source ./emsdk/emsdk_env.sh
+git clone https://github.com/MahanKenway/DOOM.git
+cd DOOM
 
-# Compile
+# Compile (requires the Emscripten SDK)
+source /path/to/emsdk/emsdk_env.sh
 cd linuxdoom-1.10
-PORTABLE=$(ls *.c | grep -vE '^(i_video|i_sound|i_system|i_main|i_net)\.c$')
-emcc $PORTABLE web/*.c \
+python3 patch_web.py          # apply the browser-compat patches
+emcc *.c web/*.c \
   -o ../dist/wasm/doom.wasm \
-  -O2 -DNORMALUNIX -DLINUX -DWEBASSEMBLY \
+  -O2 -w -I. -DNORMALUNIX \
   -s WASM=1 -s STANDALONE_WASM=1 \
   -s INITIAL_MEMORY=33554432 -s ALLOW_MEMORY_GROWTH=1 \
-  --no-entry \
-  -s EXPORTED_FUNCTIONS='["_initGame","_tickGame","_reportKeyDown","_reportKeyUp"]'
+  -s EXPORTED_FUNCTIONS='["_initGame","_tickGame","_reportKeyDown","_reportKeyUp"]' \
+  --no-entry
+
+# Serve locally
+cd .. && python3 -m http.server 8080
 ```
 
-### Serve locally
-
-```bash
-# Python
-python3 -m http.server 8080
-
-# Node
-npx serve .
-```
-
-Then open `http://localhost:8080`.
-
-> ⚠️ Must be served over HTTP (not `file://`) for SharedArrayBuffer and WASM fetch to work.
+Or just push to `main` — [`.github/workflows/build-and-deploy.yml`](.github/workflows/build-and-deploy.yml) does all of this automatically and deploys straight to Pages.
 
 ---
 
-## 📚 Key Techniques Used
+## 🗺️ Roadmap
 
-| Technique | Where | Why |
-|-----------|-------|-----|
-| **Fixed-step accumulator** | `DoomEngine.js` | Match DOOM's 35 Hz without drift |
-| **OffscreenCanvas** | `Renderer.js` | Zero-copy framebuffer blit |
-| **Pointer Lock API** | `InputHandler.js` | Mouse-look without cursor escape |
-| **Gamepad API polling** | `InputHandler.js` | Controller support |
-| **Web Audio graph** | `AudioManager.js` | Per-channel volume + stereo pan |
-| **ResizeObserver** | `Renderer.js` | Responsive pixel-perfect scaling |
-| **EventBus (pub/sub)** | `EventBus.js` | Decoupled module communication |
-| **Standalone WASM** | `i_main_web.c` | No Emscripten JS glue needed |
-| **Palette expansion** | `i_video_web.c` | 8-bit → 32-bit RGBA with gamma |
-| **PWA manifest** | `manifest.json` | Installable, fullscreen on mobile |
+- [x] Core rendering pipeline (BSP, walls, sprites, flats)
+- [x] Full audio (SFX via Web Audio; MUS→MIDI still a stub)
+- [x] Keyboard + mouse (Pointer Lock) + gamepad + touch controls
+- [x] Auto-deploy via GitHub Actions
+- [x] Virtual in-memory filesystem (no real disk needed for the WAD)
+- [ ] Save/load via `localStorage` or `IndexedDB` (currently no-op — see `w_io_web.c`)
+- [ ] MUS format → real music playback
+- [ ] PWAD upload support (currently single bundled IWAD only)
+- [ ] Optional multiplayer via WebRTC data channels
+
+Contributions welcome — see [Issues](../../issues) for open items.
 
 ---
 
 ## ⚖️ License
 
-- **DOOM source code**: [DOOM Source Code License](https://github.com/id-Software/DOOM/blob/master/doomlic.txt) © id Software
-- **Freedoom WAD**: [BSD-3-Clause](https://github.com/freedoom/freedoom/blob/master/COPYING.adoc)
-- **Browser frontend** (this project): MIT
+| Component | License |
+|---|---|
+| **DOOM source code** (`linuxdoom-1.10/*.c`, `*.h`) | [DOOM Source Code License](https://github.com/id-Software/DOOM/blob/master/doomlic.txt) © id Software, 1997 |
+| **Freedoom IWAD** (bundled at build time) | [BSD-3-Clause](https://github.com/freedoom/freedoom/blob/master/COPYING.adoc) |
+| **Browser platform layer** (`web/*.c`, `src/*.js`, this build system) | MIT — see [LICENSE](LICENSE) |
+
+This project does not distribute or require any commercial DOOM IWAD. It ships exclusively with **Freedoom**, an independently developed, completely free set of levels and assets designed as a drop-in DOOM-engine content pack. You may optionally drag-and-drop your own legally owned `DOOM.WAD` / `DOOM2.WAD` for the full original experience — nothing proprietary ever leaves your machine, since everything runs client-side.
 
 ---
 
-## 🙏 Credits
+## 🙏 Acknowledgements
 
-- [id Software](https://www.idsoftware.com/) — original DOOM
-- [Freedoom project](https://freedoom.github.io/) — open-source WAD
-- [jacobenget/doom.wasm](https://github.com/jacobenget/doom.wasm) — WASM interface design inspiration
+- **[id Software](https://www.idsoftware.com/)** — for open-sourcing DOOM in 1997 and changing game development forever
+- **[Freedoom Project](https://freedoom.github.io/)** — for the incredible free IWAD that makes legal, zero-friction distribution possible
+- **[Emscripten](https://emscripten.org/) / [WebAssembly](https://webassembly.org/)** — for making "1993 C code, in a browser tab, at native speed" a genuinely boring, solved problem
+- Every [DOOM source port](https://doomwiki.org/wiki/Source_port) that came before this one, proving the engine's architecture is timeless
+
+<div align="center">
+<sub>Built with 🩸 by <a href="https://github.com/MahanKenway">MahanKenway</a> · Rip and tear, until it is done.</sub>
+</div>
