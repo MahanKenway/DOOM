@@ -1,5 +1,11 @@
-d_net.c:607:2: error: call to undeclared function 'web_fclose'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-  607 |         web_fclose (debugfile);
-      |         ^
-1 error generated.
-emcc: error: '/home/runner/work/DOOM/DOOM/emsdk/upstream/bin/clang -target wasm32-unknown-emscripten -fignore-exceptions -fvisibility=default -mllvm -combiner-global-alias-analysis=false -mllvm -enable-emscripten-sjlj -mllvm -disable-lsr --sysroot=/home/runner/work/DOOM/DOOM/emsdk/upstream/emscripten/cache/sysroot -DEMSCRIPTEN -Werror=implicit-function-declaration -Xclang -iwithsysroot/include/fakesdl -Xclang -iwithsysroot/include/compat -O2 -w -I. -DNORMALUNIX d_net.c -c -o /tmp/emscripten_temp_ns48ikfn/d_net_3.o' failed (returned 1)
+web/i_main_web.c:114:5: error: call to undeclared function 'I_StartTic'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+  114 |     I_StartTic();       /* input polling — no-op for web */
+      |     ^
+web/i_main_web.c:116:5: error: call to undeclared function 'D_Display'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+  116 |     D_Display();        /* render frame, calls I_FinishUpdate */
+      |     ^
+web/i_main_web.c:117:5: error: call to undeclared function 'I_UpdateNoBlit'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+  117 |     I_UpdateNoBlit();   /* no-op */
+      |     ^
+3 errors generated.
+emcc: error: '/home/runner/work/DOOM/DOOM/emsdk/upstream/bin/clang -target wasm32-unknown-emscripten -fignore-exceptions -fvisibility=default -mllvm -combiner-global-alias-analysis=false -mllvm -enable-emscripten-sjlj -mllvm -disable-lsr --sysroot=/home/runner/work/DOOM/DOOM/emsdk/upstream/emscripten/cache/sysroot -DEMSCRIPTEN -Werror=implicit-function-declaration -Xclang -iwithsysroot/include/fakesdl -Xclang -iwithsysroot/include/compat -O2 -w -I. -DNORMALUNIX web/i_main_web.c -c -o /tmp/emscripten_temp_1s60w2_e/i_main_web_61.o' failed (returned 1)
