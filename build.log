@@ -1,10 +1,5 @@
-cache:INFO: generating system asset: symbol_lists/76465bfffae193c55c984ff8e4a109a6bad3cfde.json... (this will be cached in "/home/runner/work/DOOM/DOOM/emsdk/upstream/emscripten/cache/symbol_lists/76465bfffae193c55c984ff8e4a109a6bad3cfde.json" for subsequent builds)
-cache:INFO:  - ok
-warning: undefined symbol: js_add_sfx_to_mixer (referenced by root reference (e.g. compiled C/C++ code))
-warning: undefined symbol: js_draw_screen (referenced by root reference (e.g. compiled C/C++ code))
-warning: undefined symbol: js_fatal_error (referenced by root reference (e.g. compiled C/C++ code))
-warning: undefined symbol: js_get_time_ms (referenced by root reference (e.g. compiled C/C++ code))
-warning: undefined symbol: js_play_music (referenced by root reference (e.g. compiled C/C++ code))
-warning: undefined symbol: js_print_string (referenced by root reference (e.g. compiled C/C++ code))
-warning: undefined symbol: js_remove_sfx_from_mixer (referenced by root reference (e.g. compiled C/C++ code))
-warning: undefined symbol: js_stop_music (referenced by root reference (e.g. compiled C/C++ code))
+d_net.c:607:2: error: call to undeclared function 'web_fclose'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+  607 |         web_fclose (debugfile);
+      |         ^
+1 error generated.
+emcc: error: '/home/runner/work/DOOM/DOOM/emsdk/upstream/bin/clang -target wasm32-unknown-emscripten -fignore-exceptions -fvisibility=default -mllvm -combiner-global-alias-analysis=false -mllvm -enable-emscripten-sjlj -mllvm -disable-lsr --sysroot=/home/runner/work/DOOM/DOOM/emsdk/upstream/emscripten/cache/sysroot -DEMSCRIPTEN -Werror=implicit-function-declaration -Xclang -iwithsysroot/include/fakesdl -Xclang -iwithsysroot/include/compat -O2 -w -I. -DNORMALUNIX d_net.c -c -o /tmp/emscripten_temp_ns48ikfn/d_net_3.o' failed (returned 1)
