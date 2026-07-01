@@ -55,7 +55,7 @@ jobs:
       run: |
         mkdir -p ../dist/wasm
         PORTABLE=$(ls *.c | grep -vE '^(i_video|i_sound|i_system|i_main|i_net)\.c$' | tr '\n' ' ')
-        WEB="web/i_video_web.c web/i_sound_web.c web/i_system_web.c web/i_net_stub.c web/i_main_web.c"
+        WEB="web/i_video_web.c web/i_sound_web.c web/i_system_web.c web/i_net_stub.c web/i_main_web.c web/w_io_web.c"
         set +e
         emcc $PORTABLE $WEB \
           -o ../dist/wasm/doom.wasm \

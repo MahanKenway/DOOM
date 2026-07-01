@@ -144,3 +144,147 @@ else:
     print('OK w_wad.c: strupr -> doom_strupr (avoid Emscripten libc clash)')
 
 print('All patches done (6 total).')
+
+# ── Patch 7: d_main.c — gut IdentifyVersion() + FindResponseFile()
+# These do filesystem scanning (access/fopen/fread/fseek) with no
+# equivalent in the browser. STANDALONE_WASM has no filesystem
+# syscalls, so any linked reference to access()/fopen()/etc pulls
+# in unresolvable __syscall_* imports — even for code paths that
+# are never executed at runtime, since wasm-ld can't prove a
+# runtime-conditional branch dead at link time.
+with open('d_main.c') as f:
+    src = f.read()
+
+IDENTIFY_VERSION_STUB = (
+    'void IdentifyVersion (void)\n'
+    '{\n'
+    '    /* WEB BUILD: no filesystem to scan. The single WAD is\n'
+    '       injected directly from JavaScript (see w_io_web.c /\n'
+    '       i_main_web.c) under the fixed sentinel name "WEBWAD". */\n'
+    '    gamemode = shareware;\n'
+    '    D_AddFile ("WEBWAD");\n'
+    '}\n'
+)
+patched = re.sub(
+    r'void IdentifyVersion \(void\)\s*\{.*?\n\}\n',
+    IDENTIFY_VERSION_STUB, src, count=1, flags=re.DOTALL)
+if patched == src:
+    print('ERROR: IdentifyVersion not found'); sys.exit(1)
+src = patched
+print('OK d_main.c: IdentifyVersion -> hardcoded WEBWAD loader')
+
+FIND_RESPONSE_STUB = (
+    'void FindResponseFile (void)\n'
+    '{\n'
+    '    /* WEB BUILD: response files (@args) are not supported\n'
+    '       in the browser — no local filesystem to read them from. */\n'
+    '}\n'
+)
+patched = re.sub(
+    r'void FindResponseFile \(void\)\s*\{.*?\n\}\n',
+    FIND_RESPONSE_STUB, src, count=1, flags=re.DOTALL)
+if patched == src:
+    print('ERROR: FindResponseFile not found'); sys.exit(1)
+src = patched
+print('OK d_main.c: FindResponseFile -> no-op stub')
+
+# Remove the Windows-only mkdir() call (inside the "-cdrom" branch,
+# never exercised in the web build, but still linked otherwise).
+patched = src.replace('\tmkdir("c:\\\\doomdata",0);\n', '')
+if patched == src:
+    print('WARNING: mkdir call not found in d_main.c')
+else:
+    src = patched
+    print('OK d_main.c: removed mkdir() call')
+
+with open('d_main.c', 'w') as f:
+    f.write(src)
+
+print('All patches done (7 total).')
+
+# ── Patch 8: w_wad.c — redirect all real file I/O to web_* shims ──
+with open('w_wad.c') as f:
+    src = f.read()
+
+# filelength(): drop the fstat() call (dead code for our WAD-only
+# use case — always takes the multi-lump WAD branch, never the
+# single-lump-file branch that calls filelength()).
+old_filelength = (
+    'int filelength (int handle) \n'
+    '{ \n'
+    '    struct stat\tfileinfo;\n'
+    '    \n'
+    '    if (fstat (handle,&fileinfo) == -1)\n'
+    '\tI_Error ("Error fstating");\n'
+    '\n'
+    '    return fileinfo.st_size;\n'
+    '}'
+)
+new_filelength = (
+    'int filelength (int handle) \n'
+    '{ \n'
+    '    /* WEB BUILD: dead code path (WEBWAD always takes the\n'
+    '       multi-lump WAD branch in W_AddFile, never single-lump). */\n'
+    '    (void) handle;\n'
+    '    return 0;\n'
+    '}'
+)
+if old_filelength in src:
+    src = src.replace(old_filelength, new_filelength)
+    print('OK w_wad.c: filelength() no longer calls fstat()')
+else:
+    print('WARNING: filelength() pattern not found')
+
+# Blanket word-boundary redirect of raw syscalls + stdio to web_* shims.
+# Safe because w_wad.c uses these identifiers ONLY as function calls
+# (verified: no local vars/fields named open/read/close/lseek/fopen/fclose).
+for name in ('open', 'read', 'lseek', 'close', 'fopen', 'fclose'):
+    src = re.sub(r'\b' + name + r'\s*\(', 'web_' + name + ' (', src)
+
+with open('w_wad.c', 'w') as f:
+    f.write(src)
+print('OK w_wad.c: open/read/lseek/close/fopen/fclose -> web_* shims')
+
+print('All patches done (8 total).')
+
+# ── Patch 9: m_misc.c — redirect file I/O to web_* shims ─────────
+with open('m_misc.c') as f:
+    src = f.read()
+
+for name in ('open', 'read', 'write', 'close', 'fstat',
+             'fopen', 'fclose', 'access'):
+    src = re.sub(r'\b' + name + r'\s*\(', 'web_' + name + ' (', src)
+
+with open('m_misc.c', 'w') as f:
+    f.write(src)
+print('OK m_misc.c: file I/O -> web_* shims (M_WriteFile/M_ReadFile/'
+      'M_SaveDefaults/M_LoadDefaults/M_ScreenShot)')
+
+print('All patches done (9 total).')
+
+# ── Patch 10: m_menu.c — redirect save-game slot scan file I/O ───
+with open('m_menu.c') as f:
+    src = f.read()
+
+for name in ('open', 'read', 'close'):
+    src = re.sub(r'\b' + name + r'\s*\(', 'web_' + name + ' (', src)
+
+with open('m_menu.c', 'w') as f:
+    f.write(src)
+print('OK m_menu.c: save-game slot scan -> web_* shims')
+
+print('All patches done (10 total).')
+
+# ── Patch 11: d_net.c — redirect debugfile fclose ─────────────────
+with open('d_net.c') as f:
+    src = f.read()
+
+patched = re.sub(r'\bfclose\s*\(', 'web_fclose (', src)
+if patched == src:
+    print('WARNING: fclose pattern not found in d_net.c')
+else:
+    with open('d_net.c', 'w') as f:
+        f.write(patched)
+    print('OK d_net.c: fclose -> web_fclose')
+
+print('All patches done (11 total).')
