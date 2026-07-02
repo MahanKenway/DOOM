@@ -43,7 +43,10 @@ jobs:
       run: |
         mkdir -p dist/assets
         curl -sL "https://github.com/freedoom/freedoom/releases/download/v0.13.0/freedoom-0.13.0.zip" -o freedoom.zip
+        ls -la freedoom.zip
+        file freedoom.zip
         unzip -j freedoom.zip "*/freedoom1.wad" -d dist/assets/
+        test -f dist/assets/freedoom1.wad || { echo "FATAL: freedoom1.wad missing after extraction!"; exit 1; }
         ls -lh dist/assets/freedoom1.wad
 
     - name: Patch source files
@@ -92,6 +95,22 @@ jobs:
         cp -n assets/* dist/assets/ 2>/dev/null || true
         echo "=== dist/assets/ contents ==="
         ls -la dist/assets/
+
+    - name: Commit dist manifest for remote debugging
+      if: success()
+      run: |
+        find dist -type f -exec ls -la {} \; > dist_manifest.txt
+        echo "" >> dist_manifest.txt
+        echo "=== index.html <script> tags ===" >> dist_manifest.txt
+        grep -n "script\|wasmPath\|bundledWad" dist/index.html >> dist_manifest.txt 2>/dev/null || true
+        echo "" >> dist_manifest.txt
+        echo "=== main.js CONFIG ===" >> dist_manifest.txt
+        grep -n "bundledWad\|wasmPath" dist/src/main.js >> dist_manifest.txt 2>/dev/null || true
+        git config user.email "ci@github.com"
+        git config user.name "GitHub Actions"
+        git add dist_manifest.txt
+        git commit -m "ci: dist manifest [skip ci]" || true
+        git push || true
 
     - name: Upload Pages artifact
       if: success()
