@@ -294,6 +294,21 @@ export class DoomEngine {
         js_remove_sfx_from_mixer: (channel) => {
           this.#audio.stopSfx(channel);
         },
+
+        // ── Emscripten runtime callbacks (auto-required by certain
+        //    -s flags even in STANDALONE_WASM builds) ────────────
+        /**
+         * emscripten_notify_memory_growth(memoryIndex)
+         * Called automatically whenever the WASM linear memory grows
+         * (relevant because we pass -s ALLOW_MEMORY_GROWTH=1). We don't
+         * need to react to it — WebAssembly.Memory's buffer reference
+         * is re-read fresh from this.#memory.buffer on every access
+         * (see #makeWasiShim's u32/setU32 helpers and drawFrame), so
+         * growth is transparent. No-op is correct here.
+         */
+        emscripten_notify_memory_growth: (memoryIndex) => {
+          // no-op: memory.buffer is always read fresh, never cached
+        },
       }
     };
   }
