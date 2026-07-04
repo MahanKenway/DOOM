@@ -84,6 +84,33 @@ jobs:
           && { ls -lh ../dist/wasm/; echo "SUCCESS: doom.wasm built!"; } \
           || { echo "FAILED (exit=$BUILD_EXIT)"; exit 1; }
 
+    - name: Diagnose divide-by-zero — locate all div/rem ops
+      if: success()
+      run: |
+        npm install -g wabt 2>&1 | tail -3
+        wasm-objdump -d dist/wasm/doom.wasm > /tmp/doom_disasm.txt 2>&1
+        python3 << 'PYEOF'
+        current_func = "(unknown function)"
+        results = []
+        with open('/tmp/doom_disasm.txt') as f:
+            for line in f:
+                stripped = line.strip()
+                if stripped.startswith('func[') and '<' in stripped:
+                    current_func = stripped
+                if any(op in line for op in ('div_s', 'div_u', 'rem_s', 'rem_u')):
+                    results.append(f"{current_func}\n    {stripped}")
+        with open('divide_ops.txt', 'w') as out:
+            out.write(f"Total div/rem instructions found: {len(results)}\n\n")
+            out.write('\n\n'.join(results))
+        print(f"Found {len(results)} division/remainder instructions")
+        PYEOF
+        cat divide_ops.txt
+        git config user.email "ci@github.com"
+        git config user.name "GitHub Actions"
+        git add divide_ops.txt
+        git commit -m "ci: divide-by-zero diagnostic [skip ci]" || true
+        git push || true
+
     - name: Copy frontend files
       if: success()
       run: |
