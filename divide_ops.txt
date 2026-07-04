@@ -2,987 +2,981 @@ Total div/rem instructions found: 287
 
 === ALL DIV/REM SITES (function name + instruction) ===
 
-000832 func[18]:
-    000a42: 6d                         |         i32.div_s
+000831 func[18]:
+    000a41: 6d                         |         i32.div_s
 
-000832 func[18]:
-    000a66: 6d                         |         i32.div_s
+000831 func[18]:
+    000a65: 6d                         |         i32.div_s
 
-000832 func[18]:
-    000a8a: 6d                         |         i32.div_s
+000831 func[18]:
+    000a89: 6d                         |         i32.div_s
 
-000832 func[18]:
-    000aac: 6d                         |       i32.div_s
+000831 func[18]:
+    000aab: 6d                         |       i32.div_s
 
-0012da func[24]:
-    0012fc: 6d                         | i32.div_s
+0012d9 func[24]:
+    0012fb: 6d                         | i32.div_s
 
-0012da func[24]:
-    001347: 6d                         |     i32.div_s
+0012d9 func[24]:
+    001346: 6d                         |     i32.div_s
 
-0012da func[24]:
-    002a6e: 6d                         |                         i32.div_s
+0012d9 func[24]:
+    002a6d: 6d                         |                         i32.div_s
 
-0012da func[24]:
-    002a82: 6d                         |                         i32.div_s
+0012d9 func[24]:
+    002a81: 6d                         |                         i32.div_s
 
-0012da func[24]:
-    002ad6: 6d                         |                           i32.div_s
+0012d9 func[24]:
+    002ad5: 6d                         |                           i32.div_s
 
-0012da func[24]:
-    002b0e: 6d                         |                           i32.div_s
+0012d9 func[24]:
+    002b0d: 6d                         |                           i32.div_s
 
-0012da func[24]:
-    002f30: 6d                         |                                       i32.div_s
+0012d9 func[24]:
+    002f2f: 6d                         |                                       i32.div_s
 
-0012da func[24]:
-    002f49: 6d                         |                                       i32.div_s
+0012d9 func[24]:
+    002f48: 6d                         |                                       i32.div_s
 
-0012da func[24]:
-    002f98: 6d                         |                                       i32.div_s
+0012d9 func[24]:
+    002f97: 6d                         |                                       i32.div_s
 
-0012da func[24]:
-    002fb5: 6d                         |                                       i32.div_s
+0012d9 func[24]:
+    002fb4: 6d                         |                                       i32.div_s
 
-0012da func[24]:
-    003029: 6d                         |                                       i32.div_s
+0012d9 func[24]:
+    003028: 6d                         |                                       i32.div_s
 
-0012da func[24]:
-    003036: 6d                         |                                       i32.div_s
+0012d9 func[24]:
+    003035: 6d                         |                                       i32.div_s
 
-0012da func[24]:
-    003144: 6d                         |                               i32.div_s
+0012d9 func[24]:
+    003143: 6d                         |                               i32.div_s
 
-0012da func[24]:
-    003160: 6d                         |                               i32.div_s
+0012d9 func[24]:
+    00315f: 6d                         |                               i32.div_s
 
-0012da func[24]:
-    003170: 70                         |                               i32.rem_u
+0012d9 func[24]:
+    00316f: 70                         |                               i32.rem_u
 
-0012da func[24]:
-    003219: 70                         |                         i32.rem_u
+0012d9 func[24]:
+    003218: 70                         |                         i32.rem_u
 
-0012da func[24]:
-    003418: 6d                         |                     i32.div_s
+0012d9 func[24]:
+    003417: 6d                         |                     i32.div_s
 
-0012da func[24]:
-    00342a: 6d                         |                     i32.div_s
+0012d9 func[24]:
+    003429: 6d                         |                     i32.div_s
 
-0012da func[24]:
-    0034c0: 6f                         |         i32.rem_s
+0012d9 func[24]:
+    0034bf: 6f                         |         i32.rem_s
 
-0012da func[24]:
-    0034f5: 6f                         |         i32.rem_s
+0012d9 func[24]:
+    0034f4: 6f                         |         i32.rem_s
 
-0012da func[24]:
-    003cb9: 6f                         |               i32.rem_s
+0012d9 func[24]:
+    003cb8: 6f                         |               i32.rem_s
 
-0012da func[24]:
-    003cdc: 6f                         |               i32.rem_s
+0012d9 func[24]:
+    003cdb: 6f                         |               i32.rem_s
 
-0012da func[24]:
-    003d14: 6f                         |           i32.rem_s
+0012d9 func[24]:
+    003d13: 6f                         |           i32.rem_s
 
-0012da func[24]:
-    00406d: 6f                         |           i32.rem_s
+0012d9 func[24]:
+    00406c: 6f                         |           i32.rem_s
 
-0012da func[24]:
-    0040a8: 6f                         |           i32.rem_s
+0012d9 func[24]:
+    0040a7: 6f                         |           i32.rem_s
 
-0012da func[24]:
-    0040c7: 6f                         |           i32.rem_s
+0012d9 func[24]:
+    0040c6: 6f                         |           i32.rem_s
 
-00437f func[30]:
-    00439f: 6d                         | i32.div_s
+00437e func[30]:
+    00439e: 6d                         | i32.div_s
 
-00437f func[30]:
-    004660: 6f                         | i32.rem_s
+00437e func[30]:
+    00465f: 6f                         | i32.rem_s
 
-00437f func[30]:
-    004691: 6f                         |     i32.rem_s
+00437e func[30]:
+    004690: 6f                         |     i32.rem_s
 
-0046cb func[31]:
-    0046d2: 6d                         | i32.div_s
+0046ca func[31]:
+    0046d1: 6d                         | i32.div_s
 
-0049ab func[33]:
-    00509d: 6e                         | i32.div_u
+0049aa func[33]:
+    00509c: 6e                         | i32.div_u
 
-0049ab func[33]:
-    005188: 6e                         | i32.div_u
+0049aa func[33]:
+    005187: 6e                         | i32.div_u
 
-0049ab func[33]:
-    005266: 6e                         | i32.div_u
+0049aa func[33]:
+    005265: 6e                         | i32.div_u
 
-0049ab func[33]:
-    0055b4: 6e                         | i32.div_u
+0049aa func[33]:
+    0055b3: 6e                         | i32.div_u
 
-0049ab func[33]:
-    0056db: 6e                         | i32.div_u
+0049aa func[33]:
+    0056da: 6e                         | i32.div_u
 
-0049ab func[33]:
-    005aa3: 6d                         |     i32.div_s
+0049aa func[33]:
+    005aa2: 6d                         |     i32.div_s
 
-0049ab func[33]:
-    005aba: 6d                         |     i32.div_s
+0049aa func[33]:
+    005ab9: 6d                         |     i32.div_s
 
-0049ab func[33]:
-    005ba5: 6e                         | i32.div_u
+0049aa func[33]:
+    005ba4: 6e                         | i32.div_u
 
-0049ab func[33]:
-    005e0d: 6f                         |         i32.rem_s
+0049aa func[33]:
+    005e0c: 6f                         |         i32.rem_s
 
-0049ab func[33]:
-    005e5b: 6d                         |       i32.div_s
+0049aa func[33]:
+    005e5a: 6d                         |       i32.div_s
 
-0069bc func[34]:
-    006a0d: 6d                         |     i32.div_s
+0069bb func[34]:
+    006a0c: 6d                         |     i32.div_s
 
-0069bc func[34]:
-    006a31: 6f                         |         i32.rem_s
+0069bb func[34]:
+    006a30: 6f                         |         i32.rem_s
 
-00701e func[37]:
-    0070fb: 6f                         |   i32.rem_s
+00701d func[37]:
+    0070fa: 6f                         |   i32.rem_s
 
-00701e func[37]:
-    007119: 6d                         |   i32.div_s
+00701d func[37]:
+    007118: 6d                         |   i32.div_s
 
-007175 func[38]:
-    007191: 6d                         | i32.div_s
+007174 func[38]:
+    007190: 6d                         | i32.div_s
 
-007175 func[38]:
-    0071b7: 6f                         |       i32.rem_s
+007174 func[38]:
+    0071b6: 6f                         |       i32.rem_s
 
-007e5e func[64]:
-    007e87: 6f                         |   i32.rem_s
+007e5d func[64]:
+    007e86: 6f                         |   i32.rem_s
 
-008a06 func[95]:
-    008b0e: 6d                         |     i32.div_s
+008a05 func[95]:
+    008b0d: 6d                         |     i32.div_s
 
-008a06 func[95]:
-    008c27: 6d                         |       i32.div_s
+008a05 func[95]:
+    008c26: 6d                         |       i32.div_s
 
-009e8d func[112]:
-    009f33: 6f                         |       i32.rem_s
+009e8c func[112]:
+    009f32: 6f                         |       i32.rem_s
 
-00a361 func[115]:
-    00a3ea: 6f                         |   i32.rem_s
+00a360 func[115]:
+    00a3e9: 6f                         |   i32.rem_s
 
-00a3f8 func[116]:
-    00a496: 6f                         |   i32.rem_s
+00a3f7 func[116]:
+    00a495: 6f                         |   i32.rem_s
 
-00a3f8 func[116]:
-    00a4b9: 6f                         |   i32.rem_s
+00a3f7 func[116]:
+    00a4b8: 6f                         |   i32.rem_s
 
-00a3f8 func[116]:
-    00a4dc: 6f                         |   i32.rem_s
+00a3f7 func[116]:
+    00a4db: 6f                         |   i32.rem_s
 
-00a4ea func[117]:
-    00a588: 6f                         |   i32.rem_s
+00a4e9 func[117]:
+    00a587: 6f                         |   i32.rem_s
 
-00a729 func[121]:
-    00a7fd: 6f                         | i32.rem_s
+00a728 func[121]:
+    00a7fc: 6f                         | i32.rem_s
 
-00a80a func[122]:
-    00a8b7: 6f                         |   i32.rem_s
+00a809 func[122]:
+    00a8b6: 6f                         |   i32.rem_s
 
-00a8c5 func[123]:
-    00a992: 6f                         | i32.rem_s
+00a8c4 func[123]:
+    00a991: 6f                         | i32.rem_s
 
-00aa09 func[125]:
-    00aa66: 6f                         |     i32.rem_s
+00aa08 func[125]:
+    00aa65: 6f                         |     i32.rem_s
 
-00ab3a func[127]:
-    00aca9: 6d                         |   i32.div_s
+00ab39 func[127]:
+    00aca8: 6d                         |   i32.div_s
 
-00ab3a func[127]:
-    00acb2: 6d                         |   i32.div_s
+00ab39 func[127]:
+    00acb1: 6d                         |   i32.div_s
 
-00ad26 func[129]:
-    00adda: 6f                         |   i32.rem_s
+00ad25 func[129]:
+    00add9: 6f                         |   i32.rem_s
 
-00b1b9 func[137]:
-    00b24e: 6d                         |   i32.div_s
+00b1b8 func[137]:
+    00b24d: 6d                         |   i32.div_s
 
-00b5fe func[142]:
-    00b6ff: 6d                         |   i32.div_s
+00b5fd func[142]:
+    00b6fe: 6d                         |   i32.div_s
 
-00b5fe func[142]:
-    00b708: 6d                         |   i32.div_s
+00b5fd func[142]:
+    00b707: 6d                         |   i32.div_s
 
-00b710 func[143]:
-    00b771: 6d                         |   i32.div_s
+00b70f func[143]:
+    00b770: 6d                         |   i32.div_s
 
-00b890 func[146]:
-    00b8cf: 6f                         |     i32.rem_s
+00b88f func[146]:
+    00b8ce: 6f                         |     i32.rem_s
 
-00bd47 func[162]:
-    00bd85: 6f                         |   i32.rem_s
+00bd46 func[162]:
+    00bd84: 6f                         |   i32.rem_s
 
-00bd47 func[162]:
-    00bdb8: 6d                         |   i32.div_s
+00bd46 func[162]:
+    00bdb7: 6d                         |   i32.div_s
 
-00bd47 func[162]:
-    00bdc1: 6d                         |   i32.div_s
+00bd46 func[162]:
+    00bdc0: 6d                         |   i32.div_s
 
-00c1b4 func[168]:
-    00c528: 6d                         |         i32.div_s
+00c1b3 func[168]:
+    00c527: 6d                         |         i32.div_s
 
-00c59f func[169]:
-    00c68d: 6d                         |             i32.div_s
+00c59e func[169]:
+    00c68c: 6d                         |             i32.div_s
 
-00c59f func[169]:
-    00c701: 6d                         |       i32.div_s
+00c59e func[169]:
+    00c700: 6d                         |       i32.div_s
 
-00c71a func[170]:
-    00c784: 6d                         |     i32.div_s
+00c719 func[170]:
+    00c783: 6d                         |     i32.div_s
 
-00c9cf func[173]:
-    00ca71: 6d                         |     i32.div_s
+00c9ce func[173]:
+    00ca70: 6d                         |     i32.div_s
 
-00c9cf func[173]:
-    00cb61: 6d                         |       i32.div_s
+00c9ce func[173]:
+    00cb60: 6d                         |       i32.div_s
 
-00c9cf func[173]:
-    00cc65: 6d                         |           i32.div_s
+00c9ce func[173]:
+    00cc64: 6d                         |           i32.div_s
 
-00c9cf func[173]:
-    00ccb6: 6d                         |         i32.div_s
+00c9ce func[173]:
+    00ccb5: 6d                         |         i32.div_s
 
-00d84e func[183]:
-    00d8e7: 6f                         |     i32.rem_s
+00d84d func[183]:
+    00d8e6: 6f                         |     i32.rem_s
 
-00d84e func[183]:
-    00d9d2: 6f                         |     i32.rem_s
+00d84d func[183]:
+    00d9d1: 6f                         |     i32.rem_s
 
-00ed62 func[187]:
-    00eedc: 6d                         |   i32.div_s
+00ed61 func[187]:
+    00eedb: 6d                         |   i32.div_s
 
-00f56b func[194]:
-    00f674: 6d                         |   i32.div_s
+00f56a func[194]:
+    00f673: 6d                         |   i32.div_s
 
-00fae5 func[203]:
-    0103ca: 6d                         |   i32.div_s
+00fae4 func[203]:
+    0103c9: 6d                         |   i32.div_s
 
-0105f4 func[206]:
-    010675: 6f                         | i32.rem_s
+0105f3 func[206]:
+    010674: 6f                         | i32.rem_s
 
-010717 func[207]:
-    010830: 6d                         |             i32.div_s
+010716 func[207]:
+    01082f: 6d                         |             i32.div_s
 
-010717 func[207]:
-    01083c: 6d                         |             i32.div_s
+010716 func[207]:
+    01083b: 6d                         |             i32.div_s
 
-010717 func[207]:
-    010d92: 6d                         |             i32.div_s
+010716 func[207]:
+    010d91: 6d                         |             i32.div_s
 
-010717 func[207]:
-    0111cb: 6d                         |     i32.div_s
+010716 func[207]:
+    0111ca: 6d                         |     i32.div_s
 
-011290 func[208]:
-    0113e2: 6d                         |   i32.div_s
+01128f func[208]:
+    0113e1: 6d                         |   i32.div_s
 
-011bf6 func[211]:
-    011cd9: 6d                         | i32.div_s
+011bf5 func[211]:
+    011cd8: 6d                         | i32.div_s
 
-011bf6 func[211]:
-    011ce2: 6d                         | i32.div_s
+011bf5 func[211]:
+    011ce1: 6d                         | i32.div_s
 
-012b2e func[225]:
-    012b7c: 6f                         | i32.rem_s
+012b2d func[225]:
+    012b7b: 6f                         | i32.rem_s
 
-012bd7 func[226]:
-    012c1e: 6f                         | i32.rem_s
+012bd6 func[226]:
+    012c1d: 6f                         | i32.rem_s
 
-012e30 func[230]:
-    012fc4: 6f                         | i32.rem_s
+012e2f func[230]:
+    012fc3: 6f                         | i32.rem_s
 
-012fd1 func[231]:
-    013157: 6f                         |   i32.rem_s
+012fd0 func[231]:
+    013156: 6f                         |   i32.rem_s
 
-013171 func[232]:
-    01330b: 6f                         |   i32.rem_s
+013170 func[232]:
+    01330a: 6f                         |   i32.rem_s
 
-013325 func[233]:
-    0133a8: 6d                         |   i32.div_s
+013324 func[233]:
+    0133a7: 6d                         |   i32.div_s
 
-013325 func[233]:
-    0134e4: 6f                         |   i32.rem_s
+013324 func[233]:
+    0134e3: 6f                         |   i32.rem_s
 
-013e0c func[242]:
-    013e2b: 6d                         | i32.div_s
+013e0b func[242]:
+    013e2a: 6d                         | i32.div_s
 
-013e0c func[242]:
-    013e41: 6d                         | i32.div_s
+013e0b func[242]:
+    013e40: 6d                         | i32.div_s
 
-014ff3 func[255]:
-    01507f: 6d                         |             i32.div_s
+014ff2 func[255]:
+    01507e: 6d                         |             i32.div_s
 
-0151c4 func[259]:
-    015255: 6d                         | i32.div_s
+0151c3 func[259]:
+    015254: 6d                         | i32.div_s
 
-01764d func[276]:
-    017680: 6d                         |   i32.div_s
+01764c func[276]:
+    01767f: 6d                         |   i32.div_s
 
-01764d func[276]:
-    017716: 6d                         | i32.div_s
+01764c func[276]:
+    017715: 6d                         | i32.div_s
 
-01764d func[276]:
-    017b38: 6d                         | i32.div_s
+01764c func[276]:
+    017b37: 6d                         | i32.div_s
 
-01764d func[276]:
-    017b48: 6d                         | i32.div_s
+01764c func[276]:
+    017b47: 6d                         | i32.div_s
 
-01764d func[276]:
-    017c63: 6d                         |     i32.div_s
+01764c func[276]:
+    017c62: 6d                         |     i32.div_s
 
-01764d func[276]:
-    017c6b: 6d                         |     i32.div_s
+01764c func[276]:
+    017c6a: 6d                         |     i32.div_s
 
-01764d func[276]:
-    017d56: 6d                         |     i32.div_s
+01764c func[276]:
+    017d55: 6d                         |     i32.div_s
 
-01764d func[276]:
-    017d5a: 6d                         |     i32.div_s
+01764c func[276]:
+    017d59: 6d                         |     i32.div_s
 
-01820d func[281]:
-    01840e: 6e                         |       i32.div_u
+01820c func[281]:
+    01840d: 6e                         |       i32.div_u
 
-0185c5 func[282]:
-    0187c6: 6d                         |       i32.div_s
+0185c4 func[282]:
+    0187c5: 6d                         |       i32.div_s
 
-0185c5 func[282]:
-    01908f: 6e                         |         i32.div_u
+0185c4 func[282]:
+    01908e: 6e                         |         i32.div_u
 
-019dc9 func[290]:
-    019f73: 6d                         |             i32.div_s
+019dc8 func[290]:
+    019f72: 6d                         |             i32.div_s
 
-019dc9 func[290]:
-    019f90: 6d                         |           i32.div_s
+019dc8 func[290]:
+    019f8f: 6d                         |           i32.div_s
 
-019dc9 func[290]:
-    01a420: 6d                         |     i32.div_s
+019dc8 func[290]:
+    01a41f: 6d                         |     i32.div_s
 
-01a508 func[295]:
-    01a5fc: 6d                         |       i32.div_s
+01a507 func[295]:
+    01a5fb: 6d                         |       i32.div_s
 
-01ad5c func[302]:
-    01ad79: 6e                         |   i32.div_u
+01ad5b func[302]:
+    01ad78: 6e                         |   i32.div_u
 
-01b134 func[307]:
-    01b1d9: 6d                         |       i32.div_s
+01b133 func[307]:
+    01b1d8: 6d                         |       i32.div_s
 
-01b1f8 func[308]:
-    01b2ad: 6d                         |     i32.div_s
+01b1f7 func[308]:
+    01b2ac: 6d                         |     i32.div_s
 
-01b5bc func[314]:
-    01b620: 6f                         |             i32.rem_s
+01b5bb func[314]:
+    01b61f: 6f                         |             i32.rem_s
 
-01b5bc func[314]:
-    01b63c: 6f                         |           i32.rem_s
+01b5bb func[314]:
+    01b63b: 6f                         |           i32.rem_s
 
-01b679 func[315]:
-    01b73b: 6f                         |           i32.rem_s
+01b678 func[315]:
+    01b73a: 6f                         |           i32.rem_s
 
-01b7cf func[316]:
-    01b803: 6e                         |       i32.div_u
+01b7ce func[316]:
+    01b802: 6e                         |       i32.div_u
 
-01b7cf func[316]:
-    01b806: 70                         |       i32.rem_u
+01b7ce func[316]:
+    01b805: 70                         |       i32.rem_u
 
-01b7cf func[316]:
-    01b80b: 70                         |       i32.rem_u
+01b7ce func[316]:
+    01b80a: 70                         |       i32.rem_u
 
-01b7cf func[316]:
-    01b82a: 6e                         |       i32.div_u
+01b7ce func[316]:
+    01b829: 6e                         |       i32.div_u
 
-01c0e5 func[330] <initGame>:
-    01c30e: 6d                         |   i32.div_s
+01c0e4 func[330] <initGame>:
+    01c31c: 6d                         |   i32.div_s
 
-01c0e5 func[330] <initGame>:
-    01c323: 6d                         |   i32.div_s
+01c0e4 func[330] <initGame>:
+    01c331: 6d                         |   i32.div_s
 
-01c0e5 func[330] <initGame>:
-    01c338: 6d                         |   i32.div_s
+01c0e4 func[330] <initGame>:
+    01c346: 6d                         |   i32.div_s
 
-01c0e5 func[330] <initGame>:
-    01c34d: 6d                         |   i32.div_s
+01c0e4 func[330] <initGame>:
+    01c35b: 6d                         |   i32.div_s
 
-01c0e5 func[330] <initGame>:
-    01d011: 6d                         |   i32.div_s
+01c0e4 func[330] <initGame>:
+    01d01f: 6d                         |   i32.div_s
 
-01c0e5 func[330] <initGame>:
-    01d01d: 6d                         |   i32.div_s
+01c0e4 func[330] <initGame>:
+    01d02b: 6d                         |   i32.div_s
 
-01c0e5 func[330] <initGame>:
-    01d7be: 6d                         |     i32.div_s
+01c0e4 func[330] <initGame>:
+    01d7cc: 6d                         |     i32.div_s
 
-01c0e5 func[330] <initGame>:
-    01d923: 6d                         |       i32.div_s
+01c0e4 func[330] <initGame>:
+    01d931: 6d                         |       i32.div_s
 
-01c0e5 func[330] <initGame>:
-    01e401: 6d                         | i32.div_s
+01c0e4 func[330] <initGame>:
+    01e40f: 6d                         | i32.div_s
 
-01f037 func[331] <tickGame>:
-    01f05e: 6d                         | i32.div_s
+01f045 func[331] <tickGame>:
+    01f06c: 6d                         | i32.div_s
 
-01f037 func[331] <tickGame>:
-    01f185: 6d                         | i32.div_s
+01f045 func[331] <tickGame>:
+    01f193: 6d                         | i32.div_s
 
-01f037 func[331] <tickGame>:
-    01f2c0: 6d                         |     i32.div_s
+01f045 func[331] <tickGame>:
+    01f2ce: 6d                         |     i32.div_s
 
-01f037 func[331] <tickGame>:
-    01f2ee: 6d                         |             i32.div_s
+01f045 func[331] <tickGame>:
+    01f2fc: 6d                         |             i32.div_s
 
-01f037 func[331] <tickGame>:
-    01f33a: 6f                         |                 i32.rem_s
+01f045 func[331] <tickGame>:
+    01f348: 6f                         |                 i32.rem_s
 
-01f037 func[331] <tickGame>:
-    0203ca: 6d                         |                               i32.div_s
+01f045 func[331] <tickGame>:
+    0203d8: 6d                         |                               i32.div_s
 
-01f037 func[331] <tickGame>:
-    0203e6: 6d                         |                             i32.div_s
+01f045 func[331] <tickGame>:
+    0203f4: 6d                         |                             i32.div_s
 
-01f037 func[331] <tickGame>:
-    020436: 6d                         |                               i32.div_s
+01f045 func[331] <tickGame>:
+    020444: 6d                         |                               i32.div_s
 
-01f037 func[331] <tickGame>:
-    020452: 6d                         |                             i32.div_s
+01f045 func[331] <tickGame>:
+    020460: 6d                         |                             i32.div_s
 
-01f037 func[331] <tickGame>:
-    0204a2: 6d                         |                               i32.div_s
+01f045 func[331] <tickGame>:
+    0204b0: 6d                         |                               i32.div_s
 
-01f037 func[331] <tickGame>:
-    0204be: 6d                         |                             i32.div_s
+01f045 func[331] <tickGame>:
+    0204cc: 6d                         |                             i32.div_s
 
-01f037 func[331] <tickGame>:
-    02050e: 6d                         |                               i32.div_s
+01f045 func[331] <tickGame>:
+    02051c: 6d                         |                               i32.div_s
 
-01f037 func[331] <tickGame>:
-    02052a: 6d                         |                             i32.div_s
+01f045 func[331] <tickGame>:
+    020538: 6d                         |                             i32.div_s
 
-01f037 func[331] <tickGame>:
-    020723: 6d                         |                                 i32.div_s
+01f045 func[331] <tickGame>:
+    020731: 6d                         |                                 i32.div_s
 
-01f037 func[331] <tickGame>:
-    02073e: 6d                         |                                 i32.div_s
+01f045 func[331] <tickGame>:
+    02074c: 6d                         |                                 i32.div_s
 
-01f037 func[331] <tickGame>:
-    020bf0: 6d                         |                                 i32.div_s
+01f045 func[331] <tickGame>:
+    020bfe: 6d                         |                                 i32.div_s
 
-01f037 func[331] <tickGame>:
-    022177: 6e                         |                     i32.div_u
+01f045 func[331] <tickGame>:
+    022185: 6e                         |                     i32.div_u
 
-01f037 func[331] <tickGame>:
-    0223ec: 6d                         |             i32.div_s
+01f045 func[331] <tickGame>:
+    0223fa: 6d                         |             i32.div_s
 
-01f037 func[331] <tickGame>:
-    0223ef: 6f                         |             i32.rem_s
+01f045 func[331] <tickGame>:
+    0223fd: 6f                         |             i32.rem_s
 
-01f037 func[331] <tickGame>:
-    022671: 6f                         |                 i32.rem_s
+01f045 func[331] <tickGame>:
+    02267f: 6f                         |                 i32.rem_s
 
-01f037 func[331] <tickGame>:
-    022aab: 6d                         |                               i32.div_s
+01f045 func[331] <tickGame>:
+    022ab9: 6d                         |                               i32.div_s
 
-01f037 func[331] <tickGame>:
-    022ab1: 6f                         |                               i32.rem_s
+01f045 func[331] <tickGame>:
+    022abf: 6f                         |                               i32.rem_s
 
-01f037 func[331] <tickGame>:
-    022de2: 6d                         |                         i32.div_s
+01f045 func[331] <tickGame>:
+    022df0: 6d                         |                         i32.div_s
 
-01f037 func[331] <tickGame>:
-    02307a: 6d                         |                               i32.div_s
+01f045 func[331] <tickGame>:
+    023088: 6d                         |                               i32.div_s
 
-01f037 func[331] <tickGame>:
-    02311d: 6d                         |                                   i32.div_s
+01f045 func[331] <tickGame>:
+    02312b: 6d                         |                                   i32.div_s
 
-01f037 func[331] <tickGame>:
-    0231be: 6d                         |                                 i32.div_s
+01f045 func[331] <tickGame>:
+    0231cc: 6d                         |                                 i32.div_s
 
-01f037 func[331] <tickGame>:
-    023278: 6d                         |                                 i32.div_s
+01f045 func[331] <tickGame>:
+    023286: 6d                         |                                 i32.div_s
 
-01f037 func[331] <tickGame>:
-    0232d1: 6d                         |                               i32.div_s
+01f045 func[331] <tickGame>:
+    0232df: 6d                         |                               i32.div_s
 
-01f037 func[331] <tickGame>:
-    023370: 6d                         |                                 i32.div_s
+01f045 func[331] <tickGame>:
+    02337e: 6d                         |                                 i32.div_s
 
-01f037 func[331] <tickGame>:
-    02342e: 6d                         |                         i32.div_s
+01f045 func[331] <tickGame>:
+    02343c: 6d                         |                         i32.div_s
 
-01f037 func[331] <tickGame>:
-    023445: 6f                         |                       i32.rem_s
+01f045 func[331] <tickGame>:
+    023453: 6f                         |                       i32.rem_s
 
-01f037 func[331] <tickGame>:
-    0235d3: 6d                         |                           i32.div_s
+01f045 func[331] <tickGame>:
+    0235e1: 6d                         |                           i32.div_s
 
-01f037 func[331] <tickGame>:
-    023625: 6d                         |                           i32.div_s
+01f045 func[331] <tickGame>:
+    023633: 6d                         |                           i32.div_s
 
-01f037 func[331] <tickGame>:
-    0236dd: 6d                         |                             i32.div_s
+01f045 func[331] <tickGame>:
+    0236eb: 6d                         |                             i32.div_s
 
-01f037 func[331] <tickGame>:
-    0236f6: 6d                         |                             i32.div_s
+01f045 func[331] <tickGame>:
+    023704: 6d                         |                             i32.div_s
 
-01f037 func[331] <tickGame>:
-    023745: 6d                         |                             i32.div_s
+01f045 func[331] <tickGame>:
+    023753: 6d                         |                             i32.div_s
 
-01f037 func[331] <tickGame>:
-    023762: 6d                         |                             i32.div_s
+01f045 func[331] <tickGame>:
+    023770: 6d                         |                             i32.div_s
 
-01f037 func[331] <tickGame>:
-    0237b9: 6d                         |                             i32.div_s
+01f045 func[331] <tickGame>:
+    0237c7: 6d                         |                             i32.div_s
 
-01f037 func[331] <tickGame>:
-    0237d2: 6d                         |                             i32.div_s
+01f045 func[331] <tickGame>:
+    0237e0: 6d                         |                             i32.div_s
 
-01f037 func[331] <tickGame>:
-    023821: 6d                         |                             i32.div_s
+01f045 func[331] <tickGame>:
+    02382f: 6d                         |                             i32.div_s
 
-01f037 func[331] <tickGame>:
-    02383e: 6d                         |                             i32.div_s
+01f045 func[331] <tickGame>:
+    02384c: 6d                         |                             i32.div_s
 
-01f037 func[331] <tickGame>:
-    02386d: 6d                         |                           i32.div_s
+01f045 func[331] <tickGame>:
+    02387b: 6d                         |                           i32.div_s
 
-01f037 func[331] <tickGame>:
-    023886: 6d                         |                           i32.div_s
+01f045 func[331] <tickGame>:
+    023894: 6d                         |                           i32.div_s
 
-01f037 func[331] <tickGame>:
-    0238d5: 6d                         |                           i32.div_s
+01f045 func[331] <tickGame>:
+    0238e3: 6d                         |                           i32.div_s
 
-01f037 func[331] <tickGame>:
-    0238f2: 6d                         |                           i32.div_s
+01f045 func[331] <tickGame>:
+    023900: 6d                         |                           i32.div_s
 
-01f037 func[331] <tickGame>:
-    02396e: 6d                         |                         i32.div_s
+01f045 func[331] <tickGame>:
+    02397c: 6d                         |                         i32.div_s
 
-01f037 func[331] <tickGame>:
-    0239ad: 6d                         |                         i32.div_s
+01f045 func[331] <tickGame>:
+    0239bb: 6d                         |                         i32.div_s
 
-01f037 func[331] <tickGame>:
-    024435: 6d                         |                                     i32.div_s
+01f045 func[331] <tickGame>:
+    024443: 6d                         |                                     i32.div_s
 
-01f037 func[331] <tickGame>:
-    02444b: 6d                         |                                     i32.div_s
+01f045 func[331] <tickGame>:
+    024459: 6d                         |                                     i32.div_s
 
-01f037 func[331] <tickGame>:
-    024461: 6d                         |                                     i32.div_s
+01f045 func[331] <tickGame>:
+    02446f: 6d                         |                                     i32.div_s
 
-01f037 func[331] <tickGame>:
-    0244c8: 6d                         |                                     i32.div_s
+01f045 func[331] <tickGame>:
+    0244d6: 6d                         |                                     i32.div_s
 
-01f037 func[331] <tickGame>:
-    0244de: 6d                         |                                     i32.div_s
+01f045 func[331] <tickGame>:
+    0244ec: 6d                         |                                     i32.div_s
 
-01f037 func[331] <tickGame>:
-    0244f4: 6d                         |                                     i32.div_s
+01f045 func[331] <tickGame>:
+    024502: 6d                         |                                     i32.div_s
 
-01f037 func[331] <tickGame>:
-    02455b: 6d                         |                                     i32.div_s
+01f045 func[331] <tickGame>:
+    024569: 6d                         |                                     i32.div_s
 
-01f037 func[331] <tickGame>:
-    024571: 6d                         |                                     i32.div_s
+01f045 func[331] <tickGame>:
+    02457f: 6d                         |                                     i32.div_s
 
-01f037 func[331] <tickGame>:
-    024587: 6d                         |                                     i32.div_s
+01f045 func[331] <tickGame>:
+    024595: 6d                         |                                     i32.div_s
 
-01f037 func[331] <tickGame>:
-    0245eb: 6d                         |                                     i32.div_s
+01f045 func[331] <tickGame>:
+    0245f9: 6d                         |                                     i32.div_s
 
-01f037 func[331] <tickGame>:
-    024602: 6d                         |                                     i32.div_s
+01f045 func[331] <tickGame>:
+    024610: 6d                         |                                     i32.div_s
 
-01f037 func[331] <tickGame>:
-    024619: 6d                         |                                     i32.div_s
+01f045 func[331] <tickGame>:
+    024627: 6d                         |                                     i32.div_s
 
-01f037 func[331] <tickGame>:
-    0246ea: 6d                         |                                           i32.div_s
+01f045 func[331] <tickGame>:
+    0246f8: 6d                         |                                           i32.div_s
 
-01f037 func[331] <tickGame>:
-    024720: 6d                         |                                           i32.div_s
+01f045 func[331] <tickGame>:
+    02472e: 6d                         |                                           i32.div_s
 
-01f037 func[331] <tickGame>:
-    02475f: 6d                         |                                           i32.div_s
+01f045 func[331] <tickGame>:
+    02476d: 6d                         |                                           i32.div_s
 
-01f037 func[331] <tickGame>:
-    02479e: 6d                         |                                           i32.div_s
+01f045 func[331] <tickGame>:
+    0247ac: 6d                         |                                           i32.div_s
 
-01f037 func[331] <tickGame>:
-    024823: 6d                         |                                         i32.div_s
+01f045 func[331] <tickGame>:
+    024831: 6d                         |                                         i32.div_s
 
-01f037 func[331] <tickGame>:
-    024859: 6d                         |                                         i32.div_s
+01f045 func[331] <tickGame>:
+    024867: 6d                         |                                         i32.div_s
 
-01f037 func[331] <tickGame>:
-    024898: 6d                         |                                         i32.div_s
+01f045 func[331] <tickGame>:
+    0248a6: 6d                         |                                         i32.div_s
 
-01f037 func[331] <tickGame>:
-    0248d8: 6d                         |                                         i32.div_s
+01f045 func[331] <tickGame>:
+    0248e6: 6d                         |                                         i32.div_s
 
-01f037 func[331] <tickGame>:
-    02495d: 6d                         |                                       i32.div_s
+01f045 func[331] <tickGame>:
+    02496b: 6d                         |                                       i32.div_s
 
-01f037 func[331] <tickGame>:
-    024993: 6d                         |                                       i32.div_s
+01f045 func[331] <tickGame>:
+    0249a1: 6d                         |                                       i32.div_s
 
-01f037 func[331] <tickGame>:
-    0249d2: 6d                         |                                       i32.div_s
+01f045 func[331] <tickGame>:
+    0249e0: 6d                         |                                       i32.div_s
 
-01f037 func[331] <tickGame>:
-    024a12: 6d                         |                                       i32.div_s
+01f045 func[331] <tickGame>:
+    024a20: 6d                         |                                       i32.div_s
 
-01f037 func[331] <tickGame>:
-    024d9f: 6d                         |                                 i32.div_s
+01f045 func[331] <tickGame>:
+    024dad: 6d                         |                                 i32.div_s
 
-01f037 func[331] <tickGame>:
-    024db5: 6d                         |                                 i32.div_s
+01f045 func[331] <tickGame>:
+    024dc3: 6d                         |                                 i32.div_s
 
-01f037 func[331] <tickGame>:
-    024dcb: 6d                         |                                 i32.div_s
+01f045 func[331] <tickGame>:
+    024dd9: 6d                         |                                 i32.div_s
 
-01f037 func[331] <tickGame>:
-    024dda: 6d                         |                                 i32.div_s
+01f045 func[331] <tickGame>:
+    024de8: 6d                         |                                 i32.div_s
 
-01f037 func[331] <tickGame>:
-    024de9: 6d                         |                                 i32.div_s
+01f045 func[331] <tickGame>:
+    024df7: 6d                         |                                 i32.div_s
 
-01f037 func[331] <tickGame>:
-    024e7c: 6d                         |                                       i32.div_s
+01f045 func[331] <tickGame>:
+    024e8a: 6d                         |                                       i32.div_s
 
-01f037 func[331] <tickGame>:
-    024efd: 6d                         |                                     i32.div_s
+01f045 func[331] <tickGame>:
+    024f0b: 6d                         |                                     i32.div_s
 
-01f037 func[331] <tickGame>:
-    024f7e: 6d                         |                                   i32.div_s
+01f045 func[331] <tickGame>:
+    024f8c: 6d                         |                                   i32.div_s
 
-01f037 func[331] <tickGame>:
-    024ffc: 6d                         |                                 i32.div_s
+01f045 func[331] <tickGame>:
+    02500a: 6d                         |                                 i32.div_s
 
-01f037 func[331] <tickGame>:
-    025018: 6d                         |                                 i32.div_s
+01f045 func[331] <tickGame>:
+    025026: 6d                         |                                 i32.div_s
 
-01f037 func[331] <tickGame>:
-    026231: 6d                         |               i32.div_s
+01f045 func[331] <tickGame>:
+    02623f: 6d                         |               i32.div_s
 
-01f037 func[331] <tickGame>:
-    026234: 6f                         |               i32.rem_s
+01f045 func[331] <tickGame>:
+    026242: 6f                         |               i32.rem_s
 
-01f037 func[331] <tickGame>:
-    0263d5: 6d                         |       i32.div_s
+01f045 func[331] <tickGame>:
+    0263e3: 6d                         |       i32.div_s
 
-01f037 func[331] <tickGame>:
-    0263ee: 6d                         |     i32.div_s
+01f045 func[331] <tickGame>:
+    0263fc: 6d                         |     i32.div_s
 
-01f037 func[331] <tickGame>:
-    0265df: 6f                         |                   i32.rem_s
+01f045 func[331] <tickGame>:
+    0265ed: 6f                         |                   i32.rem_s
 
-01f037 func[331] <tickGame>:
-    026673: 6f                         |                   i32.rem_s
+01f045 func[331] <tickGame>:
+    026681: 6f                         |                   i32.rem_s
 
-01f037 func[331] <tickGame>:
-    026fc7: 6d                         |                   i32.div_s
+01f045 func[331] <tickGame>:
+    026fd5: 6d                         |                   i32.div_s
 
-01f037 func[331] <tickGame>:
-    026fe3: 6d                         |                   i32.div_s
+01f045 func[331] <tickGame>:
+    026ff1: 6d                         |                   i32.div_s
 
-01f037 func[331] <tickGame>:
-    027004: 6d                         |                   i32.div_s
+01f045 func[331] <tickGame>:
+    027012: 6d                         |                   i32.div_s
 
-01f037 func[331] <tickGame>:
-    02701d: 6d                         |                   i32.div_s
+01f045 func[331] <tickGame>:
+    02702b: 6d                         |                   i32.div_s
 
-01f037 func[331] <tickGame>:
-    027086: 6d                         |                       i32.div_s
+01f045 func[331] <tickGame>:
+    027094: 6d                         |                       i32.div_s
 
-01f037 func[331] <tickGame>:
-    02709e: 6d                         |                       i32.div_s
+01f045 func[331] <tickGame>:
+    0270ac: 6d                         |                       i32.div_s
 
-01f037 func[331] <tickGame>:
-    0270c4: 6d                         |                       i32.div_s
+01f045 func[331] <tickGame>:
+    0270d2: 6d                         |                       i32.div_s
 
-01f037 func[331] <tickGame>:
-    0270df: 6d                         |                       i32.div_s
+01f045 func[331] <tickGame>:
+    0270ed: 6d                         |                       i32.div_s
 
-01f037 func[331] <tickGame>:
-    02719d: 6e                         |                           i32.div_u
+01f045 func[331] <tickGame>:
+    0271ab: 6e                         |                           i32.div_u
 
-01f037 func[331] <tickGame>:
-    0271c1: 70                         |                           i32.rem_u
+01f045 func[331] <tickGame>:
+    0271cf: 70                         |                           i32.rem_u
 
-01f037 func[331] <tickGame>:
-    027239: 6e                         |                       i32.div_u
+01f045 func[331] <tickGame>:
+    027247: 6e                         |                       i32.div_u
 
-01f037 func[331] <tickGame>:
-    02725d: 70                         |                       i32.rem_u
+01f045 func[331] <tickGame>:
+    02726b: 70                         |                       i32.rem_u
 
-01f037 func[331] <tickGame>:
-    0272f5: 6d                         |                   i32.div_s
+01f045 func[331] <tickGame>:
+    027303: 6d                         |                   i32.div_s
 
-01f037 func[331] <tickGame>:
-    027311: 6d                         |                   i32.div_s
+01f045 func[331] <tickGame>:
+    02731f: 6d                         |                   i32.div_s
 
-01f037 func[331] <tickGame>:
-    027332: 6d                         |                   i32.div_s
+01f045 func[331] <tickGame>:
+    027340: 6d                         |                   i32.div_s
 
-01f037 func[331] <tickGame>:
-    027349: 6d                         |                   i32.div_s
+01f045 func[331] <tickGame>:
+    027357: 6d                         |                   i32.div_s
 
-01f037 func[331] <tickGame>:
-    02737d: 6d                         |                   i32.div_s
+01f045 func[331] <tickGame>:
+    02738b: 6d                         |                   i32.div_s
 
-01f037 func[331] <tickGame>:
-    0273b1: 6d                         |                   i32.div_s
+01f045 func[331] <tickGame>:
+    0273bf: 6d                         |                   i32.div_s
 
-01f037 func[331] <tickGame>:
-    0273ee: 6d                         |                     i32.div_s
+01f045 func[331] <tickGame>:
+    0273fc: 6d                         |                     i32.div_s
 
-01f037 func[331] <tickGame>:
-    027439: 6d                         |                       i32.div_s
+01f045 func[331] <tickGame>:
+    027447: 6d                         |                       i32.div_s
 
-01f037 func[331] <tickGame>:
-    0274f5: 6d                         |                               i32.div_s
+01f045 func[331] <tickGame>:
+    027503: 6d                         |                               i32.div_s
 
-01f037 func[331] <tickGame>:
-    027530: 6e                         |                           i32.div_u
+01f045 func[331] <tickGame>:
+    02753e: 6e                         |                           i32.div_u
 
-01f037 func[331] <tickGame>:
-    0275af: 6d                         |                               i32.div_s
+01f045 func[331] <tickGame>:
+    0275bd: 6d                         |                               i32.div_s
 
-01f037 func[331] <tickGame>:
-    0275ea: 6e                         |                           i32.div_u
+01f045 func[331] <tickGame>:
+    0275f8: 6e                         |                           i32.div_u
 
-01f037 func[331] <tickGame>:
-    027669: 6d                         |                               i32.div_s
+01f045 func[331] <tickGame>:
+    027677: 6d                         |                               i32.div_s
 
-01f037 func[331] <tickGame>:
-    0276a4: 6e                         |                           i32.div_u
+01f045 func[331] <tickGame>:
+    0276b2: 6e                         |                           i32.div_u
 
-01f037 func[331] <tickGame>:
-    027710: 6d                         |                               i32.div_s
+01f045 func[331] <tickGame>:
+    02771e: 6d                         |                               i32.div_s
 
-01f037 func[331] <tickGame>:
-    02775e: 6e                         |                           i32.div_u
+01f045 func[331] <tickGame>:
+    02776c: 6e                         |                           i32.div_u
 
-01f037 func[331] <tickGame>:
-    027804: 6d                         |                 i32.div_s
+01f045 func[331] <tickGame>:
+    027812: 6d                         |                 i32.div_s
 
-01f037 func[331] <tickGame>:
-    027820: 6d                         |                 i32.div_s
+01f045 func[331] <tickGame>:
+    02782e: 6d                         |                 i32.div_s
 
-01f037 func[331] <tickGame>:
-    027841: 6d                         |                 i32.div_s
+01f045 func[331] <tickGame>:
+    02784f: 6d                         |                 i32.div_s
 
-01f037 func[331] <tickGame>:
-    027863: 6d                         |                 i32.div_s
+01f045 func[331] <tickGame>:
+    027871: 6d                         |                 i32.div_s
 
-01f037 func[331] <tickGame>:
-    0278c2: 6d                         |                       i32.div_s
+01f045 func[331] <tickGame>:
+    0278d0: 6d                         |                       i32.div_s
 
-01f037 func[331] <tickGame>:
-    0278f6: 6e                         |                     i32.div_u
+01f045 func[331] <tickGame>:
+    027904: 6e                         |                     i32.div_u
 
-01f037 func[331] <tickGame>:
-    02798f: 6d                         |                       i32.div_s
+01f045 func[331] <tickGame>:
+    02799d: 6d                         |                       i32.div_s
 
-01f037 func[331] <tickGame>:
-    0279c3: 6e                         |                     i32.div_u
+01f045 func[331] <tickGame>:
+    0279d1: 6e                         |                     i32.div_u
 
-01f037 func[331] <tickGame>:
-    027a59: 6d                         |                       i32.div_s
+01f045 func[331] <tickGame>:
+    027a67: 6d                         |                       i32.div_s
 
-01f037 func[331] <tickGame>:
-    027a8d: 6e                         |                     i32.div_u
+01f045 func[331] <tickGame>:
+    027a9b: 6e                         |                     i32.div_u
 
-01f037 func[331] <tickGame>:
-    027ca7: 6d                         |               i32.div_s
+01f045 func[331] <tickGame>:
+    027cb5: 6d                         |               i32.div_s
 
-01f037 func[331] <tickGame>:
-    027cd4: 6d                         |               i32.div_s
+01f045 func[331] <tickGame>:
+    027ce2: 6d                         |               i32.div_s
 
-01f037 func[331] <tickGame>:
-    027cdf: 6d                         |               i32.div_s
+01f045 func[331] <tickGame>:
+    027ced: 6d                         |               i32.div_s
 
-01f037 func[331] <tickGame>:
-    027d8f: 6d                         |                 i32.div_s
+01f045 func[331] <tickGame>:
+    027d9d: 6d                         |                 i32.div_s
 
-01f037 func[331] <tickGame>:
-    028270: 6e                         |               i32.div_u
+01f045 func[331] <tickGame>:
+    02827e: 6e                         |               i32.div_u
 
-01f037 func[331] <tickGame>:
-    0283a9: 6d                         |               i32.div_s
+01f045 func[331] <tickGame>:
+    0283b7: 6d                         |               i32.div_s
 
-01f037 func[331] <tickGame>:
-    028679: 6e                         |                 i32.div_u
+01f045 func[331] <tickGame>:
+    028687: 6e                         |                 i32.div_u
 
-01f037 func[331] <tickGame>:
-    028bcb: 6e                         |         i32.div_u
+01f045 func[331] <tickGame>:
+    028bd9: 6e                         |         i32.div_u
 
-01f037 func[331] <tickGame>:
-    028bf8: 6e                         |         i32.div_u
+01f045 func[331] <tickGame>:
+    028c06: 6e                         |         i32.div_u
 
-01f037 func[331] <tickGame>:
-    028fc1: 6d                         |       i32.div_s
+01f045 func[331] <tickGame>:
+    028fcf: 6d                         |       i32.div_s
 
-01f037 func[331] <tickGame>:
-    029a39: 6d                         |         i32.div_s
+01f045 func[331] <tickGame>:
+    029a47: 6d                         |         i32.div_s
 
-01f037 func[331] <tickGame>:
-    029a4a: 6d                         |         i32.div_s
+01f045 func[331] <tickGame>:
+    029a58: 6d                         |         i32.div_s
 
-01f037 func[331] <tickGame>:
-    029b54: 6d                         |       i32.div_s
+01f045 func[331] <tickGame>:
+    029b62: 6d                         |       i32.div_s
 
-02a443 func[346]:
-    02a483: 6e                         | i32.div_u
+02a451 func[346]:
+    02a491: 6e                         | i32.div_u
 
-02bcb7 func[377]:
-    02bcdf: 80                         |     i64.div_u
+02bca6 func[376]:
+    02bcce: 80                         |     i64.div_u
 
-02bcb7 func[377]:
-    02bd19: 6e                         |     i32.div_u
+02bca6 func[376]:
+    02bd08: 6e                         |     i32.div_u
 
-02bdaf func[379]:
-    02bff5: 80                         |             i64.div_u
+02bd9e func[378]:
+    02bfe4: 80                         |             i64.div_u
 
-02bdaf func[379]:
-    02c069: 6e                         |       i32.div_u
+02bd9e func[378]:
+    02c058: 6e                         |       i32.div_u
 
-02bdaf func[379]:
-    02c1cb: 6d                         |       i32.div_s
+02bd9e func[378]:
+    02c1ba: 6d                         |       i32.div_s
 
-02bdaf func[379]:
-    02c211: 6e                         |         i32.div_u
+02bd9e func[378]:
+    02c200: 6e                         |         i32.div_u
 
-02bdaf func[379]:
-    02c3ff: 70                         |         i32.rem_u
+02bd9e func[378]:
+    02c3ee: 70                         |         i32.rem_u
 
-02bdaf func[379]:
-    02c416: 70                         |           i32.rem_u
+02bd9e func[378]:
+    02c405: 70                         |           i32.rem_u
 
 
 === CONTEXT AROUND CRASH OFFSET 0x1e40f ===
 
-[01c0e5 func[330] <initGame>:]
- 01e3d0: 36 02 1c                   | i32.store 2 28
-[01c0e5 func[330] <initGame>:]
- 01e3d3: 41 ed 93 01                | i32.const 18925
-[01c0e5 func[330] <initGame>:]
- 01e3d7: 20 02                      | local.get 2
-[01c0e5 func[330] <initGame>:]
- 01e3d9: 41 10                      | i32.const 16
-[01c0e5 func[330] <initGame>:]
- 01e3db: 6a                         | i32.add
-[01c0e5 func[330] <initGame>:]
- 01e3dc: 10 e0 02                   | call 352
-[01c0e5 func[330] <initGame>:]
- 01e3df: 41 d0 f9 08                | i32.const 146640
-[01c0e5 func[330] <initGame>:]
- 01e3e3: 41 c8 f4 08                | i32.const 145992
-[01c0e5 func[330] <initGame>:]
- 01e3e7: 28 02 00                   | i32.load 2 0
-[01c0e5 func[330] <initGame>:]
- 01e3ea: 22 06                      | local.tee 6
-[01c0e5 func[330] <initGame>:]
- 01e3ec: 2e 01 0e                   | i32.load16_s 1 14
-[01c0e5 func[330] <initGame>:]
- 01e3ef: 22 01                      | local.tee 1
-[01c0e5 func[330] <initGame>:]
- 01e3f1: 36 02 00                   | i32.store 2 0
-[01c0e5 func[330] <initGame>:]
- 01e3f4: 41 c0 fa 08                | i32.const 146752
-[01c0e5 func[330] <initGame>:]
- 01e3f8: 41 02                      | i32.const 2
-[01c0e5 func[330] <initGame>:]
- 01e3fa: 41 0c                      | i32.const 12
-[01c0e5 func[330] <initGame>:]
- 01e3fc: 20 01                      | local.get 1
-[01c0e5 func[330] <initGame>:]
- 01e3fe: 41 01                      | i32.const 1
-[01c0e5 func[330] <initGame>:]
- 01e400: 74                         | i32.shl
-[01c0e5 func[330] <initGame>:]
- 01e401: 6d                         | i32.div_s
-[01c0e5 func[330] <initGame>:]
- 01e402: 22 01                      | local.tee 1
-[01c0e5 func[330] <initGame>:]
- 01e404: 20 01                      | local.get 1
-[01c0e5 func[330] <initGame>:]
+[01c0e4 func[330] <initGame>:]
+ 01e3d2: 36 02 18                   | i32.store 2 24
+[01c0e4 func[330] <initGame>:]
+ 01e3d5: 20 02                      | local.get 2
+[01c0e4 func[330] <initGame>:]
+ 01e3d7: 41 c4 f3 08                | i32.const 145860
+[01c0e4 func[330] <initGame>:]
+ 01e3db: 28 02 00                   | i32.load 2 0
+[01c0e4 func[330] <initGame>:]
+ 01e3de: 36 02 1c                   | i32.store 2 28
+[01c0e4 func[330] <initGame>:]
+ 01e3e1: 41 ed 93 01                | i32.const 18925
+[01c0e4 func[330] <initGame>:]
+ 01e3e5: 20 02                      | local.get 2
+[01c0e4 func[330] <initGame>:]
+ 01e3e7: 41 10                      | i32.const 16
+[01c0e4 func[330] <initGame>:]
+ 01e3e9: 6a                         | i32.add
+[01c0e4 func[330] <initGame>:]
+ 01e3ea: 10 e0 02                   | call 352
+[01c0e4 func[330] <initGame>:]
+ 01e3ed: 41 d0 f9 08                | i32.const 146640
+[01c0e4 func[330] <initGame>:]
+ 01e3f1: 41 c8 f4 08                | i32.const 145992
+[01c0e4 func[330] <initGame>:]
+ 01e3f5: 28 02 00                   | i32.load 2 0
+[01c0e4 func[330] <initGame>:]
+ 01e3f8: 22 06                      | local.tee 6
+[01c0e4 func[330] <initGame>:]
+ 01e3fa: 2e 01 0e                   | i32.load16_s 1 14
+[01c0e4 func[330] <initGame>:]
+ 01e3fd: 22 01                      | local.tee 1
+[01c0e4 func[330] <initGame>:]
+ 01e3ff: 36 02 00                   | i32.store 2 0
+[01c0e4 func[330] <initGame>:]
+ 01e402: 41 c0 fa 08                | i32.const 146752
+[01c0e4 func[330] <initGame>:]
  01e406: 41 02                      | i32.const 2
-[01c0e5 func[330] <initGame>:]
- 01e408: 4c                         | i32.le_s
-[01c0e5 func[330] <initGame>:]
- 01e409: 1b                         | select
-[01c0e5 func[330] <initGame>:]
- 01e40a: 41 01                      | i32.const 1
-[01c0e5 func[330] <initGame>:]
- 01e40c: 6b                         | i32.sub <<<< CRASH NEAR HERE
-[01c0e5 func[330] <initGame>:]
- 01e40d: 36 02 00                   | i32.store 2 0 <<<< CRASH NEAR HERE
-[01c0e5 func[330] <initGame>:]
- 01e410: 02 40                      | block <<<< CRASH NEAR HERE
-[01c0e5 func[330] <initGame>:]
- 01e412: 20 06                      |   local.get 6 <<<< CRASH NEAR HERE
-[01c0e5 func[330] <initGame>:]
- 01e414: 2e 01 1e                   |   i32.load16_s 1 30
-[01c0e5 func[330] <initGame>:]
- 01e417: 22 05                      |   local.tee 5
-[01c0e5 func[330] <initGame>:]
- 01e419: 41 00                      |   i32.const 0
-[01c0e5 func[330] <initGame>:]
- 01e41b: 4c                         |   i32.le_s
-[01c0e5 func[330] <initGame>:]
- 01e41c: 0d 00                      |   br_if 0
-[01c0e5 func[330] <initGame>:]
- 01e41e: 20 05                      |   local.get 5
-[01c0e5 func[330] <initGame>:]
- 01e420: 41 07                      |   i32.const 7
-[01c0e5 func[330] <initGame>:]
- 01e422: 71                         |   i32.and
-[01c0e5 func[330] <initGame>:]
- 01e423: 21 04                      |   local.set 4
-[01c0e5 func[330] <initGame>:]
- 01e425: 20 05                      |   local.get 5
-[01c0e5 func[330] <initGame>:]
- 01e427: 41 08                      |   i32.const 8
-[01c0e5 func[330] <initGame>:]
- 01e429: 4f                         |   i32.ge_u
-[01c0e5 func[330] <initGame>:]
- 01e42a: 04 40                      |   if
-[01c0e5 func[330] <initGame>:]
- 01e42c: 20 05                      |     local.get 5
-[01c0e5 func[330] <initGame>:]
- 01e42e: 41 f8 ff 01                |     i32.const 32760
-[01c0e5 func[330] <initGame>:]
- 01e432: 71                         |     i32.and
-[01c0e5 func[330] <initGame>:]
- 01e433: 21 07                      |     local.set 7
-[01c0e5 func[330] <initGame>:]
- 01e435: 03 40                      |     loop
-[01c0e5 func[330] <initGame>:]
- 01e437: 20 00                      |       local.get 0
-[01c0e5 func[330] <initGame>:]
- 01e439: 41 02                      |       i32.const 2
-[01c0e5 func[330] <initGame>:]
- 01e43b: 74                         |       i32.shl
-[01c0e5 func[330] <initGame>:]
- 01e43c: 22 01                      |       local.tee 1
-[01c0e5 func[330] <initGame>:]
- 01e43e: 41 e0 85 09                |       i32.const 148192
-[01c0e5 func[330] <initGame>:]
- 01e442: 6a                         |       i32.add
-[01c0e5 func[330] <initGame>:]
- 01e443: 41 01                      |       i32.const 1
-[01c0e5 func[330] <initGame>:]
- 01e445: 36 02 00                   |       i32.store 2 0
-[01c0e5 func[330] <initGame>:]
- 01e448: 20 01                      |       local.get 1
-[01c0e5 func[330] <initGame>:]
- 01e44a: 41 04                      |       i32.const 4
-[01c0e5 func[330] <initGame>:]
- 01e44c: 72                         |       i32.or
-[01c0e5 func[330] <initGame>:]
- 01e44d: 41 e0 85 09                |       i32.const 148192
+[01c0e4 func[330] <initGame>:]
+ 01e408: 41 0c                      | i32.const 12
+[01c0e4 func[330] <initGame>:]
+ 01e40a: 20 01                      | local.get 1
+[01c0e4 func[330] <initGame>:]
+ 01e40c: 41 01                      | i32.const 1 <<<< CRASH NEAR HERE
+[01c0e4 func[330] <initGame>:]
+ 01e40e: 74                         | i32.shl <<<< CRASH NEAR HERE
+[01c0e4 func[330] <initGame>:]
+ 01e40f: 6d                         | i32.div_s <<<< CRASH NEAR HERE
+[01c0e4 func[330] <initGame>:]
+ 01e410: 22 01                      | local.tee 1 <<<< CRASH NEAR HERE
+[01c0e4 func[330] <initGame>:]
+ 01e412: 20 01                      | local.get 1 <<<< CRASH NEAR HERE
+[01c0e4 func[330] <initGame>:]
+ 01e414: 41 02                      | i32.const 2
+[01c0e4 func[330] <initGame>:]
+ 01e416: 4c                         | i32.le_s
+[01c0e4 func[330] <initGame>:]
+ 01e417: 1b                         | select
+[01c0e4 func[330] <initGame>:]
+ 01e418: 41 01                      | i32.const 1
+[01c0e4 func[330] <initGame>:]
+ 01e41a: 6b                         | i32.sub
+[01c0e4 func[330] <initGame>:]
+ 01e41b: 36 02 00                   | i32.store 2 0
+[01c0e4 func[330] <initGame>:]
+ 01e41e: 02 40                      | block
+[01c0e4 func[330] <initGame>:]
+ 01e420: 20 06                      |   local.get 6
+[01c0e4 func[330] <initGame>:]
+ 01e422: 2e 01 1e                   |   i32.load16_s 1 30
+[01c0e4 func[330] <initGame>:]
+ 01e425: 22 05                      |   local.tee 5
+[01c0e4 func[330] <initGame>:]
+ 01e427: 41 00                      |   i32.const 0
+[01c0e4 func[330] <initGame>:]
+ 01e429: 4c                         |   i32.le_s
+[01c0e4 func[330] <initGame>:]
+ 01e42a: 0d 00                      |   br_if 0
+[01c0e4 func[330] <initGame>:]
+ 01e42c: 20 05                      |   local.get 5
+[01c0e4 func[330] <initGame>:]
+ 01e42e: 41 07                      |   i32.const 7
+[01c0e4 func[330] <initGame>:]
+ 01e430: 71                         |   i32.and
+[01c0e4 func[330] <initGame>:]
+ 01e431: 21 04                      |   local.set 4
+[01c0e4 func[330] <initGame>:]
+ 01e433: 20 05                      |   local.get 5
+[01c0e4 func[330] <initGame>:]
+ 01e435: 41 08                      |   i32.const 8
+[01c0e4 func[330] <initGame>:]
+ 01e437: 4f                         |   i32.ge_u
+[01c0e4 func[330] <initGame>:]
+ 01e438: 04 40                      |   if
+[01c0e4 func[330] <initGame>:]
+ 01e43a: 20 05                      |     local.get 5
+[01c0e4 func[330] <initGame>:]
+ 01e43c: 41 f8 ff 01                |     i32.const 32760
+[01c0e4 func[330] <initGame>:]
+ 01e440: 71                         |     i32.and
+[01c0e4 func[330] <initGame>:]
+ 01e441: 21 07                      |     local.set 7
+[01c0e4 func[330] <initGame>:]
+ 01e443: 03 40                      |     loop
+[01c0e4 func[330] <initGame>:]
+ 01e445: 20 00                      |       local.get 0
+[01c0e4 func[330] <initGame>:]
+ 01e447: 41 02                      |       i32.const 2
+[01c0e4 func[330] <initGame>:]
+ 01e449: 74                         |       i32.shl
+[01c0e4 func[330] <initGame>:]
+ 01e44a: 22 01                      |       local.tee 1
+[01c0e4 func[330] <initGame>:]
+ 01e44c: 41 e0 85 09                |       i32.const 148192
