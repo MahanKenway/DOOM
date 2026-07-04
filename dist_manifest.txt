@@ -1,19 +1,19 @@
--rw-r--r-- 1 runner runner 10974 Jul  4 13:28 dist/src/main.js
--rw-r--r-- 1 runner runner 12841 Jul  4 13:28 dist/src/engine/InputHandler.js
--rw-r--r-- 1 runner runner 7177 Jul  4 13:28 dist/src/engine/AudioManager.js
--rw-r--r-- 1 runner runner 20869 Jul  4 13:28 dist/src/engine/DoomEngine.js
--rw-r--r-- 1 runner runner 5871 Jul  4 13:28 dist/src/engine/Renderer.js
--rw-r--r-- 1 runner runner 7884 Jul  4 13:28 dist/src/ui.js
--rw-r--r-- 1 runner runner 2827 Jul  4 13:28 dist/src/EventBus.js
--rw-r--r-- 1 runner runner 4807 Jul  4 13:28 dist/src/WadLoader.js
+-rw-r--r-- 1 runner runner 10974 Jul  4 13:29 dist/src/main.js
+-rw-r--r-- 1 runner runner 12841 Jul  4 13:29 dist/src/engine/InputHandler.js
+-rw-r--r-- 1 runner runner 7177 Jul  4 13:29 dist/src/engine/AudioManager.js
+-rw-r--r-- 1 runner runner 20869 Jul  4 13:29 dist/src/engine/DoomEngine.js
+-rw-r--r-- 1 runner runner 5871 Jul  4 13:29 dist/src/engine/Renderer.js
+-rw-r--r-- 1 runner runner 7884 Jul  4 13:29 dist/src/ui.js
+-rw-r--r-- 1 runner runner 2827 Jul  4 13:29 dist/src/EventBus.js
+-rw-r--r-- 1 runner runner 4807 Jul  4 13:29 dist/src/WadLoader.js
 -rw-r--r-- 1 runner runner 28795076 Jan 29  2024 dist/assets/freedoom1.wad
--rw-r--r-- 1 runner runner 6064 Jul  4 13:28 dist/assets/icon-512.png
--rw-r--r-- 1 runner runner 167 Jul  4 13:28 dist/assets/favicon.ico
--rw-r--r-- 1 runner runner 2149 Jul  4 13:28 dist/assets/icon-192.png
--rw-r--r-- 1 runner runner 7538 Jul  4 13:28 dist/index.html
--rwxr-xr-x 1 runner runner 323565 Jul  4 13:28 dist/wasm/doom.wasm
--rw-r--r-- 1 runner runner 735 Jul  4 13:28 dist/manifest.json
--rw-r--r-- 1 runner runner 14526 Jul  4 13:28 dist/styles/main.css
+-rw-r--r-- 1 runner runner 6064 Jul  4 13:29 dist/assets/icon-512.png
+-rw-r--r-- 1 runner runner 167 Jul  4 13:29 dist/assets/favicon.ico
+-rw-r--r-- 1 runner runner 2149 Jul  4 13:29 dist/assets/icon-192.png
+-rw-r--r-- 1 runner runner 7538 Jul  4 13:29 dist/index.html
+-rwxr-xr-x 1 runner runner 323565 Jul  4 13:29 dist/wasm/doom.wasm
+-rw-r--r-- 1 runner runner 735 Jul  4 13:29 dist/manifest.json
+-rw-r--r-- 1 runner runner 14526 Jul  4 13:29 dist/styles/main.css
 
 === index.html <script> tags ===
 7:  <meta name="description" content="Classic DOOM — playable in your browser via WebAssembly" />
@@ -21,7 +21,7 @@
 180:<script type="module" src="src/main.js"></script>
 
 === main.js CONFIG ===
-36:  wasmPath:     'wasm/doom.wasm?v=a7a2fabd',
-38:  bundledWad:   'assets/freedoom1.wad?v=a7a2fabd',
+36:  wasmPath:     'wasm/doom.wasm?v=d4286212',
+38:  bundledWad:   'assets/freedoom1.wad?v=d4286212',
 83:    await startGame(CONFIG.bundledWad, 'url');
 156:      wasmPath: CONFIG.wasmPath,
