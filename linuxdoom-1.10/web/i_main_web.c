@@ -53,14 +53,14 @@ void initGame(void)
     int wadLen;
     unsigned char* wadBuf;
 
-    /* Disable stdout buffering so every printf() flushes immediately
-     * via fd_write. Without this, a WASM trap (divide-by-zero, OOB
-     * memory access, etc.) halts execution instantly with no chance
-     * to flush a partially-filled stdio buffer — losing every DOOM
-     * boot-sequence printf that hadn't yet been force-flushed. This
-     * is essential for debugging crashes; the tiny per-call overhead
-     * is irrelevant next to WASM instantiation cost. */
-    setvbuf(stdout, NULL, _IONBF, 0);
+    /* NOTE: We previously called setvbuf(stdout, NULL, _IONBF, 0)
+     * here to force unbuffered stdout for crash debugging. That
+     * itself turned out to trigger a divide-by-zero trap inside
+     * musl libc's internal buffer-size arithmetic when switching
+     * to _IONBF mode with a zero-length buffer — a self-inflicted
+     * bug, not a DOOM one. Removed. If deeper stdio-flush debugging
+     * is ever needed again, prefer explicit fflush(stdout) calls at
+     * specific checkpoints instead of changing the buffering mode. */
 
     js_print_string("initGame: fetching WAD from JS...");
 
