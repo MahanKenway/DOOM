@@ -20,6 +20,7 @@
 
 #include <stdlib.h>
 #include <string.h>
+#include <stdio.h>
 
 #include "doomdef.h"
 #include "doomstat.h"
@@ -51,6 +52,15 @@ void initGame(void)
 {
     int wadLen;
     unsigned char* wadBuf;
+
+    /* Disable stdout buffering so every printf() flushes immediately
+     * via fd_write. Without this, a WASM trap (divide-by-zero, OOB
+     * memory access, etc.) halts execution instantly with no chance
+     * to flush a partially-filled stdio buffer — losing every DOOM
+     * boot-sequence printf that hadn't yet been force-flushed. This
+     * is essential for debugging crashes; the tiny per-call overhead
+     * is irrelevant next to WASM instantiation cost. */
+    setvbuf(stdout, NULL, _IONBF, 0);
 
     js_print_string("initGame: fetching WAD from JS...");
 
