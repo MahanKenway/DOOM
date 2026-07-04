@@ -89,26 +89,55 @@ jobs:
       run: |
         npm install -g wabt 2>&1 | tail -3
         wasm-objdump -d dist/wasm/doom.wasm > /tmp/doom_disasm.txt 2>&1
+        wasm-objdump -x dist/wasm/doom.wasm > /tmp/doom_headers.txt 2>&1
         python3 << 'PYEOF'
-        current_func = "(unknown function)"
-        results = []
+        import re
+
         with open('/tmp/doom_disasm.txt') as f:
-            for line in f:
-                stripped = line.strip()
-                if stripped.startswith('func[') and '<' in stripped:
-                    current_func = stripped
-                if any(op in line for op in ('div_s', 'div_u', 'rem_s', 'rem_u')):
-                    results.append(f"{current_func}\n    {stripped}")
+            lines = f.readlines()
+
+        # wasm-objdump function headers look like:
+        #   000123 func[45] <function_name>:
+        # (hex offset, then "func[N] <name>:")
+        func_header_re = re.compile(r'func\[\d+\]\s*(<[^>]+>)?:')
+
+        current_func = "(unknown)"
+        results = []
+        crash_context = []
+        CRASH_OFFSET = 0x1e40f
+
+        for i, line in enumerate(lines):
+            if func_header_re.search(line):
+                current_func = line.strip()
+
+            if any(op in line for op in ('div_s', 'div_u', 'rem_s', 'rem_u')):
+                results.append(f"{current_func}\n    {line.strip()}")
+
+            # Grab wide context around the exact crash offset
+            m = re.match(r'\s*([0-9a-f]+):', line)
+            if m:
+                addr = int(m.group(1), 16)
+                if abs(addr - CRASH_OFFSET) < 0x40:
+                    crash_context.append((addr, current_func, line.rstrip()))
+
         with open('divide_ops.txt', 'w') as out:
             out.write(f"Total div/rem instructions found: {len(results)}\n\n")
+            out.write("=== ALL DIV/REM SITES (function name + instruction) ===\n\n")
             out.write('\n\n'.join(results))
-        print(f"Found {len(results)} division/remainder instructions")
+            out.write("\n\n\n=== CONTEXT AROUND CRASH OFFSET 0x1e40f ===\n\n")
+            for addr, fn, line in crash_context:
+                marker = " <<<< CRASH NEAR HERE" if abs(addr - CRASH_OFFSET) < 4 else ""
+                out.write(f"[{fn}]\n{line}{marker}\n")
         PYEOF
-        cat divide_ops.txt
+        echo "=== Function headers found ==="
+        grep -c "func\[" /tmp/doom_disasm.txt || echo "0 (name section may be stripped!)"
+        echo ""
+        echo "=== divide_ops.txt tail (crash context) ==="
+        tail -60 divide_ops.txt
         git config user.email "ci@github.com"
         git config user.name "GitHub Actions"
         git add divide_ops.txt
-        git commit -m "ci: divide-by-zero diagnostic [skip ci]" || true
+        git commit -m "ci: divide-by-zero diagnostic v2 [skip ci]" || true
         git push || true
 
     - name: Copy frontend files
