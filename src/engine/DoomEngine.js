@@ -392,6 +392,19 @@ export class DoomEngine {
       /** fd_close — no real file descriptors to close. */
       fd_close: (fd) => 0,
 
+      /**
+       * fd_read(fd, iovs_ptr, iovs_len, nread_ptr) -> errno
+       * Emscripten's libc startup path references this even though
+       * DOOM's own file access never uses it (the WAD is read via
+       * our web_read() C shim, not through WASI). Always report
+       * 0 bytes read (EOF) — nothing in this build actually depends
+       * on real stdin/file input through this path.
+       */
+      fd_read: (fd, iovsPtr, iovsLen, nreadPtr) => {
+        setU32(nreadPtr, 0);
+        return 0;
+      },
+
       /** environ_sizes_get / environ_get — DOOM doesn't read env vars; report empty. */
       environ_sizes_get: (countPtr, sizePtr) => {
         setU32(countPtr, 0);
@@ -410,6 +423,42 @@ export class DoomEngine {
 
       /** fd_fdstat_get — minimal stat stub so isatty()-style checks don't crash. */
       fd_fdstat_get: (fd, statPtr) => 0,
+
+      /** fd_fdstat_set_flags — no-op, we have no real fd flags to change. */
+      fd_fdstat_set_flags: (fd, flags) => 0,
+
+      /** fd_prestat_get — WASI's way of listing pre-opened directories.
+       *  We have none (no filesystem), so always report "not found". */
+      fd_prestat_get: (fd, prestatPtr) => 8, // WASI errno: EBADF
+
+      /** fd_prestat_dir_name — companion to fd_prestat_get, never
+       *  reached in practice since fd_prestat_get always fails first. */
+      fd_prestat_dir_name: (fd, pathPtr, pathLen) => 8, // EBADF
+
+      /** path_open — path-based file open via WASI. Unused (DOOM's
+       *  WAD access goes through web_open() in C, not this). */
+      path_open: (dirFd, dirFlags, pathPtr, pathLen, oFlags,
+                  fsRightsBase, fsRightsInheriting, fdFlags, fdPtr) => 44, // ENOENT
+
+      /** random_get — some libc startup paths seed internal state
+       *  from this. Fill with Math.random()-derived bytes; DOOM
+       *  itself uses its own M_Random() table, not this. */
+      random_get: (bufPtr, bufLen) => {
+        const bytes = new Uint8Array(this.#memory.buffer, bufPtr, bufLen);
+        for (let i = 0; i < bufLen; i++) bytes[i] = Math.floor(Math.random() * 256);
+        return 0;
+      },
+
+      /** sched_yield — cooperative yield; no-op in our single-threaded
+       *  synchronous tick model. */
+      sched_yield: () => 0,
+
+      /** poll_oneoff — event polling; not used by anything we call,
+       *  report zero events ready. */
+      poll_oneoff: (inPtr, outPtr, nsubscriptions, neventsPtr) => {
+        setU32(neventsPtr, 0);
+        return 0;
+      },
     };
   }
 
