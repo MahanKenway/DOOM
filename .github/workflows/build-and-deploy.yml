@@ -96,6 +96,15 @@ jobs:
         echo "=== dist/assets/ contents ==="
         ls -la dist/assets/
 
+    - name: Cache-bust WAD/WASM URLs with commit SHA
+      if: success()
+      run: |
+        SHA_SHORT=$(echo "${{ github.sha }}" | cut -c1-8)
+        echo "Cache-busting with build id: $SHA_SHORT"
+        sed -i "s#assets/freedoom1\\.wad#assets/freedoom1.wad?v=${SHA_SHORT}#" dist/src/main.js
+        sed -i "s#wasm/doom\\.wasm#wasm/doom.wasm?v=${SHA_SHORT}#" dist/src/main.js
+        grep -n "bundledWad\|wasmPath" dist/src/main.js
+
     - name: Commit dist manifest for remote debugging
       if: success()
       run: |
