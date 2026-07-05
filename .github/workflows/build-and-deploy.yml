@@ -43,11 +43,8 @@ jobs:
       run: |
         mkdir -p dist/assets
         curl -sL "https://github.com/freedoom/freedoom/releases/download/v0.13.0/freedoom-0.13.0.zip" -o freedoom.zip
-        ls -la freedoom.zip
-        file freedoom.zip
         unzip -j freedoom.zip "*/freedoom1.wad" -d dist/assets/
-        test -f dist/assets/freedoom1.wad || { echo "FATAL: freedoom1.wad missing after extraction!"; exit 1; }
-        ls -lh dist/assets/freedoom1.wad
+        test -f dist/assets/freedoom1.wad || { echo "FATAL: freedoom1.wad missing"; exit 1; }
 
     - name: Patch source files
       working-directory: linuxdoom-1.10
@@ -59,7 +56,7 @@ jobs:
         mkdir -p ../dist/wasm
         PORTABLE=$(ls *.c | grep -vE '^(i_video|i_sound|i_system|i_main|i_net)\.c$' | tr '\n' ' ')
         WEB="web/i_video_web.c web/i_sound_web.c web/i_system_web.c web/i_net_stub.c web/i_main_web.c web/w_io_web.c"
-        set +e
+
         emcc $PORTABLE $WEB \
           -o ../dist/wasm/doom.wasm \
           -O2 -w -I. \
@@ -70,115 +67,25 @@ jobs:
           -s ALLOW_MEMORY_GROWTH=1 \
           -s EXPORTED_FUNCTIONS='["_initGame","_tickGame","_reportKeyDown","_reportKeyUp"]' \
           -s ERROR_ON_UNDEFINED_SYMBOLS=0 \
-          --no-entry \
-          > ../build.log 2>&1
-        BUILD_EXIT=$?
-        set -e
-        tail -25 ../build.log
-        git config user.email "ci@github.com"
-        git config user.name "GitHub Actions"
-        git add ../build.log
-        git commit -m "ci: build log [skip ci]" || true
-        git push || true
-        test $BUILD_EXIT -eq 0 \
-          && { ls -lh ../dist/wasm/; echo "SUCCESS: doom.wasm built!"; } \
-          || { echo "FAILED (exit=$BUILD_EXIT)"; exit 1; }
+          --no-entry
 
-    - name: Diagnose divide-by-zero — locate all div/rem ops
-      if: success()
-      run: |
-        npm install -g wabt 2>&1 | tail -3
-        wasm-objdump -d dist/wasm/doom.wasm > /tmp/doom_disasm.txt 2>&1
-        wasm-objdump -x dist/wasm/doom.wasm > /tmp/doom_headers.txt 2>&1
-        python3 << 'PYEOF'
-        import re
-
-        with open('/tmp/doom_disasm.txt') as f:
-            lines = f.readlines()
-
-        # wasm-objdump function headers look like:
-        #   000123 func[45] <function_name>:
-        # (hex offset, then "func[N] <name>:")
-        func_header_re = re.compile(r'func\[\d+\]\s*(<[^>]+>)?:')
-
-        current_func = "(unknown)"
-        results = []
-        crash_context = []
-        CRASH_OFFSET = 0x1e40f
-
-        for i, line in enumerate(lines):
-            if func_header_re.search(line):
-                current_func = line.strip()
-
-            if any(op in line for op in ('div_s', 'div_u', 'rem_s', 'rem_u')):
-                results.append(f"{current_func}\n    {line.strip()}")
-
-            # Grab wide context around the exact crash offset
-            m = re.match(r'\s*([0-9a-f]+):', line)
-            if m:
-                addr = int(m.group(1), 16)
-                if abs(addr - CRASH_OFFSET) < 0x40:
-                    crash_context.append((addr, current_func, line.rstrip()))
-
-        with open('divide_ops.txt', 'w') as out:
-            out.write(f"Total div/rem instructions found: {len(results)}\n\n")
-            out.write("=== ALL DIV/REM SITES (function name + instruction) ===\n\n")
-            out.write('\n\n'.join(results))
-            out.write("\n\n\n=== CONTEXT AROUND CRASH OFFSET 0x1e40f ===\n\n")
-            for addr, fn, line in crash_context:
-                marker = " <<<< CRASH NEAR HERE" if abs(addr - CRASH_OFFSET) < 4 else ""
-                out.write(f"[{fn}]\n{line}{marker}\n")
-        PYEOF
-        echo "=== Function headers found ==="
-        grep -c "func\[" /tmp/doom_disasm.txt || echo "0 (name section may be stripped!)"
-        echo ""
-        echo "=== divide_ops.txt tail (crash context) ==="
-        tail -60 divide_ops.txt
-        git config user.email "ci@github.com"
-        git config user.name "GitHub Actions"
-        git add divide_ops.txt
-        git commit -m "ci: divide-by-zero diagnostic v2 [skip ci]" || true
-        git push || true
+        test -f ../dist/wasm/doom.wasm || { echo "FATAL: doom.wasm not produced"; exit 1; }
+        ls -lh ../dist/wasm/doom.wasm
 
     - name: Copy frontend files
-      if: success()
       run: |
         cp index.html manifest.json dist/ 2>/dev/null || true
         cp -r styles src dist/ 2>/dev/null || true
-        # Merge repo assets/ (favicon, icons) into dist/assets/
-        # without clobbering freedoom1.wad already placed there
         mkdir -p dist/assets
         cp -n assets/* dist/assets/ 2>/dev/null || true
-        echo "=== dist/assets/ contents ==="
-        ls -la dist/assets/
 
     - name: Cache-bust WAD/WASM URLs with commit SHA
-      if: success()
       run: |
         SHA_SHORT=$(echo "${{ github.sha }}" | cut -c1-8)
-        echo "Cache-busting with build id: $SHA_SHORT"
         sed -i "s#assets/freedoom1\\.wad#assets/freedoom1.wad?v=${SHA_SHORT}#" dist/src/main.js
         sed -i "s#wasm/doom\\.wasm#wasm/doom.wasm?v=${SHA_SHORT}#" dist/src/main.js
-        grep -n "bundledWad\|wasmPath" dist/src/main.js
-
-    - name: Commit dist manifest for remote debugging
-      if: success()
-      run: |
-        find dist -type f -exec ls -la {} \; > dist_manifest.txt
-        echo "" >> dist_manifest.txt
-        echo "=== index.html <script> tags ===" >> dist_manifest.txt
-        grep -n "script\|wasmPath\|bundledWad" dist/index.html >> dist_manifest.txt 2>/dev/null || true
-        echo "" >> dist_manifest.txt
-        echo "=== main.js CONFIG ===" >> dist_manifest.txt
-        grep -n "bundledWad\|wasmPath" dist/src/main.js >> dist_manifest.txt 2>/dev/null || true
-        git config user.email "ci@github.com"
-        git config user.name "GitHub Actions"
-        git add dist_manifest.txt
-        git commit -m "ci: dist manifest [skip ci]" || true
-        git push || true
 
     - name: Upload Pages artifact
-      if: success()
       uses: actions/upload-pages-artifact@v3
       with:
         path: dist/
