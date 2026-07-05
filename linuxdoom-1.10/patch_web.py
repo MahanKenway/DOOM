@@ -314,3 +314,66 @@ for fname in _WEB_IO_CALLERS:
     print(f'OK {fname}: injected #include "web/w_io_web.h"')
 
 print('All patches done (12 total).')
+
+# ── Patch 13: inject unbuffered checkpoint markers into D_DoomMain ──
+# The prior divide-by-zero crash (offset 0x1e40f) survived removing
+# setvbuf unchanged, disproving that theory. D_DoomMain's own printf
+# calls SHOULD show boot progress, but regular libc stdio is still
+# buffered (we reverted the unbuffered attempt after it introduced
+# its own bug), so a trap mid-boot may still swallow unflushed
+# output. These markers call js_print_string() directly — a raw
+# WASM import with zero libc/stdio involvement — guaranteeing every
+# one that executes is visible in the console immediately, letting
+# us bisect exactly which Init() call traps.
+with open('d_main.c') as f:
+    src = f.read()
+
+_CHECKPOINTS = [
+    ('printf ("V_Init: allocate screens.\\n");',
+     'js_print_string("CHECKPOINT: before V_Init");\n    printf ("V_Init: allocate screens.\\n");'),
+    ('printf ("Z_Init: Init zone memory allocation daemon. \\n");',
+     'js_print_string("CHECKPOINT: before Z_Init");\n    printf ("Z_Init: Init zone memory allocation daemon. \\n");'),
+    ('printf ("W_Init: Init WADfiles.\\n");',
+     'js_print_string("CHECKPOINT: before W_Init");\n    printf ("W_Init: Init WADfiles.\\n");'),
+    ('printf ("M_Init: Init miscellaneous info.\\n");',
+     'js_print_string("CHECKPOINT: before M_Init");\n    printf ("M_Init: Init miscellaneous info.\\n");'),
+    ('printf ("R_Init: Init DOOM refresh daemon - ");',
+     'js_print_string("CHECKPOINT: before R_Init");\n    printf ("R_Init: Init DOOM refresh daemon - ");'),
+    ('printf ("\\nP_Init: Init Playloop state.\\n");',
+     'js_print_string("CHECKPOINT: before P_Init");\n    printf ("\\nP_Init: Init Playloop state.\\n");'),
+    ('printf ("I_Init: Setting up machine state.\\n");',
+     'js_print_string("CHECKPOINT: before I_Init");\n    printf ("I_Init: Setting up machine state.\\n");'),
+    ('printf ("D_CheckNetGame: Checking network game status.\\n");',
+     'js_print_string("CHECKPOINT: before D_CheckNetGame");\n    printf ("D_CheckNetGame: Checking network game status.\\n");'),
+    ('printf ("S_Init: Setting up sound.\\n");',
+     'js_print_string("CHECKPOINT: before S_Init");\n    printf ("S_Init: Setting up sound.\\n");'),
+    ('printf ("HU_Init: Setting up heads up display.\\n");',
+     'js_print_string("CHECKPOINT: before HU_Init");\n    printf ("HU_Init: Setting up heads up display.\\n");'),
+    ('printf ("ST_Init: Init status bar.\\n");',
+     'js_print_string("CHECKPOINT: before ST_Init");\n    printf ("ST_Init: Init status bar.\\n");'),
+]
+
+count = 0
+for old, new in _CHECKPOINTS:
+    if old in src:
+        src = src.replace(old, new, 1)
+        count += 1
+    else:
+        print(f'WARNING: checkpoint pattern not found: {old[:50]}...')
+
+# js_print_string needs a prototype visible in d_main.c (already
+# gets w_io_web.h via Patch 12, but that doesn't declare this JS
+# import — add it directly here).
+if 'extern void js_print_string' not in src:
+    idx = src.find('#include "web/w_io_web.h"')
+    if idx != -1:
+        line_end = src.find('\n', idx) + 1
+        src = (src[:line_end] +
+               'extern void js_print_string(const char* msg);\n' +
+               src[line_end:])
+
+with open('d_main.c', 'w') as f:
+    f.write(src)
+
+print(f'OK d_main.c: injected {count}/11 boot checkpoint markers')
+print('All patches done (13 total).')
