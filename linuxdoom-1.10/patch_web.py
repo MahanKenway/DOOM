@@ -377,3 +377,38 @@ with open('d_main.c', 'w') as f:
 
 print(f'OK d_main.c: injected {count}/11 boot checkpoint markers')
 print('All patches done (13 total).')
+
+# ── Patch 14: d_main.c — remove original setbuf(stdout, NULL) call ──
+# FOUND IT: this is DOOM's OWN unmodified source code (not something
+# we added), called very early in D_DoomMain (right after
+# IdentifyVersion, before the gamemode title banner). setbuf(f, NULL)
+# is exactly equivalent to setvbuf(f, NULL, _IONBF, 0) — unbuffered
+# mode. We already proved via disassembly + a controlled experiment
+# that switching stdout to unbuffered mode triggers a divide-by-zero
+# inside musl libc's internal buffer-size arithmetic in this
+# Emscripten/STANDALONE_WASM environment. We previously (wrongly)
+# blamed our OWN diagnostic setvbuf() addition for this and removed
+# it — but the crash persisted at the same offset because THIS line,
+# original vanilla DOOM code, was doing the exact same thing all
+# along. Removing it: DOOM already works fine with default buffered
+# stdio for every other printf call throughout the whole boot
+# sequence, so unbuffered mode was never actually needed.
+with open('d_main.c') as f:
+    src = f.read()
+
+old_setbuf = '    setbuf (stdout, NULL);\n'
+if old_setbuf in src:
+    src = src.replace(
+        old_setbuf,
+        '    /* WEB BUILD: setbuf(stdout, NULL) removed — unbuffered\n'
+        '       mode triggers a divide-by-zero in musl libc\'s internal\n'
+        '       buffer-size handling under Emscripten STANDALONE_WASM.\n'
+        '       Default buffered stdio works fine here. */\n'
+    )
+    with open('d_main.c', 'w') as f:
+        f.write(src)
+    print('OK d_main.c: removed setbuf(stdout, NULL) — the ACTUAL divide-by-zero cause')
+else:
+    print('WARNING: setbuf(stdout, NULL) pattern not found')
+
+print('All patches done (14 total).')
