@@ -21,6 +21,10 @@ void I_InitNetwork(void)
     doomcom->numnodes       = 1;
     doomcom->consoleplayer  = 0;
     doomcom->deathmatch     = 0;
+    /* CRITICAL: ticdup=0 (from memset) causes D_CheckNetGame's
+     * "maxsend = BACKUPTICS/(2*ticdup)-1" to divide by zero.
+     * 1 = standard single-player value (no tic duplication). */
+    doomcom->ticdup         = 1;
 }
 
 void I_NetCmd(void) { }
