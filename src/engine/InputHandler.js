@@ -130,6 +130,7 @@ export class InputHandler {
   // Internal state
   #heldKeys       = new Set();
   #pointerLocked  = false;
+  #sensitivity    = 1.0;   // configurable via setSensitivity()
 
   // Bound listeners (stored so we can removeEventListener cleanly)
   #boundKeyDown;
@@ -245,10 +246,19 @@ export class InputHandler {
    */
   #onMouseMove(e) {
     if (!this.#pointerLocked) return;
-    const dx = e.movementX;
+    const dx = e.movementX * this.#sensitivity;
     const threshold = 3;  // pixels before we register a turn
     if (dx > threshold)        this.#injectTurn('right', dx);
     else if (dx < -threshold)  this.#injectTurn('left',  -dx);
+  }
+
+  /**
+   * Set mouse look sensitivity multiplier (from the settings panel).
+   * 1.0 = default speed, 0.5 = half speed, 2.0 = double speed.
+   * @param {number} value
+   */
+  setSensitivity(value) {
+    this.#sensitivity = Math.max(0.1, Math.min(5, value));
   }
 
   /**

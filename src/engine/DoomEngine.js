@@ -295,6 +295,48 @@ export class DoomEngine {
           this.#audio.stopSfx(channel);
         },
 
+        // ── Savegame persistence (localStorage-backed) ──────────
+        /**
+         * Storage key prefix. Namespaced so this app's saves never
+         * collide with anything else that might use localStorage
+         * on the same origin (e.g. if this is hosted alongside
+         * other tools under the same GitHub Pages domain).
+         */
+        js_storage_load_length: (namePtr) => {
+          const name = readCString(namePtr);
+          const raw = localStorage.getItem(`doom-save:${name}`);
+          if (raw == null) return -1;
+          try {
+            return atob(raw).length;
+          } catch {
+            return -1;
+          }
+        },
+
+        js_storage_load_data: (namePtr, destPtr) => {
+          const name = readCString(namePtr);
+          const raw = localStorage.getItem(`doom-save:${name}`);
+          if (raw == null) return;
+          const binary = atob(raw);
+          const dest = new Uint8Array(this.#memory.buffer, destPtr, binary.length);
+          for (let i = 0; i < binary.length; i++) dest[i] = binary.charCodeAt(i);
+        },
+
+        js_storage_save: (namePtr, dataPtr, dataLen) => {
+          const name = readCString(namePtr);
+          const bytes = new Uint8Array(this.#memory.buffer, dataPtr, dataLen);
+          let binary = '';
+          for (let i = 0; i < bytes.length; i++) binary += String.fromCharCode(bytes[i]);
+          try {
+            localStorage.setItem(`doom-save:${name}`, btoa(binary));
+            EventBus.emit('engine:log', { level: 'info', text: `Saved ${name} (${dataLen} bytes)` });
+          } catch (e) {
+            // localStorage quota exceeded or disabled (private browsing) —
+            // fail silently, matching DOOM's own "couldn't save" tolerance.
+            EventBus.emit('engine:log', { level: 'warn', text: `Save failed: ${e.message}` });
+          }
+        },
+
         // ── Emscripten runtime callbacks (auto-required by certain
         //    -s flags even in STANDALONE_WASM builds) ────────────
         /**

@@ -36,7 +36,6 @@ const CONFIG = {
   wasmPath:     'wasm/doom.wasm',
   // Freedoom Phase 1 shareware — fully open-source, no legal issues
   bundledWad:   'assets/freedoom1.wad',
-  enableCRT:    true,
   enableFpsHud: true,
 };
 
@@ -205,10 +204,6 @@ async function startGame(source, type) {
     EventBus.on('game:paused',  () => ui.pause.show());
     EventBus.on('game:resumed', () => ui.pause.hide());
 
-    // 8. CRT effect toggle
-    const crt = document.getElementById('crt-overlay');
-    if (!CONFIG.enableCRT) crt?.classList.add('disabled');
-
     console.log('[DOOM] 💀 Game started — Rip and tear!');
 
   } catch (err) {
@@ -240,9 +235,102 @@ function wireGameControls() {
   ui.pause.onRestart    = () => { engine.destroy(); init(); };
   ui.pause.onFullscreen = () => toggleFullscreen();
 
+  // Settings button opens the settings panel (pausing the game
+  // underneath, matching how the pause menu already behaves)
+  document.getElementById('btn-settings')?.addEventListener('click', () => {
+    document.getElementById('settings-overlay')?.classList.remove('hidden');
+  });
+  document.getElementById('btn-settings-close')?.addEventListener('click', () => {
+    document.getElementById('settings-overlay')?.classList.add('hidden');
+  });
+
   // Mobile pause button
   document.getElementById('btn-pause-mobile')?.addEventListener('click', () => {
     engine.paused ? EventBus.emit('engine:resume') : EventBus.emit('engine:pause');
+  });
+
+  wireSettingsPanel();
+}
+
+// ═════════════════════════════════════════════════════════════════
+//  SETTINGS PANEL
+//  CRT toggle, display scale, smoothing, mouse sensitivity — all
+//  persisted to localStorage so preferences survive page reloads.
+// ═════════════════════════════════════════════════════════════════
+
+const SETTINGS_KEY = 'doom-settings';
+
+function loadSettings() {
+  const defaults = { crt: true, smoothing: false, scale: 'auto', sensitivity: 1.0 };
+  try {
+    const raw = localStorage.getItem(SETTINGS_KEY);
+    return raw ? { ...defaults, ...JSON.parse(raw) } : defaults;
+  } catch {
+    return defaults;
+  }
+}
+
+function saveSettings(settings) {
+  try {
+    localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings));
+  } catch {
+    // localStorage disabled (private browsing) — preferences just
+    // won't persist across reloads; not worth surfacing an error for.
+  }
+}
+
+function applySettings(settings) {
+  const crt = document.getElementById('crt-overlay');
+  crt?.classList.toggle('disabled', !settings.crt);
+
+  const renderer = engine?.getRenderer?.();
+  renderer?.setSmoothing(settings.smoothing);
+  renderer?.setScaleMode(settings.scale === 'auto' ? 'auto' : Number(settings.scale));
+
+  const input = engine?.getInputHandler?.();
+  input?.setSensitivity(settings.sensitivity);
+}
+
+function wireSettingsPanel() {
+  const settings = loadSettings();
+  applySettings(settings);
+
+  const crtCheckbox    = document.getElementById('setting-crt');
+  const smoothCheckbox = document.getElementById('setting-smoothing');
+  const scaleSelect    = document.getElementById('setting-scale');
+  const sensSlider     = document.getElementById('setting-sensitivity');
+  const sensValue      = document.getElementById('setting-sensitivity-value');
+
+  // Reflect loaded settings in the UI controls
+  if (crtCheckbox)    crtCheckbox.checked    = settings.crt;
+  if (smoothCheckbox) smoothCheckbox.checked = settings.smoothing;
+  if (scaleSelect)    scaleSelect.value      = String(settings.scale);
+  if (sensSlider)     sensSlider.value       = String(settings.sensitivity);
+  if (sensValue)      sensValue.textContent  = `${Number(settings.sensitivity).toFixed(1)}×`;
+
+  crtCheckbox?.addEventListener('change', () => {
+    settings.crt = crtCheckbox.checked;
+    applySettings(settings);
+    saveSettings(settings);
+  });
+
+  smoothCheckbox?.addEventListener('change', () => {
+    settings.smoothing = smoothCheckbox.checked;
+    applySettings(settings);
+    saveSettings(settings);
+  });
+
+  scaleSelect?.addEventListener('change', () => {
+    settings.scale = scaleSelect.value;
+    applySettings(settings);
+    saveSettings(settings);
+  });
+
+  sensSlider?.addEventListener('input', () => {
+    settings.sensitivity = Number(sensSlider.value);
+    if (sensValue) sensValue.textContent = `${settings.sensitivity.toFixed(1)}×`;
+    applySettings(settings);
+    saveSettings(settings);
   });
 }
 

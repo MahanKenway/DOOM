@@ -25,6 +25,8 @@ export class Renderer {
   #fbWidth;
   #fbHeight;
   #resizeObserver;
+  #scaleMode = 'auto';   // 'auto' | 1 | 2 | 3 | 4 ...
+  #smoothing = false;
 
   /**
    * @param {HTMLCanvasElement} canvas  Visible game canvas
@@ -98,22 +100,27 @@ export class Renderer {
   // ═══════════════════════════════════════════════════════════
 
   /**
-   * Recompute the integer pixel-perfect scale that fits DOOM's
-   * 320×200 framebuffer into the current window, preserving
-   * the original 4:3 (actually 8:5) aspect ratio.
+   * Recompute the pixel scale that fits DOOM's 320×200 framebuffer
+   * into the current window, preserving the original aspect ratio.
    *
-   * Strategy:
-   *   scale = floor( min(winW / 320, winH / 200) )
-   *   minimum scale = 1 (never shrink below native)
+   * Two modes:
+   *   'auto'  — largest integer scale that fits the window (default,
+   *             pixel-perfect, may letterbox)
+   *   N (int) — fixed scale factor, ignoring window size (user's
+   *             explicit choice from the settings panel)
    */
   #onResize() {
     const winW = window.innerWidth;
     const winH = window.innerHeight;
 
-    // Largest integer scale that fits window
-    const scaleX = Math.floor(winW / this.#fbWidth);
-    const scaleY = Math.floor(winH / this.#fbHeight);
-    const scale  = Math.max(1, Math.min(scaleX, scaleY));
+    let scale;
+    if (this.#scaleMode === 'auto') {
+      const scaleX = Math.floor(winW / this.#fbWidth);
+      const scaleY = Math.floor(winH / this.#fbHeight);
+      scale = Math.max(1, Math.min(scaleX, scaleY));
+    } else {
+      scale = Math.max(1, this.#scaleMode);
+    }
 
     const displayW = this.#fbWidth  * scale;
     const displayH = this.#fbHeight * scale;
@@ -127,8 +134,30 @@ export class Renderer {
     this.#canvas.style.width  = `${displayW}px`;
     this.#canvas.style.height = `${displayH}px`;
 
-    // Re-disable smoothing after every resize (browsers reset it)
-    this.#ctx.imageSmoothingEnabled = false;
+    // Re-apply smoothing preference after every resize (browsers
+    // reset imageSmoothingEnabled to true on canvas resize).
+    this.#ctx.imageSmoothingEnabled = this.#smoothing;
+  }
+
+  /**
+   * Change the display scale mode.
+   * @param {'auto'|number} mode
+   */
+  setScaleMode(mode) {
+    this.#scaleMode = mode;
+    this.#onResize();
+  }
+
+  /**
+   * Toggle smooth (bilinear) vs pixelated (nearest-neighbour)
+   * upscaling. Pixelated ('false') is the authentic retro look;
+   * smooth can be preferred on very large displays.
+   * @param {boolean} enabled
+   */
+  setSmoothing(enabled) {
+    this.#smoothing = enabled;
+    this.#canvas.style.imageRendering = enabled ? 'auto' : 'pixelated';
+    this.#ctx.imageSmoothingEnabled = enabled;
   }
 
   /**

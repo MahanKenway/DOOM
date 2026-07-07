@@ -1,47 +1,41 @@
 /*
  * w_io_web.c  —  Virtual filesystem shim for the web/WASM build
  * ═══════════════════════════════════════════════════════════════
- * STANDALONE_WASM=1 output has NO filesystem syscalls available
- * (no MEMFS, no NODERAWFS). Any reference to open()/read()/lseek()/
- * close()/access()/fstat()/write() in the linked binary requires
- * Emscripten to import __syscall_* functions that simply don't
- * exist in our minimal JS host — causing:
+ * STANDALONE_WASM=1 has no filesystem syscalls, so every disk-I/O
+ * call site in DOOM's sources is redirected here (via patch_web.py)
+ * to one of two virtual backends:
  *
- *   "Import #N 'env' '__syscall_faccessat': function import
- *    requires a callable"
+ *   1. "WEBWAD"          — read-only, backed by the in-memory WAD
+ *                          buffer injected from JS at startup.
  *
- * Fix: replace every disk-I/O call site in the DOOM sources with
- * these web_* equivalents (done by patch_web.py). There is exactly
- * ONE "file" in this universe: the in-memory WAD buffer injected
- * from JavaScript via js_get_wad_data() before D_DoomMain() runs.
- * It is addressed by the sentinel filename "WEBWAD" (chosen to end
- * in "wad" so w_wad.c's strcmpi(...,"wad") extension check routes
- * it through the proper multi-lump WAD parser, not the single-lump
- * path).
+ *   2. "doomsavN.dsg"    — read/write, backed by the browser's
+ *      (N = 0-5)           localStorage via js_storage_save() /
+ *                          js_storage_load_length() /
+ *                          js_storage_load_data(). This is DOOM's
+ *                          real save-game format (P_Archive*), now
+ *                          persisted across browser sessions.
  *
- * Anything else (savegames, screenshots, default.cfg, PWAD reload)
- * fails open() gracefully — DOOM's own call sites already handle
- * a -1 return by skipping/disabling that feature, so this never
- * crashes; saving/loading and screenshots are simply unavailable
- * in this first web build.
+ * Everything else (default.cfg, screenshots, response files,
+ * PWAD reload) still fails open() gracefully — DOOM's own call
+ * sites already handle a -1/NULL return by skipping that feature.
  * ═══════════════════════════════════════════════════════════════
  */
 
 #include <string.h>
+#include <stdlib.h>
 
-/* Sentinel virtual file descriptor for the WAD buffer. Arbitrary
- * but distinct from any real fd id (0/1/2 are stdio). */
+/* ── JS imports (localStorage bridge) ──────────────────────────── */
+extern int  js_storage_load_length(const char* name);
+extern void js_storage_load_data(const char* name, unsigned char* dest);
+extern void js_storage_save(const char* name, const unsigned char* data, int len);
+
+/* ── WAD virtual file (read-only) ──────────────────────────────── */
 #define WEBWAD_FD 9000
 
 static unsigned char* s_wadBuffer = 0;
 static int            s_wadLength = 0;
 static int            s_wadCursor = 0;
 
-/*
- * Called once from i_main_web.c's initGame(), BEFORE D_DoomMain()
- * runs, after js_get_wad_data() has copied the WAD bytes into
- * WASM linear memory.
- */
 void W_Web_SetWadBuffer(unsigned char* buf, int len)
 {
     s_wadBuffer = buf;
@@ -49,51 +43,168 @@ void W_Web_SetWadBuffer(unsigned char* buf, int len)
     s_wadCursor = 0;
 }
 
+/* ── Savegame virtual files (read/write, localStorage-backed) ──── */
+#define SAVE_FD_BASE   9100
+#define MAX_SAVE_SLOTS 6      /* doomsav0.dsg .. doomsav5.dsg */
+#define SAVE_GROW_CHUNK 65536
+
+typedef struct {
+    int    active;
+    int    writing;      /* 1 = write mode (buffer grows), 0 = read mode */
+    char   name[32];      /* "doomsav0.dsg" etc, for close-time save */
+    unsigned char* buf;
+    int    len;            /* bytes currently valid */
+    int    cap;            /* allocated capacity (write mode only) */
+    int    cursor;
+} save_slot_t;
+
+static save_slot_t s_saveSlots[MAX_SAVE_SLOTS];
+
+static int is_savegame_name(const char* path)
+{
+    /* Matches "doomsav0.dsg" through "doomsav5.dsg" (DOOM's own
+     * SAVEGAMENAME "doomsav" + slot digit + ".dsg", see g_game.c) */
+    size_t len;
+    if (!path) return 0;
+    len = strlen(path);
+    if (len < 9 || len > 20) return 0;
+    return (strncmp(path, "doomsav", 7) == 0 &&
+            strcmp(path + len - 4, ".dsg") == 0);
+}
+
+static int find_free_slot(void)
+{
+    int i;
+    for (i = 0; i < MAX_SAVE_SLOTS; i++)
+        if (!s_saveSlots[i].active) return i;
+    return -1;
+}
+
 /* ── open() replacement ──────────────────────────────────────── */
 int web_open(const char* path, int flags, ...)
 {
-    (void)flags;
+    int writing = (flags & 3) != 0;   /* O_WRONLY=1 or O_RDWR=2 -> writing */
+
     if (path && strcmp(path, "WEBWAD") == 0) {
         s_wadCursor = 0;
         return WEBWAD_FD;
     }
-    return -1;   /* everything else: savegames, default.cfg, etc. */
+
+    if (is_savegame_name(path)) {
+        int slot = find_free_slot();
+        if (slot < 0) return -1;
+
+        save_slot_t* s = &s_saveSlots[slot];
+        memset(s, 0, sizeof(*s));
+        strncpy(s->name, path, sizeof(s->name) - 1);
+        s->active = 1;
+        s->writing = writing;
+
+        if (writing) {
+            /* Fresh growable buffer for this write session */
+            s->cap = SAVE_GROW_CHUNK;
+            s->buf = (unsigned char*) malloc(s->cap);
+            s->len = 0;
+        } else {
+            /* Load existing save from localStorage, if any */
+            int storedLen = js_storage_load_length(path);
+            if (storedLen < 0) { s->active = 0; return -1; }   /* no such save */
+            s->buf = (unsigned char*) malloc(storedLen > 0 ? storedLen : 1);
+            js_storage_load_data(path, s->buf);
+            s->len = storedLen;
+        }
+        s->cursor = 0;
+        return SAVE_FD_BASE + slot;
+    }
+
+    return -1;   /* everything else: config, screenshots, etc. */
 }
 
 /* ── read() replacement ──────────────────────────────────────── */
 int web_read(int fd, void* buf, unsigned int count)
 {
-    int avail, toCopy;
-    if (fd != WEBWAD_FD || !s_wadBuffer) return -1;
-    avail = s_wadLength - s_wadCursor;
-    if (avail <= 0) return 0;
-    toCopy = ((int)count < avail) ? (int)count : avail;
-    memcpy(buf, s_wadBuffer + s_wadCursor, toCopy);
-    s_wadCursor += toCopy;
-    return toCopy;
+    if (fd == WEBWAD_FD) {
+        int avail = s_wadLength - s_wadCursor;
+        int toCopy;
+        if (!s_wadBuffer || avail <= 0) return 0;
+        toCopy = ((int)count < avail) ? (int)count : avail;
+        memcpy(buf, s_wadBuffer + s_wadCursor, toCopy);
+        s_wadCursor += toCopy;
+        return toCopy;
+    }
+
+    if (fd >= SAVE_FD_BASE && fd < SAVE_FD_BASE + MAX_SAVE_SLOTS) {
+        save_slot_t* s = &s_saveSlots[fd - SAVE_FD_BASE];
+        int avail, toCopy;
+        if (!s->active || !s->buf) return -1;
+        avail = s->len - s->cursor;
+        if (avail <= 0) return 0;
+        toCopy = ((int)count < avail) ? (int)count : avail;
+        memcpy(buf, s->buf + s->cursor, toCopy);
+        s->cursor += toCopy;
+        return toCopy;
+    }
+
+    return -1;
 }
 
-/* ── write() replacement (savegames/screenshots — unsupported) ── */
+/* ── write() replacement ─────────────────────────────────────── */
 int web_write(int fd, const void* buf, unsigned int count)
 {
-    (void)fd; (void)buf; (void)count;
+    if (fd >= SAVE_FD_BASE && fd < SAVE_FD_BASE + MAX_SAVE_SLOTS) {
+        save_slot_t* s = &s_saveSlots[fd - SAVE_FD_BASE];
+        if (!s->active || !s->writing) return -1;
+
+        /* Grow the buffer if this write would overflow it */
+        while (s->len + (int)count > s->cap) {
+            int newCap = s->cap * 2;
+            unsigned char* nb = (unsigned char*) realloc(s->buf, newCap);
+            if (!nb) return -1;
+            s->buf = nb;
+            s->cap = newCap;
+        }
+        memcpy(s->buf + s->len, buf, count);
+        s->len += (int)count;
+        return (int)count;
+    }
     return -1;
 }
 
 /* ── lseek() replacement ─────────────────────────────────────── */
 int web_lseek(int fd, int offset, int whence)
 {
-    if (fd != WEBWAD_FD) return -1;
-    if (whence == 0)       s_wadCursor = offset;               /* SEEK_SET */
-    else if (whence == 1)  s_wadCursor += offset;               /* SEEK_CUR */
-    else if (whence == 2)  s_wadCursor = s_wadLength + offset;  /* SEEK_END */
-    return s_wadCursor;
+    if (fd == WEBWAD_FD) {
+        if (whence == 0)       s_wadCursor = offset;
+        else if (whence == 1)  s_wadCursor += offset;
+        else if (whence == 2)  s_wadCursor = s_wadLength + offset;
+        return s_wadCursor;
+    }
+    if (fd >= SAVE_FD_BASE && fd < SAVE_FD_BASE + MAX_SAVE_SLOTS) {
+        save_slot_t* s = &s_saveSlots[fd - SAVE_FD_BASE];
+        if (!s->active) return -1;
+        if (whence == 0)       s->cursor = offset;
+        else if (whence == 1)  s->cursor += offset;
+        else if (whence == 2)  s->cursor = s->len + offset;
+        return s->cursor;
+    }
+    return -1;
 }
 
 /* ── close() replacement ─────────────────────────────────────── */
 int web_close(int fd)
 {
-    (void)fd;
+    if (fd >= SAVE_FD_BASE && fd < SAVE_FD_BASE + MAX_SAVE_SLOTS) {
+        save_slot_t* s = &s_saveSlots[fd - SAVE_FD_BASE];
+        if (s->active) {
+            if (s->writing && s->buf) {
+                /* Flush to localStorage on close */
+                js_storage_save(s->name, s->buf, s->len);
+            }
+            free(s->buf);
+            memset(s, 0, sizeof(*s));
+        }
+        return 0;
+    }
     return 0;
 }
 
@@ -101,38 +212,29 @@ int web_close(int fd)
 int web_access(const char* path, int mode)
 {
     (void)mode;
-    return (path && strcmp(path, "WEBWAD") == 0) ? 0 : -1;
+    if (path && strcmp(path, "WEBWAD") == 0) return 0;
+    if (is_savegame_name(path)) return (js_storage_load_length(path) >= 0) ? 0 : -1;
+    return -1;
 }
 
 /* ── fstat() replacement ─────────────────────────────────────── */
-/* Only reachable from w_wad.c's filelength() in the single-lump
- * file branch, which our "WEBWAD" sentinel never takes (it always
- * matches the multi-lump WAD branch). Kept only so the symbol
- * resolves; should never actually run. */
 int web_fstat(int fd, void* statbuf)
 {
     (void)fd; (void)statbuf;
     return -1;
 }
 
-/* ── stdio (FILE*) family — config files, savegames, response
- *    files, debug logs. None of these have a real backing store
- *    in the browser (v1); all fail gracefully. DOOM's own call
- *    sites already check `if (!f)` / `if (f)` before using the
- *    result, so returning NULL here just means "config didn't
- *    load, use hardcoded defaults" / "couldn't save, skip it" —
- *    never a crash. ─────────────────────────────────────────── */
+/* ── stdio (FILE*) family — config files, response files, debug
+ *    logs. None of these have a real backing store (v1); all fail
+ *    gracefully. DOOM's own call sites already check `if (!f)` /
+ *    `if (f)` before using the result. ─────────────────────────── */
 void* web_fopen(const char* path, const char* mode)
 {
     (void)path; (void)mode;
     return (void*)0;
 }
 
-int web_fclose(void* f)
-{
-    (void)f;
-    return 0;
-}
+int web_fclose(void* f) { (void)f; return 0; }
 
 int web_fread(void* ptr, int size, int n, void* f)
 {
@@ -152,17 +254,11 @@ int web_fseek(void* f, long offset, int whence)
     return -1;
 }
 
-long web_ftell(void* f)
-{
-    (void)f;
-    return -1;
-}
+long web_ftell(void* f) { (void)f; return -1; }
 
-/* ── mkdir() replacement (only used for the Windows "-cdrom"
- *    path, never exercised in the web build) ───────────────── */
+/* ── mkdir() replacement ─────────────────────────────────────── */
 int web_mkdir(const char* path, int mode)
 {
     (void)path; (void)mode;
     return -1;
 }
-
