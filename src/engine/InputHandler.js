@@ -131,6 +131,9 @@ export class InputHandler {
   #heldKeys       = new Set();
   #pointerLocked  = false;
   #sensitivity    = 1.0;   // configurable via setSensitivity()
+  #gyroEnabled    = false;
+  #gyroBaseline   = null;  // calibration reference angle (set on first reading)
+  #boundDeviceOrientation;
 
   // Bound listeners (stored so we can removeEventListener cleanly)
   #boundKeyDown;
@@ -158,6 +161,7 @@ export class InputHandler {
     this.#boundMouseMove      = this.#onMouseMove.bind(this);
     this.#boundPointerLock    = this.#onPointerLock.bind(this);
     this.#boundPointerUnlock  = this.#onPointerUnlock.bind(this);
+    this.#boundDeviceOrientation = this.#onDeviceOrientation.bind(this);
   }
 
   attach() {
@@ -186,6 +190,7 @@ export class InputHandler {
     document.removeEventListener('mousemove',     this.#boundMouseMove);
     document.removeEventListener('pointerlockchange', this.#boundPointerLock);
     document.removeEventListener('pointerlockerror',  this.#boundPointerUnlock);
+    this.disableGyro();
 
     cancelAnimationFrame(this.#gamepadRAF);
   }
@@ -259,6 +264,72 @@ export class InputHandler {
    */
   setSensitivity(value) {
     this.#sensitivity = Math.max(0.1, Math.min(5, value));
+  }
+
+  /**
+   * Enable gyroscope-based looking (mobile devices only).
+   * On iOS 13+, DeviceOrientationEvent access requires an explicit
+   * permission prompt, which MUST be triggered from a user gesture
+   * (e.g. a settings-panel toggle click) — cannot be requested
+   * automatically on page load.
+   * @returns {Promise<boolean>} true if successfully enabled
+   */
+  async enableGyro() {
+    if (typeof DeviceOrientationEvent === 'undefined') return false;
+
+    // iOS 13+ requires an explicit permission request
+    if (typeof DeviceOrientationEvent.requestPermission === 'function') {
+      try {
+        const result = await DeviceOrientationEvent.requestPermission();
+        if (result !== 'granted') return false;
+      } catch {
+        return false;
+      }
+    }
+
+    this.#gyroBaseline = null;   // recalibrate on next reading
+    this.#gyroEnabled = true;
+    window.addEventListener('deviceorientation', this.#boundDeviceOrientation);
+    return true;
+  }
+
+  disableGyro() {
+    this.#gyroEnabled = false;
+    window.removeEventListener('deviceorientation', this.#boundDeviceOrientation);
+  }
+
+  get gyroActive() { return this.#gyroEnabled; }
+
+  /**
+   * Device orientation → turn commands. Uses the compass heading
+   * (alpha) delta from a calibration baseline captured on the
+   * first reading — so "current phone orientation" always becomes
+   * "look straight ahead", rather than requiring the phone to face
+   * a specific compass direction.
+   */
+  #onDeviceOrientation(e) {
+    if (!this.#gyroEnabled || e.alpha == null) return;
+
+    if (this.#gyroBaseline === null) {
+      this.#gyroBaseline = e.alpha;
+      return;
+    }
+
+    // Shortest-path angular delta, handling the 0/360 wraparound
+    let delta = e.alpha - this.#gyroBaseline;
+    if (delta > 180) delta -= 360;
+    if (delta < -180) delta += 360;
+
+    const threshold = 2; // degrees of dead-zone before turning
+    const turnSpeed = delta * this.#sensitivity * 0.6;
+
+    if (turnSpeed > threshold)       this.#injectTurn('left',  turnSpeed);
+    else if (turnSpeed < -threshold) this.#injectTurn('right', -turnSpeed);
+
+    // Slowly re-center the baseline toward the current reading so
+    // small persistent tilts don't cause continuous turning forever
+    // (soft recentering, similar to a "return to center" deadzone).
+    this.#gyroBaseline += delta * 0.02;
   }
 
   /**

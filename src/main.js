@@ -300,6 +300,15 @@ function wireSettingsPanel() {
   const scaleSelect    = document.getElementById('setting-scale');
   const sensSlider     = document.getElementById('setting-sensitivity');
   const sensValue      = document.getElementById('setting-sensitivity-value');
+  const gyroCheckbox   = document.getElementById('setting-gyro');
+  const gyroRow        = document.getElementById('settings-row-gyro');
+
+  // Gyroscope look only makes sense on devices that actually have
+  // an orientation sensor — hide the row entirely elsewhere rather
+  // than showing a control that can never do anything.
+  const hasOrientationSensor = typeof DeviceOrientationEvent !== 'undefined' &&
+    (navigator.maxTouchPoints > 0 || 'ontouchstart' in window);
+  if (gyroRow) gyroRow.style.display = hasOrientationSensor ? 'flex' : 'none';
 
   // Reflect loaded settings in the UI controls
   if (crtCheckbox)    crtCheckbox.checked    = settings.crt;
@@ -307,6 +316,7 @@ function wireSettingsPanel() {
   if (scaleSelect)    scaleSelect.value      = String(settings.scale);
   if (sensSlider)     sensSlider.value       = String(settings.sensitivity);
   if (sensValue)      sensValue.textContent  = `${Number(settings.sensitivity).toFixed(1)}×`;
+  if (gyroCheckbox)   gyroCheckbox.checked   = false; // never auto-resume (needs fresh permission gesture on iOS)
 
   crtCheckbox?.addEventListener('change', () => {
     settings.crt = crtCheckbox.checked;
@@ -332,7 +342,26 @@ function wireSettingsPanel() {
     applySettings(settings);
     saveSettings(settings);
   });
+
+  gyroCheckbox?.addEventListener('change', async () => {
+    const input = engine?.getInputHandler?.();
+    if (!input) return;
+
+    if (gyroCheckbox.checked) {
+      // This click IS the required user gesture for iOS's
+      // permission prompt — must call enableGyro() synchronously
+      // from within this handler, not after an await elsewhere.
+      const granted = await input.enableGyro();
+      if (!granted) {
+        gyroCheckbox.checked = false;
+        console.warn('[DOOM] Gyroscope permission denied or unavailable');
+      }
+    } else {
+      input.disableGyro();
+    }
+  });
 }
+
 
 function toggleFullscreen() {
   if (!document.fullscreenElement) {
