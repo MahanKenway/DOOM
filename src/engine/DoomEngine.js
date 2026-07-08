@@ -20,7 +20,7 @@
  *     js_fatal_error         – I_Error handler
  *     js_get_time_ms         – performance.now() equivalent
  *     js_print_string        – console.log / log panel
- *     js_play_music          – start a music lump
+ *     js_play_music          – play raw MUS lump data (parsed + synthesized in JS)
  *     js_stop_music          – stop current music
  *     js_add_sfx_to_mixer    – queue a sound effect
  *     js_remove_sfx_from_mixer – dequeue a sound effect
@@ -268,9 +268,15 @@ export class DoomEngine {
         },
 
         // ── Audio: music ─────────────────────────────────────
-        js_play_music: (ptr, loop) => {
-          const lumpName = readCString(ptr);
-          this.#audio.playMusic(lumpName, !!loop);
+        js_play_music: (dataPtr, dataLen, loop) => {
+          // Copy bytes out of WASM memory immediately — the
+          // underlying ArrayBuffer can be detached/replaced if
+          // linear memory grows later, so we must not hold a
+          // live view across time.
+          const musBytes = new Uint8Array(
+            this.#memory.buffer, dataPtr, dataLen
+          ).slice();
+          this.#audio.playMusic(musBytes, !!loop);
         },
 
         js_stop_music: () => {

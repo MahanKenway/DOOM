@@ -24,6 +24,8 @@
  * ─────────────────────────────────────────────────────────────────
  */
 
+import { MusPlayer } from './MusPlayer.js';
+
 const DOOM_SAMPLE_RATE = 11025;    // Hz — vanilla DOOM PCM rate
 const MAX_CHANNELS     = 8;
 
@@ -36,8 +38,11 @@ export class AudioManager {
   /** @type {Map<number, AudioBufferSourceNode>} channel → active source */
   #sfxChannels = new Map();
 
-  /** @type {AudioBufferSourceNode|null} */
+  /** @type {AudioBufferSourceNode|MusPlayer|null} */
   #musicSource = null;
+
+  /** @type {MusPlayer|null} */
+  #musPlayer = null;
 
   #sfxVolume   = 1.0;
   #musicVolume = 0.6;
@@ -129,38 +134,24 @@ export class AudioManager {
   }
 
   /**
-   * Play a music lump.
-   * In vanilla DOOM the music is MUS format; the WASM decoder will
-   * have already converted it. For now we play a placeholder.
-   *
-   * @param {string}  lumpName   WAD lump name (e.g. "D_E1M1")
-   * @param {boolean} loop
+   * Play a MUS-format music lump (DOOM's native music format).
+   * @param {Uint8Array} musBytes  Raw MUS lump data
+   * @param {boolean}    loop
    */
-  playMusic(lumpName, loop = true) {
+  playMusic(musBytes, loop = true) {
     if (!this.#initialized) return;
     this.stopMusic();
 
-    // TODO: wire MUS→OGG or MUS→AudioBuffer decoding
-    // For now: emit an event so the UI can show "Now playing: {lumpName}"
-    console.log(`[Audio] 🎵 Music: ${lumpName} (loop=${loop})`);
-
-    // Placeholder: subtle ambient drone so audio context is clearly working
-    const osc  = this.#ctx.createOscillator();
-    const gain = this.#makeGain(0.02);   // very quiet
-    osc.frequency.value = 55;            // A1 — ominous low rumble
-    osc.type = 'sawtooth';
-    osc.connect(gain);
-    gain.connect(this.#musicGain);
-    osc.start();
-    if (!loop) {
-      osc.stop(this.#ctx.currentTime + 4);
+    if (!this.#musPlayer) {
+      this.#musPlayer = new MusPlayer(this.#ctx, this.#musicGain);
     }
-    this.#musicSource = osc;
+    this.#musPlayer.play(musBytes, loop);
+    this.#musicSource = this.#musPlayer;
   }
 
   stopMusic() {
-    if (this.#musicSource) {
-      try { this.#musicSource.stop(); } catch { }
+    if (this.#musicSource?.stop) {
+      try { this.#musicSource.stop(); } catch { /* already stopped */ }
       this.#musicSource = null;
     }
   }

@@ -15,7 +15,7 @@
 
 extern void js_add_sfx_to_mixer(unsigned char*, int, int, int, int, int);
 extern void js_remove_sfx_from_mixer(int);
-extern void js_play_music(const char*, int);
+extern void js_play_music(unsigned char*, int, int);
 extern void js_stop_music(void);
 extern void js_print_string(const char*);
 
@@ -123,12 +123,26 @@ void I_PlaySong(int handle, int looping)
     extern int gameepisode, gamemap;
     extern GameMode_t gamemode;
     char lumpName[16];
+    int lumpNum, lumpLen;
+    unsigned char* musData;
     (void)handle;
+
     if (gamemode == commercial)
         sprintf(lumpName, "d_map%02d", gamemap);
     else
         sprintf(lumpName, "d_e%dm%d", gameepisode, gamemap);
-    js_play_music(lumpName, looping);
+
+    lumpNum = W_CheckNumForName(lumpName);
+    if (lumpNum < 0) {
+        js_print_string("I_PlaySong: no music lump for this map");
+        return;
+    }
+
+    lumpLen = W_LumpLength(lumpNum);
+    musData = (unsigned char*) W_CacheLumpNum(lumpNum, PU_STATIC);
+    if (!musData || lumpLen < 4) return;
+
+    js_play_music(musData, lumpLen, looping);
 }
 
 void I_PauseSong(int h)     { (void)h; js_stop_music(); }
