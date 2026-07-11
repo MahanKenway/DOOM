@@ -19,6 +19,12 @@
  * i_main_web.c's initGame(), before D_DoomMain() runs. */
 void W_Web_SetWadBuffer(unsigned char* buf, int len);
 
+/* Detects gamemode (shareware/registered/commercial/retail) by
+ * scanning the WAD's own lump directory for known map names —
+ * works for ANY vanilla-compatible WAD, not just the bundled one.
+ * Returns: 0=shareware, 1=registered, 2=commercial, 3=retail. */
+int W_Web_DetectGameMode(void);
+
 /* POSIX-style raw I/O, redirected to the in-memory WAD buffer. */
 int  web_open   (const char* path, int flags, ...);
 int  web_read   (int fd, void* buf, unsigned int count);

@@ -43,6 +43,63 @@ void W_Web_SetWadBuffer(unsigned char* buf, int len)
     s_wadCursor = 0;
 }
 
+/* ── Content-based game-mode detection ─────────────────────────
+ * Vanilla DOOM decided gamemode by checking which IWAD FILENAME
+ * existed on disk (doom2.wad -> commercial, doomu.wad -> retail,
+ * etc.) — meaningless in a browser, since we only ever receive
+ * raw bytes with no reliable filename. Instead, scan the WAD's
+ * own lump directory for known map-name lumps, matching the same
+ * conventions vanilla WADs always follow:
+ *
+ *   "MAP01" present  -> commercial   (DOOM2, Plutonia, TNT, and any
+ *                        vanilla-compatible DOOM2-based PWAD/TC)
+ *   "E4M1"  present  -> retail       (Ultimate DOOM, 4 episodes)
+ *   "E2M1"  present  -> registered   (registered DOOM, 3 episodes)
+ *   "E1M1"  present  -> shareware    (shareware DOOM / Freedoom
+ *                        Phase 1, 1 episode)
+ *   none matched     -> shareware    (safe fallback; avoids crashes
+ *                        on unrecognised/malformed WADs rather than
+ *                        guessing wrong in a way that reads out of
+ *                        bounds later)
+ *
+ * This lets the SAME engine build correctly run any vanilla-
+ * compatible IWAD or total-conversion PWAD a user drags in, not
+ * just the bundled Freedoom WAD.
+ */
+static int wad_has_lump(const char* name)
+{
+    unsigned int numLumps, infoTableOfs, i;
+    if (!s_wadBuffer || s_wadLength < 12) return 0;
+
+    numLumps     = s_wadBuffer[4]  | (s_wadBuffer[5]<<8)  | (s_wadBuffer[6]<<16)  | (s_wadBuffer[7]<<24);
+    infoTableOfs = s_wadBuffer[8]  | (s_wadBuffer[9]<<8)  | (s_wadBuffer[10]<<16) | (s_wadBuffer[11]<<24);
+
+    for (i = 0; i < numLumps; i++) {
+        unsigned int entryOfs = infoTableOfs + i * 16;
+        char lumpName[9];
+        int j;
+        if (entryOfs + 16 > (unsigned int)s_wadLength) break;
+
+        for (j = 0; j < 8; j++) lumpName[j] = s_wadBuffer[entryOfs + 8 + j];
+        lumpName[8] = 0;
+
+        if (strncmp(lumpName, name, 8) == 0) return 1;
+    }
+    return 0;
+}
+
+/* Returns a GameMode_t value (see doomdef.h): 0=shareware,
+ * 1=registered, 2=commercial, 3=retail — kept as plain int here to
+ * avoid pulling in doomdef.h's full dependency chain into this
+ * small, focused file; the patched IdentifyVersion() casts it. */
+int W_Web_DetectGameMode(void)
+{
+    if (wad_has_lump("MAP01")) return 2; /* commercial */
+    if (wad_has_lump("E4M1"))  return 3; /* retail     */
+    if (wad_has_lump("E2M1"))  return 1; /* registered */
+    return 0;                             /* shareware (also the safe fallback) */
+}
+
 /* ── Savegame virtual files (read/write, localStorage-backed) ──── */
 #define SAVE_FD_BASE   9100
 #define MAX_SAVE_SLOTS 6      /* doomsav0.dsg .. doomsav5.dsg */

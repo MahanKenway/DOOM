@@ -160,8 +160,19 @@ IDENTIFY_VERSION_STUB = (
     '{\n'
     '    /* WEB BUILD: no filesystem to scan. The single WAD is\n'
     '       injected directly from JavaScript (see w_io_web.c /\n'
-    '       i_main_web.c) under the fixed sentinel name "WEBWAD". */\n'
-    '    gamemode = shareware;\n'
+    '       i_main_web.c) under the fixed sentinel name "WEBWAD".\n'
+    '       gamemode is detected by CONTENT (scanning the WAD\'s own\n'
+    '       lump directory for MAP01/E4M1/E2M1/E1M1), not by which\n'
+    '       filename happened to exist on a real filesystem — this\n'
+    '       is what lets the SAME build correctly run DOOM.WAD,\n'
+    '       DOOM2.WAD, Ultimate DOOM, Plutonia/TNT, Freedoom, or any\n'
+    '       vanilla-compatible total-conversion PWAD a user loads. */\n'
+    '    switch (W_Web_DetectGameMode()) {\n'
+    '        case 3:  gamemode = retail;     break;\n'
+    '        case 2:  gamemode = commercial; break;\n'
+    '        case 1:  gamemode = registered; break;\n'
+    '        default: gamemode = shareware;  break;\n'
+    '    }\n'
     '    D_AddFile ("WEBWAD");\n'
     '}\n'
 )
@@ -171,7 +182,7 @@ patched = re.sub(
 if patched == src:
     print('ERROR: IdentifyVersion not found'); sys.exit(1)
 src = patched
-print('OK d_main.c: IdentifyVersion -> hardcoded WEBWAD loader')
+print('OK d_main.c: IdentifyVersion -> content-based gamemode detection')
 
 FIND_RESPONSE_STUB = (
     'void FindResponseFile (void)\n'
