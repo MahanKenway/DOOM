@@ -79,12 +79,50 @@ async function init() {
 }
 
 // ═════════════════════════════════════════════════════════════════
+//  ONE-TIME UI WIRING
+//  Everything here runs EXACTLY ONCE for the entire page lifetime,
+//  called from the bootstrap section at the bottom of this file —
+//  never from init()/startGame(), which both run again on every
+//  Restart. This is the fix for a bug where restarting the game
+//  would silently stack duplicate event listeners on every button,
+//  the window keydown handler, and several EventBus channels —
+//  each additional Restart made every click/keypress fire that many
+//  times over, eventually breaking pause/resume and the WAD picker
+//  buttons entirely (clicking "Play" N times launched N concurrent
+//  WASM instances racing each other).
+// ═════════════════════════════════════════════════════════════════
+
+function bootstrapUI() {
+  // Log capture — MUST be wired before the first ever engine.load()
+  // call, since initGame() fires boot-sequence messages synchronously
+  // inside it. Wiring this once, here, satisfies that ordering
+  // requirement permanently (no need to re-wire on every startGame).
+  EventBus.on('engine:log', ({ text, level }) => {
+    console.log('[DOOM]', text);
+    logHistory.push({ text, level: level ?? 'info', t: performance.now() });
+    if (logHistory.length > LOG_HISTORY_MAX) logHistory.shift();
+  });
+
+  EventBus.on('game:paused',  () => ui.pause.show());
+  EventBus.on('game:resumed', () => ui.pause.hide());
+
+  wireWadPicker();
+  wireGameControls();
+  wireSettingsPanel();
+
+  // Single persistent MobileControls instance for the whole page
+  // lifetime. Its target callback is rebound on every startGame()
+  // via setInjectFn() rather than recreating the instance (which
+  // would re-wire touch listeners on top of the existing ones).
+  ui.mobile = new MobileControls(() => {}); // no-op until first engine loads
+}
+
+// ═════════════════════════════════════════════════════════════════
 //  WAD PICKER UI
 // ═════════════════════════════════════════════════════════════════
 
-function showWadPicker() {
+function wireWadPicker() {
   const picker = document.getElementById('wad-picker');
-  picker?.classList.add('active');
 
   // Option A: bundled Freedoom
   document.getElementById('btn-freedoom')?.addEventListener('click', async () => {
@@ -119,6 +157,10 @@ function showWadPicker() {
   });
 }
 
+function showWadPicker() {
+  document.getElementById('wad-picker')?.classList.add('active');
+}
+
 // ═════════════════════════════════════════════════════════════════
 //  START GAME
 // ═════════════════════════════════════════════════════════════════
@@ -131,25 +173,6 @@ async function startGame(source, type) {
   // Show loading screen again for WAD + WASM load
   ui.loading.show();
   ui.loading.update(5, 'Loading WAD…');
-
-  // ═══════════════════════════════════════════════════════════
-  // CRITICAL: wire the log capture BEFORE engine.load() runs.
-  // initGame() (called synchronously inside engine.load()) fires
-  // every DOOM boot-sequence log message via js_print_string. If
-  // we register the EventBus listener AFTER awaiting engine.load(),
-  // and initGame() crashes, every single one of those messages was
-  // emitted to zero listeners and is lost forever — exactly what
-  // happened across multiple prior debugging rounds. Registering
-  // early + keeping a rolling history buffer means ANY future crash
-  // report automatically includes full boot context, with no
-  // dependence on console scrollback, filters, or the user knowing
-  // to look for it.
-  // ═══════════════════════════════════════════════════════════
-  EventBus.on('engine:log', ({ text, level }) => {
-    console.log('[DOOM]', text);
-    logHistory.push({ text, level: level ?? 'info', t: performance.now() });
-    if (logHistory.length > LOG_HISTORY_MAX) logHistory.shift();
-  });
 
   try {
     // 1. Load WAD bytes
@@ -192,17 +215,16 @@ async function startGame(source, type) {
     ui.loading.hide();
     document.getElementById('game-screen')?.classList.add('active');
 
-    // 5. Wire mobile controls
-    ui.mobile = new MobileControls((key, isDown) => {
+    // 5. Rebind the persistent MobileControls instance to this
+    //    engine's InputHandler (does NOT re-wire touch listeners —
+    //    those were wired exactly once in bootstrapUI()).
+    ui.mobile?.setInjectFn((key, isDown) => {
       engine.getInputHandler?.().injectKey(key, isDown);
     });
 
-    // 6. Wire pause / resume
-    wireGameControls();
-
-    // 7. Wire EventBus → HUD
-    EventBus.on('game:paused',  () => ui.pause.show());
-    EventBus.on('game:resumed', () => ui.pause.hide());
+    // 6. Apply persisted user settings (CRT/scale/smoothing/
+    //    sensitivity) to this fresh engine/renderer/input instance.
+    applySettings(loadSettings());
 
     console.log('[DOOM] 💀 Game started — Rip and tear!');
 
@@ -248,8 +270,6 @@ function wireGameControls() {
   document.getElementById('btn-pause-mobile')?.addEventListener('click', () => {
     engine.paused ? EventBus.emit('engine:resume') : EventBus.emit('engine:pause');
   });
-
-  wireSettingsPanel();
 }
 
 // ═════════════════════════════════════════════════════════════════
@@ -452,10 +472,15 @@ function escapeHtml(str) {
 // ═════════════════════════════════════════════════════════════════
 
 // Wait for DOM to be fully parsed
+function boot() {
+  bootstrapUI();   // wires everything exactly once, ever
+  init();           // shows boot animation + WAD picker (safe to call again on Restart)
+}
+
 if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', init);
+  document.addEventListener('DOMContentLoaded', boot);
 } else {
-  init();
+  boot();
 }
 
 // Expose to window for debugging

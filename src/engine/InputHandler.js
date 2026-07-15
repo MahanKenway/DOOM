@@ -132,8 +132,10 @@ export class InputHandler {
   #pointerLocked  = false;
   #sensitivity    = 1.0;   // configurable via setSensitivity()
   #gyroEnabled    = false;
-  #gyroBaseline   = null;  // calibration reference angle (set on first reading)
+  #gyroBaseline   = null;  // calibration reference yaw (set on first reading)
+  #gyroSmoothedYaw = null; // low-pass-filtered yaw, reduces sensor jitter
   #boundDeviceOrientation;
+  #boundOrientationChange;
 
   // Bound listeners (stored so we can removeEventListener cleanly)
   #boundKeyDown;
@@ -162,6 +164,7 @@ export class InputHandler {
     this.#boundPointerLock    = this.#onPointerLock.bind(this);
     this.#boundPointerUnlock  = this.#onPointerUnlock.bind(this);
     this.#boundDeviceOrientation = this.#onDeviceOrientation.bind(this);
+    this.#boundOrientationChange = this.#onOrientationChange.bind(this);
   }
 
   attach() {
@@ -287,49 +290,172 @@ export class InputHandler {
       }
     }
 
-    this.#gyroBaseline = null;   // recalibrate on next reading
+    this.#gyroBaseline    = null;   // recalibrate on next reading
+    this.#gyroSmoothedYaw = null;
     this.#gyroEnabled = true;
     window.addEventListener('deviceorientation', this.#boundDeviceOrientation);
+    window.addEventListener('orientationchange', this.#boundOrientationChange);
     return true;
   }
 
   disableGyro() {
     this.#gyroEnabled = false;
     window.removeEventListener('deviceorientation', this.#boundDeviceOrientation);
+    window.removeEventListener('orientationchange', this.#boundOrientationChange);
   }
 
   get gyroActive() { return this.#gyroEnabled; }
 
   /**
-   * Device orientation → turn commands. Uses the compass heading
-   * (alpha) delta from a calibration baseline captured on the
-   * first reading — so "current phone orientation" always becomes
-   * "look straight ahead", rather than requiring the phone to face
-   * a specific compass direction.
+   * Screen rotated (portrait ↔ landscape) — recalibrate so the
+   * player doesn't get spun around by the coordinate-frame jump.
+   */
+  #onOrientationChange() {
+    this.#gyroBaseline = null;
+    this.#gyroSmoothedYaw = null;
+  }
+
+  /**
+   * Device orientation → turn commands.
+   *
+   * This ports the industry-standard algorithm used by three.js's
+   * reference DeviceOrientationControls (the same math underlying
+   * most WebXR/mobile-AR camera code): convert the raw alpha/beta/
+   * gamma triple into a proper 3D rotation (quaternion), correct
+   * for the device holding orientation and current screen rotation
+   * (portrait vs landscape read completely differently otherwise),
+   * then extract a single stable yaw angle from that corrected
+   * rotation. This is a large step up from naively watching alpha
+   * alone: beta/gamma (front/back and left/right tilt) now properly
+   * factor into the result instead of being ignored, and rotating
+   * the phone's screen orientation no longer breaks calibration.
+   *
+   * DOOM only has horizontal look (no vertical/pitch), so only the
+   * extracted yaw is used — but computing it via the full rotation
+   * (rather than a raw single-axis delta) is what actually makes
+   * the result stable instead of jittery/inconsistent between
+   * portrait and landscape, which is the concrete thing that was
+   * "bad" about the previous implementation.
    */
   #onDeviceOrientation(e) {
-    if (!this.#gyroEnabled || e.alpha == null) return;
+    if (!this.#gyroEnabled || e.alpha == null || e.beta == null || e.gamma == null) return;
+
+    const rawYaw = InputHandler.#computeYawFromOrientation(
+      e.alpha, e.beta, e.gamma,
+      screen.orientation?.angle ?? window.orientation ?? 0
+    );
+
+    // Exponential moving-average low-pass filter — smooths out
+    // sensor jitter far better than using the raw per-event value.
+    // Handles the ±180° wraparound by comparing against the
+    // shortest angular path before blending.
+    if (this.#gyroSmoothedYaw === null) {
+      this.#gyroSmoothedYaw = rawYaw;
+    } else {
+      let diff = rawYaw - this.#gyroSmoothedYaw;
+      if (diff > 180) diff -= 360;
+      if (diff < -180) diff += 360;
+      this.#gyroSmoothedYaw += diff * 0.25; // smoothing factor
+    }
 
     if (this.#gyroBaseline === null) {
-      this.#gyroBaseline = e.alpha;
+      this.#gyroBaseline = this.#gyroSmoothedYaw;
       return;
     }
 
-    // Shortest-path angular delta, handling the 0/360 wraparound
-    let delta = e.alpha - this.#gyroBaseline;
+    // Shortest-path angular delta from the calibration baseline
+    let delta = this.#gyroSmoothedYaw - this.#gyroBaseline;
     if (delta > 180) delta -= 360;
     if (delta < -180) delta += 360;
 
-    const threshold = 2; // degrees of dead-zone before turning
+    const threshold = 1.5; // degrees of dead-zone before turning
     const turnSpeed = delta * this.#sensitivity * 0.6;
 
     if (turnSpeed > threshold)       this.#injectTurn('left',  turnSpeed);
     else if (turnSpeed < -threshold) this.#injectTurn('right', -turnSpeed);
 
     // Slowly re-center the baseline toward the current reading so
-    // small persistent tilts don't cause continuous turning forever
-    // (soft recentering, similar to a "return to center" deadzone).
+    // small persistent tilts don't cause continuous turning forever.
     this.#gyroBaseline += delta * 0.02;
+  }
+
+  /**
+   * Convert a raw deviceorientation reading (alpha/beta/gamma, all
+   * in degrees) plus the current screen rotation angle (degrees)
+   * into a stable yaw angle (degrees), via proper quaternion math.
+   *
+   * Ported from three.js's DeviceOrientationControls reference
+   * implementation (public-domain algorithm, W3C Device Orientation
+   * spec §Implementation guidelines): builds the device's absolute
+   * 3D orientation as a quaternion using Tait-Bryan angles in
+   * Z-X'-Y'' order, rotates it -90° around X (the device screen
+   * faces up, but "forward" should point out from the top edge),
+   * then compensates for screen rotation around Z — finally
+   * extracting the yaw (rotation around the vertical axis) from
+   * the resulting quaternion via a YXZ Euler decomposition.
+   *
+   * @returns {number} yaw angle in degrees
+   */
+  static #computeYawFromOrientation(alphaDeg, betaDeg, gammaDeg, screenAngleDeg) {
+    const D2R = Math.PI / 180;
+    const alpha = alphaDeg * D2R;
+    const beta  = betaDeg  * D2R;
+    const gamma = gammaDeg * D2R;
+    const orient = screenAngleDeg * D2R;
+
+    // ── Euler (beta, alpha, -gamma) in 'YXZ' order → quaternion ──
+    const x = beta, y = alpha, z = -gamma;
+    const c1 = Math.cos(x / 2), c2 = Math.cos(y / 2), c3 = Math.cos(z / 2);
+    const s1 = Math.sin(x / 2), s2 = Math.sin(y / 2), s3 = Math.sin(z / 2);
+
+    let qx = s1 * c2 * c3 + c1 * s2 * s3;
+    let qy = c1 * s2 * c3 - s1 * c2 * s3;
+    let qz = c1 * c2 * s3 - s1 * s2 * c3;
+    let qw = c1 * c2 * c3 + s1 * s2 * s3;
+
+    // ── Multiply by q1 = -90° rotation around X axis ──────────────
+    // (camera looks out of the top edge of the device, not its face)
+    const q1x = -Math.SQRT1_2, q1y = 0, q1z = 0, q1w = Math.SQRT1_2;
+    ({ x: qx, y: qy, z: qz, w: qw } = InputHandler.#quatMultiply(
+      qx, qy, qz, qw, q1x, q1y, q1z, q1w
+    ));
+
+    // ── Multiply by q0 = rotation around Z by -screenOrientation ──
+    const halfOrient = -orient / 2;
+    const q0x = 0, q0y = 0, q0z = Math.sin(halfOrient), q0w = Math.cos(halfOrient);
+    ({ x: qx, y: qy, z: qz, w: qw } = InputHandler.#quatMultiply(
+      qx, qy, qz, qw, q0x, q0y, q0z, q0w
+    ));
+
+    // ── Extract yaw (Y-axis Euler component) via YXZ decomposition ─
+    const xx = qx * qx, yy = qy * qy, zz = qz * qz;
+    const xy = qx * qy, xz = qx * qz, yz = qy * qz;
+    const wx = qw * qx, wy = qw * qy, wz = qw * qz;
+
+    const m13 = xz + wy;
+    const m23 = yz - wx;
+    const m11 = 1 - 2 * (yy + zz);
+    const m33 = 1 - 2 * (xx + yy);
+    const m31 = xz - wy;
+
+    let yaw;
+    if (Math.abs(m23) < 0.9999999) {
+      yaw = Math.atan2(m13, m33);
+    } else {
+      yaw = Math.atan2(-m31, m11);
+    }
+
+    return yaw / D2R; // back to degrees
+  }
+
+  /** Hamilton quaternion product (a * b), all components as plain numbers. */
+  static #quatMultiply(ax, ay, az, aw, bx, by, bz, bw) {
+    return {
+      x: ax * bw + aw * bx + ay * bz - az * by,
+      y: ay * bw + aw * by + az * bx - ax * bz,
+      z: az * bw + aw * bz + ax * by - ay * bx,
+      w: aw * bw - ax * bx - ay * by - az * bz,
+    };
   }
 
   /**

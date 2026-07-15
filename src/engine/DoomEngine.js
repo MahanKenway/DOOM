@@ -77,6 +77,15 @@ export class DoomEngine {
   #onFpsUpdate  = null;
   #onFatalError = null;
 
+  // EventBus unsubscribe functions, called in destroy() to prevent
+  // listener accumulation across multiple engine instances (e.g. on
+  // Restart, where a new DoomEngine is created but the old one's
+  // pause/resume listeners would otherwise linger forever, causing
+  // duplicate/stacked pause-toggle behavior on every future
+  // engine:pause / engine:resume emission).
+  #unsubPause  = null;
+  #unsubResume = null;
+
   /**
    * @param {object} opts
    * @param {HTMLCanvasElement} opts.canvas
@@ -97,8 +106,8 @@ export class DoomEngine {
     this.#input.onKeyUp   = (doomKey) => this.#reportKey(doomKey, false);
     this.#input.onMouseBtn = (doomKey, down) => this.#reportKey(doomKey, down);
 
-    EventBus.on('engine:pause',  () => this.pause());
-    EventBus.on('engine:resume', () => this.resume());
+    this.#unsubPause  = EventBus.on('engine:pause',  () => this.pause());
+    this.#unsubResume = EventBus.on('engine:resume', () => this.resume());
   }
 
   // ═══════════════════════════════════════════════════════════
@@ -155,6 +164,8 @@ export class DoomEngine {
     cancelAnimationFrame(this.#rafHandle);
     this.#input.detach();
     this.#audio.destroy();
+    this.#unsubPause?.();
+    this.#unsubResume?.();
   }
 
   get fps()    { return this.#currentFps; }

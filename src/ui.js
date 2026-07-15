@@ -199,6 +199,18 @@ export class MobileControls {
     }
   }
 
+  /**
+   * Rebind which engine/input-handler this instance forwards touch
+   * input to. Call this on every game (re)start instead of creating
+   * a new MobileControls instance — the DOM touch listeners are
+   * wired exactly once in the constructor and stay wired for the
+   * lifetime of the page; only the target callback needs to change.
+   * @param {(doomKey: number, isDown: boolean) => void} injectFn
+   */
+  setInjectFn(injectFn) {
+    this.#injectFn = injectFn;
+  }
+
   #wireButtons() {
     const buttons = this.#container?.querySelectorAll('[data-key]') ?? [];
 
