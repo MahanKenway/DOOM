@@ -153,6 +153,10 @@ export class PauseMenu {
   show() {
     this.#visible = true;
     this.#overlay?.classList.remove('hidden');
+    // Defensive: ensure the higher-z-index "click to capture mouse"
+    // overlay never sits on top of (and blocks) the Resume button,
+    // regardless of pointer-lock event ordering.
+    document.getElementById('click-to-play')?.classList.add('hidden');
   }
 
   hide() {

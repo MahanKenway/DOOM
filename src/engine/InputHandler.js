@@ -179,6 +179,23 @@ export class InputHandler {
     // Click canvas to request pointer lock
     this.#canvas.addEventListener('click', () => this.#requestPointerLock());
 
+    // The "click to capture mouse" overlay (#click-to-play) is shown
+    // whenever pointer lock is lost (see #onPointerLock below) — most
+    // commonly because the browser force-releases pointer lock when
+    // the user presses Escape, which is a very natural "stop/pause"
+    // instinct. This overlay previously had NO click handler wired
+    // to it at all, despite being a full-screen div with the highest
+    // z-index of any overlay (30, above the pause menu's 20) — so it
+    // would silently sit on top of and block the Resume button
+    // underneath, and clicking it did nothing, leaving the player
+    // permanently stuck with no visible way to continue.
+    const clickToPlay = document.getElementById('click-to-play');
+    const reacquireLock = () => this.#requestPointerLock();
+    clickToPlay?.addEventListener('click', reacquireLock);
+    clickToPlay?.addEventListener('keydown', (e) => {
+      if (e.code === 'Enter' || e.code === 'Space') reacquireLock();
+    });
+
     // Gamepad
     window.addEventListener('gamepadconnected',    this.#onGamepadConnect.bind(this));
     window.addEventListener('gamepaddisconnected', this.#onGamepadDisconnect.bind(this));
@@ -479,8 +496,15 @@ export class InputHandler {
 
   #onPointerLock() {
     this.#pointerLocked = document.pointerLockElement === this.#canvas;
+
+    // Don't show "click to capture mouse" while the pause menu is
+    // open — it sits at a higher z-index and would visually block
+    // the Resume button underneath. The player should interact with
+    // the pause menu; pointer lock gets naturally re-requested when
+    // they resume and click back into the canvas.
+    const isPaused = !document.getElementById('pause-overlay')?.classList.contains('hidden');
     document.getElementById('click-to-play')?.classList.toggle(
-      'hidden', this.#pointerLocked
+      'hidden', this.#pointerLocked || isPaused
     );
   }
 
