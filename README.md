@@ -8,7 +8,9 @@
 ██████╔╝╚██████╔╝╚██████╔╝██║ ╚═╝ ██║
 ╚═════╝  ╚═════╝  ╚═════╝ ╚═╝     ╚═╝
       B R O W S E R   E D I T I O N
+
 ```
+<img width="1281" height="804" alt="Image" src="https://github.com/user-attachments/assets/d0cda2cb-dadf-4513-9e48-21ada12fe330" />
 
 ### The 1993 classic, rebuilt for 2026 — running natively in your browser via WebAssembly.
 
