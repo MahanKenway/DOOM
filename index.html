@@ -74,17 +74,17 @@
         <span class="btn-sub">Free / open-source WAD, no download</span>
       </button>
 
-      <!-- Option B: drag-and-drop / upload your own -->
+      <!-- Option B: drag-and-drop / upload your own IWAD (+ optional PWAD) -->
       <label class="doom-btn secondary" for="wad-upload">
         <span class="btn-icon">📁</span>
-        <span class="btn-label">Load your own WAD</span>
-        <span class="btn-sub">DOOM1.WAD, DOOM2.WAD, or any PWAD</span>
-        <input type="file" id="wad-upload" accept=".wad,.WAD" hidden />
+        <span class="btn-label">Load your own WAD(s)</span>
+        <span class="btn-sub">DOOM.WAD/DOOM2.WAD, optionally + a PWAD map pack</span>
+        <input type="file" id="wad-upload" accept=".wad,.WAD" multiple hidden />
       </label>
     </div>
 
-    <div id="wad-drop-zone" class="drop-zone" aria-label="Drop WAD file here">
-      <span>⬇ Drop WAD file here</span>
+    <div id="wad-drop-zone" class="drop-zone" aria-label="Drop WAD file(s) here">
+      <span>⬇ Drop WAD file(s) here — an IWAD alone, or an IWAD + PWAD together</span>
     </div>
 
     <div class="controls-legend">

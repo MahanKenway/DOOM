@@ -14,8 +14,9 @@
  *
  * WASM interface (jacobenget/doom.wasm minimal design):
  *   IMPORTS (10 functions we supply):
- *     js_get_wad_data        – copy WAD bytes into WASM memory
- *     js_get_wad_data_length – return WAD byte-length
+ *     js_get_wad_count        – how many WAD files (1-4, primary IWAD + PWADs)
+ *     js_get_wad_data         – copy WAD number N's bytes into WASM memory
+ *     js_get_wad_data_length  – return WAD number N's byte-length
  *     js_draw_screen         – copy framebuffer → Canvas
  *     js_fatal_error         – I_Error handler
  *     js_get_time_ms         – performance.now() equivalent
@@ -54,7 +55,7 @@ export class DoomEngine {
   // ── State ──────────────────────────────────────────────────
   #wasm     = null;   // WebAssembly.Instance
   #memory   = null;   // WebAssembly.Memory (shared with DOOM C code)
-  #wadData  = null;   // Uint8Array  — raw WAD bytes
+  #wadDataList = null; // Uint8Array[] — raw WAD bytes, index 0 = primary IWAD
   #running  = false;
   #paused   = false;
 
@@ -118,15 +119,19 @@ export class DoomEngine {
    * Load the WASM module and the WAD data, then start the game.
    * @param {object} opts
    * @param {string} opts.wasmPath  – URL to doom.wasm
-   * @param {Uint8Array} opts.wad   – WAD file bytes
+   * @param {Uint8Array|Uint8Array[]} opts.wad – WAD file bytes, or an
+   *        array of them (index 0 = primary IWAD, 1+ = additional
+   *        PWADs layered on top, up to 4 total) for a real IWAD+PWAD
+   *        combo like vanilla DOOM's own multi -file loading.
    * @param {(pct: number, msg: string) => void} [opts.onProgress]
    */
   async load({ wasmPath, wad, onProgress }) {
     const progress = onProgress ?? (() => {});
 
-    // 1. Store WAD
-    this.#wadData = wad;
-    progress(20, `WAD loaded (${this.#fmtBytes(wad.byteLength)})`);
+    // 1. Store WAD(s) — normalize to an array internally
+    this.#wadDataList = Array.isArray(wad) ? wad : [wad];
+    const totalBytes = this.#wadDataList.reduce((sum, w) => sum + w.byteLength, 0);
+    progress(20, `WAD${this.#wadDataList.length > 1 ? 's' : ''} loaded (${this.#fmtBytes(totalBytes)})`);
 
     // 2. Initialise audio context (must be after user gesture)
     await this.#audio.init();
@@ -242,18 +247,26 @@ export class DoomEngine {
         },
 
         // ── WAD access ───────────────────────────────────────
+        // ── Multi-WAD access (primary IWAD + optional PWADs) ────
         /**
-         * DOOM asks: "how long is the WAD?"
+         * How many WAD files were provided (1-4).
          */
-        js_get_wad_data_length: () => this.#wadData?.byteLength ?? 0,
+        js_get_wad_count: () => this.#wadDataList?.length ?? 0,
 
         /**
-         * DOOM asks us to copy the WAD into its linear memory at `ptr`.
+         * DOOM asks: "how long is WAD number `index`?"
          */
-        js_get_wad_data: (ptr) => {
-          if (!this.#wadData || !this.#memory) return;
-          const dest = new Uint8Array(this.#memory.buffer, ptr, this.#wadData.byteLength);
-          dest.set(this.#wadData);
+        js_get_wad_data_length: (index) => this.#wadDataList?.[index]?.byteLength ?? 0,
+
+        /**
+         * DOOM asks us to copy WAD number `index` into its linear
+         * memory at `ptr`.
+         */
+        js_get_wad_data: (index, ptr) => {
+          const wad = this.#wadDataList?.[index];
+          if (!wad || !this.#memory) return;
+          const dest = new Uint8Array(this.#memory.buffer, ptr, wad.byteLength);
+          dest.set(wad);
         },
 
         // ── Timing ───────────────────────────────────────────

@@ -38,48 +38,60 @@ extern void D_Display(void);
 
 /* JS imports */
 extern void js_print_string(const char* msg);
-extern int  js_get_wad_data_length(void);
-extern void js_get_wad_data(unsigned char* ptr);
+extern int  js_get_wad_count(void);
+extern int  js_get_wad_data_length(int index);
+extern void js_get_wad_data(int index, unsigned char* ptr);
 
 static const char* doom_argv[] = { "doom" };
 static int         doom_argc   = 1;
 
 /* ═══════════════════════════════════════════════════════════════
  * initGame()
- * Called once from JavaScript after WASM instantiation.
+ * Called once from JavaScript after WASM instantiation. Loads up
+ * to 4 WAD files (index 0 = primary IWAD, 1-3 = additional PWADs
+ * layered on top, matching vanilla DOOM's own multi -file loading)
+ * from JS into malloc'd buffers, hands each to w_io_web.c's virtual
+ * filesystem under its own "WEBWAD<N>" name, THEN calls
+ * D_DoomMain() — which will call the patched IdentifyVersion()
+ * (which itself calls D_AddFile("WEBWAD0"), D_AddFile("WEBWAD1"),
+ * etc. for however many were actually loaded) and
+ * W_InitMultipleFiles(), which opens each "WEBWAD<N>" via
+ * web_open() and reads it straight out of that buffer. No real
+ * filesystem is ever touched.
  * ═══════════════════════════════════════════════════════════════ */
 void initGame(void)
 {
-    int wadLen;
-    unsigned char* wadBuf;
+    int wadCount, i;
 
-    /* NOTE: We previously called setvbuf(stdout, NULL, _IONBF, 0)
-     * here to force unbuffered stdout for crash debugging. That
-     * itself turned out to trigger a divide-by-zero trap inside
-     * musl libc's internal buffer-size arithmetic when switching
-     * to _IONBF mode with a zero-length buffer — a self-inflicted
-     * bug, not a DOOM one. Removed. If deeper stdio-flush debugging
-     * is ever needed again, prefer explicit fflush(stdout) calls at
-     * specific checkpoints instead of changing the buffering mode. */
+    js_print_string("initGame: fetching WAD(s) from JS...");
 
-    js_print_string("initGame: fetching WAD from JS...");
-
-    wadLen = js_get_wad_data_length();
-    if (wadLen <= 0) {
-        js_print_string("initGame: FATAL - WAD length is 0!");
+    wadCount = js_get_wad_count();
+    if (wadCount <= 0) {
+        js_print_string("initGame: FATAL - no WAD files provided!");
         return;
     }
+    if (wadCount > 4) wadCount = 4; /* w_io_web.c supports at most 4 slots */
 
-    wadBuf = (unsigned char*) malloc(wadLen);
-    if (!wadBuf) {
-        js_print_string("initGame: FATAL - could not allocate WAD buffer!");
-        return;
+    for (i = 0; i < wadCount; i++) {
+        int wadLen = js_get_wad_data_length(i);
+        unsigned char* wadBuf;
+
+        if (wadLen <= 0) {
+            js_print_string("initGame: FATAL - a WAD file has length 0!");
+            return;
+        }
+
+        wadBuf = (unsigned char*) malloc(wadLen);
+        if (!wadBuf) {
+            js_print_string("initGame: FATAL - could not allocate WAD buffer!");
+            return;
+        }
+
+        js_get_wad_data(i, wadBuf);
+        W_Web_SetWadBuffer(i, wadBuf, wadLen);
     }
 
-    js_get_wad_data(wadBuf);
-    W_Web_SetWadBuffer(wadBuf, wadLen);
-
-    js_print_string("initGame: WAD buffer ready, starting D_DoomMain...");
+    js_print_string("initGame: WAD buffer(s) ready, starting D_DoomMain...");
 
     myargc = doom_argc;
     myargv = (char**)doom_argv;

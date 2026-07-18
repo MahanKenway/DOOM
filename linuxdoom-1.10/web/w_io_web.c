@@ -5,8 +5,13 @@
  * call site in DOOM's sources is redirected here (via patch_web.py)
  * to one of two virtual backends:
  *
- *   1. "WEBWAD"          — read-only, backed by the in-memory WAD
- *                          buffer injected from JS at startup.
+ *   1. "WEBWAD0".."WEBWAD3"  — read-only, backed by up to 4
+ *      in-memory WAD buffers injected from JS at startup. This is
+ *      what lets a real IWAD+PWAD combo work (e.g. DOOM2.WAD as
+ *      WEBWAD0 plus a community map pack as WEBWAD1), matching
+ *      vanilla DOOM's own multi-file `-file` mechanism (D_AddFile
+ *      called once per loaded WAD, in order) — not just a single
+ *      complete/standalone WAD like the bundled Freedoom.
  *
  *   2. "doomsavN.dsg"    — read/write, backed by the browser's
  *      (N = 0-5)           localStorage via js_storage_save() /
@@ -29,30 +34,57 @@ extern int  js_storage_load_length(const char* name);
 extern void js_storage_load_data(const char* name, unsigned char* dest);
 extern void js_storage_save(const char* name, const unsigned char* data, int len);
 
-/* ── WAD virtual file (read-only) ──────────────────────────────── */
-#define WEBWAD_FD 9000
+/* ── WAD virtual files (read-only, up to 4: primary IWAD + up to
+ *    3 additional PWADs layered on top, matching vanilla DOOM's own
+ *    multi -file mechanism) ─────────────────────────────────────── */
+#define MAX_WAD_SLOTS 4
+#define WEBWAD_FD_BASE 9000
 
-static unsigned char* s_wadBuffer = 0;
-static int            s_wadLength = 0;
-static int            s_wadCursor = 0;
+typedef struct {
+    unsigned char* buf;
+    int            len;
+    int            cursor;
+    int            active;
+} wad_slot_t;
 
-void W_Web_SetWadBuffer(unsigned char* buf, int len)
+static wad_slot_t s_wadSlots[MAX_WAD_SLOTS];
+static int        s_wadCount = 0;   /* how many slots are actually loaded */
+
+/*
+ * Called once per loaded WAD file from i_main_web.c's initGame(),
+ * in order (index 0 = primary IWAD, 1-3 = additional PWADs layered
+ * on top), before D_DoomMain() runs.
+ */
+void W_Web_SetWadBuffer(int index, unsigned char* buf, int len)
 {
-    s_wadBuffer = buf;
-    s_wadLength = len;
-    s_wadCursor = 0;
+    if (index < 0 || index >= MAX_WAD_SLOTS) return;
+    s_wadSlots[index].buf    = buf;
+    s_wadSlots[index].len    = len;
+    s_wadSlots[index].cursor = 0;
+    s_wadSlots[index].active = 1;
+    if (index + 1 > s_wadCount) s_wadCount = index + 1;
+}
+
+/* How many WAD files were actually loaded (1-4). Used by the
+ * patched IdentifyVersion() to know how many D_AddFile() calls to
+ * make — one per "WEBWAD<N>" virtual file, in order. */
+int W_Web_GetWadCount(void)
+{
+    return s_wadCount;
 }
 
 /* ── Content-based game-mode detection ─────────────────────────
  * Vanilla DOOM decided gamemode by checking which IWAD FILENAME
  * existed on disk (doom2.wad -> commercial, doomu.wad -> retail,
- * etc.) — meaningless in a browser, since we only ever receive
- * raw bytes with no reliable filename. Instead, scan the WAD's
- * own lump directory for known map-name lumps, matching the same
- * conventions vanilla WADs always follow:
+ * etc.) — meaningless in a browser, since we only ever receive raw
+ * bytes with no reliable filename. Instead, scan the PRIMARY WAD's
+ * (index 0 — the IWAD; any additional PWADs at index 1+ don't
+ * redefine the base game type) own lump directory for known
+ * map-name lumps, matching the same conventions vanilla WADs
+ * always follow:
  *
  *   "MAP01" present  -> commercial   (DOOM2, Plutonia, TNT, and any
- *                        vanilla-compatible DOOM2-based PWAD/TC)
+ *                        vanilla-compatible DOOM2-based IWAD/PWAD)
  *   "E4M1"  present  -> retail       (Ultimate DOOM, 4 episodes)
  *   "E2M1"  present  -> registered   (registered DOOM, 3 episodes)
  *   "E1M1"  present  -> shareware    (shareware DOOM / Freedoom
@@ -61,26 +93,28 @@ void W_Web_SetWadBuffer(unsigned char* buf, int len)
  *                        on unrecognised/malformed WADs rather than
  *                        guessing wrong in a way that reads out of
  *                        bounds later)
- *
- * This lets the SAME engine build correctly run any vanilla-
- * compatible IWAD or total-conversion PWAD a user drags in, not
- * just the bundled Freedoom WAD.
  */
 static int wad_has_lump(const char* name)
 {
+    unsigned char* buf;
+    int len;
     unsigned int numLumps, infoTableOfs, i;
-    if (!s_wadBuffer || s_wadLength < 12) return 0;
 
-    numLumps     = s_wadBuffer[4]  | (s_wadBuffer[5]<<8)  | (s_wadBuffer[6]<<16)  | (s_wadBuffer[7]<<24);
-    infoTableOfs = s_wadBuffer[8]  | (s_wadBuffer[9]<<8)  | (s_wadBuffer[10]<<16) | (s_wadBuffer[11]<<24);
+    if (!s_wadSlots[0].active) return 0;
+    buf = s_wadSlots[0].buf;
+    len = s_wadSlots[0].len;
+    if (!buf || len < 12) return 0;
+
+    numLumps     = buf[4]  | (buf[5]<<8)  | (buf[6]<<16)  | (buf[7]<<24);
+    infoTableOfs = buf[8]  | (buf[9]<<8)  | (buf[10]<<16) | (buf[11]<<24);
 
     for (i = 0; i < numLumps; i++) {
         unsigned int entryOfs = infoTableOfs + i * 16;
         char lumpName[9];
         int j;
-        if (entryOfs + 16 > (unsigned int)s_wadLength) break;
+        if (entryOfs + 16 > (unsigned int)len) break;
 
-        for (j = 0; j < 8; j++) lumpName[j] = s_wadBuffer[entryOfs + 8 + j];
+        for (j = 0; j < 8; j++) lumpName[j] = buf[entryOfs + 8 + j];
         lumpName[8] = 0;
 
         if (strncmp(lumpName, name, 8) == 0) return 1;
@@ -129,7 +163,7 @@ static int is_savegame_name(const char* path)
             strcmp(path + len - 4, ".dsg") == 0);
 }
 
-static int find_free_slot(void)
+static int find_free_save_slot(void)
 {
     int i;
     for (i = 0; i < MAX_SAVE_SLOTS; i++)
@@ -137,18 +171,38 @@ static int find_free_slot(void)
     return -1;
 }
 
+/*
+ * Matches "WEBWAD0".."WEBWAD3" and returns the slot index (0-3),
+ * or -1 if not a WAD virtual-file name.
+ */
+static int wad_slot_from_name(const char* path)
+{
+    size_t len;
+    int idx;
+    if (!path) return -1;
+    len = strlen(path);
+    if (len != 7) return -1; /* "WEBWAD" (6) + 1 digit */
+    if (strncmp(path, "WEBWAD", 6) != 0) return -1;
+    if (path[6] < '0' || path[6] > '9') return -1;
+    idx = path[6] - '0';
+    if (idx < 0 || idx >= MAX_WAD_SLOTS) return -1;
+    return idx;
+}
+
 /* ── open() replacement ──────────────────────────────────────── */
 int web_open(const char* path, int flags, ...)
 {
     int writing = (flags & 3) != 0;   /* O_WRONLY=1 or O_RDWR=2 -> writing */
+    int wadIdx = wad_slot_from_name(path);
 
-    if (path && strcmp(path, "WEBWAD") == 0) {
-        s_wadCursor = 0;
-        return WEBWAD_FD;
+    if (wadIdx >= 0) {
+        if (!s_wadSlots[wadIdx].active) return -1;
+        s_wadSlots[wadIdx].cursor = 0;
+        return WEBWAD_FD_BASE + wadIdx;
     }
 
     if (is_savegame_name(path)) {
-        int slot = find_free_slot();
+        int slot = find_free_save_slot();
         if (slot < 0) return -1;
 
         save_slot_t* s = &s_saveSlots[slot];
@@ -180,13 +234,15 @@ int web_open(const char* path, int flags, ...)
 /* ── read() replacement ──────────────────────────────────────── */
 int web_read(int fd, void* buf, unsigned int count)
 {
-    if (fd == WEBWAD_FD) {
-        int avail = s_wadLength - s_wadCursor;
-        int toCopy;
-        if (!s_wadBuffer || avail <= 0) return 0;
+    if (fd >= WEBWAD_FD_BASE && fd < WEBWAD_FD_BASE + MAX_WAD_SLOTS) {
+        wad_slot_t* s = &s_wadSlots[fd - WEBWAD_FD_BASE];
+        int avail, toCopy;
+        if (!s->active || !s->buf) return -1;
+        avail = s->len - s->cursor;
+        if (avail <= 0) return 0;
         toCopy = ((int)count < avail) ? (int)count : avail;
-        memcpy(buf, s_wadBuffer + s_wadCursor, toCopy);
-        s_wadCursor += toCopy;
+        memcpy(buf, s->buf + s->cursor, toCopy);
+        s->cursor += toCopy;
         return toCopy;
     }
 
@@ -224,17 +280,19 @@ int web_write(int fd, const void* buf, unsigned int count)
         s->len += (int)count;
         return (int)count;
     }
-    return -1;
+    return -1;   /* WAD files are read-only */
 }
 
 /* ── lseek() replacement ─────────────────────────────────────── */
 int web_lseek(int fd, int offset, int whence)
 {
-    if (fd == WEBWAD_FD) {
-        if (whence == 0)       s_wadCursor = offset;
-        else if (whence == 1)  s_wadCursor += offset;
-        else if (whence == 2)  s_wadCursor = s_wadLength + offset;
-        return s_wadCursor;
+    if (fd >= WEBWAD_FD_BASE && fd < WEBWAD_FD_BASE + MAX_WAD_SLOTS) {
+        wad_slot_t* s = &s_wadSlots[fd - WEBWAD_FD_BASE];
+        if (!s->active) return -1;
+        if (whence == 0)       s->cursor = offset;
+        else if (whence == 1)  s->cursor += offset;
+        else if (whence == 2)  s->cursor = s->len + offset;
+        return s->cursor;
     }
     if (fd >= SAVE_FD_BASE && fd < SAVE_FD_BASE + MAX_SAVE_SLOTS) {
         save_slot_t* s = &s_saveSlots[fd - SAVE_FD_BASE];
@@ -250,6 +308,16 @@ int web_lseek(int fd, int offset, int whence)
 /* ── close() replacement ─────────────────────────────────────── */
 int web_close(int fd)
 {
+    if (fd >= WEBWAD_FD_BASE && fd < WEBWAD_FD_BASE + MAX_WAD_SLOTS) {
+        /* WAD buffers persist for the lifetime of the game (DOOM
+         * re-opens/reads/re-closes its WAD files repeatedly during
+         * normal play — e.g. W_Reload — so we must NOT free the
+         * underlying buffer here, only reset the read cursor). */
+        wad_slot_t* s = &s_wadSlots[fd - WEBWAD_FD_BASE];
+        if (s->active) s->cursor = 0;
+        return 0;
+    }
+
     if (fd >= SAVE_FD_BASE && fd < SAVE_FD_BASE + MAX_SAVE_SLOTS) {
         save_slot_t* s = &s_saveSlots[fd - SAVE_FD_BASE];
         if (s->active) {
@@ -268,8 +336,9 @@ int web_close(int fd)
 /* ── access() replacement ────────────────────────────────────── */
 int web_access(const char* path, int mode)
 {
+    int wadIdx = wad_slot_from_name(path);
     (void)mode;
-    if (path && strcmp(path, "WEBWAD") == 0) return 0;
+    if (wadIdx >= 0) return s_wadSlots[wadIdx].active ? 0 : -1;
     if (is_savegame_name(path)) return (js_storage_load_length(path) >= 0) ? 0 : -1;
     return -1;
 }

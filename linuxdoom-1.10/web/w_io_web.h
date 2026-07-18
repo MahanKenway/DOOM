@@ -15,13 +15,19 @@
 #ifndef W_IO_WEB_H
 #define W_IO_WEB_H
 
-/* Populates the virtual "WEBWAD" buffer. Called once from
- * i_main_web.c's initGame(), before D_DoomMain() runs. */
-void W_Web_SetWadBuffer(unsigned char* buf, int len);
+/* Populates one of up to 4 virtual "WEBWAD<N>" buffers (index 0-3).
+ * Called once per loaded WAD file from i_main_web.c's initGame(),
+ * in order (index 0 = primary IWAD, 1-3 = additional PWADs layered
+ * on top), before D_DoomMain() runs. */
+void W_Web_SetWadBuffer(int index, unsigned char* buf, int len);
+
+/* How many WAD files were actually loaded (1-4). */
+int W_Web_GetWadCount(void);
 
 /* Detects gamemode (shareware/registered/commercial/retail) by
- * scanning the WAD's own lump directory for known map names —
- * works for ANY vanilla-compatible WAD, not just the bundled one.
+ * scanning the PRIMARY WAD's (index 0) own lump directory for known
+ * map names — works for ANY vanilla-compatible IWAD, not just the
+ * bundled one.
  * Returns: 0=shareware, 1=registered, 2=commercial, 3=retail. */
 int W_Web_DetectGameMode(void);
 

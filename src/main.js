@@ -127,18 +127,19 @@ function wireWadPicker() {
   // Option A: bundled Freedoom
   document.getElementById('btn-freedoom')?.addEventListener('click', async () => {
     picker?.classList.remove('active');
-    await startGame(CONFIG.bundledWad, 'url');
+    await startGame([CONFIG.bundledWad], 'url');
   });
 
-  // Option B: file input
+  // Option B: file input (supports selecting an IWAD alone, or an
+  // IWAD + one or more PWADs together via the 'multiple' attribute)
   document.getElementById('wad-upload')?.addEventListener('change', async (e) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
+    const files = Array.from(e.target.files ?? []);
+    if (files.length === 0) return;
     picker?.classList.remove('active');
-    await startGame(file, 'file');
+    await startGame(files, 'file');
   });
 
-  // Option C: drag-and-drop
+  // Option C: drag-and-drop (also supports multiple files at once)
   const dropZone = document.getElementById('wad-drop-zone');
   document.body.addEventListener('dragover', (e) => {
     e.preventDefault();
@@ -150,10 +151,10 @@ function wireWadPicker() {
   document.body.addEventListener('drop', async (e) => {
     e.preventDefault();
     dropZone?.classList.remove('drag-over');
-    const file = e.dataTransfer?.files[0];
-    if (!file) return;
+    const files = Array.from(e.dataTransfer?.files ?? []);
+    if (files.length === 0) return;
     picker?.classList.remove('active');
-    await startGame(file, 'file');
+    await startGame(files, 'file');
   });
 }
 
@@ -166,31 +167,66 @@ function showWadPicker() {
 // ═════════════════════════════════════════════════════════════════
 
 /**
- * @param {string|File} source   URL string or File object
+ * @param {(string|File)[]} sources  One or more WAD sources — a mix
+ *        of URL strings and/or File objects. The actual IWAD is
+ *        detected by content (its "IWAD" magic bytes), not by
+ *        upload order, since browsers don't guarantee any particular
+ *        order when multiple files are selected/dropped together.
  * @param {'url'|'file'} type
  */
-async function startGame(source, type) {
+async function startGame(sources, type) {
   // Show loading screen again for WAD + WASM load
   ui.loading.show();
-  ui.loading.update(5, 'Loading WAD…');
+  ui.loading.update(5, `Loading WAD${sources.length > 1 ? 's' : ''}…`);
 
   try {
-    // 1. Load WAD bytes
-    const wad = type === 'url'
-      ? await WadLoader.fromUrl(source, (pct) => {
-          ui.loading.update(Math.round(pct * 0.3), `Fetching WAD… ${pct}%`);
-        })
-      : await WadLoader.fromFile(source, (pct) => {
-          ui.loading.update(Math.round(pct * 0.3), `Reading WAD… ${pct}%`);
-        });
+    // 1. Load every WAD's bytes
+    const loaded = [];
+    for (let i = 0; i < sources.length; i++) {
+      const src = sources[i];
+      const base = Math.round((i / sources.length) * 25);
+      const wad = type === 'url'
+        ? await WadLoader.fromUrl(src, (pct) => {
+            ui.loading.update(5 + base + Math.round(pct * 0.25 / sources.length),
+              `Fetching WAD ${i + 1}/${sources.length}… ${pct}%`);
+          })
+        : await WadLoader.fromFile(src, (pct) => {
+            ui.loading.update(5 + base + Math.round(pct * 0.25 / sources.length),
+              `Reading WAD ${i + 1}/${sources.length}… ${pct}%`);
+          });
 
-    // Show WAD info
-    try {
-      const { type: wadType, numLumps } = WadLoader.parseHeader(wad);
-      ui.loading.update(35, `WAD: ${wadType}, ${numLumps} lumps`, 'ok');
-    } catch { /* non-critical */ }
+      let header = null;
+      try { header = WadLoader.parseHeader(wad); } catch { /* validated already by WadLoader */ }
+      loaded.push({ bytes: wad, header });
+    }
 
-    // 2. Create engine
+    // 2. Identify the primary IWAD by content (magic bytes), not
+    //    upload order — an "IWAD" is the base game data; any
+    //    "PWAD"s are patches layered on top of it. If the user
+    //    uploaded only PWADs with no IWAD, we can't run (DOOM has
+    //    nothing to layer them onto) — surface a clear error rather
+    //    than silently guessing.
+    const iwadIdx = loaded.findIndex(w => w.header?.type === 'IWAD');
+    if (iwadIdx === -1) {
+      throw new Error(
+        loaded.length === 1
+          ? 'This file is a PWAD (patch), not a complete IWAD. Load it together with a base IWAD (e.g. DOOM.WAD, DOOM2.WAD) — select both files at once.'
+          : 'None of the selected files is a valid IWAD. At least one must be a complete base game WAD (e.g. DOOM.WAD, DOOM2.WAD) — PWADs alone can\'t run standalone.'
+      );
+    }
+    // Reorder: IWAD first, then every PWAD in their original relative order
+    const ordered = [
+      loaded[iwadIdx],
+      ...loaded.filter((_, i) => i !== iwadIdx),
+    ];
+
+    const wadList = ordered.map(w => w.bytes);
+    const totalLumps = ordered.reduce((sum, w) => sum + (w.header?.numLumps ?? 0), 0);
+    ui.loading.update(30,
+      `${ordered[0].header?.type ?? 'WAD'}${ordered.length > 1 ? ` + ${ordered.length - 1} PWAD${ordered.length > 2 ? 's' : ''}` : ''}, ${totalLumps} lumps`,
+      'ok');
+
+    // 3. Create engine
     const canvas = document.getElementById('doom-canvas');
     engine = new DoomEngine({
       canvas,
@@ -202,27 +238,27 @@ async function startGame(source, type) {
       },
     });
 
-    // 3. Load WASM + init game
+    // 4. Load WASM + init game
     await engine.load({
       wasmPath: CONFIG.wasmPath,
-      wad,
+      wad: wadList,
       onProgress: (pct, msg) => {
         ui.loading.update(35 + Math.round(pct * 0.65), msg);
       },
     });
 
-    // 4. Switch to game screen
+    // 5. Switch to game screen
     ui.loading.hide();
     document.getElementById('game-screen')?.classList.add('active');
 
-    // 5. Rebind the persistent MobileControls instance to this
+    // 6. Rebind the persistent MobileControls instance to this
     //    engine's InputHandler (does NOT re-wire touch listeners —
     //    those were wired exactly once in bootstrapUI()).
     ui.mobile?.setInjectFn((key, isDown) => {
       engine.getInputHandler?.().injectKey(key, isDown);
     });
 
-    // 6. Apply persisted user settings (CRT/scale/smoothing/
+    // 7. Apply persisted user settings (CRT/scale/smoothing/
     //    sensitivity) to this fresh engine/renderer/input instance.
     applySettings(loadSettings());
 
