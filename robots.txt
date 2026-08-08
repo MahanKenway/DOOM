@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://mahankenway.github.io/DOOM/sitemap.xml
