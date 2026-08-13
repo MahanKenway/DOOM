@@ -168,7 +168,11 @@ void W_AddFile (char *filename)
     printf (" adding %s\n",filename);
     startlump = numlumps;
 	
-    if (strcmpi (filename+strlen(filename)-3 , "wad" ) )
+    /* Virtual browser WADs use names such as WEBWAD0 rather than a
+       .wad suffix. They still contain a normal IWAD/PWAD directory
+       and must therefore take the multi-lump WAD branch below. */
+    if (strncmp(filename, "WEBWAD", 6) != 0
+        && strcmpi (filename+strlen(filename)-3 , "wad" ) )
     {
 	// single lump file
 	fileinfo = &singleinfo;

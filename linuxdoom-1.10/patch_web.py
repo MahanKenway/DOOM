@@ -276,6 +276,23 @@ if old_filelength in src:
 else:
     print('WARNING: filelength() pattern not found')
 
+# Virtual WAD filenames are WEBWAD0..WEBWAD3 and have no .wad suffix.
+# Make them use the normal multi-lump WAD parsing path, not the single-lump
+# fallback that would otherwise hide PNAMES/TEXTURE1 and stall startup.
+virtual_wad_condition = (
+    'if (strncmp(filename, "WEBWAD", 6) != 0\n'
+    '        && strcmpi (filename+strlen(filename)-3 , "wad" ) )'
+)
+if virtual_wad_condition not in src:
+    src = src.replace(
+        'if (strcmpi (filename+strlen(filename)-3 , "wad" ) )',
+        virtual_wad_condition,
+        1
+    )
+    print('OK w_wad.c: WEBWAD virtual names use WAD parser')
+else:
+    print('SKIP w_wad.c: WEBWAD WAD-parser condition already present')
+
 # Blanket word-boundary redirect of raw syscalls + stdio to web_* shims.
 # Safe because w_wad.c uses these identifiers ONLY as function calls
 # (verified: no local vars/fields named open/read/close/lseek/fopen/fclose).
