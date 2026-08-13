@@ -28,6 +28,7 @@ static const char
 rcsid[] = "$Id: m_misc.c,v 1.6 1997/02/03 22:45:10 b1 Exp $";
 
 #include <sys/stat.h>
+#include "web/w_io_web.h"
 #include <sys/types.h>
 #include <fcntl.h>
 #include <stdlib.h>
@@ -118,13 +119,13 @@ M_WriteFile
     int		handle;
     int		count;
 	
-    handle = open ( name, O_WRONLY | O_CREAT | O_TRUNC | O_BINARY, 0666);
+    handle = web_open ( name, O_WRONLY | O_CREAT | O_TRUNC | O_BINARY, 0666);
 
     if (handle == -1)
 	return false;
 
-    count = write (handle, source, length);
-    close (handle);
+    count = web_write (handle, source, length);
+    web_close (handle);
 	
     if (count < length)
 	return false;
@@ -145,15 +146,15 @@ M_ReadFile
     struct stat	fileinfo;
     byte		*buf;
 	
-    handle = open (name, O_RDONLY | O_BINARY, 0666);
+    handle = web_open (name, O_RDONLY | O_BINARY, 0666);
     if (handle == -1)
 	I_Error ("Couldn't read file %s", name);
-    if (fstat (handle,&fileinfo) == -1)
+    if (web_fstat (handle,&fileinfo) == -1)
 	I_Error ("Couldn't read file %s", name);
     length = fileinfo.st_size;
     buf = Z_Malloc (length, PU_STATIC, NULL);
-    count = read (handle, buf, length);
-    close (handle);
+    count = web_read (handle, buf, length);
+    web_close (handle);
 	
     if (count < length)
 	I_Error ("Couldn't read file %s", name);
@@ -285,16 +286,16 @@ default_t	defaults[] =
 
     {"usegamma",&usegamma, 0},
 
-    {"chatmacro0", (int *) &chat_macros[0], (int) HUSTR_CHATMACRO0 },
-    {"chatmacro1", (int *) &chat_macros[1], (int) HUSTR_CHATMACRO1 },
-    {"chatmacro2", (int *) &chat_macros[2], (int) HUSTR_CHATMACRO2 },
-    {"chatmacro3", (int *) &chat_macros[3], (int) HUSTR_CHATMACRO3 },
-    {"chatmacro4", (int *) &chat_macros[4], (int) HUSTR_CHATMACRO4 },
-    {"chatmacro5", (int *) &chat_macros[5], (int) HUSTR_CHATMACRO5 },
-    {"chatmacro6", (int *) &chat_macros[6], (int) HUSTR_CHATMACRO6 },
-    {"chatmacro7", (int *) &chat_macros[7], (int) HUSTR_CHATMACRO7 },
-    {"chatmacro8", (int *) &chat_macros[8], (int) HUSTR_CHATMACRO8 },
-    {"chatmacro9", (int *) &chat_macros[9], (int) HUSTR_CHATMACRO9 }
+    {"chatmacro0", (int *) &chat_macros[0], 0},
+    {"chatmacro1", (int *) &chat_macros[1], 0},
+    {"chatmacro2", (int *) &chat_macros[2], 0},
+    {"chatmacro3", (int *) &chat_macros[3], 0},
+    {"chatmacro4", (int *) &chat_macros[4], 0},
+    {"chatmacro5", (int *) &chat_macros[5], 0},
+    {"chatmacro6", (int *) &chat_macros[6], 0},
+    {"chatmacro7", (int *) &chat_macros[7], 0},
+    {"chatmacro8", (int *) &chat_macros[8], 0},
+    {"chatmacro9", (int *) &chat_macros[9], 0}
 
 };
 
@@ -311,7 +312,7 @@ void M_SaveDefaults (void)
     int		v;
     FILE*	f;
 	
-    f = fopen (defaultfile, "w");
+    f = web_fopen (defaultfile, "w");
     if (!f)
 	return; // can't write the file, but don't complain
 		
@@ -328,7 +329,7 @@ void M_SaveDefaults (void)
 	}
     }
 	
-    fclose (f);
+    web_fclose (f);
 }
 
 
@@ -364,7 +365,7 @@ void M_LoadDefaults (void)
 	defaultfile = basedefault;
     
     // read the file in, overriding any set defaults
-    f = fopen (defaultfile, "r");
+    f = web_fopen (defaultfile, "r");
     if (f)
     {
 	while (!feof(f))
@@ -398,7 +399,7 @@ void M_LoadDefaults (void)
 	    }
 	}
 		
-	fclose (f);
+	web_fclose (f);
     }
 }
 
@@ -517,7 +518,7 @@ void M_ScreenShot (void)
     {
 	lbmname[4] = i/10 + '0';
 	lbmname[5] = i%10 + '0';
-	if (access(lbmname,0) == -1)
+	if (web_access (lbmname,0) == -1)
 	    break;	// file doesn't exist
     }
     if (i==100)

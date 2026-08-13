@@ -27,6 +27,7 @@ static const char rcsid[] = "$Id: d_net.c,v 1.3 1997/02/03 22:01:47 b1 Exp $";
 
 
 #include "m_menu.h"
+#include "web/w_io_web.h"
 #include "i_system.h"
 #include "i_video.h"
 #include "i_net.h"
@@ -604,7 +605,7 @@ void D_QuitNetGame (void)
     int             i, j;
 	
     if (debugfile)
-	fclose (debugfile);
+	web_fclose (debugfile);
 		
     if (!netgame || !usergame || consoleplayer == -1 || demoplayback)
 	return;

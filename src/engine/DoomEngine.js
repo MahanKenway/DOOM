@@ -139,15 +139,33 @@ export class DoomEngine {
 
     // 3. Compile + instantiate WASM
     progress(40, `Fetching ${wasmPath}…`);
-    const { instance } = await WebAssembly.instantiateStreaming(
-      fetch(wasmPath),
-      {
-        ...this.#makeWasmImports(),   // already shaped as { env: {...} }
-        wasi_snapshot_preview1: this.#makeWasiShim(),
+    // Prefer streaming compilation, but fall back to ArrayBuffer compilation
+    // when a static host sends the WASM file with a generic MIME type. This is
+    // common on local file servers and prevents a misleading startup failure.
+    const imports = {
+      ...this.#makeWasmImports(),   // already shaped as { env: {...} }
+      wasi_snapshot_preview1: this.#makeWasiShim(),
+    };
+    let instance;
+    try {
+      ({ instance } = await WebAssembly.instantiateStreaming(fetch(wasmPath), imports));
+    } catch (streamError) {
+      const response = await fetch(wasmPath);
+      if (!response.ok) {
+        throw new Error(`WASM fetch failed: ${response.status} ${response.statusText}`);
       }
-    );
+      const bytes = await response.arrayBuffer();
+      ({ instance } = await WebAssembly.instantiate(bytes, imports));
+      EventBus.emit('engine:log', {
+        level: 'warn',
+        text: `Streaming WASM compile unavailable; used buffered fallback (${streamError.message})`,
+      });
+    }
     this.#wasm   = instance;
     this.#memory = instance.exports.memory;
+    if (!this.#memory) {
+      throw new Error('WASM module did not export linear memory');
+    }
     progress(80, 'WASM compiled & instantiated');
 
     // 4. Run DOOM's init (D_DoomMain equivalent)

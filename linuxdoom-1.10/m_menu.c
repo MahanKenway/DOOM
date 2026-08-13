@@ -26,6 +26,7 @@ static const char
 rcsid[] = "$Id: m_menu.c,v 1.7 1997/02/03 22:45:10 b1 Exp $";
 
 #include <unistd.h>
+#include "web/w_io_web.h"
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
@@ -522,15 +523,15 @@ void M_ReadSaveStrings(void)
 	else
 	    sprintf(name,SAVEGAMENAME"%d.dsg",i);
 
-	handle = open (name, O_RDONLY | 0, 0666);
+	handle = web_open (name, O_RDONLY | 0, 0666);
 	if (handle == -1)
 	{
 	    strcpy(&savegamestrings[i][0],EMPTYSTRING);
 	    LoadMenu[i].status = 0;
 	    continue;
 	}
-	count = read (handle, &savegamestrings[i], SAVESTRINGSIZE);
-	close (handle);
+	count = web_read (handle, &savegamestrings[i], SAVESTRINGSIZE);
+	web_close (handle);
 	LoadMenu[i].status = 1;
     }
 }

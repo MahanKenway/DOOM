@@ -33,6 +33,8 @@ static const char rcsid[] = "$Id: d_main.c,v 1.8 1997/02/03 22:45:09 b1 Exp $";
 
 #ifdef NORMALUNIX
 #include <stdio.h>
+#include "web/w_io_web.h"
+extern void js_print_string(const char* msg);
 #include <stdlib.h>
 #include <unistd.h>
 #include <sys/types.h>
@@ -353,57 +355,9 @@ extern  boolean         demorecording;
 
 void D_DoomLoop (void)
 {
-    if (demorecording)
-	G_BeginRecording ();
-		
-    if (M_CheckParm ("-debugfile"))
-    {
-	char    filename[20];
-	sprintf (filename,"debug%i.txt",consoleplayer);
-	printf ("debug output to: %s\n",filename);
-	debugfile = fopen (filename,"w");
-    }
-	
+    if (demorecording) G_BeginRecording ();
     I_InitGraphics ();
-
-    while (1)
-    {
-	// frame syncronous IO operations
-	I_StartFrame ();                
-	
-	// process one or more tics
-	if (singletics)
-	{
-	    I_StartTic ();
-	    D_ProcessEvents ();
-	    G_BuildTiccmd (&netcmds[consoleplayer][maketic%BACKUPTICS]);
-	    if (advancedemo)
-		D_DoAdvanceDemo ();
-	    M_Ticker ();
-	    G_Ticker ();
-	    gametic++;
-	    maketic++;
-	}
-	else
-	{
-	    TryRunTics (); // will run at least one tic
-	}
-		
-	S_UpdateSounds (players[consoleplayer].mo);// move positional sounds
-
-	// Update display, next frame, with current state.
-	D_Display ();
-
-#ifndef SNDSERV
-	// Sound mixing for the buffer is snychronous.
-	I_UpdateSound();
-#endif	
-	// Synchronous sound output is explicitly called.
-#ifndef SNDINTR
-	// Update sound output.
-	I_SubmitSound();
-#endif
-    }
+    /* WEB BUILD: JS drives loop via requestAnimationFrame */
 }
 
 
@@ -562,158 +516,36 @@ void D_AddFile (char *file)
 //
 void IdentifyVersion (void)
 {
+    /* WEB BUILD: no filesystem to scan. Up to 4 WAD files are
+       injected directly from JavaScript (see w_io_web.c /
+       i_main_web.c) as "WEBWAD0".."WEBWAD3" — index 0 is the
+       primary IWAD, indices 1-3 are additional PWADs layered
+       on top, matching vanilla DOOM's own multi -file loading
+       mechanism (this is what makes a real IWAD+PWAD combo,
+       e.g. DOOM2.WAD + a community map pack, work correctly —
+       not just a single complete/standalone WAD).
+       gamemode is detected by CONTENT from the PRIMARY WAD
+       (scanning its lump directory for MAP01/E4M1/E2M1/E1M1),
+       not by which filename happened to exist on a real
+       filesystem — this is what lets the SAME build correctly
+       run DOOM.WAD, DOOM2.WAD, Ultimate DOOM, Plutonia/TNT,
+       Freedoom, or any vanilla-compatible IWAD/PWAD a user
+       loads. */
+    int webWadCount, webWadIdx;
+    char webWadName[8];
 
-    char*	doom1wad;
-    char*	doomwad;
-    char*	doomuwad;
-    char*	doom2wad;
-
-    char*	doom2fwad;
-    char*	plutoniawad;
-    char*	tntwad;
-
-#ifdef NORMALUNIX
-    char *home;
-    char *doomwaddir;
-    doomwaddir = getenv("DOOMWADDIR");
-    if (!doomwaddir)
-	doomwaddir = ".";
-
-    // Commercial.
-    doom2wad = malloc(strlen(doomwaddir)+1+9+1);
-    sprintf(doom2wad, "%s/doom2.wad", doomwaddir);
-
-    // Retail.
-    doomuwad = malloc(strlen(doomwaddir)+1+8+1);
-    sprintf(doomuwad, "%s/doomu.wad", doomwaddir);
-    
-    // Registered.
-    doomwad = malloc(strlen(doomwaddir)+1+8+1);
-    sprintf(doomwad, "%s/doom.wad", doomwaddir);
-    
-    // Shareware.
-    doom1wad = malloc(strlen(doomwaddir)+1+9+1);
-    sprintf(doom1wad, "%s/doom1.wad", doomwaddir);
-
-     // Bug, dear Shawn.
-    // Insufficient malloc, caused spurious realloc errors.
-    plutoniawad = malloc(strlen(doomwaddir)+1+/*9*/12+1);
-    sprintf(plutoniawad, "%s/plutonia.wad", doomwaddir);
-
-    tntwad = malloc(strlen(doomwaddir)+1+9+1);
-    sprintf(tntwad, "%s/tnt.wad", doomwaddir);
-
-
-    // French stuff.
-    doom2fwad = malloc(strlen(doomwaddir)+1+10+1);
-    sprintf(doom2fwad, "%s/doom2f.wad", doomwaddir);
-
-    home = getenv("HOME");
-    if (!home)
-      I_Error("Please set $HOME to your home directory");
-    sprintf(basedefault, "%s/.doomrc", home);
-#endif
-
-    if (M_CheckParm ("-shdev"))
-    {
-	gamemode = shareware;
-	devparm = true;
-	D_AddFile (DEVDATA"doom1.wad");
-	D_AddFile (DEVMAPS"data_se/texture1.lmp");
-	D_AddFile (DEVMAPS"data_se/pnames.lmp");
-	strcpy (basedefault,DEVDATA"default.cfg");
-	return;
+    switch (W_Web_DetectGameMode()) {
+        case 3:  gamemode = retail;     break;
+        case 2:  gamemode = commercial; break;
+        case 1:  gamemode = registered; break;
+        default: gamemode = shareware;  break;
     }
 
-    if (M_CheckParm ("-regdev"))
-    {
-	gamemode = registered;
-	devparm = true;
-	D_AddFile (DEVDATA"doom.wad");
-	D_AddFile (DEVMAPS"data_se/texture1.lmp");
-	D_AddFile (DEVMAPS"data_se/texture2.lmp");
-	D_AddFile (DEVMAPS"data_se/pnames.lmp");
-	strcpy (basedefault,DEVDATA"default.cfg");
-	return;
+    webWadCount = W_Web_GetWadCount();
+    for (webWadIdx = 0; webWadIdx < webWadCount; webWadIdx++) {
+        sprintf(webWadName, "WEBWAD%d", webWadIdx);
+        D_AddFile (webWadName);
     }
-
-    if (M_CheckParm ("-comdev"))
-    {
-	gamemode = commercial;
-	devparm = true;
-	/* I don't bother
-	if(plutonia)
-	    D_AddFile (DEVDATA"plutonia.wad");
-	else if(tnt)
-	    D_AddFile (DEVDATA"tnt.wad");
-	else*/
-	    D_AddFile (DEVDATA"doom2.wad");
-	    
-	D_AddFile (DEVMAPS"cdata/texture1.lmp");
-	D_AddFile (DEVMAPS"cdata/pnames.lmp");
-	strcpy (basedefault,DEVDATA"default.cfg");
-	return;
-    }
-
-    if ( !access (doom2fwad,R_OK) )
-    {
-	gamemode = commercial;
-	// C'est ridicule!
-	// Let's handle languages in config files, okay?
-	language = french;
-	printf("French version\n");
-	D_AddFile (doom2fwad);
-	return;
-    }
-
-    if ( !access (doom2wad,R_OK) )
-    {
-	gamemode = commercial;
-	D_AddFile (doom2wad);
-	return;
-    }
-
-    if ( !access (plutoniawad, R_OK ) )
-    {
-      gamemode = commercial;
-      D_AddFile (plutoniawad);
-      return;
-    }
-
-    if ( !access ( tntwad, R_OK ) )
-    {
-      gamemode = commercial;
-      D_AddFile (tntwad);
-      return;
-    }
-
-    if ( !access (doomuwad,R_OK) )
-    {
-      gamemode = retail;
-      D_AddFile (doomuwad);
-      return;
-    }
-
-    if ( !access (doomwad,R_OK) )
-    {
-      gamemode = registered;
-      D_AddFile (doomwad);
-      return;
-    }
-
-    if ( !access (doom1wad,R_OK) )
-    {
-      gamemode = shareware;
-      D_AddFile (doom1wad);
-      return;
-    }
-
-    printf("Game mode indeterminate.\n");
-    gamemode = indetermined;
-
-    // We don't abort. Let's see what the PWAD contains.
-    //exit(1);
-    //I_Error ("Game mode indeterminate\n");
 }
 
 //
@@ -721,72 +553,8 @@ void IdentifyVersion (void)
 //
 void FindResponseFile (void)
 {
-    int             i;
-#define MAXARGVS        100
-	
-    for (i = 1;i < myargc;i++)
-	if (myargv[i][0] == '@')
-	{
-	    FILE *          handle;
-	    int             size;
-	    int             k;
-	    int             index;
-	    int             indexinfile;
-	    char    *infile;
-	    char    *file;
-	    char    *moreargs[20];
-	    char    *firstargv;
-			
-	    // READ THE RESPONSE FILE INTO MEMORY
-	    handle = fopen (&myargv[i][1],"rb");
-	    if (!handle)
-	    {
-		printf ("\nNo such response file!");
-		exit(1);
-	    }
-	    printf("Found response file %s!\n",&myargv[i][1]);
-	    fseek (handle,0,SEEK_END);
-	    size = ftell(handle);
-	    fseek (handle,0,SEEK_SET);
-	    file = malloc (size);
-	    fread (file,size,1,handle);
-	    fclose (handle);
-			
-	    // KEEP ALL CMDLINE ARGS FOLLOWING @RESPONSEFILE ARG
-	    for (index = 0,k = i+1; k < myargc; k++)
-		moreargs[index++] = myargv[k];
-			
-	    firstargv = myargv[0];
-	    myargv = malloc(sizeof(char *)*MAXARGVS);
-	    memset(myargv,0,sizeof(char *)*MAXARGVS);
-	    myargv[0] = firstargv;
-			
-	    infile = file;
-	    indexinfile = k = 0;
-	    indexinfile++;  // SKIP PAST ARGV[0] (KEEP IT)
-	    do
-	    {
-		myargv[indexinfile++] = infile+k;
-		while(k < size &&
-		      ((*(infile+k)>= ' '+1) && (*(infile+k)<='z')))
-		    k++;
-		*(infile+k) = 0;
-		while(k < size &&
-		      ((*(infile+k)<= ' ') || (*(infile+k)>'z')))
-		    k++;
-	    } while(k < size);
-			
-	    for (k = 0;k < index;k++)
-		myargv[indexinfile++] = moreargs[k];
-	    myargc = indexinfile;
-	
-	    // DISPLAY ARGS
-	    printf("%d command-line args:\n",myargc);
-	    for (k=1;k<myargc;k++)
-		printf("%s\n",myargv[k]);
-
-	    break;
-	}
+    /* WEB BUILD: response files (@args) are not supported
+       in the browser — no local filesystem to read them from. */
 }
 
 
@@ -802,7 +570,10 @@ void D_DoomMain (void)
 	
     IdentifyVersion ();
 	
-    setbuf (stdout, NULL);
+    /* WEB BUILD: setbuf(stdout, NULL) removed — unbuffered
+       mode triggers a divide-by-zero in musl libc's internal
+       buffer-size handling under Emscripten STANDALONE_WASM.
+       Default buffered stdio works fine here. */
     modifiedgame = false;
 	
     nomonsters = M_CheckParm ("-nomonsters");
@@ -877,7 +648,6 @@ void D_DoomMain (void)
     if (M_CheckParm("-cdrom"))
     {
 	printf(D_CDROM);
-	mkdir("c:\\doomdata",0);
 	strcpy (basedefault,"c:/doomdata/default.cfg");
     }	
     
@@ -1008,15 +778,18 @@ void D_DoomMain (void)
     }
     
     // init subsystems
+    js_print_string("CHECKPOINT: before V_Init");
     printf ("V_Init: allocate screens.\n");
     V_Init ();
 
     printf ("M_LoadDefaults: Load system defaults.\n");
     M_LoadDefaults ();              // load before initing other systems
 
+    js_print_string("CHECKPOINT: before Z_Init");
     printf ("Z_Init: Init zone memory allocation daemon. \n");
     Z_Init ();
 
+    js_print_string("CHECKPOINT: before W_Init");
     printf ("W_Init: Init WADfiles.\n");
     W_InitMultipleFiles (wadfiles);
     
@@ -1088,27 +861,35 @@ void D_DoomMain (void)
 	break;
     }
 
+    js_print_string("CHECKPOINT: before M_Init");
     printf ("M_Init: Init miscellaneous info.\n");
     M_Init ();
 
+    js_print_string("CHECKPOINT: before R_Init");
     printf ("R_Init: Init DOOM refresh daemon - ");
     R_Init ();
 
+    js_print_string("CHECKPOINT: before P_Init");
     printf ("\nP_Init: Init Playloop state.\n");
     P_Init ();
 
+    js_print_string("CHECKPOINT: before I_Init");
     printf ("I_Init: Setting up machine state.\n");
     I_Init ();
 
+    js_print_string("CHECKPOINT: before D_CheckNetGame");
     printf ("D_CheckNetGame: Checking network game status.\n");
     D_CheckNetGame ();
 
+    js_print_string("CHECKPOINT: before S_Init");
     printf ("S_Init: Setting up sound.\n");
     S_Init (snd_SfxVolume /* *8 */, snd_MusicVolume /* *8*/ );
 
+    js_print_string("CHECKPOINT: before HU_Init");
     printf ("HU_Init: Setting up heads up display.\n");
     HU_Init ();
 
+    js_print_string("CHECKPOINT: before ST_Init");
     printf ("ST_Init: Init status bar.\n");
     ST_Init ();
 

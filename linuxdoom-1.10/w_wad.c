@@ -28,6 +28,7 @@ rcsid[] = "$Id: w_wad.c,v 1.5 1997/02/03 16:47:57 b1 Exp $";
 
 #ifdef NORMALUNIX
 #include <ctype.h>
+#include "web/w_io_web.h"
 #include <sys/types.h>
 #include <string.h>
 #include <unistd.h>
@@ -66,19 +67,17 @@ void**			lumpcache;
 
 #define strcmpi	strcasecmp
 
-void strupr (char* s)
+static void doom_strupr (char* s)
 {
     while (*s) { *s = toupper(*s); s++; }
 }
 
 int filelength (int handle) 
 { 
-    struct stat	fileinfo;
-    
-    if (fstat (handle,&fileinfo) == -1)
-	I_Error ("Error fstating");
-
-    return fileinfo.st_size;
+    /* WEB BUILD: dead code path (WEBWAD always takes the
+       multi-lump WAD branch in W_AddFile, never single-lump). */
+    (void) handle;
+    return 0;
 }
 
 
@@ -160,7 +159,7 @@ void W_AddFile (char *filename)
 	reloadlump = numlumps;
     }
 		
-    if ( (handle = open (filename,O_RDONLY | O_BINARY)) == -1)
+    if ( (handle = web_open (filename,O_RDONLY | O_BINARY)) == -1)
     {
 	printf (" couldn't open %s\n",filename);
 	return;
@@ -181,7 +180,7 @@ void W_AddFile (char *filename)
     else 
     {
 	// WAD file
-	read (handle, &header, sizeof(header));
+	web_read (handle, &header, sizeof(header));
 	if (strncmp(header.identification,"IWAD",4))
 	{
 	    // Homebrew levels?
@@ -197,8 +196,8 @@ void W_AddFile (char *filename)
 	header.infotableofs = LONG(header.infotableofs);
 	length = header.numlumps*sizeof(filelump_t);
 	fileinfo = alloca (length);
-	lseek (handle, header.infotableofs, SEEK_SET);
-	read (handle, fileinfo, length);
+	web_lseek (handle, header.infotableofs, SEEK_SET);
+	web_read (handle, fileinfo, length);
 	numlumps += header.numlumps;
     }
 
@@ -222,7 +221,7 @@ void W_AddFile (char *filename)
     }
 	
     if (reloadname)
-	close (handle);
+	web_close (handle);
 }
 
 
@@ -246,16 +245,16 @@ void W_Reload (void)
     if (!reloadname)
 	return;
 		
-    if ( (handle = open (reloadname,O_RDONLY | O_BINARY)) == -1)
+    if ( (handle = web_open (reloadname,O_RDONLY | O_BINARY)) == -1)
 	I_Error ("W_Reload: couldn't open %s",reloadname);
 
-    read (handle, &header, sizeof(header));
+    web_read (handle, &header, sizeof(header));
     lumpcount = LONG(header.numlumps);
     header.infotableofs = LONG(header.infotableofs);
     length = lumpcount*sizeof(filelump_t);
     fileinfo = alloca (length);
-    lseek (handle, header.infotableofs, SEEK_SET);
-    read (handle, fileinfo, length);
+    web_lseek (handle, header.infotableofs, SEEK_SET);
+    web_read (handle, fileinfo, length);
     
     // Fill in lumpinfo
     lump_p = &lumpinfo[reloadlump];
@@ -271,7 +270,7 @@ void W_Reload (void)
 	lump_p->size = LONG(fileinfo->size);
     }
 	
-    close (handle);
+    web_close (handle);
 }
 
 
@@ -367,7 +366,7 @@ int W_CheckNumForName (char* name)
     name8.s[8] = 0;
 
     // case insensitive
-    strupr (name8.s);		
+    doom_strupr (name8.s);
 
     v1 = name8.x[0];
     v2 = name8.x[1];
@@ -447,21 +446,21 @@ W_ReadLump
     if (l->handle == -1)
     {
 	// reloadable file, so use open / read / close
-	if ( (handle = open (reloadname,O_RDONLY | O_BINARY)) == -1)
+	if ( (handle = web_open (reloadname,O_RDONLY | O_BINARY)) == -1)
 	    I_Error ("W_ReadLump: couldn't open %s",reloadname);
     }
     else
 	handle = l->handle;
 		
-    lseek (handle, l->position, SEEK_SET);
-    c = read (handle, dest, l->size);
+    web_lseek (handle, l->position, SEEK_SET);
+    c = web_read (handle, dest, l->size);
 
     if (c < l->size)
 	I_Error ("W_ReadLump: only read %i of %i on lump %i",
 		 c,l->size,lump);	
 
     if (l->handle == -1)
-	close (handle);
+	web_close (handle);
 		
     // ??? I_EndRead ();
 }
@@ -550,7 +549,7 @@ void W_Profile (void)
     }
     profilecount++;
 	
-    f = fopen ("waddump.txt","w");
+    f = web_fopen ("waddump.txt","w");
     name[8] = 0;
 
     for (i=0 ; i<numlumps ; i++)
@@ -571,7 +570,7 @@ void W_Profile (void)
 
 	fprintf (f,"\n");
     }
-    fclose (f);
+    web_fclose (f);
 }
 
 

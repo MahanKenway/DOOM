@@ -279,7 +279,7 @@ async function startGame(sources, type) {
 function wireGameControls() {
   // Keyboard shortcuts not handled by DOOM itself
   window.addEventListener('keydown', (e) => {
-    if (e.code === 'KeyP') {
+    if (e.code === 'KeyP' && engine) {
       engine.paused ? EventBus.emit('engine:resume') : EventBus.emit('engine:pause');
     }
     if (e.code === 'KeyF' || e.code === 'F11') {
@@ -290,7 +290,12 @@ function wireGameControls() {
 
   // Pause menu callbacks
   ui.pause.onResume     = () => EventBus.emit('engine:resume');
-  ui.pause.onRestart    = () => { engine.destroy(); init(); };
+  ui.pause.onRestart    = () => {
+    engine?.destroy();
+    engine = null;
+    document.getElementById('game-screen')?.classList.remove('active');
+    init();
+  };
   ui.pause.onFullscreen = () => toggleFullscreen();
 
   // Settings button opens the settings panel (pausing the game
@@ -304,6 +309,7 @@ function wireGameControls() {
 
   // Mobile pause button
   document.getElementById('btn-pause-mobile')?.addEventListener('click', () => {
+    if (!engine) return;
     engine.paused ? EventBus.emit('engine:resume') : EventBus.emit('engine:pause');
   });
 }
