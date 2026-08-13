@@ -77,7 +77,10 @@ jobs:
         cp index.html manifest.json robots.txt sitemap.xml google*.html dist/ 2>/dev/null || true
         cp -r styles src dist/ 2>/dev/null || true
         mkdir -p dist/assets
-        cp -n assets/* dist/assets/ 2>/dev/null || true
+        # Copy nested catalog artwork as well as existing icons. The WAD is
+        # downloaded above into dist/assets and remains untouched because the
+        # source assets directory does not contain a freedoom1.wad file.
+        cp -R assets/. dist/assets/
 
     - name: Cache-bust WAD/WASM URLs with commit SHA
       run: |

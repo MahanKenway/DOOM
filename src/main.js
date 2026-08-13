@@ -23,6 +23,7 @@
 import { DoomEngine }   from './engine/DoomEngine.js';
 import { WadLoader }    from './WadLoader.js';
 import { EventBus }     from './EventBus.js';
+import { CatalogController } from './catalog.js';
 import {
   LoadingScreen,
   HUD,
@@ -41,6 +42,8 @@ const CONFIG = {
 
 // ── Globals ───────────────────────────────────────────────────────
 let engine  = null;
+let catalog = null;
+let lastLaunch = null;
 
 /**
  * Rolling buffer of recent boot/runtime log messages, captured from
@@ -110,6 +113,12 @@ function bootstrapUI() {
   wireGameControls();
   wireSettingsPanel();
 
+  catalog = new CatalogController({
+    onPlayFreedoom: () => startBundledGame(),
+    onImportWad: () => document.getElementById('wad-upload')?.click(),
+  });
+  catalog.init();
+
   // Single persistent MobileControls instance for the whole page
   // lifetime. Its target callback is rebound on every startGame()
   // via setInjectFn() rather than recreating the instance (which
@@ -124,13 +133,7 @@ function bootstrapUI() {
 function wireWadPicker() {
   const picker = document.getElementById('wad-picker');
 
-  // Option A: bundled Freedoom
-  document.getElementById('btn-freedoom')?.addEventListener('click', async () => {
-    picker?.classList.remove('active');
-    await startGame([CONFIG.bundledWad], 'url');
-  });
-
-  // Option B: file input (supports selecting an IWAD alone, or an
+  // File input supports selecting an IWAD alone, or an IWAD + one
   // IWAD + one or more PWADs together via the 'multiple' attribute)
   document.getElementById('wad-upload')?.addEventListener('change', async (e) => {
     const files = Array.from(e.target.files ?? []);
@@ -162,6 +165,11 @@ function showWadPicker() {
   document.getElementById('wad-picker')?.classList.add('active');
 }
 
+async function startBundledGame() {
+  document.getElementById('wad-picker')?.classList.remove('active');
+  await startGame([CONFIG.bundledWad], 'url');
+}
+
 // ═════════════════════════════════════════════════════════════════
 //  START GAME
 // ═════════════════════════════════════════════════════════════════
@@ -175,6 +183,11 @@ function showWadPicker() {
  * @param {'url'|'file'} type
  */
 async function startGame(sources, type) {
+  // Keep a stable restart target for either the bundled WAD or the
+  // locally selected IWAD + PWAD set. File objects remain available
+  // in the current browser session without uploading them anywhere.
+  lastLaunch = { sources, type };
+
   // Show loading screen again for WAD + WASM load
   ui.loading.show();
   ui.loading.update(5, `Loading WAD${sources.length > 1 ? 's' : ''}…`);
@@ -300,13 +313,17 @@ function wireGameControls() {
 
   // Pause menu callbacks
   ui.pause.onResume     = () => EventBus.emit('engine:resume');
-  ui.pause.onRestart    = () => {
+  ui.pause.onRestart    = () => restartCurrentSession();
+  ui.pause.onFullscreen = () => toggleFullscreen();
+
+  document.getElementById('btn-return-hub')?.addEventListener('click', () => {
     engine?.destroy();
     engine = null;
+    ui.pause.hide();
     document.getElementById('game-screen')?.classList.remove('active');
-    init();
-  };
-  ui.pause.onFullscreen = () => toggleFullscreen();
+    showWadPicker();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
 
   // Settings button opens the settings panel (pausing the game
   // underneath, matching how the pause menu already behaves)
@@ -322,6 +339,16 @@ function wireGameControls() {
     if (!engine) return;
     engine.paused ? EventBus.emit('engine:resume') : EventBus.emit('engine:pause');
   });
+}
+
+function restartCurrentSession() {
+  const launch = lastLaunch;
+  engine?.destroy();
+  engine = null;
+  ui.pause.hide();
+  document.getElementById('game-screen')?.classList.remove('active');
+  if (launch) startGame(launch.sources, launch.type);
+  else showWadPicker();
 }
 
 // ═════════════════════════════════════════════════════════════════

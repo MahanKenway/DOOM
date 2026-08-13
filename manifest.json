@@ -1,12 +1,12 @@
 {
-  "name": "DOOM — Browser Edition",
-  "short_name": "DOOM",
-  "description": "Classic DOOM running in your browser via WebAssembly",
+  "name": "RIFTWAD — WAD worlds, played here",
+  "short_name": "RIFTWAD",
+  "description": "A curated browser hub for playable WAD worlds, local archives and experimental mapsets.",
   "start_url": "/",
-  "display": "fullscreen",
-  "orientation": "landscape",
-  "background_color": "#000000",
-  "theme_color": "#cc2200",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#e7e6e0",
+  "theme_color": "#e7e6e0",
   "icons": [
     {
       "src": "assets/icon-192.png",
@@ -21,13 +21,5 @@
       "purpose": "any"
     }
   ],
-  "categories": ["games"],
-  "screenshots": [
-    {
-      "src": "assets/screenshot.jpg",
-      "sizes": "1280x800",
-      "type": "image/jpeg",
-      "label": "DOOM E1M1"
-    }
-  ]
+  "categories": ["games", "entertainment"]
 }

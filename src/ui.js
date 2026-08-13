@@ -72,19 +72,15 @@ export class LoadingScreen {
    */
   async playBootSequence() {
     const lines = [
-      { text: 'DOOM v1.10 — Browser Edition',          level: 'ok'   },
-      { text: 'Initialising memory zone...',            level: 'info' },
-      { text: 'Z_Init: Init zone memory allocation daemon.', level: 'ok' },
-      { text: 'W_Init: Init WADfiles.',                 level: 'ok'   },
-      { text: 'Added /wads/freedoom1.wad',              level: 'ok'   },
-      { text: 'I_Init: Setting up machine state.',      level: 'ok'   },
-      { text: 'R_Init: Init DOOM refresh daemon -',     level: 'ok'   },
-      { text: '..................................done',  level: 'ok'   },
-      { text: 'P_Init: Init Playloop state.',           level: 'ok'   },
-      { text: 'I_Init: Init interfaces.',               level: 'ok'   },
-      { text: 'D_CheckNetGame: Checking network game...', level: 'ok' },
-      { text: 'S_Init: Setting up sound.',              level: 'ok'   },
-      { text: 'ST_Init: Init status bar.',              level: 'ok'   },
+      { text: 'RIFTWAD // browser catalog',              level: 'ok'   },
+      { text: 'Checking local runtime...',                level: 'info' },
+      { text: 'Archive bridge: available.',               level: 'ok'   },
+      { text: 'WAD parser: ready.',                       level: 'ok'   },
+      { text: 'Input surfaces: keyboard / mouse / touch.',level: 'ok'   },
+      { text: 'Audio route: on-demand.',                 level: 'ok'   },
+      { text: 'Library index: local storage.',            level: 'ok'   },
+      { text: 'Renderer target: WebAssembly.',            level: 'ok'   },
+      { text: 'Catalog state: open.',                     level: 'ok'   },
     ];
 
     for (const { text, level } of lines) {
@@ -111,7 +107,7 @@ export class HUD {
   setFps(fps) {
     if (this.#fpsBadge) this.#fpsBadge.textContent = `${fps} FPS`;
     // Color-code: green ≥ 30, amber 15-30, red < 15
-    const col = fps >= 30 ? '#00bb55' : fps >= 15 ? '#ff8800' : '#ff2200';
+    const col = fps >= 30 ? '#d7eb41' : fps >= 15 ? '#c6bc6e' : '#b8786b';
     if (this.#fpsBadge) this.#fpsBadge.style.color = col;
   }
 

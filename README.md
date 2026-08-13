@@ -1,20 +1,10 @@
 <div align="center">
 
-```
-██████╗  ██████╗  ██████╗ ███╗   ███╗
-██╔══██╗██╔═══██╗██╔═══██╗████╗ ████║
-██║  ██║██║   ██║██║   ██║██╔████╔██║
-██║  ██║██║   ██║██║   ██║██║╚██╔╝██║
-██████╔╝╚██████╔╝╚██████╔╝██║ ╚═╝ ██║
-╚═════╝  ╚═════╝  ╚═════╝ ╚═╝     ╚═╝
-      B R O W S E R   E D I T I O N
+# RIFTWAD
 
-```
-<img width="1281" height="804" alt="Image" src="https://github.com/user-attachments/assets/d0cda2cb-dadf-4513-9e48-21ada12fe330" />
+> **WAD worlds, played here.** RIFTWAD is a curated browser hub for playable WAD archives, local mapsets and experimental Doom-engine worlds.
 
-### The 1993 classic, rebuilt for 2026 — running natively in your browser via WebAssembly.
-
-[![Play Now](https://img.shields.io/badge/▶_PLAY_NOW-cc2200?style=for-the-badge&logo=googlechrome&logoColor=white)](https://mahankenway.github.io/DOOM/)
+[![Open RIFTWAD](https://img.shields.io/badge/OPEN_RIFTWAD-1a1d18?style=for-the-badge&logo=googlechrome&logoColor=d7eb41)](https://mahankenway.github.io/DOOM/)
 [![Build Status](https://img.shields.io/github/actions/workflow/status/MahanKenway/DOOM/build-and-deploy.yml?style=for-the-badge&label=BUILD&logo=githubactions&logoColor=white&color=success)](../../actions/workflows/build-and-deploy.yml)
 [![License](https://img.shields.io/badge/LICENSE-DOOM_SOURCE-blueviolet?style=for-the-badge&logo=gnu&logoColor=white)](#-license)
 
@@ -27,19 +17,15 @@
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen?style=flat-square)](../../pulls)
 [![Made with 💀](https://img.shields.io/badge/Made_with-💀-red?style=flat-square)]()
 
-<sub>No plugins. No Flash. No native app. Just a browser tab and 26.2 MB of pure id Software nostalgia.</sub>
-
-</div>
+<sub>No plugins. No native app. A browser catalog, local library, and a WebAssembly runtime.</sub>
 
 ---
 
-## 🎮 [▶ Play it right now →](https://mahankenway.github.io/DOOM/)
+## Play and import
 
-Runs entirely client-side. The original **linuxdoom-1.10** C source, compiled straight to **WebAssembly**, rendering into an HTML5 `<canvas>` at a rock-solid 35 Hz — exactly as id Software shipped it in 1997.
+RIFTWAD ships with **Freedoom: Phase 1** as a ready-to-play open WAD. The catalog also supports a locally selected base IWAD plus up to three PWAD patches, so users can launch game worlds they legally own without uploading archives to a server.
 
-<div align="center">
-<sub>🖱 Click to lock the mouse · ⌨️ WASD or arrows to move · 🔫 Ctrl to fire · Esc for menu</sub>
-</div>
+The current runtime compiles the **linuxdoom-1.10** C source to WebAssembly and renders it into an HTML5 `<canvas>`. The RIFTWAD shell adds browsing, client-side filtering, a local pinned library and a clear import path around that engine.
 
 ---
 
