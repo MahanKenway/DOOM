@@ -180,6 +180,10 @@ async function startGame(sources, type) {
   ui.loading.update(5, `Loading WAD${sources.length > 1 ? 's' : ''}…`);
 
   try {
+    if (sources.length > 4) {
+      throw new Error('A maximum of 4 WAD files is supported: one IWAD plus up to 3 PWAD files.');
+    }
+
     // 1. Load every WAD's bytes
     const loaded = [];
     for (let i = 0; i < sources.length; i++) {
@@ -206,7 +210,13 @@ async function startGame(sources, type) {
     //    uploaded only PWADs with no IWAD, we can't run (DOOM has
     //    nothing to layer them onto) — surface a clear error rather
     //    than silently guessing.
-    const iwadIdx = loaded.findIndex(w => w.header?.type === 'IWAD');
+    const iwadIndexes = loaded
+      .map((w, index) => w.header?.type === 'IWAD' ? index : -1)
+      .filter(index => index >= 0);
+    const iwadIdx = iwadIndexes[0] ?? -1;
+    if (iwadIndexes.length > 1) {
+      throw new Error('Select exactly one IWAD. Additional files must be PWAD patches or maps.');
+    }
     if (iwadIdx === -1) {
       throw new Error(
         loaded.length === 1

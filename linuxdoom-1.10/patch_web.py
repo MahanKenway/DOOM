@@ -21,10 +21,14 @@ patched = re.sub(
     STUB, src, count=1, flags=re.DOTALL)   # <-- DOTALL required
 
 if patched == src:
-    print('ERROR: D_DoomLoop not found in d_main.c'); sys.exit(1)
-with open('d_main.c', 'w') as f:
-    f.write(patched)
-print('OK d_main.c: D_DoomLoop -> web stub')
+    if '/* WEB BUILD: JS drives loop via requestAnimationFrame */' in src:
+        print('SKIP d_main.c: D_DoomLoop already patched')
+    else:
+        print('ERROR: D_DoomLoop not found in d_main.c'); sys.exit(1)
+else:
+    with open('d_main.c', 'w') as f:
+        f.write(patched)
+    print('OK d_main.c: D_DoomLoop -> web stub')
 
 # ── Patch 2: m_misc.c — chatmacro pointer defaults ──────────────────
 with open('m_misc.c') as f:
@@ -107,14 +111,17 @@ print('All patches done (4 total).')
 with open('doomdef.h') as f:
     src = f.read()
 
-patched = src.replace('#define SNDSERV  1', '// #define SNDSERV  1  // disabled for web build')
-
-if patched == src:
-    print('WARNING: SNDSERV define not found in doomdef.h')
+if 'SNDSERV  1' in src and 'disabled for web build' in src:
+    patched = src
+    print('SKIP doomdef.h: SNDSERV already disabled')
 else:
-    with open('doomdef.h', 'w') as f:
-        f.write(patched)
-    print('OK doomdef.h: SNDSERV disabled (web build uses direct Web Audio bridge)')
+    patched = src.replace('#define SNDSERV  1', '// #define SNDSERV  1  // disabled for web build')
+    if patched == src:
+        print('WARNING: SNDSERV define not found in doomdef.h')
+    else:
+        with open('doomdef.h', 'w') as f:
+            f.write(patched)
+        print('OK doomdef.h: SNDSERV disabled (web build uses direct Web Audio bridge)')
 
 print('All patches done (5 total).')
 
@@ -125,16 +132,17 @@ print('All patches done (5 total).')
 with open('w_wad.c') as f:
     src = f.read()
 
-patched = src.replace(
-    'void strupr (char* s)\n{\n    while (*s) { *s = toupper(*s); s++; }\n}',
-    'static void doom_strupr (char* s)\n{\n    while (*s) { *s = toupper(*s); s++; }\n}'
-)
-# Also rename all call sites: strupr( -> doom_strupr(
-# but NOT the #define strcmpi line, and not Emscripten's own strupr
-patched = patched.replace('strupr (', 'doom_strupr (')
-patched = patched.replace('strupr(',  'doom_strupr(')
-# Fix double-rename if the function definition already got renamed
-patched = patched.replace('static void doom_doom_strupr', 'static void doom_strupr')
+if 'doom_strupr' in src:
+    patched = src
+else:
+    patched = src.replace(
+        'void strupr (char* s)\n{\n    while (*s) { *s = toupper(*s); s++; }\n}',
+        'static void doom_strupr (char* s)\n{\n    while (*s) { *s = toupper(*s); s++; }\n}'
+    )
+    # Rename only the standalone function/call identifier, never a name
+    # that already contains the new prefix.
+    patched = re.sub(r'(?<!doom_)\bstrupr\b', 'doom_strupr', patched)
+    patched = patched.replace('static void doom_strupr', 'static void doom_strupr')
 
 if patched == src:
     print('WARNING: strupr pattern not found in w_wad.c')
@@ -194,9 +202,13 @@ patched = re.sub(
     r'void IdentifyVersion \(void\)\s*\{.*?\n\}\n',
     IDENTIFY_VERSION_STUB, src, count=1, flags=re.DOTALL)
 if patched == src:
-    print('ERROR: IdentifyVersion not found'); sys.exit(1)
-src = patched
-print('OK d_main.c: IdentifyVersion -> multi-WAD (IWAD+PWAD) content-based detection')
+    if 'W_Web_GetWadCount()' in src:
+        print('SKIP d_main.c: IdentifyVersion already patched')
+    else:
+        print('ERROR: IdentifyVersion not found'); sys.exit(1)
+else:
+    src = patched
+    print('OK d_main.c: IdentifyVersion -> multi-WAD (IWAD+PWAD) content-based detection')
 
 FIND_RESPONSE_STUB = (
     'void FindResponseFile (void)\n'
@@ -209,9 +221,13 @@ patched = re.sub(
     r'void FindResponseFile \(void\)\s*\{.*?\n\}\n',
     FIND_RESPONSE_STUB, src, count=1, flags=re.DOTALL)
 if patched == src:
-    print('ERROR: FindResponseFile not found'); sys.exit(1)
-src = patched
-print('OK d_main.c: FindResponseFile -> no-op stub')
+    if 'response files (@args) are not supported' in src:
+        print('SKIP d_main.c: FindResponseFile already patched')
+    else:
+        print('ERROR: FindResponseFile not found'); sys.exit(1)
+else:
+    src = patched
+    print('OK d_main.c: FindResponseFile -> no-op stub')
 
 # Remove the Windows-only mkdir() call (inside the "-cdrom" branch,
 # never exercised in the web build, but still linked otherwise).
@@ -380,6 +396,9 @@ _CHECKPOINTS = [
 
 count = 0
 for old, new in _CHECKPOINTS:
+    marker = new.split('\n', 1)[0]
+    if marker in src:
+        continue
     if old in src:
         src = src.replace(old, new, 1)
         count += 1
