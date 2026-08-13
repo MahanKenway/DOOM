@@ -8,6 +8,10 @@
 | Freedoom: Phase 2 | Bundled IWAD | قابل اجرا | محتوای آزاد Freedoom با attribution حفظ‌شده [1] |
 | FreeDM: Arena Archive | Bundled IWAD | قابل اجرا برای exploration محلی؛ بدون bot یا multiplayer | archive رسمی خانوادهٔ Freedoom با attribution حفظ‌شده [1] |
 | Hacx: Twitch ’n Kill | Bundled Freedoom II + Hacx PWAD | قابل اجرا؛ مسیر Doom II/commercial runtime | release رسمی Hacx 1.2؛ royalty-free، غیرتجاری و همراه با credit/license [6] [7] |
+| Ancient Aliens | External engine | نیازمند port سازگار Boom | download رسمی project؛ screenshot واقعی با credit، اما هیچ WADی bundle نمی‌شود [8] |
+| Eviternity | External engine | نیازمند port سازگار Boom | download رسمی project؛ screenshot واقعی با credit، اما هیچ WADی bundle نمی‌شود [9] |
+| Back to Saturn X: E1 | Official download | نیازمند دانلود دو PWAD و IWAD سازگار کاربر | project WADها bundle نمی‌شوند؛ مسیر canonical فقط معرفی می‌شود [10] |
+| The Adventures of Square | External engine | بستهٔ modified GZDoom رسمی | total conversion با package اختصاصی؛ فقط به release رسمی وصل می‌شود [11] |
 | The Plutonia Experiment | Owned file | فقط پس از انتخاب WAD قانونی کاربر | Final Doom تجاری؛ هیچ archive یا dataای bundle نمی‌شود [2] |
 | TNT: Evilution | Owned file | فقط پس از انتخاب WAD قانونی کاربر | Final Doom تجاری؛ هیچ archive یا dataای bundle نمی‌شود [3] |
 | Community WAD shelf | Local import | یک IWAD و حداکثر سه PWAD محلی | حق استفاده و سازگاری بر عهدهٔ کاربر؛ فایل‌ها upload نمی‌شوند |
@@ -22,6 +26,8 @@ RIFTWAD فعلی یک browser build از **linuxdoom 1.10** با loader سازگ
 |---|---|
 | Doom-compatible IWAD | Freedoom Phase 1، Phase 2 و FreeDM bundle و قابل launch هستند. Hacx 1.2 به‌صورت Hacx PWAD روی Freedoom II bundle می‌شود و فقط در deployment غیرتجاری مجاز است. |
 | Doom-compatible PWAD | تنها همراه با IWAD محلی و پس از انتخاب کاربر قابل load است. |
+| Boom / MBF21 PWAD | در catalog معرفی می‌شود اما تا زمان ارتقای engine، launch یا bundle نمی‌شود. |
+| GZDoom total conversion | تنها با پیوند release رسمی نمایش داده می‌شود؛ package یا asset آن host نمی‌شود. |
 | Heretic-compatible IWAD | در catalog می‌تواند معرفی شود، اما launch نمی‌شود. |
 | GZDoom-era release | تا زمان ساخت adapter اختصاصی، قابل اجرا یا bundled معرفی نمی‌شود. |
 
@@ -33,6 +39,10 @@ RIFTWAD فعلی یک browser build از **linuxdoom 1.10** با loader سازگ
 |---|---|---|
 | `freedoom-phase1.png`، `freedoom-phase2.png` و `freedm.png` | پروژهٔ رسمی Freedoom [1] | Freedoom project |
 | `hacx-gameplay.jpg` | صفحهٔ رسانهٔ رسمی Hacx [6] | Hacx project / Dr Nostromo |
+| `ancient-aliens-gameplay.jpg` | صفحهٔ انتشار Ancient Aliens در ModDB [8] | Ancient Aliens project / ModDB |
+| `eviternity-gameplay.jpg` | صفحهٔ انتشار Eviternity در ModDB [9] | Eviternity project / ModDB |
+| `back-to-saturn-x-gameplay.jpg` | صفحهٔ انتشار Back to Saturn X در ModDB [10] | Back to Saturn X project / ModDB |
+| `adventures-of-square-gameplay.png` | Square press kit رسمی [11] | BigBrik Games / Square press kit |
 | `plutonia-gateway-of-hell.webp` | Doom Wiki / Fandom، MAP30 [2] | Doom Wiki / Fandom |
 | `tnt-steel-works.webp` | Doom Wiki / Fandom، MAP14 [3] | Doom Wiki / Fandom |
 | `blasphemer-gameplay.webp` | image ارجاع‌شده در README پروژه [4] | Blasphemer project / jeshimoth.com |
@@ -72,3 +82,7 @@ Hacx 1.2 در منبع رسمی Dr Nostromo به‌عنوان یک **stand-alone
 [5]: https://github.com/XProger/OpenResident "XProger/OpenResident repository"
 [6]: https://drnostromo.com/hacx/page.php?content=download "Hacx 1.2 official download"
 [7]: https://github.com/XaserAcheron/hacx/blob/master/LEGAL.txt "Hacx distribution terms"
+[8]: https://www.moddb.com/games/doom-ii/addons/ancient-aliens "Ancient Aliens v1.2"
+[9]: https://www.moddb.com/mods/eviternity "Eviternity"
+[10]: https://www.moddb.com/mods/back-to-saturn-x "Back to Saturn X"
+[11]: http://adventuresofsquare.com/ "The Adventures of Square"
