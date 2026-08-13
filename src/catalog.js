@@ -36,19 +36,21 @@ export const COLLECTIONS = [
   },
   {
     id: 'freedm',
-    title: 'FreeDM',
+    title: 'FreeDM: Arena Archive',
     studio: 'Freedoom project',
     year: 'v0.13.0',
-    format: 'Free IWAD',
-    genre: 'Experimental',
+    format: 'Bundled IWAD',
+    genre: 'Action',
     duration: '32 arenas',
-    maps: 'Deathmatch collection',
-    status: 'Attach a compatible FreeDM WAD',
+    maps: 'Doom II-compatible',
+    status: 'Free / bundled · solo exploration',
     license: 'BSD-style free content · attribution retained',
     artwork: 'assets/screenshots/freedm.png',
     artworkCredit: 'Screenshot: Freedoom project',
-    description: 'A 32-level open deathmatch archive. The current browser runtime is single-player only and does not provide online matchmaking; attach your compatible FreeDM archive to explore the collection.',
-    playable: false,
+    source: 'assets/freedm.wad',
+    description: 'A libre 32-map deathmatch archive. RIFTWAD can launch the levels for local exploration, but it does not add bots, online play or matchmaking.',
+    playable: true,
+    playLabel: 'Explore archive',
   },
   {
     id: 'plutonia',
@@ -61,8 +63,8 @@ export const COLLECTIONS = [
     maps: 'Final Doom campaign',
     status: 'Requires your legal IWAD',
     license: 'Not bundled or hosted by RIFTWAD',
-    artwork: 'assets/covers/horror-rift.png',
-    artworkCredit: 'RIFTWAD editorial illustration',
+    artwork: 'assets/screenshots/plutonia-gateway-of-hell.webp',
+    artworkCredit: 'Gameplay screenshot: Doom Wiki / Fandom · MAP30: The Gateway of Hell',
     description: 'A demanding Final Doom campaign known for compressed combat spaces and high-pressure encounters. RIFTWAD can launch a lawfully owned copy selected from your device, but does not distribute this IWAD.',
     playable: false,
   },
@@ -77,8 +79,8 @@ export const COLLECTIONS = [
     maps: 'Final Doom campaign',
     status: 'Requires your legal IWAD',
     license: 'Not bundled or hosted by RIFTWAD',
-    artwork: 'assets/covers/exploration-rift.png',
-    artworkCredit: 'RIFTWAD editorial illustration',
+    artwork: 'assets/screenshots/tnt-steel-works.webp',
+    artworkCredit: 'Gameplay screenshot: Doom Wiki / Fandom · MAP14: Steel Works',
     description: 'A Final Doom campaign with industrial spaces, larger progression routes and authored set pieces. Attach a legally acquired TNT IWAD from your device to play it here.',
     playable: false,
   },
@@ -93,10 +95,47 @@ export const COLLECTIONS = [
     maps: 'Mapset or patch',
     status: 'Attach a compatible WAD',
     license: 'Only archives you have the right to use',
-    artwork: 'assets/covers/experimental-rift.png',
-    artworkCredit: 'RIFTWAD editorial illustration',
-    description: 'A local route for mapsets, total conversions and experiments. Attach one base IWAD and up to three PWADs; files stay in this browser session and are never uploaded by RIFTWAD.',
+    artwork: 'assets/screenshots/freedoom-phase2.png',
+    artworkCredit: 'Gameplay screenshot: Freedoom project · example compatible runtime',
+    description: 'A local route for compatible mapsets and experiments. Attach one base IWAD and up to three PWADs; files stay in this browser session and are never uploaded by RIFTWAD.',
     playable: false,
+  },
+  {
+    id: 'blasphemer',
+    title: 'Blasphemer',
+    studio: 'Blasphemer project',
+    year: 'v0.1.8',
+    format: 'Free Heretic IWAD',
+    genre: 'Horror',
+    duration: 'Campaign + deathmatch',
+    maps: 'Heretic-compatible',
+    status: 'External engine required',
+    license: 'BSD 3-Clause content · attribution retained',
+    artwork: 'assets/screenshots/blasphemer-gameplay.webp',
+    artworkCredit: 'Gameplay screenshot: Blasphemer project / jeshimoth.com',
+    description: 'A fully playable libre dark-fantasy IWAD for the Heretic engine. It is verified in the index, but cannot launch in RIFTWAD yet because this browser runtime currently implements Doom 1.10 only.',
+    playable: false,
+    projectUrl: 'https://github.com/Blasphemer/blasphemer/releases/tag/v0.1.8',
+    projectLabel: 'View official release',
+  },
+  {
+    id: 'openresident-research',
+    title: 'OpenResident',
+    studio: 'XProger',
+    year: 'Engine research',
+    format: 'Resident Evil engine',
+    genre: 'Horror',
+    duration: 'Prototype track',
+    maps: 'Native data required',
+    status: 'WebAssembly study · not playable',
+    license: 'BSD 2-Clause engine code · no game data bundled',
+    artwork: 'assets/screenshots/openresident-gameplay.webp',
+    artworkCredit: 'Gameplay screenshot: XProger/OpenResident README',
+    description: 'An open C engine studied for a future browser port. The upstream source has no Resident Evil game data and currently targets X11/GLX or Win32/WGL, so RIFTWAD does not package, emulate or launch it as a game.',
+    playable: false,
+    probePath: 'openresident.html',
+    projectUrl: 'https://github.com/XProger/OpenResident',
+    projectLabel: 'Open WebGL2 probe',
   },
 ];
 
@@ -165,6 +204,8 @@ export class CatalogController {
       const action = button.dataset.action;
       if (action === 'play-game' && game?.playable) this.#onPlay?.(game);
       if (action === 'import') this.#onImport?.(game);
+      if (action === 'open-project' && game?.projectUrl) window.open(game.projectUrl, '_blank', 'noopener,noreferrer');
+      if (action === 'open-probe' && game?.probePath) window.location.assign(game.probePath);
       if (action === 'focus-genre') this.focusCatalog(button.dataset.genre ?? 'All');
       if (action === 'toggle-library' && game) { this.#toggleLibrary(game.id); this.render(); }
       if (action === 'select-game' && game) this.#selectGame(game);
@@ -183,18 +224,23 @@ export class CatalogController {
 
   #cardTemplate(game, index) {
     const saved = this.#pinned.has(game.id);
+    const isProbe = !game.playable && Boolean(game.probePath);
+    const isExternal = !game.playable && Boolean(game.projectUrl);
+    const action = game.playable ? 'play-game' : (isProbe ? 'open-probe' : (isExternal ? 'open-project' : 'import'));
+    const actionLabel = game.playable ? (game.playLabel ?? 'Play now') : (isProbe ? (game.projectLabel ?? 'Open technical probe') : (isExternal ? (game.projectLabel ?? 'View project') : 'Attach WAD'));
+    const state = game.playable ? 'BUNDLED' : (isProbe ? 'WEBGL2 STUDY' : (isExternal ? 'EXTERNAL ENGINE' : 'OWNED FILE'));
     return `<article class="game-card ${game.featured ? 'is-featured-card' : ''}" style="--card-index:${index}">
       <button class="game-card-media" data-action="select-game" data-game="${game.id}" aria-label="View ${game.title}">
         <img src="${game.artwork}" alt="" loading="lazy" />
         <span class="card-index">// ${String(index + 1).padStart(2, '0')}</span>
-        <span class="card-state ${game.playable ? 'is-ready' : ''}">${game.playable ? 'BUNDLED' : 'OWNED FILE'}</span>
+        <span class="card-state ${game.playable ? 'is-ready' : ''}">${state}</span>
       </button>
       <div class="game-card-body">
         <div class="card-overline"><span>${game.genre}</span><span>${game.format}</span></div>
         <h3>${game.title}</h3><p>${game.description}</p>
         <p class="card-license">${game.license}</p>
         <div class="card-meta"><span>${game.year}</span><span>${game.duration}</span><span>${game.maps}</span></div>
-        <div class="card-actions"><button class="rift-button rift-button-compact" data-action="${game.playable ? 'play-game' : 'import'}" data-game="${game.id}">${game.playable ? 'Play now' : 'Attach WAD'}</button><button class="icon-button ${saved ? 'is-saved' : ''}" data-action="toggle-library" data-game="${game.id}" aria-label="${saved ? 'Remove from' : 'Add to'} Library" aria-pressed="${saved}">${saved ? '★' : '☆'}</button></div>
+        <div class="card-actions"><button class="rift-button rift-button-compact" data-action="${action}" data-game="${game.id}">${actionLabel}</button><button class="icon-button ${saved ? 'is-saved' : ''}" data-action="toggle-library" data-game="${game.id}" aria-label="${saved ? 'Remove from' : 'Add to'} Library" aria-pressed="${saved}">${saved ? '★' : '☆'}</button></div>
       </div>
     </article>`;
   }
@@ -215,9 +261,11 @@ export class CatalogController {
     if (cover) { cover.src = game.artwork; cover.alt = `${game.title} preview`; }
     const button = document.getElementById('btn-freedoom');
     if (button) {
-      button.dataset.action = game.playable ? 'play-game' : 'import';
+      const isProbe = !game.playable && Boolean(game.probePath);
+      const isExternal = !game.playable && Boolean(game.projectUrl);
+      button.dataset.action = game.playable ? 'play-game' : (isProbe ? 'open-probe' : (isExternal ? 'open-project' : 'import'));
       button.dataset.game = game.id;
-      button.textContent = game.playable ? 'Launch now' : 'Attach legal WAD';
+      button.textContent = game.playable ? (game.playLabel ?? 'Launch now') : (isProbe ? (game.projectLabel ?? 'Open technical probe') : (isExternal ? (game.projectLabel ?? 'View project') : 'Attach legal WAD'));
     }
     document.getElementById('featured-format').textContent = game.format;
     document.getElementById('featured-session').textContent = game.duration;

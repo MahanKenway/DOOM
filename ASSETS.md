@@ -1,15 +1,27 @@
-# دارایی‌های RIFTWAD
+# RIFTWAD — Asset Manifest
 
 **Art direction:** یک هاب بازی premium با حس رابط‌های تکنولوژیک اوایل دههٔ ۲۰۰۰ و PSP؛ زمینهٔ گرمِ off-white و graphite، grid مهندسی بسیار ظریف، پنل‌های نیمه‌شفاف چندلایه با offset فضایی، سایه‌های پخش‌شده، typography فشرده و یک accent lime محدود. نتیجه باید editorial، آرام و مهندسی‌شده باشد؛ نه cyberpunk نئونی، نه CRT تزئینی و نه بازطراحی قرمز/مشکی Doom.
 
-## تصاویر مرجع و coverها
+## Policy
 
-| نام | شرح | اندازهٔ نمایش | مسیر |
-|---|---|---:|---|
-| visual target | مرجع طراحی برای hierarchy، color palette و geometry پنل‌ها | 1920×1080، مرجع داخلی | `/home/ubuntu/riftwad_visual_target.png` |
-| featured cover | فضای داخلی صنعتی/اکتشافی تاریک برای کارت Freedoom | 1120×620 | `assets/covers/freedoom-rift.png` |
-| horror cover | فضای survival horror با نور کنترل‌شده | 720×480 | `assets/covers/horror-rift.png` |
-| exploration cover | فضای اکتشافی غریب و آرام | 720×480 | `assets/covers/exploration-rift.png` |
-| experimental cover | محیط معماری انتزاعی و فنی | 720×480 | `assets/covers/experimental-rift.png` |
+کارت‌های catalog باید از **اسکرین‌شات واقعی گیم‌پلی** استفاده کنند. تصویر تولیدشده یا illustration مصنوعی در catalog مجاز نیست. هر تصویر باید یک project/source معتبر و متن attribution قابل‌نمایش در UI داشته باشد. وجود یک repository عمومی به‌تنهایی مجوز بازتوزیع محتوای بازی نیست؛ جزئیات وضعیت هر عنوان در `WAD_CATALOG_AUDIT.md` ثبت می‌شود.
 
-کاورها باید بدون wordmark یا متن تولید شوند؛ نام بازی‌ها، metadata و CTA در markup رندر می‌شوند.
+## Catalog screenshots
+
+| عنوان | فایل | نوع | منبع و credit |
+|---|---|---|---|
+| Freedoom: Phase 1 | `assets/screenshots/freedoom-phase1.png` | Screenshot واقعی بازی | Freedoom project |
+| Freedoom: Phase 2 | `assets/screenshots/freedoom-phase2.png` | Screenshot واقعی بازی | Freedoom project |
+| FreeDM | `assets/screenshots/freedm.png` | Screenshot واقعی بازی | Freedoom project |
+| The Plutonia Experiment | `assets/screenshots/plutonia-gateway-of-hell.webp` | Screenshot واقعی گیم‌پلی، MAP30 | Doom Wiki / Fandom |
+| TNT: Evilution | `assets/screenshots/tnt-steel-works.webp` | Screenshot واقعی گیم‌پلی، MAP14 | Doom Wiki / Fandom |
+| Blasphemer | `assets/screenshots/blasphemer-gameplay.webp` | Screenshot واقعی گیم‌پلی | Blasphemer project / jeshimoth.com |
+| OpenResident | `assets/screenshots/openresident-gameplay.webp` | Screenshot واقعی گیم‌پلی | XProger/OpenResident README |
+
+## Visual reference
+
+| نام | شرح | وضعیت |
+|---|---|---|
+| visual target | مرجع طراحی برای hierarchy، palette و geometry پنل‌ها | مرجع داخلی، نه asset catalog |
+
+نام بازی، metadata و CTA همواره در markup رندر می‌شوند؛ تصویر فقط نقش پیش‌نمایش واقعی gameplay را دارد.

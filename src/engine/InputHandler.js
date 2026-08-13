@@ -129,6 +129,8 @@ export class InputHandler {
 
   // Internal state
   #heldKeys       = new Set();
+  #keySources     = new Map(); // Doom key → active input-source identifiers
+  #turnPulseSerial = 0;
   #pointerLocked  = false;
   #sensitivity    = 1.0;   // configurable via setSensitivity()
   #gamepadDeadzone = 0.25;
@@ -152,10 +154,13 @@ export class InputHandler {
   #boundClickToPlayKeyDown;
   #boundGamepadConnect;
   #boundGamepadDisconnect;
+  #boundWindowBlur;
+  #boundVisibilityChange;
 
   // Gamepad polling
   #gamepadRAF   = null;
   #gamepadState = {};   // { [index]: boolean[] }
+  #gamepadAxes  = {};   // { [index]: { xKey, yKey } }
 
   /**
    * @param {HTMLCanvasElement} canvas
@@ -177,6 +182,8 @@ export class InputHandler {
     };
     this.#boundGamepadConnect = this.#onGamepadConnect.bind(this);
     this.#boundGamepadDisconnect = this.#onGamepadDisconnect.bind(this);
+    this.#boundWindowBlur = () => this.releaseAll();
+    this.#boundVisibilityChange = () => { if (document.hidden) this.releaseAll(); };
     this.#boundDeviceOrientation = this.#onDeviceOrientation.bind(this);
     this.#boundOrientationChange = this.#onOrientationChange.bind(this);
   }
@@ -212,6 +219,8 @@ export class InputHandler {
     // Gamepad
     window.addEventListener('gamepadconnected', this.#boundGamepadConnect);
     window.addEventListener('gamepaddisconnected', this.#boundGamepadDisconnect);
+    window.addEventListener('blur', this.#boundWindowBlur);
+    document.addEventListener('visibilitychange', this.#boundVisibilityChange);
     this.#pollGamepads();
   }
 
@@ -231,20 +240,60 @@ export class InputHandler {
     clickToPlay?.removeEventListener('keydown', this.#boundClickToPlayKeyDown);
     window.removeEventListener('gamepadconnected', this.#boundGamepadConnect);
     window.removeEventListener('gamepaddisconnected', this.#boundGamepadDisconnect);
+    window.removeEventListener('blur', this.#boundWindowBlur);
+    document.removeEventListener('visibilitychange', this.#boundVisibilityChange);
     this.disableGyro();
+    this.releaseAll();
 
     cancelAnimationFrame(this.#gamepadRAF);
   }
 
-  /** For mobile/touch buttons to inject synthetic key events. */
-  injectKey(doomKey, isDown) {
-    if (!this.#heldKeys.has(doomKey) && isDown) {
-      this.#heldKeys.add(doomKey);
-      this.onKeyDown?.(doomKey);
-    } else if (this.#heldKeys.has(doomKey) && !isDown) {
-      this.#heldKeys.delete(doomKey);
-      this.onKeyUp?.(doomKey);
+  /**
+   * Press or release a virtual/physical Doom key. A source identifier keeps
+   * one input surface from releasing a key that another one is still holding.
+   */
+  injectKey(doomKey, isDown, source = 'legacy') {
+    this.#setKeySource(doomKey, source, isDown);
+  }
+
+  /** Pulse a menu/action key without leaving a state behind. */
+  tapKey(doomKey, source = 'tap') {
+    const token = `${source}:${performance.now()}`;
+    this.#setKeySource(doomKey, token, true);
+    requestAnimationFrame(() => this.#setKeySource(doomKey, token, false));
+  }
+
+  /** Release every held key after touch cancellation, tab switch or teardown. */
+  releaseAll() {
+    for (const doomKey of this.#heldKeys) this.onKeyUp?.(doomKey);
+    this.#heldKeys.clear();
+    this.#keySources.clear();
+    this.#gamepadState = {};
+    this.#gamepadAxes = {};
+  }
+
+  /** Synthesise a turn pulse for drag-look and mouse/gyro look. */
+  injectTurn(direction, magnitude = 1, source = 'turn') {
+    this.#injectTurn(direction, magnitude, source);
+  }
+
+  #setKeySource(doomKey, source, isDown) {
+    const sources = this.#keySources.get(doomKey) ?? new Set();
+    if (isDown) {
+      if (sources.has(source)) return;
+      sources.add(source);
+      this.#keySources.set(doomKey, sources);
+      if (!this.#heldKeys.has(doomKey)) {
+        this.#heldKeys.add(doomKey);
+        this.onKeyDown?.(doomKey);
+      }
+      return;
     }
+
+    if (!sources.delete(source)) return;
+    if (sources.size > 0) return;
+    this.#keySources.delete(doomKey);
+    if (this.#heldKeys.delete(doomKey)) this.onKeyUp?.(doomKey);
   }
 
   // ─── Private: Keyboard ──────────────────────────────────────
@@ -258,16 +307,13 @@ export class InputHandler {
 
     const dk = KEY_MAP.get(e.code);
     if (dk == null) return;
-    if (this.#heldKeys.has(dk)) return;   // ignore auto-repeat
-    this.#heldKeys.add(dk);
-    this.onKeyDown?.(dk);
+    this.#setKeySource(dk, 'keyboard', true);
   }
 
   #onKeyUp(e) {
     const dk = KEY_MAP.get(e.code);
     if (dk == null) return;
-    this.#heldKeys.delete(dk);
-    this.onKeyUp?.(dk);
+    this.#setKeySource(dk, 'keyboard', false);
   }
 
   // ─── Private: Mouse ─────────────────────────────────────────
@@ -504,12 +550,15 @@ export class InputHandler {
    * Simulate a key-press + key-release in one frame for mouse turning.
    * We don't hold the key; we pulse it proportional to speed.
    */
-  #injectTurn(dir, magnitude) {
+  #injectTurn(dir, magnitude, source = 'turn') {
     const dk = dir === 'right' ? DoomKey.RIGHT_ARROW : DoomKey.LEFT_ARROW;
-    this.onKeyDown?.(dk);
-    // Release after a small delay proportional to magnitude
-    const delay = Math.min(magnitude * 8, 100);
-    setTimeout(() => this.onKeyUp?.(dk), delay);
+    const token = `${source}:${++this.#turnPulseSerial}`;
+    this.#setKeySource(dk, token, true);
+    // Release after a small delay proportional to magnitude. Source-aware
+    // ownership means this pulse cannot release a direction held by touch,
+    // keyboard or gamepad at the same time.
+    const delay = Math.min(Math.max(magnitude * 8, 16), 100);
+    setTimeout(() => this.#setKeySource(dk, token, false), delay);
   }
 
   // ─── Private: Pointer Lock ───────────────────────────────────
@@ -549,54 +598,33 @@ export class InputHandler {
       if (!pad) continue;
       const prev = this.#gamepadState[pad.index] ?? [];
 
-      // Digital buttons
+      // Digital buttons. Each physical button owns its own source token so
+      // shared mappings (for example LB/RB → strafe) release correctly.
       pad.buttons.forEach((btn, i) => {
         const dk = GAMEPAD_BTN_MAP[i];
         if (!dk) return;
-        const nowPressed  = btn.pressed;
-        const wasPressed  = prev[i] ?? false;
-        if (nowPressed && !wasPressed) {
-          this.#heldKeys.add(dk);
-          this.onKeyDown?.(dk);
-        } else if (!nowPressed && wasPressed) {
-          this.#heldKeys.delete(dk);
-          this.onKeyUp?.(dk);
+        const nowPressed = btn.pressed;
+        const wasPressed = prev[i] ?? false;
+        if (nowPressed !== wasPressed) {
+          this.#setKeySource(dk, `gamepad:${pad.index}:button:${i}`, nowPressed);
         }
       });
 
-      // Left stick X-axis → turn
-      const lx = pad.axes[0] ?? 0;
-      if (Math.abs(lx) > this.#gamepadDeadzone) {
-        const dk = lx > 0 ? DoomKey.RIGHT_ARROW : DoomKey.LEFT_ARROW;
-        if (!this.#heldKeys.has(dk)) {
-          this.#heldKeys.add(dk);
-          this.onKeyDown?.(dk);
-        }
-      } else {
-        [DoomKey.RIGHT_ARROW, DoomKey.LEFT_ARROW].forEach(dk => {
-          if (this.#heldKeys.has(dk)) {
-            this.#heldKeys.delete(dk);
-            this.onKeyUp?.(dk);
-          }
-        });
-      }
+      const axes = this.#gamepadAxes[pad.index] ?? { xKey: null, yKey: null };
+      const setAxisKey = (axis, nextKey) => {
+        const previous = axes[axis];
+        if (previous === nextKey) return;
+        if (previous) this.#setKeySource(previous, `gamepad:${pad.index}:${axis}`, false);
+        if (nextKey) this.#setKeySource(nextKey, `gamepad:${pad.index}:${axis}`, true);
+        axes[axis] = nextKey;
+      };
 
-      // Left stick Y-axis → forward/back
+      // Left stick → deterministic turn and movement state.
+      const lx = pad.axes[0] ?? 0;
       const ly = pad.axes[1] ?? 0;
-      if (Math.abs(ly) > this.#gamepadDeadzone) {
-        const dk = ly > 0 ? DoomKey.DOWN_ARROW : DoomKey.UP_ARROW;
-        if (!this.#heldKeys.has(dk)) {
-          this.#heldKeys.add(dk);
-          this.onKeyDown?.(dk);
-        }
-      } else {
-        [DoomKey.UP_ARROW, DoomKey.DOWN_ARROW].forEach(dk => {
-          if (this.#heldKeys.has(dk)) {
-            this.#heldKeys.delete(dk);
-            this.onKeyUp?.(dk);
-          }
-        });
-      }
+      setAxisKey('xKey', Math.abs(lx) > this.#gamepadDeadzone ? (lx > 0 ? DoomKey.RIGHT_ARROW : DoomKey.LEFT_ARROW) : null);
+      setAxisKey('yKey', Math.abs(ly) > this.#gamepadDeadzone ? (ly > 0 ? DoomKey.DOWN_ARROW : DoomKey.UP_ARROW) : null);
+      this.#gamepadAxes[pad.index] = axes;
 
       // Save current state for next frame delta
       this.#gamepadState[pad.index] = pad.buttons.map(b => b.pressed);

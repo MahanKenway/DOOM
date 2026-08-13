@@ -166,85 +166,150 @@ export class PauseMenu {
 // ─────────────────────────────────────────────────────────────────
 /**
  * ui/MobileControls.js
- * Wires the on-screen D-pad and action buttons to InputHandler.injectKey().
+ * PSP-inspired controls built with Pointer Events. Each pointer receives its
+ * own source token, so two fingers (for example move + fire) never release
+ * each other's keys. Cancel, focus-loss and hidden-tab paths release every
+ * synthetic key defensively.
  */
 export class MobileControls {
   #container;
   #injectFn;
+  #wired = false;
+  #activeButtons = new Map(); // pointerId → { doomKey, source, button }
+  #lookPointers = new Map();  // pointerId → { lastX }
+  #pulseTimers = new Map();   // source → { timer, doomKey }
+  #pulseSerial = 0;
+  #boundReleaseAll;
 
-  // Map data-key attribute → DOOM key code(s)
-  // Imported from InputHandler to avoid circular deps
   #keyMap = {
-    up:    0xad,   // UP_ARROW
-    down:  0xaf,   // DOWN_ARROW
-    left:  0xac,   // LEFT_ARROW
-    right: 0xae,   // RIGHT_ARROW
-    shoot: 0x80 + 0x1d,   // RCTRL = fire
-    use:   32,             // SPACE = use
-    sl:    0x80 + 0x38,   // RALT = strafe mode
-    sr:    0x80 + 0x38,
-    run:   0x80 + 0x36,   // RSHIFT = run
+    up:      0xad,          // UP_ARROW
+    down:    0xaf,          // DOWN_ARROW
+    left:    0xac,          // LEFT_ARROW
+    right:   0xae,          // RIGHT_ARROW
+    fire:    0x80 + 0x1d,   // RCTRL
+    use:     32,            // SPACE
+    strafe:  0x80 + 0x38,   // RALT
+    run:     0x80 + 0x36,   // RSHIFT
+    map:     9,             // TAB
+    menu:    27,            // ESCAPE
   };
 
   /**
-   * @param {(doomKey: number, isDown: boolean) => void} injectFn
+   * @param {(doomKey: number, isDown: boolean, source?: string) => void} injectFn
    */
   constructor(injectFn) {
     this.#container = document.getElementById('mobile-controls');
-    this.#injectFn  = injectFn;
+    this.#injectFn = injectFn;
+    this.#boundReleaseAll = () => this.#releaseAll();
 
     if (this.#isTouchDevice()) {
       this.#container?.style.setProperty('display', 'block');
-      this.#wireButtons();
+      this.#wireControls();
     }
   }
 
-  /**
-   * Rebind which engine/input-handler this instance forwards touch
-   * input to. Call this on every game (re)start instead of creating
-   * a new MobileControls instance — the DOM touch listeners are
-   * wired exactly once in the constructor and stay wired for the
-   * lifetime of the page; only the target callback needs to change.
-   * @param {(doomKey: number, isDown: boolean) => void} injectFn
-   */
+  /** Rebind only the engine target; DOM listeners remain single-instance. */
   setInjectFn(injectFn) {
+    this.#releaseAll();
     this.#injectFn = injectFn;
   }
 
-  #wireButtons() {
+  #wireControls() {
+    if (this.#wired) return;
+    this.#wired = true;
+    this.#container?.addEventListener('contextmenu', (event) => event.preventDefault());
+
     const buttons = this.#container?.querySelectorAll('[data-key]') ?? [];
+    for (const button of buttons) this.#wireButton(button);
+    this.#wireLookZone(this.#container?.querySelector('[data-look-zone]'));
 
-    for (const btn of buttons) {
-      const keyName = btn.dataset.key;
-      const doomKey = this.#keyMap[keyName];
-      if (doomKey == null) continue;
+    window.addEventListener('blur', this.#boundReleaseAll);
+    document.addEventListener('visibilitychange', () => { if (document.hidden) this.#releaseAll(); });
+  }
 
-      // Touch events (more responsive than click on mobile)
-      btn.addEventListener('touchstart', (e) => {
-        e.preventDefault();
-        btn.classList.add('pressed');
-        this.#injectFn(doomKey, true);
-      }, { passive: false });
+  #wireButton(button) {
+    const doomKey = this.#keyMap[button.dataset.key];
+    if (doomKey == null) return;
 
-      btn.addEventListener('touchend', (e) => {
-        e.preventDefault();
-        btn.classList.remove('pressed');
-        this.#injectFn(doomKey, false);
-      }, { passive: false });
+    const finish = (event) => {
+      const active = this.#activeButtons.get(event.pointerId);
+      if (!active) return;
+      this.#activeButtons.delete(event.pointerId);
+      active.button.classList.remove('pressed');
+      this.#injectFn(active.doomKey, false, active.source);
+    };
 
-      btn.addEventListener('touchcancel', () => {
-        btn.classList.remove('pressed');
-        this.#injectFn(doomKey, false);
-      });
+    button.addEventListener('pointerdown', (event) => {
+      if (event.pointerType === 'mouse' && event.button !== 0) return;
+      event.preventDefault();
+      if (this.#activeButtons.has(event.pointerId)) return;
+      const source = `touch-button:${button.dataset.key}:${event.pointerId}`;
+      this.#activeButtons.set(event.pointerId, { doomKey, source, button });
+      button.classList.add('pressed');
+      try { button.setPointerCapture(event.pointerId); } catch { /* capture is a best-effort enhancement */ }
+      this.#injectFn(doomKey, true, source);
+    });
+    button.addEventListener('pointerup', finish);
+    button.addEventListener('pointercancel', finish);
+    button.addEventListener('lostpointercapture', finish);
+  }
+
+  #wireLookZone(zone) {
+    if (!zone) return;
+    const finish = (event) => {
+      this.#lookPointers.delete(event.pointerId);
+      zone.classList.toggle('is-looking', this.#lookPointers.size > 0);
+    };
+
+    zone.addEventListener('pointerdown', (event) => {
+      if (event.pointerType === 'mouse' && event.button !== 0) return;
+      event.preventDefault();
+      this.#lookPointers.set(event.pointerId, { lastX: event.clientX });
+      zone.classList.add('is-looking');
+      try { zone.setPointerCapture(event.pointerId); } catch { /* capture is a best-effort enhancement */ }
+    });
+    zone.addEventListener('pointermove', (event) => {
+      const pointer = this.#lookPointers.get(event.pointerId);
+      if (!pointer) return;
+      event.preventDefault();
+      const deltaX = event.clientX - pointer.lastX;
+      pointer.lastX = event.clientX;
+      if (Math.abs(deltaX) >= 3) this.#pulseTurn(deltaX > 0 ? 'right' : 'left', Math.abs(deltaX), event.pointerId);
+    });
+    zone.addEventListener('pointerup', finish);
+    zone.addEventListener('pointercancel', finish);
+    zone.addEventListener('lostpointercapture', finish);
+  }
+
+  #pulseTurn(direction, magnitude, pointerId) {
+    const doomKey = direction === 'right' ? this.#keyMap.right : this.#keyMap.left;
+    const source = `touch-look:${pointerId}:${++this.#pulseSerial}`;
+    this.#injectFn(doomKey, true, source);
+    const delay = Math.min(Math.max(magnitude * 6, 24), 84);
+    const timer = setTimeout(() => {
+      this.#injectFn(doomKey, false, source);
+      this.#pulseTimers.delete(source);
+    }, delay);
+    this.#pulseTimers.set(source, { timer, doomKey });
+  }
+
+  #releaseAll() {
+    for (const { doomKey, source, button } of this.#activeButtons.values()) {
+      button.classList.remove('pressed');
+      this.#injectFn(doomKey, false, source);
     }
+    this.#activeButtons.clear();
+    for (const [source, { timer, doomKey }] of this.#pulseTimers) {
+      clearTimeout(timer);
+      this.#injectFn(doomKey, false, source);
+    }
+    this.#pulseTimers.clear();
+    this.#lookPointers.clear();
+    this.#container?.querySelector('[data-look-zone]')?.classList.remove('is-looking');
   }
 
   #isTouchDevice() {
-    return (
-      'ontouchstart' in window ||
-      navigator.maxTouchPoints > 0 ||
-      window.matchMedia('(pointer: coarse)').matches
-    );
+    return 'ontouchstart' in window || navigator.maxTouchPoints > 0 || window.matchMedia('(pointer: coarse)').matches;
   }
 }
 

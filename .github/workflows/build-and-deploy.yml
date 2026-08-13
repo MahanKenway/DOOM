@@ -43,8 +43,10 @@ jobs:
       run: |
         mkdir -p dist/assets
         curl -fsSL --retry 2 "https://github.com/freedoom/freedoom/releases/download/v0.13.0/freedoom-0.13.0.zip" -o freedoom.zip
+        curl -fsSL --retry 2 "https://github.com/freedoom/freedoom/releases/download/v0.13.0/freedm-0.13.0.zip" -o freedm.zip
         unzip -j freedoom.zip "*/freedoom1.wad" "*/freedoom2.wad" -d dist/assets/
-        for wad in freedoom1.wad freedoom2.wad; do
+        unzip -j freedm.zip "*/freedm.wad" -d dist/assets/
+        for wad in freedoom1.wad freedoom2.wad freedm.wad; do
           test -f "dist/assets/$wad" || { echo "FATAL: $wad missing"; exit 1; }
         done
 
@@ -74,20 +76,41 @@ jobs:
         test -f ../dist/wasm/doom.wasm || { echo "FATAL: doom.wasm not produced"; exit 1; }
         ls -lh ../dist/wasm/doom.wasm
 
+    - name: Compile OpenResident WebGL2 probe
+      run: |
+        mkdir -p dist/openresident
+        em++ third_party/openresident-web/main.cpp third_party/openresident-web/render_web.cpp \
+          -Ithird_party/openresident-web/include \
+          -O2 -DNDEBUG -D__EMSCRIPTEN__=1 \
+          -s WASM=1 \
+          -s MODULARIZE=1 \
+          -s EXPORT_ES6=1 \
+          -s EXPORT_NAME=OpenResidentProbe \
+          -s MIN_WEBGL_VERSION=2 \
+          -s MAX_WEBGL_VERSION=2 \
+          -s FULL_ES3=1 \
+          -s EXPORTED_FUNCTIONS='["_openresident_web_graphics_probe","_openresident_web_shutdown"]' \
+          -s EXPORTED_RUNTIME_METHODS='["cwrap"]' \
+          -o dist/openresident/openresident-probe.js
+        test -f dist/openresident/openresident-probe.wasm || { echo "FATAL: OpenResident probe WASM not produced"; exit 1; }
+        ls -lh dist/openresident/openresident-probe.*
+
     - name: Copy frontend files
       run: |
-        cp index.html manifest.json robots.txt sitemap.xml google*.html dist/ 2>/dev/null || true
+        cp index.html openresident.html manifest.json robots.txt sitemap.xml google*.html dist/ 2>/dev/null || true
         cp -r styles src dist/ 2>/dev/null || true
         mkdir -p dist/assets
-        # Copy nested catalog artwork as well as existing icons. The WAD is
-        # downloaded above into dist/assets and remains untouched because the
-        # source assets directory does not contain a freedoom1.wad file.
+        # Copy nested catalog artwork as well as existing icons. The WADs are
+        # downloaded above into dist/assets and remain untouched because the
+        # source assets directory contains no bundled archive.
         cp -R assets/. dist/assets/
 
     - name: Cache-bust WAD/WASM URLs with commit SHA
       run: |
         SHA_SHORT=$(echo "${{ github.sha }}" | cut -c1-8)
         sed -i "s#assets/freedoom1\\.wad#assets/freedoom1.wad?v=${SHA_SHORT}#" dist/src/main.js
+        sed -i "s#assets/freedoom2\\.wad#assets/freedoom2.wad?v=${SHA_SHORT}#" dist/src/main.js
+        sed -i "s#assets/freedm\\.wad#assets/freedm.wad?v=${SHA_SHORT}#" dist/src/main.js
         sed -i "s#wasm/doom\\.wasm#wasm/doom.wasm?v=${SHA_SHORT}#" dist/src/main.js
 
     - name: Upload Pages artifact

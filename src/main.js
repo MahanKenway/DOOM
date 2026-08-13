@@ -297,8 +297,8 @@ async function startGame(sources, type, { catalogGame = null } = {}) {
     // 6. Rebind the persistent MobileControls instance to this
     //    engine's InputHandler (does NOT re-wire touch listeners —
     //    those were wired exactly once in bootstrapUI()).
-    ui.mobile?.setInjectFn((key, isDown) => {
-      engine.getInputHandler?.().injectKey(key, isDown);
+    ui.mobile?.setInjectFn((key, isDown, source) => {
+      engine.getInputHandler?.().injectKey(key, isDown, source ?? 'touch');
     });
 
     // 7. Apply persisted user settings (CRT/scale/smoothing/
