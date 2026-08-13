@@ -17,7 +17,7 @@ index 21da754..62405b5 100644
  	set_target_properties(cdogs-sdl PROPERTIES
  		MACOSX_RPATH 1
 diff --git a/src/cdogs.c b/src/cdogs.c
-index d64a3b9..44143c2 100644
+index d64a3b9..2ac5048 100644
 --- a/src/cdogs.c
 +++ b/src/cdogs.c
 @@ -112,19 +112,8 @@ int main(int argc, char *argv[])
@@ -42,11 +42,14 @@ index d64a3b9..44143c2 100644
  	SetupConfigDir();
  	gConfig = ConfigDefault();
  #else
-@@ -139,6 +128,12 @@ int main(int argc, char *argv[])
+@@ -139,6 +128,15 @@ int main(int argc, char *argv[])
  	char buf[CDOGS_PATH_MAX];
  	ProcessCommandLine(buf, argc, argv);
  	LOG(LM_MAIN, LL_INFO, "Command line (%d args):%s", argc, buf);
 +#ifdef __EMSCRIPTEN__
++	// Bind keyboard listeners to the SDL canvas itself so physical and
++	// PSP-style synthetic controls keep working across fullscreen changes.
++	SDL_SetHint(SDL_HINT_EMSCRIPTEN_KEYBOARD_ELEMENT, "#canvas");
 +	// Browser frame scheduling is handled by emscripten_set_main_loop_arg.
 +	// Avoid SDL2's nested Asyncify yield from SDL_RenderPresent, which prevents
 +	// the first software-rendered frame from returning to that scheduler.
@@ -239,7 +242,7 @@ index 5e31c93..ded0d5c 100644
 +#endif
  }
 diff --git a/src/cdogs/window_context.c b/src/cdogs/window_context.c
-index dd6889f..3d10be9 100644
+index dd6889f..9b3edab 100644
 --- a/src/cdogs/window_context.c
 +++ b/src/cdogs/window_context.c
 @@ -47,8 +47,14 @@ bool WindowContextCreate(
@@ -247,8 +250,8 @@ index dd6889f..3d10be9 100644
  		return false;
  	}
 +#ifdef __EMSCRIPTEN__
-+	// SDL's software/canvas backend offers the most reliable texture path for
-+	// this renderer architecture in browser builds.
++	// The software/canvas backend is compatible with the browser context used
++	// by the static host page and does not require WebGL availability.
 +	wc->renderer = SDL_CreateRenderer(wc->window, -1, SDL_RENDERER_SOFTWARE);
 +#else
  	wc->renderer = SDL_CreateRenderer(
@@ -302,7 +305,7 @@ index dd6889f..3d10be9 100644
  
  	CA_FOREACH(SDL_Texture *, t, wc->textures)
  	TextureRender(
-@@ -198,10 +210,11 @@ void WindowContextPostRender(WindowContext *wc)
+@@ -198,13 +210,17 @@ void WindowContextPostRender(WindowContext *wc)
  		SDL_FLIP_NONE);
  	CA_FOREACH_END()
  
@@ -314,7 +317,14 @@ index dd6889f..3d10be9 100644
 +#endif
  	SDL_RenderPresent(wc->renderer);
  
- 	// Restore logical size for next frame's game rendering
+-	// Restore logical size for next frame's game rendering
++#ifndef __EMSCRIPTEN__
++	// The browser renderer retains its logical size. Resetting it after every
++	// present can recreate the canvas backing store during fullscreen resizes.
+ 	SDL_RenderSetLogicalSize(
+ 		wc->renderer, wc->logicalSize.x, wc->logicalSize.y);
++#endif
+ }
 diff --git a/src/cdogs/yajl_utils.c b/src/cdogs/yajl_utils.c
 index cd5de56..a9e6063 100644
 --- a/src/cdogs/yajl_utils.c
@@ -330,11 +340,37 @@ index cd5de56..a9e6063 100644
  static char *ReadFile(const char *filename);
  yajl_val YAJLReadFile(const char *filename)
  {
+diff --git a/src/game.c b/src/game.c
+index f4fd753..d3eb66c 100644
+--- a/src/game.c
++++ b/src/game.c
+@@ -666,6 +666,17 @@ static void RunGameDraw(GameLoopData *data)
+ {
+ 	RunGameData *rData = data->Data;
+ 
++#ifdef __EMSCRIPTEN__
++	// While a loading overlay draws its parent, the overlay writes into the
++	// shared background buffer after RunGameOnEnter has cleared it. Re-clear
++	// that buffer on RunGame's first own frame so the completed overlay cannot
++	// remain visible over the live map.
++	if (data->Frames == 0)
++	{
++		RunGameReset(rData);
++	}
++#endif
++
+ 	// Draw game layer
+ 	BlitClearBuf(&gGraphicsDevice);
+ 	CameraDraw(&rData->Camera, rData->Camera.HUD.DrawData);
 diff --git a/src/game_loop.c b/src/game_loop.c
-index 4f6848b..512461b 100644
+index 4f6848b..917665d 100644
 --- a/src/game_loop.c
 +++ b/src/game_loop.c
-@@ -32,6 +32,7 @@
+@@ -29,9 +29,11 @@
+ #include "game_loop.h"
+ 
+ #include <SDL_timer.h>
++#include <stdlib.h>
  
  #include "config.h"
  #include "events.h"
@@ -342,7 +378,7 @@ index 4f6848b..512461b 100644
  #include "net_client.h"
  #include "net_server.h"
  #include "sounds.h"
-@@ -48,7 +49,7 @@
+@@ -48,7 +50,7 @@
  
  bool emscripten_fs_ready = false;
  
@@ -351,7 +387,23 @@ index 4f6848b..512461b 100644
  {
  	// options.cnf
  	FILE *file_options = fopen(GetConfigFilePath(CONFIG_FILE), "r");
-@@ -95,36 +96,18 @@ void emscriptenLoadFiles()
+@@ -81,6 +83,15 @@ void emscriptenLoadFiles()
+ 	{
+ 		fclose(file_scores);
+ 	}
++	else
++	{
++		file_scores = fopen(GetConfigFilePath(SCORES_FILE), "w");
++		if (file_scores)
++		{
++			fputs("{}\n", file_scores);
++			fclose(file_scores);
++		}
++	}
+ 
+ 	// players.cnf
+ 	FILE *file_players = fopen(GetConfigFilePath(PLAYER_TEMPLATE_FILE), "r");
+@@ -95,36 +106,18 @@ void emscriptenLoadFiles()
  	}
  }
  
@@ -397,7 +449,7 @@ index 4f6848b..512461b 100644
  }
  #endif
  
-@@ -298,7 +281,9 @@ bool LoopRunnerRunInner(LoopRunInnerData *ctx)
+@@ -298,9 +291,17 @@ bool LoopRunnerRunInner(LoopRunInnerData *ctx)
  void EmscriptenMainLoop(void *arg)
  {
  	if (!emscriptenPersistData())
@@ -405,23 +457,53 @@ index 4f6848b..512461b 100644
  		return;
 +	}
  
- 	LoopRunnerRunInner((LoopRunInnerData *)arg);
+-	LoopRunnerRunInner((LoopRunInnerData *)arg);
++	LoopRunInnerData *ctx = arg;
++	const bool isRunning = LoopRunnerRunInner(ctx);
++	if (!isRunning)
++	{
++		emscripten_cancel_main_loop();
++		free(ctx);
++	}
  }
-@@ -318,8 +303,10 @@ void LoopRunnerRun(LoopRunner *l)
- 	ctx.p = LoopRunParamsNew(data);
+ #endif
+ void LoopRunnerRun(LoopRunner *l)
+@@ -312,15 +313,28 @@ void LoopRunnerRun(LoopRunner *l)
+ 	}
+ 	GameLoopOnEnter(data);
  
- #ifdef __EMSCRIPTEN__
--	// TODO use GameLoopData->FPS instead of FPS_FRAMELIMIT?
--	emscripten_set_main_loop_arg(EmscriptenMainLoop, &ctx, FPS_FRAMELIMIT, 1);
++#ifdef __EMSCRIPTEN__
++	// The callback outlives this function. Keep its state on the heap rather
++	// than passing a pointer to a stack frame that becomes invalid after the
++	// browser scheduler takes ownership of the main loop.
++	LoopRunInnerData *ctx = calloc(1, sizeof *ctx);
++	if (ctx == NULL)
++	{
++		LOG(LM_MAIN, LL_ERROR, "Unable to allocate browser main-loop state");
++		return;
++	}
++	ctx->l = l;
++	ctx->data = data;
++	ctx->p = LoopRunParamsNew(data);
 +	// The software renderer is significantly more demanding in a browser tab.
 +	// A stable 30 FPS keeps the retro cadence while leaving time for UI, input
 +	// and browser lifecycle tasks.
-+		emscripten_set_main_loop_arg(EmscriptenMainLoop, &ctx, 30, 1);
- #else
++	emscripten_set_main_loop_arg(EmscriptenMainLoop, ctx, 30, 1);
++#else
+ 	LoopRunInnerData ctx;
+ 	ctx.l = l;
+ 	ctx.data = data;
+ 	ctx.p = LoopRunParamsNew(data);
+-
+-#ifdef __EMSCRIPTEN__
+-	// TODO use GameLoopData->FPS instead of FPS_FRAMELIMIT?
+-	emscripten_set_main_loop_arg(EmscriptenMainLoop, &ctx, FPS_FRAMELIMIT, 1);
+-#else
  	for (;;)
  	{
+ 		if (!LoopRunnerRunInner(&ctx))
 diff --git a/src/loading_screens.c b/src/loading_screens.c
-index 0bfac82..d256a33 100644
+index 0bfac82..07b9bc7 100644
 --- a/src/loading_screens.c
 +++ b/src/loading_screens.c
 @@ -30,6 +30,7 @@
@@ -455,8 +537,16 @@ index 0bfac82..d256a33 100644
  }
  
  typedef struct
+@@ -180,6 +190,7 @@ static GameLoopResult LoopUpdate(GameLoopData *data, LoopRunner *l)
+ 	sData->count++;
+ 	if (complete)
+ 	{
++
+ 		// Remove current loop, but copy its data before destroying it
+ 		ScreenLoadingData sDataCopy = *sData;
+ 		sData = NULL;
 diff --git a/src/mainmenu.c b/src/mainmenu.c
-index be51831..2b89e49 100644
+index be51831..a3ab026 100644
 --- a/src/mainmenu.c
 +++ b/src/mainmenu.c
 @@ -134,13 +134,17 @@ static void OnGfxChange(void *data, const bool resetBg)
@@ -477,7 +567,18 @@ index be51831..2b89e49 100644
  
  	MenuResetSize(&data->ms);
  
-@@ -273,6 +277,7 @@ static void MainMenuDraw(GameLoopData *data)
+@@ -238,8 +242,10 @@ static GameLoopResult MainMenuUpdate(GameLoopData *data, LoopRunner *l)
+ 		return UPDATE_RESULT_OK;
+ 	}
+ 
++#ifndef __EMSCRIPTEN__
+ 	LOSSetAllVisible(&mData->rData.map->LOS);
+ 	GameUpdate(&mData->rData, 1, NULL);
++#endif
+ 
+ 	const GameLoopResult result = MenuUpdate(&mData->ms);
+ 	if (result == UPDATE_RESULT_OK)
+@@ -273,6 +279,7 @@ static void MainMenuDraw(GameLoopData *data)
  	}
  	MainMenuData *mData = data->Data;
  	MenuDraw(&mData->ms);
@@ -485,7 +586,7 @@ index be51831..2b89e49 100644
  	const struct vec2 pos = svec2(
  		(gMap.Size.x + 1) * TILE_WIDTH * 0.5f,
  		(gMap.Size.y + 1) * TILE_HEIGHT * 0.5f);
-@@ -280,6 +285,7 @@ static void MainMenuDraw(GameLoopData *data)
+@@ -280,6 +287,7 @@ static void MainMenuDraw(GameLoopData *data)
  	memset(&args, 0, sizeof args);
  	GrafxDrawBackground(
  		mData->graphics, &mData->buffer, mData->bgTint, pos, &args);
@@ -493,6 +594,67 @@ index be51831..2b89e49 100644
  }
  
  static menu_t *MenuCreateStart(
+@@ -358,18 +366,19 @@ static menu_t *MenuCreateStart(
+ 		menu, MenuCreateCampaigns(
+ 				  "Deathmatch", "Select a deathmatch scenario:", mainMenu,
+ 				  &mainMenu->campaigns.dogfightList, GAME_MODE_DEATHMATCH));
++#ifndef __EMSCRIPTEN__
+ 	MenuAddSubmenu(
+ 		menu, CreateJoinLANGame(
+ 				  "Join LAN game", "Choose LAN server", &mainMenu->ms, l));
+ 	CheckLANServerData *cdata;
+ 	CMALLOC(cdata, sizeof *cdata);
+ 	cdata->MenuJoinIndex = (int)menu->u.normal.subMenus.size - 1;
+-	MenuAddSubmenu(menu, MenuCreateSeparator(""));
+-	MenuAddSubmenu(menu, MenuCreateBack("Back"));
+-
+ 	MenuDisableSubmenu(menu, cdata->MenuJoinIndex);
+ 	// Periodically check if LAN servers are available
+ 	MenuSetPostUpdateFunc(menu, CheckLANServers, cdata, true);
++#endif
++	MenuAddSubmenu(menu, MenuCreateSeparator(""));
++	MenuAddSubmenu(menu, MenuCreateBack("Back"));
+ 
+ 	return menu;
+ }
+diff --git a/src/pause_menu.c b/src/pause_menu.c
+index 5a7d415..5c8caf4 100644
+--- a/src/pause_menu.c
++++ b/src/pause_menu.c
+@@ -168,7 +168,12 @@ bool PauseMenuUpdate(
+ 		SoundPlay(&gSoundDevice, StrSound("menu_back"));
+ 		gSoundDevice.music.isReduced = true;
+ 	}
++#ifndef __EMSCRIPTEN__
++	// Desktop refreshes the mixer here to apply pause-volume changes. In the
++	// browser the mixer is configured during startup; calling it every game
++	// tick can stall the SDL_mixer WebAudio bridge before the first map frame.
+ 	SoundReconfigure(&gSoundDevice);
++#endif
+ 	return false;
+ }
+ void PauseMenuDraw(const PauseMenu *pm)
+diff --git a/src/prep.c b/src/prep.c
+index 9442ec2..0b40055 100644
+--- a/src/prep.c
++++ b/src/prep.c
+@@ -830,9 +830,16 @@ bail:
+ 		LoopRunnerPop(l);
+ 		return UPDATE_RESULT_OK;
+ 	}
++#ifdef __EMSCRIPTEN__
++	// The browser owns the canvas through its asynchronous main loop. Avoid
++	// layering a final synchronous-style loading overlay over the first live
++	// gameplay frames; enter the isolated RunGame loop directly instead.
++	LoopRunnerPush(l, RunGame(&gCampaign, &gMission, &gMap));
++#else
+ 	LoopRunnerPush(
+ 		l, ScreenLoading(
+ 			   "Starting game...", true, RunGame(&gCampaign, &gMission, &gMap),
+ 			   true));
++#endif
+ 	return UPDATE_RESULT_OK;
+ }
 diff --git a/cmake/FindSDL2_mixer.cmake b/cmake/FindSDL2_mixer.cmake
 new file mode 100644
 index 0000000..f249f33

@@ -1,0 +1,3 @@
+# Generated unified patches contain their own leading context markers and tabs.
+# Exclude only these nested patch files from outer Git whitespace checks.
+third_party/cdogs-web/*.patch -whitespace

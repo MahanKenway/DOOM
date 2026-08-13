@@ -19,9 +19,11 @@
     .panel { display:grid; grid-template-columns:minmax(0,1fr) 290px; gap:22px; padding:18px; border:1px solid var(--line); background:rgba(255,255,251,.42); box-shadow:12px 14px 0 rgba(24,28,24,.07); }
     .screen { position:relative; min-width:0; background:#090c09; border:1px solid #353b32; }.screen::after { content:''; position:absolute; inset:0; pointer-events:none; opacity:.16; background:repeating-linear-gradient(0deg,transparent 0 2px,rgba(215,235,65,.2) 3px); }
     canvas { display:block; width:100%; aspect-ratio:4/3; image-rendering:pixelated; background:#090c09; outline:none; }
+    canvas:fullscreen { width:100vw; height:100vh; aspect-ratio:auto; object-fit:contain; background:#000; }
     .result { display:grid; align-content:start; gap:12px; padding:7px; }.result > span { color:#657220; font:10px var(--mono); text-transform:uppercase; letter-spacing:.1em; }.status { min-height:76px; padding:12px; border:1px solid rgba(23,26,23,.22); background:#181b17; color:#dfe4d2; font:11px/1.45 var(--mono); white-space:pre-wrap; }.facts { margin:0; display:grid; gap:0; border-top:1px solid var(--line); }.facts div { padding:10px 0; border-bottom:1px solid var(--line); }.facts dt { color:#747b70; font:9px var(--mono); text-transform:uppercase; }.facts dd { margin:4px 0 0; font-size:12px; }.utility { cursor:pointer; }
     .notice { margin:26px 0 0; padding:15px 18px; border-left:3px solid var(--lime); background:rgba(185,200,45,.12); color:#3f453d; font-size:13px; }.notice strong { color:var(--ink); }
-    .controls { display:none; margin-top:20px; align-items:center; justify-content:space-between; gap:20px; user-select:none; touch-action:none; }.dpad,.actions { display:grid; gap:7px; }.dpad { grid-template-columns:repeat(3,48px); grid-template-rows:repeat(3,48px); }.actions { grid-template-columns:repeat(3,48px); grid-template-rows:repeat(2,48px); align-items:center; }.pad-btn { display:grid; place-items:center; width:48px; height:48px; border:1px solid rgba(215,235,65,.55); border-radius:50%; color:var(--lime); background:rgba(12,17,12,.92); box-shadow:0 3px 0 rgba(0,0,0,.3); font:700 13px var(--mono); touch-action:none; }.pad-btn:active,.pad-btn.is-active { transform:translateY(2px); background:#2c3628; box-shadow:0 1px 0 rgba(0,0,0,.3); }.dpad .pad-btn:nth-child(1) { grid-column:2; }.dpad .pad-btn:nth-child(2) { grid-row:2; grid-column:1; }.dpad .pad-btn:nth-child(3) { grid-row:2; grid-column:2; }.dpad .pad-btn:nth-child(4) { grid-row:2; grid-column:3; }.touch-note { margin:0; color:#666d63; font:10px var(--mono); text-align:center; }
+    .controls { display:none; margin-top:20px; align-items:center; justify-content:space-between; gap:20px; user-select:none; touch-action:none; }    .dpad,.actions { display:grid; gap:7px; }.dpad { grid-template-columns:repeat(3,48px); grid-template-rows:repeat(3,48px); }.actions { grid-template-columns:repeat(3,48px); grid-template-rows:repeat(3,48px); align-items:center; }.pad-btn { display:grid; place-items:center; width:48px; height:48px; border:1px solid rgba(215,235,65,.55); border-radius:50%; color:var(--lime); background:rgba(12,17,12,.92); box-shadow:0 3px 0 rgba(0,0,0,.3); font:700 13px var(--mono); touch-action:none; }.pad-btn--menu { width:103px; grid-column:1 / span 2; border-radius:24px; font-size:10px; letter-spacing:.08em; }.pad-btn:active,.pad-btn.is-active { transform:translateY(2px); background:#2c3628; box-shadow:0 1px 0 rgba(0,0,0,.3); }.dpad .pad-btn:nth-child(1) { grid-column:2; }.dpad .pad-btn:nth-child(2) { grid-row:2; grid-column:1; }.dpad .pad-btn:nth-child(3) { grid-row:2; grid-column:2; }.dpad .pad-btn:nth-child(4) { grid-row:2; grid-column:3; }.touch-note { margin:0; color:#666d63; font:10px var(--mono); text-align:center; }
+
     @media (max-width:760px) { main { width:min(100% - 24px,680px); padding-top:18px; }.panel { grid-template-columns:1fr; }.controls { display:flex; }.intro { font-size:14px; } }
   </style>
 </head>
@@ -37,18 +39,23 @@
     </section>
     <div class="controls" aria-label="Touch controls">
       <div class="dpad"><button class="pad-btn" data-key="ArrowUp">▲</button><button class="pad-btn" data-key="ArrowLeft">◀</button><button class="pad-btn" data-key="ArrowDown">▼</button><button class="pad-btn" data-key="ArrowRight">▶</button></div>
-      <p class="touch-note">D-pad: move<br />△ map · □ switch<br />○ grenade · × fire</p>
-      <div class="actions"><span></span><button class="pad-btn" data-key="KeyA">△</button><span></span><button class="pad-btn" data-key="KeyZ">□</button><button class="pad-btn" data-key="KeyS">○</button><button class="pad-btn" data-key="KeyX">×</button></div>
+      <p class="touch-note">D-pad: move / menu<br />↵ select · △ map<br />□ switch · ○ grenade · × fire</p>
+      <div class="actions"><span></span><button class="pad-btn" data-key="KeyA">△</button><span></span><button class="pad-btn" data-key="KeyZ">□</button><button class="pad-btn" data-key="KeyS">○</button><button class="pad-btn" data-key="KeyX">×</button><button class="pad-btn pad-btn--menu" data-key="Enter">↵ SELECT</button></div>
     </div>
     <p class="notice"><strong>Prototype scope:</strong> C-Dogs SDL is a different, self-contained engine and free-content game—not a Doom WAD. Multiplayer networking is intentionally disabled in this first browser build; the focus is solo/local play and isolated runtime validation. *Gamepad support is delegated to SDL and browser capability.</p>
   </main>
   <script>
+    const BUILD_ID = '20260813-cdogs-runtime-final';
     const canvas = document.getElementById('canvas');
     const result = document.getElementById('result');
     const setStatus = (text) => { result.textContent = text; };
+    const keyCodes = { ArrowUp: 38, ArrowLeft: 37, ArrowDown: 40, ArrowRight: 39, Enter: 13, Escape: 27, KeyA: 65, KeyZ: 90, KeyS: 83, KeyX: 88 };
     const dispatch = (code, type) => {
       canvas.focus({ preventScroll: true });
-      canvas.dispatchEvent(new KeyboardEvent(type, { code, key: code.startsWith('Arrow') ? code.replace('Arrow', '') : code.replace('Key', '').toLowerCase(), bubbles: true }));
+      const key = code === 'Enter' ? 'Enter' : code === 'Escape' ? 'Escape' : code.startsWith('Arrow') ? code.replace('Arrow', '') : code.replace('Key', '').toLowerCase();
+      const event = new KeyboardEvent(type, { code, key, bubbles: true, cancelable: true });
+      Object.defineProperties(event, { keyCode: { value: keyCodes[code] || 0 }, which: { value: keyCodes[code] || 0 } });
+      canvas.dispatchEvent(event);
     };
     document.querySelectorAll('[data-key]').forEach((button) => {
       const key = button.dataset.key;
@@ -59,12 +66,16 @@
       button.addEventListener('pointercancel', release);
       button.addEventListener('pointerleave', (event) => { if (event.buttons) release(event); });
     });
+    canvas.addEventListener('pointerdown', () => canvas.focus({ preventScroll: true }));
+    document.addEventListener('fullscreenchange', () => {
+      if (document.fullscreenElement === canvas) canvas.focus({ preventScroll: true });
+    });
     document.getElementById('btn-fullscreen').addEventListener('click', () => {
-      (document.fullscreenElement ? document.exitFullscreen() : canvas.requestFullscreen()).catch((error) => setStatus(`Fullscreen unavailable\n${error.message}`));
+      (document.fullscreenElement ? document.exitFullscreen() : canvas.requestFullscreen({ navigationUI: 'hide' })).catch((error) => setStatus(`Fullscreen unavailable\n${error.message}`));
     });
     window.Module = {
       canvas,
-      locateFile: (file) => `cdogs/${file}`,
+      locateFile: (file) => `cdogs/${file}?v=${BUILD_ID}`,
       print: (message) => console.log('[C-DOGS]', message),
       printErr: (message) => { console.warn('[C-DOGS]', message); if (/error|failed|cannot/i.test(message)) setStatus(`Runtime warning\n${message}`); },
       setStatus: (message) => { if (message) setStatus(message); },
@@ -72,6 +83,6 @@
       onAbort: (message) => setStatus(`NOT READY\n${message}`),
     };
   </script>
-  <script src="cdogs/cdogs-sdl.js" async></script>
+  <script src="cdogs/cdogs-sdl.js?v=20260813-cdogs-runtime-final" async></script>
 </body>
 </html>

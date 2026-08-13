@@ -25,19 +25,13 @@ test "$(git rev-parse HEAD)" = "$CDOGS_COMMIT" || {
 git apply --check "$PATCH_FILE"
 git apply "$PATCH_FILE"
 
-# Bundle the free game data required for the browser title screen, campaigns and
-# dogfights. Blender authoring files are omitted: the runtime only consumes the
-# exported game data, PNG sprites, JSON and audio assets.
+# Bundle the complete free game data required for browser gameplay, including
+# campaign tiles, walls, doors, player sprites, particles, JSON and music.
+# Blender authoring files are omitted because the runtime consumes only their
+# exported game assets.
 cp -a data "$BOOTSTRAP_DIR/data"
 find "$BOOTSTRAP_DIR/data" -type f -name 'src.blend' -delete
-mkdir -p "$BOOTSTRAP_DIR/graphics"
-find graphics -maxdepth 1 -type f -exec cp -a {} "$BOOTSTRAP_DIR/graphics/" \;
-cp -a graphics/particles "$BOOTSTRAP_DIR/graphics/particles"
-mkdir -p "$BOOTSTRAP_DIR/graphics/chars/bodies"
-cp -a graphics/chars/hats "$BOOTSTRAP_DIR/graphics/chars/hats"
-for sprite_class in base soldier skinny big_skinny; do
-  cp -a "graphics/chars/bodies/$sprite_class" "$BOOTSTRAP_DIR/graphics/chars/bodies/$sprite_class"
-done
+cp -a graphics "$BOOTSTRAP_DIR/graphics"
 find "$BOOTSTRAP_DIR/graphics" -type f -name 'src.blend' -delete
 cp -a music missions dogfights "$BOOTSTRAP_DIR/"
 mkdir -p "$BOOTSTRAP_DIR/doc"
