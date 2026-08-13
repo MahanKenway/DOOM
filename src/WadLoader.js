@@ -25,44 +25,55 @@ export class WadLoader {
    * @param {(pct: number) => void} [onProgress]
    * @returns {Promise<Uint8Array>}
    */
-  static async fromUrl(url, onProgress) {
-    const response = await fetch(url);
-    if (!response.ok) {
-      throw new Error(`WAD fetch failed: ${response.status} ${response.statusText}`);
+  static async fromUrl(url, onProgress, { retries = 2, timeoutMs = 45000 } = {}) {
+    let lastError;
+    for (let attempt = 0; attempt <= retries; attempt++) {
+      try {
+        return await WadLoader.#fetchOnce(url, onProgress, timeoutMs);
+      } catch (error) {
+        lastError = error;
+        if (attempt >= retries) break;
+        await new Promise((resolve) => setTimeout(resolve, 500 * (attempt + 1)));
+      }
     }
+    throw new Error(`WAD download failed after ${retries + 1} attempts: ${lastError?.message ?? 'unknown network error'}`);
+  }
+
+  static async #fetchOnce(url, onProgress, timeoutMs) {
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort('timeout'), timeoutMs);
+    let response;
+    try {
+      response = await fetch(url, { signal: controller.signal, cache: 'force-cache' });
+    } catch (error) {
+      const reason = error?.name === 'AbortError' ? `timed out after ${Math.round(timeoutMs / 1000)} seconds` : error.message;
+      throw new Error(`WAD fetch failed: ${reason}`);
+    } finally {
+      clearTimeout(timer);
+    }
+    if (!response.ok) throw new Error(`WAD fetch failed: ${response.status} ${response.statusText}`);
 
     const totalBytes = Number(response.headers.get('content-length') ?? 0);
-    const reader     = response.body?.getReader();
-
+    const reader = response.body?.getReader();
     if (!reader) {
-      // Fallback: no streaming support
       const ab = await response.arrayBuffer();
       onProgress?.(100);
       return WadLoader.#validate(new Uint8Array(ab));
     }
 
-    // Stream with progress
     const chunks = [];
-    let   received = 0;
-
+    let received = 0;
     while (true) {
       const { done, value } = await reader.read();
       if (done) break;
       chunks.push(value);
       received += value.length;
-      if (totalBytes > 0) {
-        onProgress?.(Math.round(received / totalBytes * 100));
-      }
+      onProgress?.(totalBytes > 0 ? Math.round(received / totalBytes * 100) : null);
     }
 
-    // Concatenate chunks
     const merged = new Uint8Array(received);
     let offset = 0;
-    for (const chunk of chunks) {
-      merged.set(chunk, offset);
-      offset += chunk.length;
-    }
-
+    for (const chunk of chunks) { merged.set(chunk, offset); offset += chunk.length; }
     onProgress?.(100);
     return WadLoader.#validate(merged);
   }

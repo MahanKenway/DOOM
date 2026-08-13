@@ -24,6 +24,7 @@ import { DoomEngine }   from './engine/DoomEngine.js';
 import { WadLoader }    from './WadLoader.js';
 import { EventBus }     from './EventBus.js';
 import { CatalogController } from './catalog.js';
+import { loadSettings, saveSettings, profileIdFor, listSaveSlots, exportSaveBundle, importSaveBundle } from './persistence.js';
 import {
   LoadingScreen,
   HUD,
@@ -34,9 +35,7 @@ import {
 
 // ── Config ────────────────────────────────────────────────────────
 const CONFIG = {
-  wasmPath:     'wasm/doom.wasm',
-  // Freedoom Phase 1 shareware — fully open-source, no legal issues
-  bundledWad:   'assets/freedoom1.wad',
+  wasmPath: 'wasm/doom.wasm',
   enableFpsHud: true,
 };
 
@@ -44,6 +43,8 @@ const CONFIG = {
 let engine  = null;
 let catalog = null;
 let lastLaunch = null;
+let pendingImportGame = null;
+let activeSaveProfile = null;
 
 /**
  * Rolling buffer of recent boot/runtime log messages, captured from
@@ -68,7 +69,7 @@ const ui = {
 async function init() {
   // Show loading screen immediately
   ui.loading.show();
-  ui.loading.update(0, 'Booting DOOM…');
+  ui.loading.update(0, 'Opening RIFTWAD…');
 
   // Play the ASCII boot sequence for that classic feel
   await ui.loading.playBootSequence();
@@ -101,7 +102,7 @@ function bootstrapUI() {
   // inside it. Wiring this once, here, satisfies that ordering
   // requirement permanently (no need to re-wire on every startGame).
   EventBus.on('engine:log', ({ text, level }) => {
-    console.log('[DOOM]', text);
+    console.log('[RIFTWAD]', text);
     logHistory.push({ text, level: level ?? 'info', t: performance.now() });
     if (logHistory.length > LOG_HISTORY_MAX) logHistory.shift();
   });
@@ -114,8 +115,14 @@ function bootstrapUI() {
   wireSettingsPanel();
 
   catalog = new CatalogController({
-    onPlayFreedoom: () => startBundledGame(),
-    onImportWad: () => document.getElementById('wad-upload')?.click(),
+    onPlayGame: (game) => startBundledGame(game),
+    onImportWad: (game) => {
+      pendingImportGame = game ?? null;
+      document.getElementById('wad-upload')?.click();
+    },
+  });
+  EventBus.on('engine:save-updated', ({ profileId }) => {
+    if (profileId === activeSaveProfile) renderSaveSlots(profileId);
   });
   catalog.init();
 
@@ -139,7 +146,9 @@ function wireWadPicker() {
     const files = Array.from(e.target.files ?? []);
     if (files.length === 0) return;
     picker?.classList.remove('active');
-    await startGame(files, 'file');
+    const game = pendingImportGame;
+    pendingImportGame = null;
+    await startGame(files, 'file', { catalogGame: game });
   });
 
   // Option C: drag-and-drop (also supports multiple files at once)
@@ -157,7 +166,9 @@ function wireWadPicker() {
     const files = Array.from(e.dataTransfer?.files ?? []);
     if (files.length === 0) return;
     picker?.classList.remove('active');
-    await startGame(files, 'file');
+    const game = pendingImportGame;
+    pendingImportGame = null;
+    await startGame(files, 'file', { catalogGame: game });
   });
 }
 
@@ -165,9 +176,13 @@ function showWadPicker() {
   document.getElementById('wad-picker')?.classList.add('active');
 }
 
-async function startBundledGame() {
+async function startBundledGame(game) {
+  if (!game?.source) {
+    showWadPicker();
+    return;
+  }
   document.getElementById('wad-picker')?.classList.remove('active');
-  await startGame([CONFIG.bundledWad], 'url');
+  await startGame([game.source], 'url', { catalogGame: game });
 }
 
 // ═════════════════════════════════════════════════════════════════
@@ -182,11 +197,10 @@ async function startBundledGame() {
  *        order when multiple files are selected/dropped together.
  * @param {'url'|'file'} type
  */
-async function startGame(sources, type) {
-  // Keep a stable restart target for either the bundled WAD or the
-  // locally selected IWAD + PWAD set. File objects remain available
-  // in the current browser session without uploading them anywhere.
-  lastLaunch = { sources, type };
+async function startGame(sources, type, { catalogGame = null } = {}) {
+  // Keep a stable restart target for either a bundled WAD or a locally
+  // selected IWAD + PWAD set. File objects remain in this browser session.
+  lastLaunch = { sources, type, catalogGame };
 
   // Show loading screen again for WAD + WASM load
   ui.loading.show();
@@ -204,8 +218,9 @@ async function startGame(sources, type) {
       const base = Math.round((i / sources.length) * 25);
       const wad = type === 'url'
         ? await WadLoader.fromUrl(src, (pct) => {
-            ui.loading.update(5 + base + Math.round(pct * 0.25 / sources.length),
-              `Fetching WAD ${i + 1}/${sources.length}… ${pct}%`);
+            const displayPct = pct == null ? 15 : pct;
+            ui.loading.update(5 + base + Math.round(displayPct * 0.25 / sources.length),
+              `Fetching WAD ${i + 1}/${sources.length}… ${pct == null ? 'streaming' : `${pct}%`}`);
           })
         : await WadLoader.fromFile(src, (pct) => {
             ui.loading.update(5 + base + Math.round(pct * 0.25 / sources.length),
@@ -244,6 +259,10 @@ async function startGame(sources, type) {
     ];
 
     const wadList = ordered.map(w => w.bytes);
+    const saveProfile = profileIdFor({
+      catalogId: catalogGame?.id,
+      wadHeaders: ordered.map((w) => w.header),
+    });
     const totalLumps = ordered.reduce((sum, w) => sum + (w.header?.numLumps ?? 0), 0);
     ui.loading.update(30,
       `${ordered[0].header?.type ?? 'WAD'}${ordered.length > 1 ? ` + ${ordered.length - 1} PWAD${ordered.length > 2 ? 's' : ''}` : ''}, ${totalLumps} lumps`,
@@ -265,6 +284,7 @@ async function startGame(sources, type) {
     await engine.load({
       wasmPath: CONFIG.wasmPath,
       wad: wadList,
+      saveProfile,
       onProgress: (pct, msg) => {
         ui.loading.update(35 + Math.round(pct * 0.65), msg);
       },
@@ -283,9 +303,11 @@ async function startGame(sources, type) {
 
     // 7. Apply persisted user settings (CRT/scale/smoothing/
     //    sensitivity) to this fresh engine/renderer/input instance.
+    activeSaveProfile = saveProfile;
     applySettings(loadSettings());
+    renderSaveSlots(activeSaveProfile);
 
-    console.log('[DOOM] 💀 Game started — Rip and tear!');
+    console.log('[RIFTWAD] Runtime started');
 
   } catch (err) {
     console.error('[DOOM] Startup error:', err);
@@ -347,7 +369,7 @@ function restartCurrentSession() {
   engine = null;
   ui.pause.hide();
   document.getElementById('game-screen')?.classList.remove('active');
-  if (launch) startGame(launch.sources, launch.type);
+  if (launch) startGame(launch.sources, launch.type, { catalogGame: launch.catalogGame });
   else showWadPicker();
 }
 
@@ -357,108 +379,124 @@ function restartCurrentSession() {
 //  persisted to localStorage so preferences survive page reloads.
 // ═════════════════════════════════════════════════════════════════
 
-const SETTINGS_KEY = 'doom-settings';
-
-function loadSettings() {
-  const defaults = { crt: true, smoothing: false, scale: 'auto', sensitivity: 1.0 };
-  try {
-    const raw = localStorage.getItem(SETTINGS_KEY);
-    return raw ? { ...defaults, ...JSON.parse(raw) } : defaults;
-  } catch {
-    return defaults;
-  }
-}
-
-function saveSettings(settings) {
-  try {
-    localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings));
-  } catch {
-    // localStorage disabled (private browsing) — preferences just
-    // won't persist across reloads; not worth surfacing an error for.
-  }
-}
-
 function applySettings(settings) {
-  const crt = document.getElementById('crt-overlay');
-  crt?.classList.toggle('disabled', !settings.crt);
+  const performance = settings.performanceMode ?? 'auto';
+  const useCrt = settings.crt && performance !== 'battery';
+  const useSmoothing = performance === 'battery' ? false : settings.smoothing;
+
+  document.documentElement.dataset.performance = performance;
+  document.getElementById('crt-overlay')?.classList.toggle('disabled', !useCrt);
 
   const renderer = engine?.getRenderer?.();
-  renderer?.setSmoothing(settings.smoothing);
+  renderer?.setSmoothing(useSmoothing);
   renderer?.setScaleMode(settings.scale === 'auto' ? 'auto' : Number(settings.scale));
 
   const input = engine?.getInputHandler?.();
   input?.setSensitivity(settings.sensitivity);
+  input?.setGamepadDeadzone(settings.gamepadDeadzone);
+
+  const audio = engine?.getAudio?.();
+  audio?.setMasterVolume(settings.masterVolume);
+  audio?.setSfxVolume(settings.sfxVolume);
+  audio?.setMusicVolume(settings.musicVolume);
 }
 
 function wireSettingsPanel() {
   const settings = loadSettings();
   applySettings(settings);
 
-  const crtCheckbox    = document.getElementById('setting-crt');
-  const smoothCheckbox = document.getElementById('setting-smoothing');
-  const scaleSelect    = document.getElementById('setting-scale');
-  const sensSlider     = document.getElementById('setting-sensitivity');
-  const sensValue      = document.getElementById('setting-sensitivity-value');
-  const gyroCheckbox   = document.getElementById('setting-gyro');
-  const gyroRow        = document.getElementById('settings-row-gyro');
+  const bindCheckbox = (id, key) => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.checked = Boolean(settings[key]);
+    el.addEventListener('change', () => {
+      settings[key] = el.checked;
+      applySettings(settings);
+      saveSettings(settings);
+    });
+  };
+  const bindSelect = (id, key) => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.value = String(settings[key]);
+    el.addEventListener('change', () => {
+      settings[key] = el.value;
+      applySettings(settings);
+      saveSettings(settings);
+    });
+  };
+  const bindRange = (id, key, valueId, format = (value) => `${Math.round(value * 100)}%`) => {
+    const el = document.getElementById(id);
+    const output = document.getElementById(valueId);
+    if (!el) return;
+    const reflect = () => { if (output) output.textContent = format(Number(settings[key])); };
+    el.value = String(settings[key]);
+    reflect();
+    el.addEventListener('input', () => {
+      settings[key] = Number(el.value);
+      reflect();
+      applySettings(settings);
+      saveSettings(settings);
+    });
+  };
 
-  // Gyroscope look only makes sense on devices that actually have
-  // an orientation sensor — hide the row entirely elsewhere rather
-  // than showing a control that can never do anything.
+  bindCheckbox('setting-crt', 'crt');
+  bindCheckbox('setting-smoothing', 'smoothing');
+  bindSelect('setting-scale', 'scale');
+  bindSelect('setting-performance', 'performanceMode');
+  bindRange('setting-sensitivity', 'sensitivity', 'setting-sensitivity-value', (value) => `${value.toFixed(1)}×`);
+  bindRange('setting-deadzone', 'gamepadDeadzone', 'setting-deadzone-value');
+  bindRange('setting-master', 'masterVolume', 'setting-master-value');
+  bindRange('setting-sfx', 'sfxVolume', 'setting-sfx-value');
+  bindRange('setting-music', 'musicVolume', 'setting-music-value');
+
+  const gyroCheckbox = document.getElementById('setting-gyro');
+  const gyroRow = document.getElementById('settings-row-gyro');
   const hasOrientationSensor = typeof DeviceOrientationEvent !== 'undefined' &&
     (navigator.maxTouchPoints > 0 || 'ontouchstart' in window);
   if (gyroRow) gyroRow.style.display = hasOrientationSensor ? 'flex' : 'none';
-
-  // Reflect loaded settings in the UI controls
-  if (crtCheckbox)    crtCheckbox.checked    = settings.crt;
-  if (smoothCheckbox) smoothCheckbox.checked = settings.smoothing;
-  if (scaleSelect)    scaleSelect.value      = String(settings.scale);
-  if (sensSlider)     sensSlider.value       = String(settings.sensitivity);
-  if (sensValue)      sensValue.textContent  = `${Number(settings.sensitivity).toFixed(1)}×`;
-  if (gyroCheckbox)   gyroCheckbox.checked   = false; // never auto-resume (needs fresh permission gesture on iOS)
-
-  crtCheckbox?.addEventListener('change', () => {
-    settings.crt = crtCheckbox.checked;
-    applySettings(settings);
-    saveSettings(settings);
-  });
-
-  smoothCheckbox?.addEventListener('change', () => {
-    settings.smoothing = smoothCheckbox.checked;
-    applySettings(settings);
-    saveSettings(settings);
-  });
-
-  scaleSelect?.addEventListener('change', () => {
-    settings.scale = scaleSelect.value;
-    applySettings(settings);
-    saveSettings(settings);
-  });
-
-  sensSlider?.addEventListener('input', () => {
-    settings.sensitivity = Number(sensSlider.value);
-    if (sensValue) sensValue.textContent = `${settings.sensitivity.toFixed(1)}×`;
-    applySettings(settings);
-    saveSettings(settings);
-  });
-
+  if (gyroCheckbox) gyroCheckbox.checked = false;
   gyroCheckbox?.addEventListener('change', async () => {
     const input = engine?.getInputHandler?.();
     if (!input) return;
-
     if (gyroCheckbox.checked) {
-      // This click IS the required user gesture for iOS's
-      // permission prompt — must call enableGyro() synchronously
-      // from within this handler, not after an await elsewhere.
       const granted = await input.enableGyro();
-      if (!granted) {
-        gyroCheckbox.checked = false;
-        console.warn('[DOOM] Gyroscope permission denied or unavailable');
-      }
-    } else {
-      input.disableGyro();
+      if (!granted) gyroCheckbox.checked = false;
+    } else input.disableGyro();
+  });
+
+  document.getElementById('btn-export-saves')?.addEventListener('click', () => {
+    if (!activeSaveProfile) return;
+    const blob = new Blob([exportSaveBundle(activeSaveProfile)], { type: 'application/json' });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = `${activeSaveProfile.replace(/[^a-z0-9]+/gi, '-')}-saves.json`;
+    link.click();
+    URL.revokeObjectURL(link.href);
+  });
+  document.getElementById('save-import')?.addEventListener('change', async (event) => {
+    const file = event.target.files?.[0];
+    if (!file || !activeSaveProfile) return;
+    try {
+      const result = importSaveBundle(await file.text(), activeSaveProfile);
+      renderSaveSlots(result.profileId);
+    } catch (error) {
+      alert(error.message ?? 'Save import failed.');
+    } finally {
+      event.target.value = '';
     }
   });
+}
+
+function renderSaveSlots(profileId) {
+  const label = document.getElementById('save-profile-label');
+  const list = document.getElementById('save-slot-list');
+  if (label) label.textContent = `Profile: ${profileId ?? 'no active WAD'}`;
+  if (!list) return;
+  const slots = profileId ? listSaveSlots(profileId) : [];
+  list.innerHTML = slots.length
+    ? slots.map((slot) => `<div><span>${slot.name}</span><span>${Math.ceil(slot.size / 1024)} KB · ${new Date(slot.updatedAt).toLocaleDateString()}</span></div>`).join('')
+    : '<p>No saved sessions for this WAD profile yet. Use the game menu (F2–F6) to create one.</p>';
 }
 
 

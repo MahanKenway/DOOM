@@ -38,6 +38,7 @@ import { Renderer }      from './Renderer.js';
 import { AudioManager }  from './AudioManager.js';
 import { InputHandler }  from './InputHandler.js';
 import { EventBus }      from '../EventBus.js';
+import { readSaveBytes, writeSaveBytes } from '../persistence.js';
 
 // ─── Constants ────────────────────────────────────────────────
 /** DOOM runs at exactly 35 ticks/second */
@@ -56,6 +57,7 @@ export class DoomEngine {
   #wasm     = null;   // WebAssembly.Instance
   #memory   = null;   // WebAssembly.Memory (shared with DOOM C code)
   #wadDataList = null; // Uint8Array[] — raw WAD bytes, index 0 = primary IWAD
+  #saveProfile = 'catalog:freedoom';
   #running  = false;
   #paused   = false;
 
@@ -124,12 +126,14 @@ export class DoomEngine {
    *        PWADs layered on top, up to 4 total) for a real IWAD+PWAD
    *        combo like vanilla DOOM's own multi -file loading.
    * @param {(pct: number, msg: string) => void} [opts.onProgress]
+   * @param {string} [opts.saveProfile]  Stable WAD-specific local save namespace
    */
-  async load({ wasmPath, wad, onProgress }) {
+  async load({ wasmPath, wad, onProgress, saveProfile = 'catalog:freedoom' }) {
     const progress = onProgress ?? (() => {});
 
     // 1. Store WAD(s) — normalize to an array internally
     this.#wadDataList = Array.isArray(wad) ? wad : [wad];
+    this.#saveProfile = saveProfile;
     const totalBytes = this.#wadDataList.reduce((sum, w) => sum + w.byteLength, 0);
     progress(20, `WAD${this.#wadDataList.length > 1 ? 's' : ''} loaded (${this.#fmtBytes(totalBytes)})`);
 
@@ -146,14 +150,23 @@ export class DoomEngine {
       ...this.#makeWasmImports(),   // already shaped as { env: {...} }
       wasi_snapshot_preview1: this.#makeWasiShim(),
     };
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort('timeout'), 20000);
+    let response;
+    try {
+      response = await fetch(wasmPath, { signal: controller.signal, cache: 'force-cache' });
+    } catch (error) {
+      const reason = error?.name === 'AbortError' ? 'timed out after 20 seconds' : error.message;
+      throw new Error(`WASM fetch failed: ${reason}`);
+    } finally {
+      clearTimeout(timeout);
+    }
+    if (!response.ok) throw new Error(`WASM fetch failed: ${response.status} ${response.statusText}`);
+
     let instance;
     try {
-      ({ instance } = await WebAssembly.instantiateStreaming(fetch(wasmPath), imports));
+      ({ instance } = await WebAssembly.instantiateStreaming(response.clone(), imports));
     } catch (streamError) {
-      const response = await fetch(wasmPath);
-      if (!response.ok) {
-        throw new Error(`WASM fetch failed: ${response.status} ${response.statusText}`);
-      }
       const bytes = await response.arrayBuffer();
       ({ instance } = await WebAssembly.instantiate(bytes, imports));
       EventBus.emit('engine:log', {
@@ -170,7 +183,7 @@ export class DoomEngine {
 
     // 4. Run DOOM's init (D_DoomMain equivalent)
     instance.exports.initGame();
-    progress(100, 'DOOM initialised — rip and tear!');
+    progress(100, 'Runtime initialised — world ready.');
 
     // 5. Wire input
     this.#input.attach();
@@ -193,6 +206,10 @@ export class DoomEngine {
 
   get fps()    { return this.#currentFps; }
   get paused() { return this.#paused;     }
+  get saveProfile() { return this.#saveProfile; }
+  getRenderer() { return this.#renderer; }
+  getAudio() { return this.#audio; }
+  getInputHandler() { return this.#input; }
 
   // ═══════════════════════════════════════════════════════════
   //  MAIN LOOP  (requestAnimationFrame + fixed-step accumulator)
@@ -215,12 +232,17 @@ export class DoomEngine {
     const dt = Math.min(timestamp - this.#lastTimestamp, 200); // clamp spiral of death
     this.#lastTimestamp = timestamp;
 
-    // Accumulate elapsed time and drain in DOOM_TICK_MS chunks
+    // Accumulate elapsed time and drain a bounded number of ticks. The cap
+    // prevents a backgrounded or low-end mobile device from entering a long
+    // catch-up loop that starves rendering and looks like a frozen game.
     this.#accumulator += dt;
-    while (this.#accumulator >= DOOM_TICK_MS) {
-      this.#wasm.exports.tickGame();   // one deterministic DOOM tick
+    let ticks = 0;
+    while (this.#accumulator >= DOOM_TICK_MS && ticks < 4) {
+      this.#wasm.exports.tickGame();
       this.#accumulator -= DOOM_TICK_MS;
+      ticks++;
     }
+    if (ticks === 4) this.#accumulator = 0;
 
     // FPS counter
     this.#frameCount++;
@@ -352,36 +374,25 @@ export class DoomEngine {
          */
         js_storage_load_length: (namePtr) => {
           const name = readCString(namePtr);
-          const raw = localStorage.getItem(`doom-save:${name}`);
-          if (raw == null) return -1;
-          try {
-            return atob(raw).length;
-          } catch {
-            return -1;
-          }
+          return readSaveBytes(this.#saveProfile, name)?.byteLength ?? -1;
         },
 
         js_storage_load_data: (namePtr, destPtr) => {
           const name = readCString(namePtr);
-          const raw = localStorage.getItem(`doom-save:${name}`);
-          if (raw == null) return;
-          const binary = atob(raw);
-          const dest = new Uint8Array(this.#memory.buffer, destPtr, binary.length);
-          for (let i = 0; i < binary.length; i++) dest[i] = binary.charCodeAt(i);
+          const bytes = readSaveBytes(this.#saveProfile, name);
+          if (!bytes) return;
+          new Uint8Array(this.#memory.buffer, destPtr, bytes.byteLength).set(bytes);
         },
 
         js_storage_save: (namePtr, dataPtr, dataLen) => {
           const name = readCString(namePtr);
-          const bytes = new Uint8Array(this.#memory.buffer, dataPtr, dataLen);
-          let binary = '';
-          for (let i = 0; i < bytes.length; i++) binary += String.fromCharCode(bytes[i]);
-          try {
-            localStorage.setItem(`doom-save:${name}`, btoa(binary));
+          const bytes = new Uint8Array(this.#memory.buffer, dataPtr, dataLen).slice();
+          const result = writeSaveBytes(this.#saveProfile, name, bytes);
+          if (result.ok) {
+            EventBus.emit('engine:save-updated', { profileId: this.#saveProfile, name, ...result.meta });
             EventBus.emit('engine:log', { level: 'info', text: `Saved ${name} (${dataLen} bytes)` });
-          } catch (e) {
-            // localStorage quota exceeded or disabled (private browsing) —
-            // fail silently, matching DOOM's own "couldn't save" tolerance.
-            EventBus.emit('engine:log', { level: 'warn', text: `Save failed: ${e.message}` });
+          } else {
+            EventBus.emit('engine:log', { level: 'warn', text: `Save failed: ${result.error?.message ?? 'storage unavailable'}` });
           }
         },
 

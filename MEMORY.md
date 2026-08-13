@@ -17,3 +17,9 @@
 - برای تکمیل آزمون local، artifact WASM منتشرشده نیز موقتاً به workspace افزوده شد. این دو artifact فقط برای بررسی هستند و قبل از commit حذف می‌شوند؛ workflow GitHub هر دو را در زمان build تولید/دریافت می‌کند.
 
 - آزمون end-to-end کامل موفق بود: Launch featured از هاب جدید، Freedoom را با WAD و WASM فعال اجرا کرد و game screen با 12 FPS نمایش داده شد. کنترل ← RIFTWAD نیز موتور را dispose کرد و کاربر را به هاب بازگرداند. این چرخه با artifactهای build موقت محلی آزمایش شد.
+
+- آزمون catalog توسعه: Freedoom Phase 1، Freedoom Phase 2 و FreeDM به‌عنوان آثار آزاد bundled با اسکرین‌شات و attribution نمایش داده شدند. Plutonia و TNT با برچسب Commercial IWAD و Requires legal IWAD نمایش داده شدند و مسیر Attach WAD دریافت کردند؛ هیچ فایل تجاری در build بسته‌بندی نشد.
+
+- smoke test persistence با mock localStorage موفق بود: bytes save بدون تغییر بازیابی شدند، metadata slot ثبت شد و export/import bundle یک slot را بازگرداند. بررسی archive رسمی Freedoom 0.13 نیز تأیید کرد که فقط freedoom1.wad و freedoom2.wad در همان بسته هستند؛ FreeDM برای جلوگیری از build معیوب bundled نشد و به مسیر attach آزاد منتقل شد.
+
+- تست browser persistence مقدار master volume، deadzone و battery mode را در localStorage نسخه‌دار بازیابی کرد. بررسی view نشان داد module catalog به‌علت cache مرورگر هنوز نسخهٔ قبل از تغییر FreeDM را نمایش می‌دهد؛ برای تأیید نهایی با query cache-bust بازخوانی می‌شود.

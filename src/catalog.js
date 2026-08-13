@@ -1,64 +1,106 @@
-const COLLECTIONS = [
+export const COLLECTIONS = [
   {
-    id: 'freedoom',
+    id: 'freedoom-phase-1',
     title: 'Freedoom: Phase 1',
     studio: 'Freedoom project',
-    year: '2024',
+    year: 'v0.13.0',
     format: 'Bundled IWAD',
     genre: 'Action',
-    duration: '35–60 min',
-    maps: '9 maps',
-    status: 'Ready to play',
-    artwork: 'assets/covers/freedoom-rift.png',
-    description: 'The launch collection. A complete, open WAD ready to run in your browser.',
+    duration: '4 episodes · 36 maps',
+    maps: 'Doom-compatible',
+    status: 'Free / bundled',
+    license: 'BSD-style free content · attribution retained',
+    artwork: 'assets/screenshots/freedoom-phase1.png',
+    artworkCredit: 'Screenshot: Freedoom project',
+    source: 'assets/freedoom1.wad',
+    description: 'A complete, libre Doom-compatible campaign designed as an independent base game. Four episodes make it the natural starting point for classic mapsets.',
     playable: true,
     featured: true,
   },
   {
-    id: 'midnight-signal',
-    title: 'Midnight Signal',
-    studio: 'Local WAD slot',
-    year: 'Your file',
-    format: 'IWAD + PWAD',
+    id: 'freedoom-phase-2',
+    title: 'Freedoom: Phase 2',
+    studio: 'Freedoom project',
+    year: 'v0.13.0',
+    format: 'Bundled IWAD',
+    genre: 'Action',
+    duration: '32 maps',
+    maps: 'Doom II-compatible',
+    status: 'Free / bundled',
+    license: 'BSD-style free content · attribution retained',
+    artwork: 'assets/screenshots/freedoom-phase2.png',
+    artworkCredit: 'Screenshot: Freedoom project',
+    source: 'assets/freedoom2.wad',
+    description: 'A single 32-level campaign built for the Doom II ruleset, including the expanded monster roster and super shotgun used by many community mapsets.',
+    playable: true,
+  },
+  {
+    id: 'freedm',
+    title: 'FreeDM',
+    studio: 'Freedoom project',
+    year: 'v0.13.0',
+    format: 'Free IWAD',
+    genre: 'Experimental',
+    duration: '32 arenas',
+    maps: 'Deathmatch collection',
+    status: 'Attach a compatible FreeDM WAD',
+    license: 'BSD-style free content · attribution retained',
+    artwork: 'assets/screenshots/freedm.png',
+    artworkCredit: 'Screenshot: Freedoom project',
+    description: 'A 32-level open deathmatch archive. The current browser runtime is single-player only and does not provide online matchmaking; attach your compatible FreeDM archive to explore the collection.',
+    playable: false,
+  },
+  {
+    id: 'plutonia',
+    title: 'The Plutonia Experiment',
+    studio: 'Casali brothers / Final Doom',
+    year: '1996',
+    format: 'Commercial IWAD',
     genre: 'Horror',
-    duration: '20–90 min',
-    maps: 'Custom mapset',
-    status: 'Bring your own WAD',
+    duration: '32 maps',
+    maps: 'Final Doom campaign',
+    status: 'Requires your legal IWAD',
+    license: 'Not bundled or hosted by RIFTWAD',
     artwork: 'assets/covers/horror-rift.png',
-    description: 'A dark shelf reserved for survival-horror mapsets and authored campaigns.',
+    artworkCredit: 'RIFTWAD editorial illustration',
+    description: 'A demanding Final Doom campaign known for compressed combat spaces and high-pressure encounters. RIFTWAD can launch a lawfully owned copy selected from your device, but does not distribute this IWAD.',
     playable: false,
   },
   {
-    id: 'siltline',
-    title: 'Siltline Observatory',
-    studio: 'Local WAD slot',
-    year: 'Your file',
-    format: 'IWAD + PWAD',
+    id: 'tnt-evilution',
+    title: 'TNT: Evilution',
+    studio: 'TeamTNT / Final Doom',
+    year: '1996',
+    format: 'Commercial IWAD',
     genre: 'Exploration',
-    duration: '30–120 min',
-    maps: 'Custom mapset',
-    status: 'Bring your own WAD',
+    duration: '32 maps',
+    maps: 'Final Doom campaign',
+    status: 'Requires your legal IWAD',
+    license: 'Not bundled or hosted by RIFTWAD',
     artwork: 'assets/covers/exploration-rift.png',
-    description: 'For quiet world-building, hub maps, long walks and unusual spaces.',
+    artworkCredit: 'RIFTWAD editorial illustration',
+    description: 'A Final Doom campaign with industrial spaces, larger progression routes and authored set pieces. Attach a legally acquired TNT IWAD from your device to play it here.',
     playable: false,
   },
   {
-    id: 'grid-assembly',
-    title: 'Grid Assembly',
-    studio: 'Local WAD slot',
-    year: 'Your file',
-    format: 'PWAD',
+    id: 'community-slot',
+    title: 'Community WAD shelf',
+    studio: 'License-reviewed import',
+    year: 'Your archive',
+    format: 'IWAD + PWAD',
     genre: 'Experimental',
     duration: 'Variable',
-    maps: 'Patch or mapset',
-    status: 'Bring your own WAD',
+    maps: 'Mapset or patch',
+    status: 'Attach a compatible WAD',
+    license: 'Only archives you have the right to use',
     artwork: 'assets/covers/experimental-rift.png',
-    description: 'A place for mods, visual experiments and maps that bend the original language.',
+    artworkCredit: 'RIFTWAD editorial illustration',
+    description: 'A local route for mapsets, total conversions and experiments. Attach one base IWAD and up to three PWADs; files stay in this browser session and are never uploaded by RIFTWAD.',
     playable: false,
   },
 ];
 
-const LIBRARY_KEY = 'riftwad-library-v1';
+const LIBRARY_KEY = 'riftwad-library-v2';
 
 export class CatalogController {
   #onPlay;
@@ -66,9 +108,10 @@ export class CatalogController {
   #activeGenre = 'All';
   #query = '';
   #pinned = new Set();
+  #selectedId = 'freedoom-phase-1';
 
-  constructor({ onPlayFreedoom, onImportWad }) {
-    this.#onPlay = onPlayFreedoom;
+  constructor({ onPlayGame, onImportWad }) {
+    this.#onPlay = onPlayGame;
     this.#onImport = onImportWad;
   }
 
@@ -76,15 +119,14 @@ export class CatalogController {
     this.#pinned = this.#readLibrary();
     this.#wireControls();
     this.render();
+    this.#selectGame(COLLECTIONS.find((item) => item.featured) ?? COLLECTIONS[0], false);
   }
 
   render() {
     const filtered = this.#filteredItems();
     const grid = document.getElementById('catalog-grid');
     const count = document.getElementById('result-count');
-    if (grid) {
-      grid.innerHTML = filtered.map((game, index) => this.#cardTemplate(game, index)).join('');
-    }
+    if (grid) grid.innerHTML = filtered.map((game, index) => this.#cardTemplate(game, index)).join('');
     if (count) count.textContent = `${filtered.length.toString().padStart(2, '0')} records`;
     this.#renderLibrary();
     this.#renderCollectionStats();
@@ -99,10 +141,7 @@ export class CatalogController {
 
   #wireControls() {
     document.querySelectorAll('[data-rift-nav]').forEach((button) => {
-      button.addEventListener('click', () => {
-        const target = document.getElementById(button.dataset.riftNav);
-        target?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      });
+      button.addEventListener('click', () => document.getElementById(button.dataset.riftNav)?.scrollIntoView({ behavior: 'smooth', block: 'start' }));
     });
 
     document.querySelectorAll('[data-genre]').forEach((button) => {
@@ -117,7 +156,6 @@ export class CatalogController {
       this.#query = event.target.value.trim().toLowerCase();
       this.render();
     });
-
     document.getElementById('filter-format')?.addEventListener('change', () => this.render());
 
     document.addEventListener('click', (event) => {
@@ -125,14 +163,10 @@ export class CatalogController {
       if (!button) return;
       const game = COLLECTIONS.find((item) => item.id === button.dataset.game);
       const action = button.dataset.action;
-
-      if (action === 'play-featured') this.#onPlay?.();
-      if (action === 'import') this.#onImport?.();
+      if (action === 'play-game' && game?.playable) this.#onPlay?.(game);
+      if (action === 'import') this.#onImport?.(game);
       if (action === 'focus-genre') this.focusCatalog(button.dataset.genre ?? 'All');
-      if (action === 'toggle-library' && game) {
-        this.#toggleLibrary(game.id);
-        this.render();
-      }
+      if (action === 'toggle-library' && game) { this.#toggleLibrary(game.id); this.render(); }
       if (action === 'select-game' && game) this.#selectGame(game);
     });
   }
@@ -142,54 +176,53 @@ export class CatalogController {
     return COLLECTIONS.filter((game) => {
       const matchesGenre = this.#activeGenre === 'All' || game.genre === this.#activeGenre;
       const matchesFormat = format === 'All' || game.format.includes(format);
-      const haystack = `${game.title} ${game.genre} ${game.description}`.toLowerCase();
+      const haystack = `${game.title} ${game.genre} ${game.description} ${game.license}`.toLowerCase();
       return matchesGenre && matchesFormat && (!this.#query || haystack.includes(this.#query));
     });
   }
 
   #cardTemplate(game, index) {
     const saved = this.#pinned.has(game.id);
-    return `
-      <article class="game-card ${game.featured ? 'is-featured-card' : ''}" style="--card-index:${index}">
-        <button class="game-card-media" data-action="select-game" data-game="${game.id}" aria-label="View ${game.title}">
-          <img src="${game.artwork}" alt="" loading="lazy" />
-          <span class="card-index">// ${String(index + 1).padStart(2, '0')}</span>
-          <span class="card-state ${game.playable ? 'is-ready' : ''}">${game.playable ? 'RUNNABLE' : 'LOCAL SLOT'}</span>
-        </button>
-        <div class="game-card-body">
-          <div class="card-overline"><span>${game.genre}</span><span>${game.format}</span></div>
-          <h3>${game.title}</h3>
-          <p>${game.description}</p>
-          <div class="card-meta"><span>${game.year}</span><span>${game.duration}</span><span>${game.maps}</span></div>
-          <div class="card-actions">
-            <button class="rift-button rift-button-compact" data-action="${game.playable ? 'play-featured' : 'import'}" data-game="${game.id}">
-              ${game.playable ? 'Play now' : 'Add WAD'}
-            </button>
-            <button class="icon-button ${saved ? 'is-saved' : ''}" data-action="toggle-library" data-game="${game.id}" aria-label="${saved ? 'Remove from' : 'Add to'} Library" aria-pressed="${saved}">
-              ${saved ? '★' : '☆'}
-            </button>
-          </div>
-        </div>
-      </article>`;
+    return `<article class="game-card ${game.featured ? 'is-featured-card' : ''}" style="--card-index:${index}">
+      <button class="game-card-media" data-action="select-game" data-game="${game.id}" aria-label="View ${game.title}">
+        <img src="${game.artwork}" alt="" loading="lazy" />
+        <span class="card-index">// ${String(index + 1).padStart(2, '0')}</span>
+        <span class="card-state ${game.playable ? 'is-ready' : ''}">${game.playable ? 'BUNDLED' : 'OWNED FILE'}</span>
+      </button>
+      <div class="game-card-body">
+        <div class="card-overline"><span>${game.genre}</span><span>${game.format}</span></div>
+        <h3>${game.title}</h3><p>${game.description}</p>
+        <p class="card-license">${game.license}</p>
+        <div class="card-meta"><span>${game.year}</span><span>${game.duration}</span><span>${game.maps}</span></div>
+        <div class="card-actions"><button class="rift-button rift-button-compact" data-action="${game.playable ? 'play-game' : 'import'}" data-game="${game.id}">${game.playable ? 'Play now' : 'Attach WAD'}</button><button class="icon-button ${saved ? 'is-saved' : ''}" data-action="toggle-library" data-game="${game.id}" aria-label="${saved ? 'Remove from' : 'Add to'} Library" aria-pressed="${saved}">${saved ? '★' : '☆'}</button></div>
+      </div>
+    </article>`;
   }
 
-  #selectGame(game) {
-    const title = document.getElementById('featured-title');
-    const studio = document.getElementById('featured-studio');
-    const description = document.getElementById('featured-description');
+  #selectGame(game, scroll = true) {
+    if (!game) return;
+    this.#selectedId = game.id;
+    const fields = {
+      'featured-title': game.title,
+      'featured-studio': `${game.studio} · ${game.year}`,
+      'featured-description': game.description,
+      'featured-status': game.status,
+      'featured-license': game.license,
+      'featured-credit': game.artworkCredit,
+    };
+    Object.entries(fields).forEach(([id, value]) => { const el = document.getElementById(id); if (el) el.textContent = value; });
     const cover = document.getElementById('featured-cover');
-    const status = document.getElementById('featured-status');
+    if (cover) { cover.src = game.artwork; cover.alt = `${game.title} preview`; }
     const button = document.getElementById('btn-freedoom');
-    if (title) title.textContent = game.title;
-    if (studio) studio.textContent = `${game.studio} · ${game.year}`;
-    if (description) description.textContent = game.description;
-    if (cover) { cover.src = game.artwork; cover.alt = ''; }
-    if (status) status.textContent = game.status;
     if (button) {
-      button.dataset.action = game.playable ? 'play-featured' : 'import';
-      button.textContent = game.playable ? 'Launch featured' : 'Attach local WAD';
+      button.dataset.action = game.playable ? 'play-game' : 'import';
+      button.dataset.game = game.id;
+      button.textContent = game.playable ? 'Launch now' : 'Attach legal WAD';
     }
-    document.getElementById('featured')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    document.getElementById('featured-format').textContent = game.format;
+    document.getElementById('featured-session').textContent = game.duration;
+    document.getElementById('featured-topology').textContent = game.maps;
+    if (scroll) document.getElementById('featured')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 
   #renderLibrary() {
@@ -205,33 +238,23 @@ export class CatalogController {
   #renderCollectionStats() {
     document.querySelectorAll('[data-collection-count]').forEach((item) => {
       const genre = item.dataset.collectionCount;
-      const count = COLLECTIONS.filter((game) => game.genre === genre).length;
-      item.textContent = String(count).padStart(2, '0');
+      item.textContent = String(COLLECTIONS.filter((game) => game.genre === genre).length).padStart(2, '0');
     });
   }
 
   #syncGenreButtons() {
-    document.querySelectorAll('[data-genre]').forEach((button) => {
-      button.classList.toggle('is-active', button.dataset.genre === this.#activeGenre);
-    });
+    document.querySelectorAll('[data-genre]').forEach((button) => button.classList.toggle('is-active', button.dataset.genre === this.#activeGenre));
   }
 
   #toggleLibrary(id) {
-    if (this.#pinned.has(id)) this.#pinned.delete(id);
-    else this.#pinned.add(id);
-    try {
-      localStorage.setItem(LIBRARY_KEY, JSON.stringify([...this.#pinned]));
-    } catch {
-      // Library remains functional for this session if storage is unavailable.
-    }
+    if (this.#pinned.has(id)) this.#pinned.delete(id); else this.#pinned.add(id);
+    try { localStorage.setItem(LIBRARY_KEY, JSON.stringify([...this.#pinned])); } catch { /* session-only fallback */ }
   }
 
   #readLibrary() {
     try {
-      const saved = JSON.parse(localStorage.getItem(LIBRARY_KEY) ?? '[]');
+      const saved = JSON.parse(localStorage.getItem(LIBRARY_KEY) ?? localStorage.getItem('riftwad-library-v1') ?? '[]');
       return new Set(Array.isArray(saved) ? saved.filter((id) => COLLECTIONS.some((game) => game.id === id)) : []);
-    } catch {
-      return new Set();
-    }
+    } catch { return new Set(); }
   }
 }

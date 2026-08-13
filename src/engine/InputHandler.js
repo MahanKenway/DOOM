@@ -131,6 +131,8 @@ export class InputHandler {
   #heldKeys       = new Set();
   #pointerLocked  = false;
   #sensitivity    = 1.0;   // configurable via setSensitivity()
+  #gamepadDeadzone = 0.25;
+  #attached        = false;
   #gyroEnabled    = false;
   #gyroBaseline   = null;  // calibration reference yaw (set on first reading)
   #gyroSmoothedYaw = null; // low-pass-filtered yaw, reduces sensor jitter
@@ -145,6 +147,11 @@ export class InputHandler {
   #boundMouseMove;
   #boundPointerLock;
   #boundPointerUnlock;
+  #boundCanvasClick;
+  #boundReacquireLock;
+  #boundClickToPlayKeyDown;
+  #boundGamepadConnect;
+  #boundGamepadDisconnect;
 
   // Gamepad polling
   #gamepadRAF   = null;
@@ -163,11 +170,20 @@ export class InputHandler {
     this.#boundMouseMove      = this.#onMouseMove.bind(this);
     this.#boundPointerLock    = this.#onPointerLock.bind(this);
     this.#boundPointerUnlock  = this.#onPointerUnlock.bind(this);
+    this.#boundCanvasClick    = this.#requestPointerLock.bind(this);
+    this.#boundReacquireLock  = this.#requestPointerLock.bind(this);
+    this.#boundClickToPlayKeyDown = (e) => {
+      if (e.code === 'Enter' || e.code === 'Space') this.#requestPointerLock();
+    };
+    this.#boundGamepadConnect = this.#onGamepadConnect.bind(this);
+    this.#boundGamepadDisconnect = this.#onGamepadDisconnect.bind(this);
     this.#boundDeviceOrientation = this.#onDeviceOrientation.bind(this);
     this.#boundOrientationChange = this.#onOrientationChange.bind(this);
   }
 
   attach() {
+    if (this.#attached) return;
+    this.#attached = true;
     window.addEventListener('keydown', this.#boundKeyDown, { passive: false });
     window.addEventListener('keyup',   this.#boundKeyUp);
     this.#canvas.addEventListener('mousedown', this.#boundMouseDown);
@@ -177,7 +193,7 @@ export class InputHandler {
     document.addEventListener('pointerlockerror',  this.#boundPointerUnlock);
 
     // Click canvas to request pointer lock
-    this.#canvas.addEventListener('click', () => this.#requestPointerLock());
+    this.#canvas.addEventListener('click', this.#boundCanvasClick);
 
     // The "click to capture mouse" overlay (#click-to-play) is shown
     // whenever pointer lock is lost (see #onPointerLock below) — most
@@ -190,19 +206,18 @@ export class InputHandler {
     // underneath, and clicking it did nothing, leaving the player
     // permanently stuck with no visible way to continue.
     const clickToPlay = document.getElementById('click-to-play');
-    const reacquireLock = () => this.#requestPointerLock();
-    clickToPlay?.addEventListener('click', reacquireLock);
-    clickToPlay?.addEventListener('keydown', (e) => {
-      if (e.code === 'Enter' || e.code === 'Space') reacquireLock();
-    });
+    clickToPlay?.addEventListener('click', this.#boundReacquireLock);
+    clickToPlay?.addEventListener('keydown', this.#boundClickToPlayKeyDown);
 
     // Gamepad
-    window.addEventListener('gamepadconnected',    this.#onGamepadConnect.bind(this));
-    window.addEventListener('gamepaddisconnected', this.#onGamepadDisconnect.bind(this));
+    window.addEventListener('gamepadconnected', this.#boundGamepadConnect);
+    window.addEventListener('gamepaddisconnected', this.#boundGamepadDisconnect);
     this.#pollGamepads();
   }
 
   detach() {
+    if (!this.#attached) return;
+    this.#attached = false;
     window.removeEventListener('keydown', this.#boundKeyDown);
     window.removeEventListener('keyup',   this.#boundKeyUp);
     this.#canvas.removeEventListener('mousedown', this.#boundMouseDown);
@@ -210,6 +225,12 @@ export class InputHandler {
     document.removeEventListener('mousemove',     this.#boundMouseMove);
     document.removeEventListener('pointerlockchange', this.#boundPointerLock);
     document.removeEventListener('pointerlockerror',  this.#boundPointerUnlock);
+    this.#canvas.removeEventListener('click', this.#boundCanvasClick);
+    const clickToPlay = document.getElementById('click-to-play');
+    clickToPlay?.removeEventListener('click', this.#boundReacquireLock);
+    clickToPlay?.removeEventListener('keydown', this.#boundClickToPlayKeyDown);
+    window.removeEventListener('gamepadconnected', this.#boundGamepadConnect);
+    window.removeEventListener('gamepaddisconnected', this.#boundGamepadDisconnect);
     this.disableGyro();
 
     cancelAnimationFrame(this.#gamepadRAF);
@@ -284,6 +305,10 @@ export class InputHandler {
    */
   setSensitivity(value) {
     this.#sensitivity = Math.max(0.1, Math.min(5, value));
+  }
+
+  setGamepadDeadzone(value) {
+    this.#gamepadDeadzone = Math.max(0.05, Math.min(0.75, Number(value)));
   }
 
   /**
@@ -541,7 +566,7 @@ export class InputHandler {
 
       // Left stick X-axis → turn
       const lx = pad.axes[0] ?? 0;
-      if (Math.abs(lx) > 0.25) {
+      if (Math.abs(lx) > this.#gamepadDeadzone) {
         const dk = lx > 0 ? DoomKey.RIGHT_ARROW : DoomKey.LEFT_ARROW;
         if (!this.#heldKeys.has(dk)) {
           this.#heldKeys.add(dk);
@@ -558,7 +583,7 @@ export class InputHandler {
 
       // Left stick Y-axis → forward/back
       const ly = pad.axes[1] ?? 0;
-      if (Math.abs(ly) > 0.25) {
+      if (Math.abs(ly) > this.#gamepadDeadzone) {
         const dk = ly > 0 ? DoomKey.DOWN_ARROW : DoomKey.UP_ARROW;
         if (!this.#heldKeys.has(dk)) {
           this.#heldKeys.add(dk);

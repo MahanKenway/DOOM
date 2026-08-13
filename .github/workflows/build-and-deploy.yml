@@ -39,12 +39,14 @@ jobs:
     - name: Add emcc to PATH
       run: echo "$GITHUB_WORKSPACE/emsdk/upstream/emscripten" >> $GITHUB_PATH
 
-    - name: Download Freedoom WAD
+    - name: Download freely redistributable Freedoom WADs
       run: |
         mkdir -p dist/assets
-        curl -sL "https://github.com/freedoom/freedoom/releases/download/v0.13.0/freedoom-0.13.0.zip" -o freedoom.zip
-        unzip -j freedoom.zip "*/freedoom1.wad" -d dist/assets/
-        test -f dist/assets/freedoom1.wad || { echo "FATAL: freedoom1.wad missing"; exit 1; }
+        curl -fsSL --retry 2 "https://github.com/freedoom/freedoom/releases/download/v0.13.0/freedoom-0.13.0.zip" -o freedoom.zip
+        unzip -j freedoom.zip "*/freedoom1.wad" "*/freedoom2.wad" -d dist/assets/
+        for wad in freedoom1.wad freedoom2.wad; do
+          test -f "dist/assets/$wad" || { echo "FATAL: $wad missing"; exit 1; }
+        done
 
     - name: Patch source files
       working-directory: linuxdoom-1.10
