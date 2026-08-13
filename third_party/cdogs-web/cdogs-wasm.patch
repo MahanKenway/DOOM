@@ -1,0 +1,519 @@
+diff --git a/src/CMakeLists.txt b/src/CMakeLists.txt
+index 21da754..62405b5 100644
+--- a/src/CMakeLists.txt
++++ b/src/CMakeLists.txt
+@@ -76,6 +76,13 @@ if(WIN32)
+ endif()
+ add_executable(cdogs-sdl
+ 	${CDOGS_SDL_SOURCES} ${CDOGS_SDL_HEADERS} ${CDOGS_SDL_EXTRA})
++
++# The upstream Emscripten branch compiles desktop-only helpers that are not
++# reached in the browser event loop. Do not promote those warnings to errors
++# for the web-only executable target.
++if(EMSCRIPTEN)
++	target_compile_options(cdogs-sdl PRIVATE -Wno-error -Wno-unused-function)
++endif()
+ if(APPLE)
+ 	set_target_properties(cdogs-sdl PROPERTIES
+ 		MACOSX_RPATH 1
+diff --git a/src/cdogs.c b/src/cdogs.c
+index d64a3b9..44143c2 100644
+--- a/src/cdogs.c
++++ b/src/cdogs.c
+@@ -112,19 +112,8 @@ int main(int argc, char *argv[])
+ 	PrintTitle();
+ 
+ #ifdef __EMSCRIPTEN__
+-	// initialize IDBFS for Emscripten persistent storage
+-	EM_ASM(FS.mkdir('/persistent_data');
+-		   FS.mount(IDBFS, {}, '/persistent_data');
+-
+-		   Module.print("start file sync.."); Module.syncdone = 0;
+-
+-		   FS.syncfs(
+-			   true, function(err) {
+-				   assert(!err);
+-				   Module.print("end file sync..");
+-				   Module.syncdone = 1;
+-			   }););
+-
++	// The static browser build keeps settings in its in-memory filesystem for
++	// the current session and does not depend on IndexedDB or cloud storage.
+ 	SetupConfigDir();
+ 	gConfig = ConfigDefault();
+ #else
+@@ -139,6 +128,12 @@ int main(int argc, char *argv[])
+ 	char buf[CDOGS_PATH_MAX];
+ 	ProcessCommandLine(buf, argc, argv);
+ 	LOG(LM_MAIN, LL_INFO, "Command line (%d args):%s", argc, buf);
++#ifdef __EMSCRIPTEN__
++	// Browser frame scheduling is handled by emscripten_set_main_loop_arg.
++	// Avoid SDL2's nested Asyncify yield from SDL_RenderPresent, which prevents
++	// the first software-rendered frame from returning to that scheduler.
++	SDL_SetHint(SDL_HINT_EMSCRIPTEN_ASYNCIFY, "0");
++#endif
+ 	int demoQuitTimer = 0;
+ 	if (!ParseArgs(argc, argv, &connectAddr, &loadCampaign, &demoQuitTimer))
+ 	{
+diff --git a/src/cdogs/CMakeLists.txt b/src/cdogs/CMakeLists.txt
+index 8f96bd6..c12d67e 100644
+--- a/src/cdogs/CMakeLists.txt
++++ b/src/cdogs/CMakeLists.txt
+@@ -252,5 +252,16 @@ target_link_libraries(cdogs
+ 	SDL_joystickbuttonnames
+ 	yajl_s
+ 	SDL2::SDL2
+-	SDL2_mixer::SDL2_mixer
+-	${ENet_LIBRARIES})
++		SDL2_mixer::SDL2_mixer
++		${ENet_LIBRARIES})
++
++# The Emscripten branch intentionally disables a few desktop-only audio
++# operations. Keep the upstream implementation intact while compiling that
++# branch with its corresponding unused local/parameter warnings suppressed.
++if(EMSCRIPTEN)
++	target_compile_options(cdogs PRIVATE
++		-Wno-unused-variable
++		-Wno-unused-parameter
++		-Wno-unused-function
++		-Wno-error)
++endif()
+diff --git a/src/cdogs/files.c b/src/cdogs/files.c
+index b1ff5cc..37dde08 100644
+--- a/src/cdogs/files.c
++++ b/src/cdogs/files.c
+@@ -567,7 +567,10 @@ char *cdogs_homepath = NULL;
+ const char *GetHomeDirectory(void)
+ {
+ #ifdef __EMSCRIPTEN__
+-	return "/persistent_data/";
++	// The browser prototype keeps configuration in the in-memory root. This
++	// avoids creating a directory on an optional filesystem mount before the
++	// runtime has established durable storage.
++	return "/";
+ #endif
+ 
+ 	const char *p;
+@@ -672,6 +675,11 @@ bool mkdir_deep(const char *path)
+ 
+ void SetupConfigDir(void)
+ {
++#ifdef __EMSCRIPTEN__
++	// The browser prototype uses the already-available virtual filesystem root
++	// for the open session, so no directory creation is required here.
++	return;
++#endif
+ 	const char *cfg_p = GetConfigFilePath("");
+ 
+ 	LOG(LM_MAIN, LL_INFO, "Creating config dir %s... ", cfg_p);
+diff --git a/src/cdogs/grafx.c b/src/cdogs/grafx.c
+index d7975cf..d179e01 100644
+--- a/src/cdogs/grafx.c
++++ b/src/cdogs/grafx.c
+@@ -96,8 +96,18 @@ void GraphicsInitialize(GraphicsDevice *g)
+ 
+ 	g->IsInitialized = false;
+ 
+-	const int w = g->cachedConfig.Res.x;
+-	const int h = g->cachedConfig.Res.y;
++	int w = g->cachedConfig.Res.x;
++	int h = g->cachedConfig.Res.y;
++#ifdef __EMSCRIPTEN__
++	// Browser resize events can transiently report an empty logical surface.
++	// Keep the engine's framebuffer valid rather than creating 0x0 textures.
++	if (w <= 0 || h <= 0)
++	{
++		w = 320;
++		h = 240;
++		g->cachedConfig.Res = svec2i(w, h);
++	}
++#endif
+ 
+ 	const bool initWindow = !!(g->cachedConfig.RestartFlags & RESTART_WINDOW);
+ 	const bool initTextures = !!(
+@@ -119,6 +129,15 @@ void GraphicsInitialize(GraphicsDevice *g)
+ 			svec2i(
+ 				ConfigGetInt(&gConfig, "Graphics.WindowWidth"),
+ 				ConfigGetInt(&gConfig, "Graphics.WindowHeight")));
++#ifdef __EMSCRIPTEN__
++		// The static browser build starts without a persisted display config.
++		// SDL's canvas software backend cannot present a 0×0 native window.
++		if (windowDim.Size.x <= 0 || windowDim.Size.y <= 0)
++		{
++			const int scale = MAX(1, g->cachedConfig.ScaleFactor);
++			windowDim.Size = svec2i(w * scale, h * scale);
++		}
++#endif
+ 		if (g->cachedConfig.Fullscreen)
+ 		{
+ 			windowFlags |= SDL_WINDOW_FULLSCREEN_DESKTOP;
+diff --git a/src/cdogs/pic_manager.c b/src/cdogs/pic_manager.c
+index b21a7b6..3fc84f8 100644
+--- a/src/cdogs/pic_manager.c
++++ b/src/cdogs/pic_manager.c
+@@ -203,13 +203,33 @@ void PicManagerLoadDir(
+ 				strerror(errno));
+ 			goto bail;
+ 		}
+-		if (file.is_reg && Stricmp(file.extension, "png") == 0)
+-		{
+-			SDL_Surface *data = LoadImgToSurface(file.path);
+-			if (!data)
++					if (file.is_reg && Stricmp(file.extension, "png") == 0)
+ 			{
+-				LOG(LM_MAIN, LL_ERROR, "Cannot load image");
+-			}
++#ifdef __EMSCRIPTEN__
++				static int webImageTraceCount = 0;
++				const bool traceImage = webImageTraceCount < 3;
++				if (traceImage)
++				{
++					LOG(LM_GFX, LL_INFO, "web image load begin %d: %s",
++						webImageTraceCount + 1, file.path);
++				}
++#endif
++				SDL_Surface *data = LoadImgToSurface(file.path);
++#ifdef __EMSCRIPTEN__
++				if (traceImage)
++				{
++					LOG(LM_GFX, LL_INFO, "web image load end %d: %s",
++						webImageTraceCount + 1, data ? "ok" : SDL_GetError());
++					webImageTraceCount++;
++				}
++#endif
++
++							if (!data)
++				{
++					LOG(LM_MAIN, LL_ERROR, "Cannot load image '%s': %s", file.path,
++						SDL_GetError());
++				}
++
+ 			else
+ 			{
+ 				char buf[CDOGS_PATH_MAX];
+diff --git a/src/cdogs/utils.c b/src/cdogs/utils.c
+index 5e31c93..ded0d5c 100644
+--- a/src/cdogs/utils.c
++++ b/src/cdogs/utils.c
+@@ -694,5 +694,42 @@ end:
+ 
+ SDL_Surface *LoadImgToSurface(const char *path)
+ {
++#ifdef __EMSCRIPTEN__
++	// Decode from a memory buffer in browser builds. This avoids seek-based
++	// SDL_RW callbacks that can stall on the virtual filesystem during startup.
++	FILE *f = fopen(path, "rb");
++	if (f == NULL)
++	{
++		SDL_SetError("Cannot open image '%s': %s", path, strerror(errno));
++		return NULL;
++	}
++	if (fseek(f, 0, SEEK_END) != 0)
++	{
++		fclose(f);
++		SDL_SetError("Cannot seek image '%s'", path);
++		return NULL;
++	}
++	const long size = ftell(f);
++	if (size <= 0 || fseek(f, 0, SEEK_SET) != 0)
++	{
++		fclose(f);
++		SDL_SetError("Cannot size image '%s'", path);
++		return NULL;
++	}
++	unsigned char *buffer;
++	CMALLOC(buffer, (size_t)size);
++	const size_t read = fread(buffer, 1, (size_t)size, f);
++	fclose(f);
++	if (read != (size_t)size)
++	{
++		CFREE(buffer);
++		SDL_SetError("Cannot read image '%s'", path);
++		return NULL;
++	}
++	SDL_Surface *image = STBIMG_LoadFromMemory(buffer, (int)size);
++	CFREE(buffer);
++	return image;
++#else
+ 	return STBIMG_Load(path);
++#endif
+ }
+diff --git a/src/cdogs/window_context.c b/src/cdogs/window_context.c
+index dd6889f..3d10be9 100644
+--- a/src/cdogs/window_context.c
++++ b/src/cdogs/window_context.c
+@@ -47,8 +47,14 @@ bool WindowContextCreate(
+ 		LOG(LM_GFX, LL_ERROR, "cannot create window: %s", SDL_GetError());
+ 		return false;
+ 	}
++#ifdef __EMSCRIPTEN__
++	// SDL's software/canvas backend offers the most reliable texture path for
++	// this renderer architecture in browser builds.
++	wc->renderer = SDL_CreateRenderer(wc->window, -1, SDL_RENDERER_SOFTWARE);
++#else
+ 	wc->renderer = SDL_CreateRenderer(
+ 		wc->window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_TARGETTEXTURE);
++#endif
+ 	if (wc->renderer == NULL)
+ 	{
+ 		LOG(LM_GFX, LL_ERROR, "cannot create renderer: %s", SDL_GetError());
+@@ -84,6 +90,7 @@ bool WindowContextInitTextures(
+ 		SDL_DestroyTexture(wc->final);
+ 		wc->final = NULL;
+ 	}
++#ifndef __EMSCRIPTEN__
+ 	wc->final = SDL_CreateTexture(
+ 		wc->renderer, SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_TARGET,
+ 		rendererLogicalSize.x, rendererLogicalSize.y);
+@@ -101,6 +108,7 @@ bool WindowContextInitTextures(
+ 		wc->final = NULL;
+ 		return false;
+ 	}
++#endif
+ 
+ 	if (SDL_RenderSetLogicalSize(
+ 			wc->renderer, rendererLogicalSize.x, rendererLogicalSize.y) != 0)
+@@ -158,12 +166,14 @@ SDL_Texture *WindowContextCreateTexture(
+ 
+ void WindowContextPreRender(WindowContext *wc)
+ {
++#ifndef __EMSCRIPTEN__
+ 	if (SDL_SetRenderTarget(wc->renderer, wc->final) != 0)
+ 	{
+ 		LOG(LM_GFX, LL_ERROR, "Failed to set final target: %s",
+ 			SDL_GetError());
+ 		return;
+ 	}
++#endif
+ 	if (SDL_SetRenderDrawColor(wc->renderer, 0, 0, 0, 255) != 0)
+ 	{
+ 		LOG(LM_GFX, LL_ERROR, "Failed to set draw color: %s", SDL_GetError());
+@@ -186,11 +196,13 @@ void WindowContextPreRender(WindowContext *wc)
+ 
+ void WindowContextPostRender(WindowContext *wc)
+ {
++#ifndef __EMSCRIPTEN__
+ 	if (SDL_SetRenderTarget(wc->renderer, wc->final) != 0)
+ 	{
+ 		LOG(LM_GFX, LL_ERROR, "Failed to set final target: %s",
+ 			SDL_GetError());
+ 	}
++#endif
+ 
+ 	CA_FOREACH(SDL_Texture *, t, wc->textures)
+ 	TextureRender(
+@@ -198,10 +210,11 @@ void WindowContextPostRender(WindowContext *wc)
+ 		SDL_FLIP_NONE);
+ 	CA_FOREACH_END()
+ 
++#ifndef __EMSCRIPTEN__
+ 	SDL_SetRenderTarget(wc->renderer, NULL);
+-
+ 	SDL_RenderSetLogicalSize(wc->renderer, 0, 0);
+ 	SDL_RenderCopy(wc->renderer, wc->final, NULL, NULL);
++#endif
+ 	SDL_RenderPresent(wc->renderer);
+ 
+ 	// Restore logical size for next frame's game rendering
+diff --git a/src/cdogs/yajl_utils.c b/src/cdogs/yajl_utils.c
+index cd5de56..a9e6063 100644
+--- a/src/cdogs/yajl_utils.c
++++ b/src/cdogs/yajl_utils.c
+@@ -30,6 +30,10 @@
+ #include <stdio.h>
+ #include <stdlib.h>
+ 
++#ifdef __EMSCRIPTEN__
++#include <emscripten.h>
++#endif
++
+ static char *ReadFile(const char *filename);
+ yajl_val YAJLReadFile(const char *filename)
+ {
+diff --git a/src/game_loop.c b/src/game_loop.c
+index 4f6848b..512461b 100644
+--- a/src/game_loop.c
++++ b/src/game_loop.c
+@@ -32,6 +32,7 @@
+ 
+ #include "config.h"
+ #include "events.h"
++#include "log.h"
+ #include "net_client.h"
+ #include "net_server.h"
+ #include "sounds.h"
+@@ -48,7 +49,7 @@
+ 
+ bool emscripten_fs_ready = false;
+ 
+-void emscriptenLoadFiles()
++void emscriptenLoadFiles(void)
+ {
+ 	// options.cnf
+ 	FILE *file_options = fopen(GetConfigFilePath(CONFIG_FILE), "r");
+@@ -95,36 +96,18 @@ void emscriptenLoadFiles()
+ 	}
+ }
+ 
+-bool emscriptenPersistData()
++bool emscriptenPersistData(void)
+ {
+-	if (emscripten_fs_ready)
+-		return true;
+-
+-	if (emscripten_run_script_int("Module.syncdone") == 1)
++	// Keep the first browser prototype independent from IndexedDB lifecycle
++	// quirks. The virtual filesystem remains valid for the open session and
++	// C-Dogs can enter its event loop immediately; durable persistence will be
++	// reintroduced behind a tested storage adapter after runtime validation.
++	if (!emscripten_fs_ready)
+ 	{
+-		FILE *config_file = fopen(GetConfigFilePath(CONFIG_FILE), "r");
+-		if (config_file == NULL)
+-		{
+-			// persist Emscripten current data to Indexed Db
+-			EM_ASM(Module.print("Start File sync.."); Module.syncdone = 0;
+-				   FS.syncfs(
+-					   false, function(err) {
+-						   assert(!err);
+-						   Module.print("End File sync..");
+-						   Module.syncdone = 1;
+-					   }););
+-			emscriptenLoadFiles();
+-			return false;
+-		}
+-		else
+-		{
+-			fclose(config_file);
+-			emscripten_fs_ready = true;
+-			emscriptenLoadFiles();
+-			return true;
+-		}
++		emscripten_fs_ready = true;
++		emscriptenLoadFiles();
+ 	}
+-	return false;
++	return true;
+ }
+ #endif
+ 
+@@ -298,7 +281,9 @@ bool LoopRunnerRunInner(LoopRunInnerData *ctx)
+ void EmscriptenMainLoop(void *arg)
+ {
+ 	if (!emscriptenPersistData())
++	{
+ 		return;
++	}
+ 
+ 	LoopRunnerRunInner((LoopRunInnerData *)arg);
+ }
+@@ -318,8 +303,10 @@ void LoopRunnerRun(LoopRunner *l)
+ 	ctx.p = LoopRunParamsNew(data);
+ 
+ #ifdef __EMSCRIPTEN__
+-	// TODO use GameLoopData->FPS instead of FPS_FRAMELIMIT?
+-	emscripten_set_main_loop_arg(EmscriptenMainLoop, &ctx, FPS_FRAMELIMIT, 1);
++	// The software renderer is significantly more demanding in a browser tab.
++	// A stable 30 FPS keeps the retro cadence while leaving time for UI, input
++	// and browser lifecycle tasks.
++		emscripten_set_main_loop_arg(EmscriptenMainLoop, &ctx, 30, 1);
+ #else
+ 	for (;;)
+ 	{
+diff --git a/src/loading_screens.c b/src/loading_screens.c
+index 0bfac82..d256a33 100644
+--- a/src/loading_screens.c
++++ b/src/loading_screens.c
+@@ -30,6 +30,7 @@
+ #include <cdogs/draw/draw.h>
+ #include <cdogs/files.h>
+ #include <cdogs/font.h>
++#include <cdogs/log.h>
+ #include <cdogs/map_build.h>
+ #include <cdogs/pic_manager.h>
+ #include <cdogs/pics.h>
+@@ -122,6 +123,14 @@ static void LoadingScreenDrawInner(
+ void LoadingScreenDraw(
+ 	LoadingScreen *l, const char *loadingText, const float showPct)
+ {
++#ifdef __EMSCRIPTEN__
++	// These calls occur synchronously during bootstrap, before the browser's
++	// main loop owns the canvas. Rendering them can suspend startup forever.
++	(void)l;
++	(void)loadingText;
++	(void)showPct;
++	return;
++#else
+ 	WindowContextPreRender(&l->g->gameWindow);
+ 
+ 	LoadingScreenDrawInner(l, loadingText, showPct);
+@@ -131,6 +140,7 @@ void LoadingScreenDraw(
+ 	SoundPlayAtPlusDistance(&gSoundDevice, l->sndTick, gSoundDevice.earLeft1, 255);
+ 
+ 	SDL_Delay(70);
++#endif
+ }
+ 
+ typedef struct
+diff --git a/src/mainmenu.c b/src/mainmenu.c
+index be51831..2b89e49 100644
+--- a/src/mainmenu.c
++++ b/src/mainmenu.c
+@@ -134,13 +134,17 @@ static void OnGfxChange(void *data, const bool resetBg)
+ 	MainMenuData *mData = data;
+ 	if (resetBg)
+ 	{
++#ifndef __EMSCRIPTEN__
+ 		GenerateLiveBackground(mData);
++#endif
+ 	}
+ 	MenuResetSize(&mData->ms);
+ }
+ static void MainMenuReset(MainMenuData *data)
+ {
++#ifndef __EMSCRIPTEN__
+ 	GenerateLiveBackground(data);
++#endif
+ 
+ 	MenuResetSize(&data->ms);
+ 
+@@ -273,6 +277,7 @@ static void MainMenuDraw(GameLoopData *data)
+ 	}
+ 	MainMenuData *mData = data->Data;
+ 	MenuDraw(&mData->ms);
++#ifndef __EMSCRIPTEN__
+ 	const struct vec2 pos = svec2(
+ 		(gMap.Size.x + 1) * TILE_WIDTH * 0.5f,
+ 		(gMap.Size.y + 1) * TILE_HEIGHT * 0.5f);
+@@ -280,6 +285,7 @@ static void MainMenuDraw(GameLoopData *data)
+ 	memset(&args, 0, sizeof args);
+ 	GrafxDrawBackground(
+ 		mData->graphics, &mData->buffer, mData->bgTint, pos, &args);
++#endif
+ }
+ 
+ static menu_t *MenuCreateStart(
+diff --git a/cmake/FindSDL2_mixer.cmake b/cmake/FindSDL2_mixer.cmake
+new file mode 100644
+index 0000000..f249f33
+--- /dev/null
++++ b/cmake/FindSDL2_mixer.cmake
+@@ -0,0 +1,18 @@
++# Browser-only adapter for C-Dogs SDL.
++# Emscripten provides SDL2_mixer through its maintained port, but that port
++# does not expose a CMake package config. This target maps the upstream
++# project expectation to the official -sUSE_SDL_MIXER=2 flag.
++if(NOT EMSCRIPTEN)
++  message(FATAL_ERROR "This SDL2_mixer finder is only intended for the Emscripten prototype build.")
++endif()
++
++if(NOT TARGET SDL2_mixer::SDL2_mixer)
++  add_library(SDL2_mixer::SDL2_mixer INTERFACE IMPORTED)
++  set_target_properties(SDL2_mixer::SDL2_mixer PROPERTIES
++    INTERFACE_INCLUDE_DIRECTORIES "${EMSCRIPTEN_SYSROOT}/include/SDL2"
++    INTERFACE_LINK_OPTIONS "SHELL:-sUSE_SDL_MIXER=2"
++  )
++endif()
++
++set(SDL2_mixer_FOUND TRUE)
++set(SDL2_mixer_VERSION "2")

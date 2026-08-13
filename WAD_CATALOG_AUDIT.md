@@ -16,6 +16,7 @@
 | TNT: Evilution | Owned file | فقط پس از انتخاب WAD قانونی کاربر | Final Doom تجاری؛ هیچ archive یا dataای bundle نمی‌شود [3] |
 | Community WAD shelf | Local import | یک IWAD و حداکثر سه PWAD محلی | حق استفاده و سازگاری بر عهدهٔ کاربر؛ فایل‌ها upload نمی‌شوند |
 | Blasphemer | External engine | غیرقابل اجرا در runtime فعلی | محتوای آزاد برای engine خانوادهٔ Heretic است، نه Doom 1.10 [4] |
+| C-Dogs SDL | Bundled independent runtime | قابل اجرا در صفحه و WebAssembly جداگانه | code تحت GPL-2.0 و دادهٔ آزاد upstream؛ فقط برای deployment غیرتجاری RIFTWAD و با attribution حفظ‌شده [12] |
 | OpenResident | WebGL2 study | فقط graphics probe؛ بازی نیست | source engine با BSD-2-Clause و بدون game data [5] |
 
 ## محدودیت سازگاری runtime
@@ -30,6 +31,7 @@ RIFTWAD فعلی یک browser build از **linuxdoom 1.10** با loader سازگ
 | GZDoom total conversion | تنها با پیوند release رسمی نمایش داده می‌شود؛ package یا asset آن host نمی‌شود. |
 | Heretic-compatible IWAD | در catalog می‌تواند معرفی شود، اما launch نمی‌شود. |
 | GZDoom-era release | تا زمان ساخت adapter اختصاصی، قابل اجرا یا bundled معرفی نمی‌شود. |
+| C-Dogs SDL native runtime | در صفحهٔ `cdogs.html` و با ماژول WASM، filesystem و input مستقل اجرا می‌شود؛ هیچ WAD، state یا loopی با Doom اشتراک ندارد. |
 
 ## سیاست screenshot و attribution
 
@@ -47,6 +49,7 @@ RIFTWAD فعلی یک browser build از **linuxdoom 1.10** با loader سازگ
 | `tnt-steel-works.webp` | Doom Wiki / Fandom، MAP14 [3] | Doom Wiki / Fandom |
 | `blasphemer-gameplay.webp` | image ارجاع‌شده در README پروژه [4] | Blasphemer project / jeshimoth.com |
 | `openresident-gameplay.webp` | image ارجاع‌شده در README upstream [5] | XProger/OpenResident README |
+| `cdogs-sdl-browser.png` | screenshot واقعی runtime C-Dogs در Chromium | RIFTWAD C-Dogs SDL WebAssembly runtime |
 
 ## Hacx 1.2: مبنای bundle
 
@@ -72,6 +75,8 @@ Hacx 1.2 در منبع رسمی Dr Nostromo به‌عنوان یک **stand-alone
 | اجرای `openresident.html` و WebGL2 lifecycle در Chromium | PASS، بدون خطای console |
 | ساختار کنترل‌های PSP | PASS؛ D-pad، L/R، چهار face button و drag-look روی game layer مشاهده و accessibility-discoverable شدند |
 | smoke test `scripts/validate-riftwad.sh` | PASS |
+| C-Dogs SDL fresh-clone Emscripten build | PASS؛ source pinned در `bb7e16ce765610d705f7c3e190ddcd4a81f3b371`، patch browser و archive آزاد تولید شد |
+| C-Dogs SDL Chromium runtime | PASS؛ canvas رنگی، منوی Start/Options، campaign و dogfight directoryها و status READY مشاهده شد |
 
 ## منابع
 
@@ -86,3 +91,4 @@ Hacx 1.2 در منبع رسمی Dr Nostromo به‌عنوان یک **stand-alone
 [9]: https://www.moddb.com/mods/eviternity "Eviternity"
 [10]: https://www.moddb.com/mods/back-to-saturn-x "Back to Saturn X"
 [11]: http://adventuresofsquare.com/ "The Adventures of Square"
+[12]: https://github.com/cxong/cdogs-sdl "C-Dogs SDL upstream repository"

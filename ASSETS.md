@@ -22,6 +22,7 @@
 | TNT: Evilution | `assets/screenshots/tnt-steel-works.webp` | Screenshot واقعی گیم‌پلی، MAP14 | Doom Wiki / Fandom |
 | Blasphemer | `assets/screenshots/blasphemer-gameplay.webp` | Screenshot واقعی گیم‌پلی | Blasphemer project / jeshimoth.com |
 | OpenResident | `assets/screenshots/openresident-gameplay.webp` | Screenshot واقعی گیم‌پلی | XProger/OpenResident README |
+| C-Dogs SDL | `assets/screenshots/cdogs-sdl-browser.png` | Screenshot واقعی اجرای local در browser | RIFTWAD C-Dogs SDL WebAssembly runtime |
 
 ## Visual reference
 

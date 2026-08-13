@@ -103,9 +103,12 @@ jobs:
         test -f dist/openresident/openresident-probe.wasm || { echo "FATAL: OpenResident probe WASM not produced"; exit 1; }
         ls -lh dist/openresident/openresident-probe.*
 
+    - name: Compile C-Dogs SDL independent runtime
+      run: ./scripts/build-cdogs-web.sh
+
     - name: Copy frontend files
       run: |
-        cp index.html openresident.html manifest.json robots.txt sitemap.xml google*.html dist/ 2>/dev/null || true
+        cp index.html cdogs.html openresident.html manifest.json robots.txt sitemap.xml google*.html dist/ 2>/dev/null || true
         cp -r styles src dist/ 2>/dev/null || true
         mkdir -p dist/assets
         # Copy nested catalog artwork as well as existing icons. The WADs are

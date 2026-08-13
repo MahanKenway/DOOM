@@ -210,6 +210,25 @@ export const COLLECTIONS = [
     projectLabel: 'View official release',
   },
   {
+    id: 'cdogs-sdl',
+    title: 'C-Dogs SDL',
+    studio: 'C-Dogs SDL project',
+    year: 'v2.4.0',
+    format: 'Bundled independent runtime',
+    genre: 'Action',
+    duration: 'Campaigns + dogfights',
+    maps: 'Native C-Dogs data',
+    status: 'Free / bundled',
+    license: 'GPL-2.0 engine · free upstream game data · attribution retained',
+    artwork: 'assets/screenshots/cdogs-sdl-browser.png',
+    artworkCredit: 'Gameplay screenshot: RIFTWAD local C-Dogs SDL browser build',
+    description: 'A top-down retro action game running in its own C-Dogs SDL WebAssembly module. It includes the libre upstream campaign and dogfight data, has PSP-style mobile controls and never shares Doom’s WAD loader or game loop.',
+    playable: true,
+    runtimePath: 'cdogs.html',
+    runtimeLabel: 'Launch C-Dogs',
+    catalogState: 'INDEPENDENT RUNTIME',
+  },
+  {
     id: 'openresident-research',
     title: 'OpenResident',
     studio: 'XProger',
@@ -296,6 +315,7 @@ export class CatalogController {
       if (action === 'play-game' && game?.playable) this.#onPlay?.(game);
       if (action === 'import') this.#onImport?.(game);
       if (action === 'open-project' && game?.projectUrl) window.open(game.projectUrl, '_blank', 'noopener,noreferrer');
+      if (action === 'open-runtime' && game?.runtimePath) window.location.assign(game.runtimePath);
       if (action === 'open-probe' && game?.probePath) window.location.assign(game.probePath);
       if (action === 'focus-genre') this.focusCatalog(button.dataset.genre ?? 'All');
       if (action === 'toggle-library' && game) { this.#toggleLibrary(game.id); this.render(); }
@@ -315,11 +335,12 @@ export class CatalogController {
 
   #cardTemplate(game, index) {
     const saved = this.#pinned.has(game.id);
+    const isRuntime = Boolean(game.runtimePath);
     const isProbe = !game.playable && Boolean(game.probePath);
     const isExternal = !game.playable && Boolean(game.projectUrl);
-    const action = game.playable ? 'play-game' : (isProbe ? 'open-probe' : (isExternal ? 'open-project' : 'import'));
-    const actionLabel = game.playable ? (game.playLabel ?? 'Play now') : (isProbe ? (game.projectLabel ?? 'Open technical probe') : (isExternal ? (game.projectLabel ?? 'View project') : 'Attach WAD'));
-    const state = game.catalogState ?? (game.playable ? 'BUNDLED' : (isProbe ? 'WEBGL2 STUDY' : (isExternal ? 'EXTERNAL ENGINE' : 'OWNED FILE')));
+    const action = isRuntime ? 'open-runtime' : (game.playable ? 'play-game' : (isProbe ? 'open-probe' : (isExternal ? 'open-project' : 'import')));
+    const actionLabel = isRuntime ? (game.runtimeLabel ?? 'Launch runtime') : (game.playable ? (game.playLabel ?? 'Play now') : (isProbe ? (game.projectLabel ?? 'Open technical probe') : (isExternal ? (game.projectLabel ?? 'View project') : 'Attach WAD')));
+    const state = game.catalogState ?? (isRuntime ? 'INDEPENDENT RUNTIME' : (game.playable ? 'BUNDLED' : (isProbe ? 'WEBGL2 STUDY' : (isExternal ? 'EXTERNAL ENGINE' : 'OWNED FILE'))));
     return `<article class="game-card ${game.featured ? 'is-featured-card' : ''}" style="--card-index:${index}">
       <button class="game-card-media" data-action="select-game" data-game="${game.id}" aria-label="View ${game.title}">
         <img src="${game.artwork}" alt="" loading="lazy" />
@@ -352,11 +373,12 @@ export class CatalogController {
     if (cover) { cover.src = game.artwork; cover.alt = `${game.title} preview`; }
     const button = document.getElementById('btn-freedoom');
     if (button) {
+      const isRuntime = Boolean(game.runtimePath);
       const isProbe = !game.playable && Boolean(game.probePath);
       const isExternal = !game.playable && Boolean(game.projectUrl);
-      button.dataset.action = game.playable ? 'play-game' : (isProbe ? 'open-probe' : (isExternal ? 'open-project' : 'import'));
+      button.dataset.action = isRuntime ? 'open-runtime' : (game.playable ? 'play-game' : (isProbe ? 'open-probe' : (isExternal ? 'open-project' : 'import')));
       button.dataset.game = game.id;
-      button.textContent = game.playable ? (game.playLabel ?? 'Launch now') : (isProbe ? (game.projectLabel ?? 'Open technical probe') : (isExternal ? (game.projectLabel ?? 'View project') : 'Attach legal WAD'));
+      button.textContent = isRuntime ? (game.runtimeLabel ?? 'Launch runtime') : (game.playable ? (game.playLabel ?? 'Launch now') : (isProbe ? (game.projectLabel ?? 'Open technical probe') : (isExternal ? (game.projectLabel ?? 'View project') : 'Attach legal WAD')));
     }
     document.getElementById('featured-format').textContent = game.format;
     document.getElementById('featured-session').textContent = game.duration;
