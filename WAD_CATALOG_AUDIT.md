@@ -40,7 +40,7 @@ RIFTWAD فعلی یک browser build از **linuxdoom 1.10** با loader سازگ
 
 ## Hacx 1.2: مبنای bundle
 
-Hacx 1.2 در منبع رسمی Dr Nostromo به‌عنوان یک **stand-alone IWAD** معرفی شده و به Doom II برای اجرا نیاز ندارد. با این حال، linuxdoom 1.10 فعلی Hacx را از مسیر Doom II/`MAP01` تشخیص می‌دهد؛ بنابراین RIFTWAD برای سازگاری، archive Hacx را به‌عنوان PWAD روی Freedoom Phase 2 (base IWAD bundleشده) لایه‌گذاری می‌کند. `HACX.TXT` در release، توزیع آزاد برای سایت‌ها را تصریح می‌کند، اما هرگونه درآمدزایی یا استفاده برای ترویج فعالیت درآمدزا را منع می‌کند. `LEGAL.txt` و `CREDITS.txt` upstream در artifact منتشرشدهٔ RIFTWAD کنار WAD و README release قرار می‌گیرند تا attribution و شرایط distribution همراه bundle بمانند. [6] [7]
+Hacx 1.2 در منبع رسمی Dr Nostromo به‌عنوان یک **stand-alone IWAD** معرفی شده و به Doom II برای اجرا نیاز ندارد. با این حال، linuxdoom 1.10 فعلی Hacx را از مسیر Doom II/`MAP01` تشخیص می‌دهد؛ بنابراین RIFTWAD برای سازگاری، archive Hacx را به‌عنوان PWAD روی Freedoom Phase 2 (base IWAD bundleشده) لایه‌گذاری می‌کند. `HACX.TXT` در release، توزیع آزاد برای سایت‌ها را تصریح می‌کند، اما هرگونه درآمدزایی یا استفاده برای ترویج فعالیت درآمدزا را منع می‌کند. `LEGAL.txt` و `CREDITS.txt` upstream در artifact منتشرشدهٔ RIFTWAD کنار WAD و README release قرار می‌گیرند تا attribution و شرایط distribution همراه bundle بمانند. Archive رسمی `hacx12.zip` با SHA-256 `70d25e8f4b48906759db32213927859a99b3b045d3291d468357b225d64cbf8b` در `third_party/hacx/` نگهداری و در CI پیش از استخراج verify می‌شود؛ این کار deploy را از کندی host خارجی مستقل می‌کند. [6] [7]
 
 > Hacx 1.2 فقط برای deploymentهای **غیرتجاری** RIFTWAD bundle می‌شود. در صورت اضافه‌شدن تبلیغ، فروش، subscription یا هر مدل درآمدزای دیگر، باید از artifact حذف شود یا اجازهٔ کتبی جداگانه اخذ گردد.
 

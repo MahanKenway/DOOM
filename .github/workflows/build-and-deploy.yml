@@ -44,9 +44,11 @@ jobs:
         mkdir -p dist/assets dist/assets/licenses
         curl -fsSL --retry 2 "https://github.com/freedoom/freedoom/releases/download/v0.13.0/freedoom-0.13.0.zip" -o freedoom.zip
         curl -fsSL --retry 2 "https://github.com/freedoom/freedoom/releases/download/v0.13.0/freedm-0.13.0.zip" -o freedm.zip
-        # Hacx 1.2 is royalty-free but strictly non-commercial. Its WAD,
-        # release README and source licensing/credit files are published together.
-        curl -fsSL --retry 2 "https://drnostromo.com/hacx/files/hacx12.zip" -o hacx12.zip
+        # Hacx 1.2 is royalty-free but strictly non-commercial. Its official
+        # release archive is vendored after checksum verification so CI does not
+        # depend on a slow third-party host at deploy time.
+        cp third_party/hacx/hacx12.zip hacx12.zip
+        printf '%s  %s\n' '70d25e8f4b48906759db32213927859a99b3b045d3291d468357b225d64cbf8b' hacx12.zip | sha256sum -c -
         unzip -j freedoom.zip "*/freedoom1.wad" "*/freedoom2.wad" -d dist/assets/
         unzip -j freedm.zip "*/freedm.wad" -d dist/assets/
         unzip -p hacx12.zip HACX.WAD > dist/assets/hacx.wad
