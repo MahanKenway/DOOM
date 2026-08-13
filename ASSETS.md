@@ -13,6 +13,7 @@
 | Freedoom: Phase 1 | `assets/screenshots/freedoom-phase1.png` | Screenshot واقعی بازی | Freedoom project |
 | Freedoom: Phase 2 | `assets/screenshots/freedoom-phase2.png` | Screenshot واقعی بازی | Freedoom project |
 | FreeDM | `assets/screenshots/freedm.png` | Screenshot واقعی بازی | Freedoom project |
+| Hacx: Twitch ’n Kill | `assets/screenshots/hacx-gameplay.jpg` | Screenshot واقعی گیم‌پلی | Hacx project / Dr Nostromo |
 | The Plutonia Experiment | `assets/screenshots/plutonia-gateway-of-hell.webp` | Screenshot واقعی گیم‌پلی، MAP30 | Doom Wiki / Fandom |
 | TNT: Evilution | `assets/screenshots/tnt-steel-works.webp` | Screenshot واقعی گیم‌پلی، MAP14 | Doom Wiki / Fandom |
 | Blasphemer | `assets/screenshots/blasphemer-gameplay.webp` | Screenshot واقعی گیم‌پلی | Blasphemer project / jeshimoth.com |

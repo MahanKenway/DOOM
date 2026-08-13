@@ -7,6 +7,7 @@
 | Freedoom: Phase 1 | Bundled IWAD | قابل اجرا | محتوای آزاد Freedoom با attribution حفظ‌شده [1] |
 | Freedoom: Phase 2 | Bundled IWAD | قابل اجرا | محتوای آزاد Freedoom با attribution حفظ‌شده [1] |
 | FreeDM: Arena Archive | Bundled IWAD | قابل اجرا برای exploration محلی؛ بدون bot یا multiplayer | archive رسمی خانوادهٔ Freedoom با attribution حفظ‌شده [1] |
+| Hacx: Twitch ’n Kill | Bundled Freedoom II + Hacx PWAD | قابل اجرا؛ مسیر Doom II/commercial runtime | release رسمی Hacx 1.2؛ royalty-free، غیرتجاری و همراه با credit/license [6] [7] |
 | The Plutonia Experiment | Owned file | فقط پس از انتخاب WAD قانونی کاربر | Final Doom تجاری؛ هیچ archive یا dataای bundle نمی‌شود [2] |
 | TNT: Evilution | Owned file | فقط پس از انتخاب WAD قانونی کاربر | Final Doom تجاری؛ هیچ archive یا dataای bundle نمی‌شود [3] |
 | Community WAD shelf | Local import | یک IWAD و حداکثر سه PWAD محلی | حق استفاده و سازگاری بر عهدهٔ کاربر؛ فایل‌ها upload نمی‌شوند |
@@ -19,7 +20,7 @@ RIFTWAD فعلی یک browser build از **linuxdoom 1.10** با loader سازگ
 
 | خانوادهٔ runtime | رفتار صادقانه در این build |
 |---|---|
-| Doom-compatible IWAD | Freedoom Phase 1، Phase 2 و FreeDM bundle و قابل launch هستند. |
+| Doom-compatible IWAD | Freedoom Phase 1، Phase 2 و FreeDM bundle و قابل launch هستند. Hacx 1.2 به‌صورت Hacx PWAD روی Freedoom II bundle می‌شود و فقط در deployment غیرتجاری مجاز است. |
 | Doom-compatible PWAD | تنها همراه با IWAD محلی و پس از انتخاب کاربر قابل load است. |
 | Heretic-compatible IWAD | در catalog می‌تواند معرفی شود، اما launch نمی‌شود. |
 | GZDoom-era release | تا زمان ساخت adapter اختصاصی، قابل اجرا یا bundled معرفی نمی‌شود. |
@@ -31,10 +32,17 @@ RIFTWAD فعلی یک browser build از **linuxdoom 1.10** با loader سازگ
 | Asset | منبع screenshot | credit نمایشی |
 |---|---|---|
 | `freedoom-phase1.png`، `freedoom-phase2.png` و `freedm.png` | پروژهٔ رسمی Freedoom [1] | Freedoom project |
+| `hacx-gameplay.jpg` | صفحهٔ رسانهٔ رسمی Hacx [6] | Hacx project / Dr Nostromo |
 | `plutonia-gateway-of-hell.webp` | Doom Wiki / Fandom، MAP30 [2] | Doom Wiki / Fandom |
 | `tnt-steel-works.webp` | Doom Wiki / Fandom، MAP14 [3] | Doom Wiki / Fandom |
 | `blasphemer-gameplay.webp` | image ارجاع‌شده در README پروژه [4] | Blasphemer project / jeshimoth.com |
 | `openresident-gameplay.webp` | image ارجاع‌شده در README upstream [5] | XProger/OpenResident README |
+
+## Hacx 1.2: مبنای bundle
+
+Hacx 1.2 در منبع رسمی Dr Nostromo به‌عنوان یک **stand-alone IWAD** معرفی شده و به Doom II برای اجرا نیاز ندارد. با این حال، linuxdoom 1.10 فعلی Hacx را از مسیر Doom II/`MAP01` تشخیص می‌دهد؛ بنابراین RIFTWAD برای سازگاری، archive Hacx را به‌عنوان PWAD روی Freedoom Phase 2 (base IWAD bundleشده) لایه‌گذاری می‌کند. `HACX.TXT` در release، توزیع آزاد برای سایت‌ها را تصریح می‌کند، اما هرگونه درآمدزایی یا استفاده برای ترویج فعالیت درآمدزا را منع می‌کند. `LEGAL.txt` و `CREDITS.txt` upstream در artifact منتشرشدهٔ RIFTWAD کنار WAD و README release قرار می‌گیرند تا attribution و شرایط distribution همراه bundle بمانند. [6] [7]
+
+> Hacx 1.2 فقط برای deploymentهای **غیرتجاری** RIFTWAD bundle می‌شود. در صورت اضافه‌شدن تبلیغ، فروش، subscription یا هر مدل درآمدزای دیگر، باید از artifact حذف شود یا اجازهٔ کتبی جداگانه اخذ گردد.
 
 ## OpenResident: نتیجهٔ prototype WebAssembly
 
@@ -62,5 +70,5 @@ RIFTWAD فعلی یک browser build از **linuxdoom 1.10** با loader سازگ
 [3]: https://doom.fandom.com/wiki/TNT:_Evilution "TNT: Evilution — Doom Wiki"
 [4]: https://github.com/Blasphemer/blasphemer "Blasphemer repository"
 [5]: https://github.com/XProger/OpenResident "XProger/OpenResident repository"
-A direct catalog-click check confirmed that the `Open WebGL2 probe` action navigates to `openresident.html`. The subsequent local page stayed in its loading state only because the deliberately untracked local build output had been removed during repository cleanup; the workflow is responsible for generating that directory in a real deployment. The build output is staged again below solely for final local flow verification and will be removed before commit.
-With the CI-like local build output restored, the full catalog-to-probe flow passed: the local `Open WebGL2 probe` route rendered `PASS — WebGL2 renderer lifecycle initialised` and its console was empty. The temporary output directory is removed again before commit.
+[6]: https://drnostromo.com/hacx/page.php?content=download "Hacx 1.2 official download"
+[7]: https://github.com/XaserAcheron/hacx/blob/master/LEGAL.txt "Hacx distribution terms"

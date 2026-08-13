@@ -848,12 +848,28 @@ void D_DoomMain (void)
       case registered:
       case retail:
       case commercial:
-	printf (
-	    "===========================================================================\n"
-	    "                 Commercial product - do not distribute!\n"
-	    "         Please report software piracy to the SPA: 1-800-388-PIR8\n"
-	    "===========================================================================\n"
-	);
+        /* A browser session with multiple archives can contain an explicitly
+           permitted layered release (for example Hacx over a compatible base
+           IWAD). The original Doom II piracy notice would be misleading in
+           that case, so state the actual responsibility instead. Single-file
+           commercial IWADs retain the original notice. */
+        if (W_Web_GetWadCount() > 1)
+        {
+            printf (
+                "===========================================================================\n"
+                "         Layered archive session - use only files you may use.\n"
+                "===========================================================================\n"
+            );
+        }
+        else
+        {
+            printf (
+                "===========================================================================\n"
+                "                 Commercial product - do not distribute!\n"
+                "         Please report software piracy to the SPA: 1-800-388-PIR8\n"
+                "===========================================================================\n"
+            );
+        }
 	break;
 	
       default:

@@ -39,16 +39,22 @@ jobs:
     - name: Add emcc to PATH
       run: echo "$GITHUB_WORKSPACE/emsdk/upstream/emscripten" >> $GITHUB_PATH
 
-    - name: Download freely redistributable Freedoom WADs
+    - name: Download redistributable WAD bundles
       run: |
-        mkdir -p dist/assets
+        mkdir -p dist/assets dist/assets/licenses
         curl -fsSL --retry 2 "https://github.com/freedoom/freedoom/releases/download/v0.13.0/freedoom-0.13.0.zip" -o freedoom.zip
         curl -fsSL --retry 2 "https://github.com/freedoom/freedoom/releases/download/v0.13.0/freedm-0.13.0.zip" -o freedm.zip
+        # Hacx 1.2 is royalty-free but strictly non-commercial. Its WAD,
+        # release README and source licensing/credit files are published together.
+        curl -fsSL --retry 2 "https://drnostromo.com/hacx/files/hacx12.zip" -o hacx12.zip
         unzip -j freedoom.zip "*/freedoom1.wad" "*/freedoom2.wad" -d dist/assets/
         unzip -j freedm.zip "*/freedm.wad" -d dist/assets/
-        for wad in freedoom1.wad freedoom2.wad freedm.wad; do
-          test -f "dist/assets/$wad" || { echo "FATAL: $wad missing"; exit 1; }
+        unzip -p hacx12.zip HACX.WAD > dist/assets/hacx.wad
+        unzip -p hacx12.zip HACX.TXT > dist/assets/licenses/HACX-README.txt
+        for wad in freedoom1.wad freedoom2.wad freedm.wad hacx.wad; do
+          test -s "dist/assets/$wad" || { echo "FATAL: $wad missing"; exit 1; }
         done
+        test -s dist/assets/licenses/HACX-README.txt || { echo "FATAL: Hacx README missing"; exit 1; }
 
     - name: Patch source files
       working-directory: linuxdoom-1.10
@@ -111,6 +117,7 @@ jobs:
         sed -i "s#assets/freedoom1\\.wad#assets/freedoom1.wad?v=${SHA_SHORT}#" dist/src/main.js
         sed -i "s#assets/freedoom2\\.wad#assets/freedoom2.wad?v=${SHA_SHORT}#" dist/src/main.js
         sed -i "s#assets/freedm\\.wad#assets/freedm.wad?v=${SHA_SHORT}#" dist/src/main.js
+        sed -i "s#assets/hacx\\.wad#assets/hacx.wad?v=${SHA_SHORT}#" dist/src/main.js
         sed -i "s#wasm/doom\\.wasm#wasm/doom.wasm?v=${SHA_SHORT}#" dist/src/main.js
 
     - name: Upload Pages artifact

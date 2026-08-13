@@ -22,6 +22,11 @@ test -f third_party/openresident-web/README.md
 grep -q "openresident.html" src/catalog.js
 grep -q "Compile OpenResident WebGL2 probe" .github/workflows/build-and-deploy.yml
 
+grep -q "assets/hacx.wad" src/catalog.js
+grep -q "hacx12.zip" .github/workflows/build-and-deploy.yml
+test -f assets/licenses/HACX-LEGAL.txt
+test -f assets/licenses/HACX-CREDITS.txt
+
 if grep -R "assets/covers/" index.html src styles .github 2>/dev/null; then
   echo "Deprecated generated cover reference found in active runtime files" >&2
   exit 1

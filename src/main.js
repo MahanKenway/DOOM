@@ -182,7 +182,8 @@ async function startBundledGame(game) {
     return;
   }
   document.getElementById('wad-picker')?.classList.remove('active');
-  await startGame([game.source], 'url', { catalogGame: game });
+  const sources = Array.isArray(game.source) ? game.source : [game.source];
+  await startGame(sources, 'url', { catalogGame: game });
 }
 
 // ═════════════════════════════════════════════════════════════════
@@ -242,7 +243,13 @@ async function startGame(sources, type, { catalogGame = null } = {}) {
       .map((w, index) => w.header?.type === 'IWAD' ? index : -1)
       .filter(index => index >= 0);
     const iwadIdx = iwadIndexes[0] ?? -1;
-    if (iwadIndexes.length > 1) {
+    // A catalogue record can explicitly permit one or more self-contained
+    // archives to be layered after its declared base IWAD. This is needed for
+    // releases such as Hacx 1.2 whose header says IWAD even when a
+    // Doom-II-compatible runtime loads it as a patch. Local user imports
+    // remain strict: they must still contain exactly one IWAD.
+    const allowLayeredIwad = catalogGame?.allowLayeredIwad === true;
+    if (iwadIndexes.length > 1 && !allowLayeredIwad) {
       throw new Error('Select exactly one IWAD. Additional files must be PWAD patches or maps.');
     }
     if (iwadIdx === -1) {
@@ -264,8 +271,9 @@ async function startGame(sources, type, { catalogGame = null } = {}) {
       wadHeaders: ordered.map((w) => w.header),
     });
     const totalLumps = ordered.reduce((sum, w) => sum + (w.header?.numLumps ?? 0), 0);
+    const layerLabel = allowLayeredIwad && iwadIndexes.length > 1 ? 'layered archive' : 'PWAD';
     ui.loading.update(30,
-      `${ordered[0].header?.type ?? 'WAD'}${ordered.length > 1 ? ` + ${ordered.length - 1} PWAD${ordered.length > 2 ? 's' : ''}` : ''}, ${totalLumps} lumps`,
+      `${ordered[0].header?.type ?? 'WAD'}${ordered.length > 1 ? ` + ${ordered.length - 1} ${layerLabel}${ordered.length > 2 ? 's' : ''}` : ''}, ${totalLumps} lumps`,
       'ok');
 
     // 3. Create engine
