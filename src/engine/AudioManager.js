@@ -72,9 +72,16 @@ export class AudioManager {
 
     this.#initialized = true;
 
-    // Resume if browser suspended it
+    // Never block game startup on AudioContext.resume(). Some browsers keep
+    // this promise pending until they recognise a trusted user gesture; awaiting
+    // it would freeze the loading screen after the WAD has finished loading.
+    // The audio graph is already valid, and playback starts automatically once
+    // the context is permitted to resume.
     if (this.#ctx.state === 'suspended') {
-      await this.#ctx.resume();
+      this.#ctx.resume().catch(() => {
+        // Audio may remain muted until the player's next interaction. Gameplay
+        // must remain available even when browser autoplay policy blocks sound.
+      });
     }
   }
 
