@@ -1,3 +1,67 @@
+diff --git a/cmake/FindSDL2_mixer.cmake b/cmake/FindSDL2_mixer.cmake
+new file mode 100644
+index 0000000..f249f33
+--- /dev/null
++++ b/cmake/FindSDL2_mixer.cmake
+@@ -0,0 +1,18 @@
++# Browser-only adapter for C-Dogs SDL.
++# Emscripten provides SDL2_mixer through its maintained port, but that port
++# does not expose a CMake package config. This target maps the upstream
++# project expectation to the official -sUSE_SDL_MIXER=2 flag.
++if(NOT EMSCRIPTEN)
++  message(FATAL_ERROR "This SDL2_mixer finder is only intended for the Emscripten prototype build.")
++endif()
++
++if(NOT TARGET SDL2_mixer::SDL2_mixer)
++  add_library(SDL2_mixer::SDL2_mixer INTERFACE IMPORTED)
++  set_target_properties(SDL2_mixer::SDL2_mixer PROPERTIES
++    INTERFACE_INCLUDE_DIRECTORIES "${EMSCRIPTEN_SYSROOT}/include/SDL2"
++    INTERFACE_LINK_OPTIONS "SHELL:-sUSE_SDL_MIXER=2"
++  )
++endif()
++
++set(SDL2_mixer_FOUND TRUE)
++set(SDL2_mixer_VERSION "2")
+diff --git a/missions/ai_insurgency.cdogscpn/map_objects.json b/missions/ai_insurgency.cdogscpn/map_objects.json
+index 58f0806..ca3fcc6 100644
+--- a/missions/ai_insurgency.cdogscpn/map_objects.json
++++ b/missions/ai_insurgency.cdogscpn/map_objects.json
+@@ -95,8 +95,9 @@
+     {
+       "Name": "plant",
+       "Pic": {
+-        "Type": "Normal",
+-        "Pic": "plant"
++        "Type": "AnimatedRandom",
++        "Sprites": "plant",
++        "TicksPerFrame": -1
+       },
+       "WreckPic": {
+         "Type": "Normal",
+@@ -426,8 +427,9 @@
+     {
+       "Name": "bookshelf",
+       "Pic": {
+-        "Type": "Normal",
+-        "Pic": "bookshelf"
++        "Type": "AnimatedRandom",
++        "Sprites": "bookshelf",
++        "TicksPerFrame": -1
+       },
+       "Offset": [-8, -15],
+       "WreckPic": {
+@@ -456,8 +458,9 @@
+     {
+       "Name": "terminal",
+       "Pic": {
+-        "Type": "Normal",
+-        "Pic": "terminal"
++        "Type": "Animated",
++        "Sprites": "terminal",
++        "TicksPerFrame": 8
+       },
+       "WreckPic": {
+         "Type": "Normal",
 diff --git a/src/CMakeLists.txt b/src/CMakeLists.txt
 index 21da754..62405b5 100644
 --- a/src/CMakeLists.txt
@@ -503,7 +567,7 @@ index 4f6848b..917665d 100644
  	{
  		if (!LoopRunnerRunInner(&ctx))
 diff --git a/src/loading_screens.c b/src/loading_screens.c
-index 0bfac82..07b9bc7 100644
+index 0bfac82..d256a33 100644
 --- a/src/loading_screens.c
 +++ b/src/loading_screens.c
 @@ -30,6 +30,7 @@
@@ -537,14 +601,6 @@ index 0bfac82..07b9bc7 100644
  }
  
  typedef struct
-@@ -180,6 +190,7 @@ static GameLoopResult LoopUpdate(GameLoopData *data, LoopRunner *l)
- 	sData->count++;
- 	if (complete)
- 	{
-+
- 		// Remove current loop, but copy its data before destroying it
- 		ScreenLoadingData sDataCopy = *sData;
- 		sData = NULL;
 diff --git a/src/mainmenu.c b/src/mainmenu.c
 index be51831..a3ab026 100644
 --- a/src/mainmenu.c
@@ -655,27 +711,3 @@ index 9442ec2..0b40055 100644
 +#endif
  	return UPDATE_RESULT_OK;
  }
-diff --git a/cmake/FindSDL2_mixer.cmake b/cmake/FindSDL2_mixer.cmake
-new file mode 100644
-index 0000000..f249f33
---- /dev/null
-+++ b/cmake/FindSDL2_mixer.cmake
-@@ -0,0 +1,18 @@
-+# Browser-only adapter for C-Dogs SDL.
-+# Emscripten provides SDL2_mixer through its maintained port, but that port
-+# does not expose a CMake package config. This target maps the upstream
-+# project expectation to the official -sUSE_SDL_MIXER=2 flag.
-+if(NOT EMSCRIPTEN)
-+  message(FATAL_ERROR "This SDL2_mixer finder is only intended for the Emscripten prototype build.")
-+endif()
-+
-+if(NOT TARGET SDL2_mixer::SDL2_mixer)
-+  add_library(SDL2_mixer::SDL2_mixer INTERFACE IMPORTED)
-+  set_target_properties(SDL2_mixer::SDL2_mixer PROPERTIES
-+    INTERFACE_INCLUDE_DIRECTORIES "${EMSCRIPTEN_SYSROOT}/include/SDL2"
-+    INTERFACE_LINK_OPTIONS "SHELL:-sUSE_SDL_MIXER=2"
-+  )
-+endif()
-+
-+set(SDL2_mixer_FOUND TRUE)
-+set(SDL2_mixer_VERSION "2")

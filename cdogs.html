@@ -45,7 +45,7 @@
     <p class="notice"><strong>Prototype scope:</strong> C-Dogs SDL is a different, self-contained engine and free-content game—not a Doom WAD. Multiplayer networking is intentionally disabled in this first browser build; the focus is solo/local play and isolated runtime validation. *Gamepad support is delegated to SDL and browser capability.</p>
   </main>
   <script>
-    const BUILD_ID = '20260813-cdogs-runtime-final';
+    const BUILD_ID = '20260814-cdogs-campaign-verified';
     const canvas = document.getElementById('canvas');
     const result = document.getElementById('result');
     const setStatus = (text) => { result.textContent = text; };
@@ -83,6 +83,6 @@
       onAbort: (message) => setStatus(`NOT READY\n${message}`),
     };
   </script>
-  <script src="cdogs/cdogs-sdl.js?v=20260813-cdogs-runtime-final" async></script>
+  <script src="cdogs/cdogs-sdl.js?v=20260814-cdogs-campaign-verified" async></script>
 </body>
 </html>
