@@ -50,6 +50,18 @@ sed -i 's/char \*stylename = TTF_FontFaceStyleName(font);/const char *stylename 
 # This Android-only hint is absent from Emscripten's SDL2 headers.
 sed -i '/SDL_SetHint(SDL_HINT_ANDROID_SEPARATE_MOUSE_AND_TOUCH, "0");/i #ifdef SDL_HINT_ANDROID_SEPARATE_MOUSE_AND_TOUCH' "$ENGINE_DIR/src/input.cpp"
 sed -i '/SDL_SetHint(SDL_HINT_ANDROID_SEPARATE_MOUSE_AND_TOUCH, "0");/a #endif' "$ENGINE_DIR/src/input.cpp"
+# Emscripten's SDL_image port does not reliably decode 8-bit BMP palettes.
+# Core SDL supports these canonical FreeDink assets directly.
+sed -i 's/bmp = IMG_Load(fullpath);/bmp = SDL_LoadBMP(fullpath);/g' "$ENGINE_DIR/src/gfx_palette.cpp"
+sed -i 's/IMG_Load_RW(rw, 1)/SDL_LoadBMP_RW(rw, 1)/g' "$ENGINE_DIR/src/gfx_sprites.cpp" "$ENGINE_DIR/src/ImageLoader.cpp"
+sed -i 's/IMG_Load(fullpath)/SDL_LoadBMP(fullpath)/g' "$ENGINE_DIR/src/IOGfxPrimitivesSW.cpp"
+# A browser canvas has no native window icon. Keep desktop behavior unchanged.
+sed -i '/\/\* Window configuration \*\//i #ifndef __EMSCRIPTEN__' "$ENGINE_DIR/src/IOGfxDisplay.cpp"
+sed -i '/bool IOGfxDisplay::createWindow()/,/^}/ { /^[[:space:]]*return true;$/i #endif /* __EMSCRIPTEN__ */
+}' "$ENGINE_DIR/src/IOGfxDisplay.cpp"
+# Emscripten's SDL_mixer reports OGG via Mix_Init, but intentionally leaves its decoder-enumeration API empty.
+sed -i '/if (!ogg_available)$/i #ifndef __EMSCRIPTEN__' "$ENGINE_DIR/src/sfx.cpp"
+sed -i '/log_error("Audio music decoder: no Ogg support");/a #endif /* __EMSCRIPTEN__ */' "$ENGINE_DIR/src/sfx.cpp"
 # Modern gettext declarations return immutable strings; text is copied into the
 # sprite buffer before modification/display.
 sed -i 's/char text\[200\]/const char *text/g' "$ENGINE_DIR/src/text.h"
@@ -82,7 +94,7 @@ Libs: $flag
 EOF
 done
 
-LINK_FLAGS="-sUSE_SDL=2 -sUSE_SDL_IMAGE=2 -sUSE_SDL_MIXER=2 -sUSE_SDL_TTF=2 -sUSE_SDL_GFX=2 -sUSE_WEBGL2=1 -sFULL_ES3=1 -sALLOW_MEMORY_GROWTH=1 -sFORCE_FILESYSTEM=1 -sNO_EXIT_RUNTIME=1"
+LINK_FLAGS="-sUSE_SDL=2 -sUSE_SDL_IMAGE=2 -sUSE_SDL_MIXER=2 -sUSE_SDL_TTF=2 -sUSE_SDL_GFX=2 -sUSE_WEBGL2=1 -sFULL_ES3=1 -sALLOW_MEMORY_GROWTH=1 -sFORCE_FILESYSTEM=1 -sCASE_INSENSITIVE_FS=1 -sNO_EXIT_RUNTIME=1"
 mkdir -p "$BUILD_DIR"
 cd "$BUILD_DIR"
 emconfigure env \
@@ -101,7 +113,8 @@ cp "$BUILD_DIR/src/freedink.wasm" "$OUTPUT_DIR/freedink.wasm"
 python3 "$EMSCRIPTEN_ROOT/tools/file_packager.py" \
   "$OUTPUT_DIR/freedink.data" \
   --js-output="$OUTPUT_DIR/freedink.data.js" \
-  --preload "$DATA_DIR/dink@/usr/local/share/dink/dink"
+  --preload "$DATA_DIR/dink@/usr/local/share/dink/dink" \
+  --preload "$ENGINE_DIR/share/freedink@/usr/local/share/freedink"
 cp "$ENGINE_DIR/COPYING" "$OUTPUT_DIR/ENGINE-COPYING.txt"
 cp "$DATA_DIR/COPYING" "$OUTPUT_DIR/DATA-COPYING.txt"
 cp "$DATA_DIR/README.txt" "$OUTPUT_DIR/DATA-README.txt"
