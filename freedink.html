@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#111611" />
+  <meta name="description" content="GNU FreeDink — a libre retro action-adventure running independently in RIFTWAD." />
+  <title>RIFTWAD — GNU FreeDink Runtime</title>
+  <style>
+    :root { --paper:#e7e6e0; --ink:#151814; --night:#111511; --amber:#efae45; --line:rgba(21,24,20,.24); --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; }
+    * { box-sizing:border-box; }
+    body { min-height:100vh; margin:0; color:var(--ink); background:var(--paper); font:14px/1.5 Arial,sans-serif; }
+    body::before { content:''; position:fixed; inset:0; pointer-events:none; opacity:.7; background:linear-gradient(rgba(24,28,24,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(24,28,24,.045) 1px,transparent 1px); background-size:36px 36px; }
+    main { position:relative; width:min(1140px,calc(100% - 36px)); margin:0 auto; padding:26px 0 48px; }
+    header { display:flex; justify-content:space-between; align-items:center; gap:20px; padding-bottom:16px; border-top:1px solid var(--line); border-bottom:1px solid var(--line); }
+    .brand { color:var(--ink); font:600 30px/.9 Arial,sans-serif; letter-spacing:-.11em; text-decoration:none; }.brand b { color:#596057; font-weight:500; }
+    .back,.utility { border:1px solid var(--line); padding:9px 12px; color:var(--ink); background:rgba(255,255,255,.35); font:10px var(--mono); letter-spacing:.08em; text-decoration:none; text-transform:uppercase; }
+    .eyebrow { margin:44px 0 12px; color:#62685f; font:10px var(--mono); text-transform:uppercase; letter-spacing:.11em; }.eyebrow span { color:var(--ink); padding-right:13px; margin-right:13px; border-right:1px solid var(--line); }
+    h1 { max-width:780px; margin:0; font-size:clamp(40px,7vw,78px); line-height:.9; letter-spacing:-.08em; font-weight:500; }.intro { max-width:760px; margin:22px 0 32px; color:#4c5049; font-size:16px; }
+    .panel { display:grid; grid-template-columns:minmax(0,1fr) 290px; gap:22px; padding:18px; border:1px solid var(--line); background:rgba(255,255,251,.42); box-shadow:12px 14px 0 rgba(24,28,24,.07); }
+    .screen { position:relative; min-width:0; background:#090c09; border:1px solid #353b32; }.screen::after { content:''; position:absolute; inset:0; pointer-events:none; opacity:.14; background:repeating-linear-gradient(0deg,transparent 0 2px,rgba(239,174,69,.25) 3px); }
+    canvas { display:block; width:100%; aspect-ratio:4/3; image-rendering:pixelated; background:#090c09; outline:none; }
+    canvas:fullscreen { width:100vw; height:100vh; aspect-ratio:auto; object-fit:contain; background:#000; }
+    .result { display:grid; align-content:start; gap:12px; padding:7px; }.result > span { color:#876021; font:10px var(--mono); text-transform:uppercase; letter-spacing:.1em; }.status { min-height:88px; padding:12px; border:1px solid rgba(23,26,23,.22); background:#181b17; color:#f5e2be; font:11px/1.45 var(--mono); white-space:pre-wrap; }.facts { margin:0; display:grid; gap:0; border-top:1px solid var(--line); }.facts div { padding:10px 0; border-bottom:1px solid var(--line); }.facts dt { color:#747b70; font:9px var(--mono); text-transform:uppercase; }.facts dd { margin:4px 0 0; font-size:12px; }.utility { cursor:pointer; }
+    .notice { margin:26px 0 0; padding:15px 18px; border-left:3px solid var(--amber); background:rgba(239,174,69,.12); color:#3f453d; font-size:13px; }.notice strong { color:var(--ink); }.notice a { color:inherit; }
+    .controls { display:none; margin-top:20px; align-items:center; justify-content:space-between; gap:20px; user-select:none; touch-action:none; } .dpad,.actions { display:grid; gap:7px; }.dpad { grid-template-columns:repeat(3,48px); grid-template-rows:repeat(3,48px); }.actions { grid-template-columns:repeat(3,48px); grid-template-rows:repeat(3,48px); align-items:center; }.pad-btn { display:grid; place-items:center; width:48px; height:48px; border:1px solid rgba(239,174,69,.65); border-radius:50%; color:var(--amber); background:rgba(12,17,12,.92); box-shadow:0 3px 0 rgba(0,0,0,.3); font:700 13px var(--mono); touch-action:none; }.pad-btn--menu { width:103px; grid-column:1 / span 2; border-radius:24px; font-size:10px; letter-spacing:.08em; }.pad-btn:active,.pad-btn.is-active { transform:translateY(2px); background:#3f3220; box-shadow:0 1px 0 rgba(0,0,0,.3); }.dpad .pad-btn:nth-child(1) { grid-column:2; }.dpad .pad-btn:nth-child(2) { grid-row:2; grid-column:1; }.dpad .pad-btn:nth-child(3) { grid-row:2; grid-column:2; }.dpad .pad-btn:nth-child(4) { grid-row:2; grid-column:3; }.touch-note { margin:0; color:#666d63; font:10px var(--mono); text-align:center; }
+    @media (max-width:760px) { main { width:min(100% - 24px,680px); padding-top:18px; }.panel { grid-template-columns:1fr; }.controls { display:flex; }.intro { font-size:14px; } }
+  </style>
+</head>
+<body>
+  <main>
+    <header><a class="brand" href="./" aria-label="Return to RIFTWAD">RIFT<b>WAD</b></a><a class="back" href="./">← World index</a></header>
+    <p class="eyebrow"><span>// R-FD</span>Independent runtime / WebAssembly</p>
+    <h1>GNU FreeDink,<br />free to explore.</h1>
+    <p class="intro">A complete libre 2D action-adventure in its own WebAssembly runtime. Explore Dink Smallwood’s world with browser-local saves; this engine has no connection to Doom’s WAD loader, game loop or data files.</p>
+    <section class="panel" aria-label="GNU FreeDink runtime">
+      <div class="screen"><canvas id="canvas" width="960" height="720" tabindex="0" aria-label="GNU FreeDink game canvas"></canvas></div>
+      <div class="result"><span>Runtime status</span><output id="result" class="status">Preparing GNU FreeDink…</output><dl class="facts"><div><dt>Runtime</dt><dd>SDL2 / WebGL2 / WebAssembly</dd></div><div><dt>Content</dt><dd>Official FreeDink game data</dd></div><div><dt>Session</dt><dd>Local browser storage</dd></div><div><dt>Input</dt><dd>Keyboard / touch / gamepad*</dd></div></dl><button id="btn-fullscreen" class="utility" type="button">Fullscreen</button></div>
+    </section>
+    <div class="controls" aria-label="Touch controls">
+      <div class="dpad"><button class="pad-btn" data-key="ArrowUp">▲</button><button class="pad-btn" data-key="ArrowLeft">◀</button><button class="pad-btn" data-key="ArrowDown">▼</button><button class="pad-btn" data-key="ArrowRight">▶</button></div>
+      <p class="touch-note">D-pad: move / menus<br />△ magic · □ inventory · ○ talk · × attack</p>
+      <div class="actions"><span></span><button class="pad-btn" data-key="ShiftLeft">△</button><span></span><button class="pad-btn" data-key="Enter">□</button><button class="pad-btn" data-key="Space">○</button><button class="pad-btn" data-key="ControlLeft">×</button><button class="pad-btn pad-btn--menu" data-key="Escape">MENU</button></div>
+    </div>
+    <p class="notice"><strong>Libre game and data:</strong> GNU FreeDink engine is GPLv3-or-later. The bundled Dink Smallwood data is the official FreeDink data release with free sound replacements and its original redistribution notice retained. <a href="freedink/ENGINE-COPYING.txt">Engine license</a> · <a href="freedink/DATA-COPYING.txt">Data notice</a> · <a href="freedink/DATA-README.txt">Data credits</a>. *Gamepad support is delegated to SDL and browser capability.</p>
+  </main>
+  <script>
+    const BUILD_ID = '20260814-freedink-rift-runtime-v1';
+    const canvas = document.getElementById('canvas');
+    const result = document.getElementById('result');
+    const setStatus = (text) => { result.textContent = text || 'Starting GNU FreeDink…'; };
+    const keyCodes = { ArrowUp: 38, ArrowLeft: 37, ArrowDown: 40, ArrowRight: 39, Enter: 13, Escape: 27, Space: 32, ShiftLeft: 16, ControlLeft: 17 };
+    const keyNames = { ArrowUp: 'ArrowUp', ArrowLeft: 'ArrowLeft', ArrowDown: 'ArrowDown', ArrowRight: 'ArrowRight', Enter: 'Enter', Escape: 'Escape', Space: ' ', ShiftLeft: 'Shift', ControlLeft: 'Control' };
+    const dispatch = (code, type) => {
+      canvas.focus({ preventScroll: true });
+      const event = new KeyboardEvent(type, { code, key: keyNames[code] || code, bubbles: true, cancelable: true });
+      Object.defineProperties(event, { keyCode: { value: keyCodes[code] || 0 }, which: { value: keyCodes[code] || 0 } });
+      canvas.dispatchEvent(event);
+    };
+    document.querySelectorAll('[data-key]').forEach((button) => {
+      const key = button.dataset.key;
+      const press = (event) => { event.preventDefault(); button.classList.add('is-active'); dispatch(key, 'keydown'); };
+      const release = (event) => { event.preventDefault(); button.classList.remove('is-active'); dispatch(key, 'keyup'); };
+      button.addEventListener('pointerdown', press);
+      button.addEventListener('pointerup', release);
+      button.addEventListener('pointercancel', release);
+      button.addEventListener('pointerleave', (event) => { if (event.buttons) release(event); });
+    });
+    canvas.addEventListener('pointerdown', () => canvas.focus({ preventScroll: true }));
+    document.addEventListener('fullscreenchange', () => { if (document.fullscreenElement === canvas) canvas.focus({ preventScroll: true }); });
+    document.getElementById('btn-fullscreen').addEventListener('click', () => {
+      (document.fullscreenElement ? document.exitFullscreen() : canvas.requestFullscreen({ navigationUI: 'hide' })).catch((error) => setStatus(`Fullscreen unavailable\n${error.message}`));
+    });
+    window.Module = {
+      canvas,
+      arguments: ['--refdir', '/usr/local/share/dink'],
+      locateFile: (file) => `freedink/${file}?v=${BUILD_ID}`,
+      print: (message) => console.log('[FREEDINK]', message),
+      printErr: (message) => { console.warn('[FREEDINK]', message); if (/error|failed|cannot|invalid/i.test(message)) setStatus(`Runtime warning\n${message}`); },
+      setStatus: (message) => { if (message) setStatus(message); },
+      onRuntimeInitialized: () => setStatus('READY\nGNU FreeDink is running. Click the game screen or use the PSP controls.'),
+      onAbort: (message) => setStatus(`NOT READY\n${message}`),
+    };
+  </script>
+  <script src="freedink/freedink.data.js?v=20260814-freedink-rift-runtime-v1"></script>
+  <script src="freedink/freedink.js?v=20260814-freedink-rift-runtime-v1"></script>
+</body>
+</html>

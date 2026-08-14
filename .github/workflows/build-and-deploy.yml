@@ -106,9 +106,14 @@ jobs:
     - name: Compile C-Dogs SDL independent runtime
       run: ./scripts/build-cdogs-web.sh
 
+    - name: Compile GNU FreeDink independent runtime
+      env:
+        GH_TOKEN: ${{ github.token }}
+      run: ./scripts/build-freedink-web.sh
+
     - name: Copy frontend files
       run: |
-        cp index.html cdogs.html openresident.html manifest.json robots.txt sitemap.xml google*.html dist/ 2>/dev/null || true
+        cp index.html cdogs.html freedink.html openresident.html manifest.json robots.txt sitemap.xml google*.html dist/ 2>/dev/null || true
         cp -r styles src dist/ 2>/dev/null || true
         mkdir -p dist/assets
         # Copy nested catalog artwork as well as existing icons. The WADs are
