@@ -52,17 +52,18 @@ The ready entries below are the current focus of the project. Each has a direct 
 | **LibreQuake** | First-person action | Ready with LibreQuake Lite data | [Launch LibreQuake](https://mahankenway.github.io/RetroPlay/librequake.html) |
 | **OpenTTD** | Transport strategy | Ready with OpenGFX, OpenSFX and OpenMSX | [Launch OpenTTD](https://mahankenway.github.io/RetroPlay/openttd.html) |
 | **FreeRCT** | Theme-park strategy | Ready with clean-room, free game data | [Launch FreeRCT](https://mahankenway.github.io/RetroPlay/freerct.html) |
+| **Neverball** | 3D physics puzzle | Ready with bundled base data and Easy set | [Launch Neverball](https://mahankenway.github.io/RetroPlay/neverball.html) |
 
 Two deliberately limited pages remain visible for transparency. **ECWolf** is an engine-only browser host and therefore requires lawfully obtained compatible data selected locally; it is not represented as a zero-friction bundled game. **OpenResident** is a WebGL2/WebAssembly technical probe, not a playable Resident Evil distribution, because its upstream engine source contains no game data.
 
 ## Real gameplay, not promotional art
 
-All catalog and README visuals are sourced from actual game or local browser-runtime captures. The images below show two of the fully bundled strategy runtimes running in their native interfaces.
+All catalog and README visuals are sourced from actual game or local browser-runtime captures. The images below show fully bundled runtimes in their native interfaces, including Neverball’s real 3D course gameplay.
 
-| OpenTTD browser runtime | FreeRCT browser runtime |
-|---|---|
-| [![OpenTTD gameplay and menu in a browser.](assets/screenshots/openttd-runtime.webp)](https://mahankenway.github.io/RetroPlay/openttd.html) | [![FreeRCT title menu over an isometric theme park.](assets/screenshots/freerct-runtime.webp)](https://mahankenway.github.io/RetroPlay/freerct.html) |
-| **OpenTTD** uses its free graphics, effects and music sets. | **FreeRCT** uses its project-generated clean-room graphics and data. |
+| OpenTTD browser runtime | FreeRCT browser runtime | Neverball browser runtime |
+|---|---|---|
+| [![OpenTTD gameplay and menu in a browser.](assets/screenshots/openttd-runtime.webp)](https://mahankenway.github.io/RetroPlay/openttd.html) | [![FreeRCT title menu over an isometric theme park.](assets/screenshots/freerct-runtime.webp)](https://mahankenway.github.io/RetroPlay/freerct.html) | [![Neverball 3D physics-puzzle gameplay.](assets/screenshots/neverball-runtime.png)](https://mahankenway.github.io/RetroPlay/neverball.html) |
+| **OpenTTD** uses its free graphics, effects and music sets. | **FreeRCT** uses its project-generated clean-room graphics and data. | **Neverball** uses its bundled base content and Easy level set. |
 
 ## Playing RetroPlay
 
@@ -93,8 +94,10 @@ Browser
 │   ├── opentyrian.html  → OpenTyrian2000
 │   ├── librequake.html  → LibreQuake / Qwasm
 │   ├── openttd.html     → OpenTTD + free base sets
-│   ├── freerct.html     → FreeRCT + clean-room game data
-│   └── ecwolf.html      → ECWolf engine host
+│   ├── freerct.html      → FreeRCT + clean-room game data
+│   ├── neverball.html    → Neverball + bundled base / Easy set
+│   └── ecwolf.html       → ECWolf engine host
+
 │
 └── GitHub Actions
     ├── compiles and packages runtime assets
@@ -135,6 +138,7 @@ A complete local rebuild needs the pinned Emscripten toolchain plus the prerequi
 ./scripts/build-liberquake-web.sh
 ./scripts/build-openttd-web.sh
 ./scripts/build-freerct-web.sh
+./scripts/build-neverball-web.sh
 ./scripts/build-ecwolf-web.sh
 ```
 
@@ -168,6 +172,7 @@ RetroPlay is a **non-commercial** deployment. The hub does not claim ownership o
 | LibreQuake | [LibreQuake project](https://librequake.github.io/) [8] |
 | OpenTTD and base sets | [OpenTTD](https://www.openttd.org/) [9] |
 | FreeRCT | [FreeRCT source](https://github.com/FreeRCT/FreeRCT) [10] |
+| Neverball | [Neverball source and GPL licence](https://github.com/Neverball/neverball) [11] |
 | ECWolf | [`ecwolf/`](ecwolf/) notices and its upstream project |
 
 For the historical legal and technical decision not to package OpenRCT2 or proprietary RollerCoaster Tycoon data, see [`docs/openrct2-runtime-feasibility.md`](docs/openrct2-runtime-feasibility.md).
@@ -193,6 +198,8 @@ For the historical legal and technical decision not to package OpenRCT2 or propr
 [9] [OpenTTD project](https://www.openttd.org/)
 
 [10] [FreeRCT source repository](https://github.com/FreeRCT/FreeRCT)
+
+[11] [Neverball source repository](https://github.com/Neverball/neverball)
 
 ---
 

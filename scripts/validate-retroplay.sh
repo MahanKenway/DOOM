@@ -22,6 +22,15 @@ test -f third_party/openresident-web/README.md
 grep -q "openresident.html" src/catalog.js
 grep -q "Compile OpenResident WebGL2 probe" .github/workflows/build-and-deploy.yml
 
+test -f neverball.html
+test -x scripts/build-neverball-web.sh
+grep -q "neverball.html" src/catalog.js
+grep -q "neverball-runtime.png" src/catalog.js
+grep -q "Compile Neverball fully bundled physics-puzzle runtime" .github/workflows/build-and-deploy.yml
+grep -q "neverball.html" sitemap.xml
+grep -q "set-easy.zip" neverball.html
+! grep -q 'type="file"' neverball.html
+
 grep -q "assets/hacx.wad" src/catalog.js
 grep -q "hacx12.zip" .github/workflows/build-and-deploy.yml
 test -f assets/licenses/HACX-LEGAL.txt
