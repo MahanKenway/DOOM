@@ -55,12 +55,12 @@
           <div class="actions"><button class="pad-btn" data-key="KeyS">L</button><button class="pad-btn" data-key="Digit1">△</button><button class="pad-btn" data-key="KeyD">R</button><button class="pad-btn" data-key="KeyE">□</button><button class="pad-btn" data-key="Digit2">○</button><button class="pad-btn" data-key="Enter">×</button><button class="pad-btn pad-btn--menu" data-key="Escape">MENU</button></div>
         </div>
       </div>
-      <div class="result"><span>Runtime status</span><output id="result" class="status">Loading Neverball runtime…</output><dl class="facts"><div><dt>Runtime</dt><dd>Emscripten / WebGL</dd></div><div><dt>Content</dt><dd>Bundled base + Easy set</dd></div><div><dt>Session</dt><dd>Browser IndexedDB saves</dd></div><div><dt>Input</dt><dd>Keyboard / touch / gamepad</dd></div></dl><button id="btn-fullscreen" class="utility" type="button">Fullscreen</button></div>
+      <div class="result"><span>Runtime status</span><output id="result" class="status">Loading Neverball runtime…</output><dl class="facts"><div><dt>Runtime</dt><dd>Emscripten / WebGL</dd></div><div><dt>Content</dt><dd>Bundled base + Easy + Medium sets</dd></div><div><dt>Session</dt><dd>Browser IndexedDB saves</dd></div><div><dt>Input</dt><dd>Keyboard / touch / gamepad</dd></div></dl><button id="btn-fullscreen" class="utility" type="button">Fullscreen</button></div>
     </section>
-    <p class="notice"><strong>Fully bundled libre game:</strong> Neverball and its included base data are free software. RetroPlay packages the official base content and Easy level set from a pinned source revision, uses browser-local storage for saves, and intentionally removes replay/add-on uploads and external campaign downloads. <a href="neverball/NEVERBALL-LICENSE.md">License</a> · <a href="neverball/SOURCE-NOTICE.txt">Source and attribution</a>.</p>
+    <p class="notice"><strong>Fully bundled libre game:</strong> Neverball and its included base data are free software. RetroPlay packages the official base content plus the Easy and Medium level sets from a pinned source revision, uses browser-local storage for saves, and intentionally removes replay/add-on uploads and external campaign downloads. <a href="neverball/NEVERBALL-LICENSE.md">License</a> · <a href="neverball/SOURCE-NOTICE.txt">Source and attribution</a>.</p>
   </main>
   <script>
-    const BUILD_ID = '20260815-neverball-retroplay-v1';
+    const BUILD_ID = '20260815-neverball-retroplay-v2-medium';
     const canvas = document.getElementById('canvas');
     const playArea = document.getElementById('play-area');
     const result = document.getElementById('result');
@@ -189,6 +189,6 @@
     }
     window.addEventListener('error', (event) => { if (/neverball|wasm|webgl|runtime/i.test(String(event.message))) setStatus(`NOT READY\n${event.message}`); });
   </script>
-  <script src="neverball/neverball.js?v=20260815-neverball-retroplay-v1" onload="startNeverball()" onerror="setStatus('NOT READY\\nThe Neverball engine file could not load.')"></script>
+  <script src="neverball/neverball.js?v=20260815-neverball-retroplay-v2-medium" onload="startNeverball()" onerror="setStatus('NOT READY\\nThe Neverball engine file could not load.')"></script>
 </body>
 </html>
