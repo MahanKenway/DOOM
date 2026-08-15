@@ -25,7 +25,9 @@ for command in git curl sha256sum unzip tar python3; do
 done
 
 BASESET_LOADER_GENERATOR="$ROOT_DIR/scripts/make-openttd-baseset-loader.py"
+BROWSER_GLUE_PATCHER="$ROOT_DIR/scripts/patch-openttd-browser-glue.py"
 test -s "$BASESET_LOADER_GENERATOR"
+test -s "$BROWSER_GLUE_PATCHER"
 
 rm -rf "$WORK_DIR" "$OUTPUT_DIR"
 mkdir -p "$WORK_DIR/downloads" "$WORK_DIR/extracted" "$OUTPUT_DIR/baseset"
@@ -48,6 +50,12 @@ test -d "$WORK_DIR/port/play/lang"
 cp -a "$WORK_DIR/port/play/lang" "$OUTPUT_DIR/lang"
 sed -i 's|fetch("lang/"+name|fetch("openttd/lang/"+name|g' "$OUTPUT_DIR/openttd.js"
 ! grep -q 'fetch("lang/"+name' "$OUTPUT_DIR/openttd.js"
+
+# Keep first launch friction-free and private. The upstream setting is seeded only
+# if the browser-local profile does not already contain openttd.cfg; existing player
+# preferences remain untouched.
+python3 "$BROWSER_GLUE_PATCHER" "$OUTPUT_DIR/openttd.js"
+grep -q 'riftwad-no-survey-config-seed' "$OUTPUT_DIR/openttd.js"
 
 # These files are part of the engine's own baseset directory and are libre OpenTTD fallback assets,
 # not original Transport Tycoon Deluxe files. Preserve them alongside the replacement base sets.
@@ -132,8 +140,10 @@ SHA-256: $OPENMSX_SHA256
 License: GPL-2.0-only (see OPENMSX-LICENSE.txt)
 
 RIFTWAD profile: fully bundled libre base graphics, sound and music. The browser glue is
-patched only to resolve its shipped language files from the local openttd/lang/ path on this static site.
-No proprietary Transport Tycoon Deluxe files and no user file upload are requested or used.
+patched only to resolve its shipped language files from the local openttd/lang/ path and to seed
+OpenTTD's documented network.participate_survey = no preference on a missing first-launch profile.
+Existing browser-local player settings are preserved. No proprietary Transport Tycoon Deluxe files
+and no user file upload are requested or used.
 EOF
 
 for artifact in openttd.js openttd.wasm openttd.data openttd-basesets.js openttd-basesets.data ENGINE-COPYING.txt OPENGFX-LICENSE.txt OPENSFX-LICENSE.txt OPENMSX-LICENSE.txt SOURCE-NOTICE.txt; do

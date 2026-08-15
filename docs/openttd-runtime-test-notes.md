@@ -99,3 +99,7 @@ Launching from the catalog produced `Module.calledRun === true` and `OpenTTD 15.
 ## Final console check — PASS
 
 The final console contains the successful `Loaded external language packs: 65` message and the explicit VFS verification result. It has no missing-base-set, missing-language, abort, crash, or failed-package error after the catalog launch. Together with the visual menu, fullscreen, and control tests, this completes local runtime acceptance.
+
+## Fresh-profile first-launch test — PASS
+
+A fresh local origin on port 4180, with no pre-existing IndexedDB profile, reached `READY` and displayed the complete OpenTTD main menu with **no automated-survey dialog**. The `New Game`, `Play Heightmap`, `Play Scenario`, `Load Game`, and other primary menu choices appeared immediately. This validates the first-launch config seed for the official `network.participate_survey = no` preference and removes the additional modal from the player path.
