@@ -6,8 +6,8 @@
 >
 > A curated browser hub for open-source retro games, classic engines and WAD worlds that run through WebAssembly.
 
-[![Play RetroPlay](https://img.shields.io/badge/PLAY_RETROPLAY-1a1d18?style=for-the-badge&logo=googlechrome&logoColor=d7eb41)](https://mahankenway.github.io/DOOM/)
-[![Build and deploy](https://img.shields.io/github/actions/workflow/status/MahanKenway/DOOM/build-and-deploy.yml?style=for-the-badge&label=BUILD&logo=githubactions&logoColor=white&color=success)](../../actions/workflows/build-and-deploy.yml)
+[![Play RetroPlay](https://img.shields.io/badge/PLAY_RETROPLAY-1a1d18?style=for-the-badge&logo=googlechrome&logoColor=d7eb41)](https://mahankenway.github.io/RetroPlay/)
+[![Build and deploy](https://img.shields.io/github/actions/workflow/status/MahanKenway/RetroPlay/build-and-deploy.yml?style=for-the-badge&label=BUILD&logo=githubactions&logoColor=white&color=success)](../../actions/workflows/build-and-deploy.yml)
 [![GitHub Pages](https://img.shields.io/badge/HOSTED_ON-GitHub_Pages-222?style=for-the-badge&logo=github&logoColor=white)](https://pages.github.com/)
 
 [![WebAssembly](https://img.shields.io/badge/WebAssembly-654FF0?style=flat-square&logo=webassembly&logoColor=white)](https://webassembly.org/)
@@ -15,13 +15,13 @@
 [![Static deployment](https://img.shields.io/badge/DEPLOYMENT-static-54785c?style=flat-square)](https://pages.github.com/)
 [![Non-commercial](https://img.shields.io/badge/DEPLOYMENT-non--commercial-7b5aa6?style=flat-square)](#licensing-and-attribution)
 
-[**Open RetroPlay**](https://mahankenway.github.io/DOOM/) · [**Browse the catalog**](https://mahankenway.github.io/DOOM/#catalog) · [**Report an issue**](../../issues) · [**View releases**](../../actions)
+[**Open RetroPlay**](https://mahankenway.github.io/RetroPlay/) · [**Browse the catalog**](https://mahankenway.github.io/RetroPlay/#catalog) · [**Report an issue**](../../issues) · [**View releases**](../../actions)
 
 </div>
 
 ---
 
-[![OpenTTD in the RetroPlay browser runtime: a colorful town, rail network and the game’s new-game menu.](assets/screenshots/openttd-runtime.webp)](https://mahankenway.github.io/DOOM/openttd.html)
+[![OpenTTD in the RetroPlay browser runtime: a colorful town, rail network and the game’s new-game menu.](assets/screenshots/openttd-runtime.webp)](https://mahankenway.github.io/RetroPlay/openttd.html)
 
 ## A browser-first retro game collection
 
@@ -45,13 +45,13 @@ The ready entries below are the current focus of the project. Each has a direct 
 
 | Runtime | Genre | Content status | Direct page |
 |---|---|---|---|
-| **Doom / Freedoom catalog** | First-person action | Free WAD bundles and optional local WAD tooling | [Open catalog](https://mahankenway.github.io/DOOM/) |
-| **C-Dogs SDL** | Top-down action | Ready with libre upstream game data | [Launch C-Dogs](https://mahankenway.github.io/DOOM/cdogs.html) |
-| **GNU FreeDink** | Action-adventure | Ready with redistributable game data | [Launch FreeDink](https://mahankenway.github.io/DOOM/freedink.html) |
-| **OpenTyrian2000** | Vertical shooter | Ready with documented freeware data | [Launch OpenTyrian](https://mahankenway.github.io/DOOM/opentyrian.html) |
-| **LibreQuake** | First-person action | Ready with LibreQuake Lite data | [Launch LibreQuake](https://mahankenway.github.io/DOOM/librequake.html) |
-| **OpenTTD** | Transport strategy | Ready with OpenGFX, OpenSFX and OpenMSX | [Launch OpenTTD](https://mahankenway.github.io/DOOM/openttd.html) |
-| **FreeRCT** | Theme-park strategy | Ready with clean-room, free game data | [Launch FreeRCT](https://mahankenway.github.io/DOOM/freerct.html) |
+| **Doom / Freedoom catalog** | First-person action | Free WAD bundles and optional local WAD tooling | [Open catalog](https://mahankenway.github.io/RetroPlay/) |
+| **C-Dogs SDL** | Top-down action | Ready with libre upstream game data | [Launch C-Dogs](https://mahankenway.github.io/RetroPlay/cdogs.html) |
+| **GNU FreeDink** | Action-adventure | Ready with redistributable game data | [Launch FreeDink](https://mahankenway.github.io/RetroPlay/freedink.html) |
+| **OpenTyrian2000** | Vertical shooter | Ready with documented freeware data | [Launch OpenTyrian](https://mahankenway.github.io/RetroPlay/opentyrian.html) |
+| **LibreQuake** | First-person action | Ready with LibreQuake Lite data | [Launch LibreQuake](https://mahankenway.github.io/RetroPlay/librequake.html) |
+| **OpenTTD** | Transport strategy | Ready with OpenGFX, OpenSFX and OpenMSX | [Launch OpenTTD](https://mahankenway.github.io/RetroPlay/openttd.html) |
+| **FreeRCT** | Theme-park strategy | Ready with clean-room, free game data | [Launch FreeRCT](https://mahankenway.github.io/RetroPlay/freerct.html) |
 
 Two deliberately limited pages remain visible for transparency. **ECWolf** is an engine-only browser host and therefore requires lawfully obtained compatible data selected locally; it is not represented as a zero-friction bundled game. **OpenResident** is a WebGL2/WebAssembly technical probe, not a playable Resident Evil distribution, because its upstream engine source contains no game data.
 
@@ -61,12 +61,12 @@ All catalog and README visuals are sourced from actual game or local browser-run
 
 | OpenTTD browser runtime | FreeRCT browser runtime |
 |---|---|
-| [![OpenTTD gameplay and menu in a browser.](assets/screenshots/openttd-runtime.webp)](https://mahankenway.github.io/DOOM/openttd.html) | [![FreeRCT title menu over an isometric theme park.](assets/screenshots/freerct-runtime.webp)](https://mahankenway.github.io/DOOM/freerct.html) |
+| [![OpenTTD gameplay and menu in a browser.](assets/screenshots/openttd-runtime.webp)](https://mahankenway.github.io/RetroPlay/openttd.html) | [![FreeRCT title menu over an isometric theme park.](assets/screenshots/freerct-runtime.webp)](https://mahankenway.github.io/RetroPlay/freerct.html) |
 | **OpenTTD** uses its free graphics, effects and music sets. | **FreeRCT** uses its project-generated clean-room graphics and data. |
 
 ## Playing RetroPlay
 
-Start at the [main hub](https://mahankenway.github.io/DOOM/), select a **Ready** game card and choose its launch action. The hub opens independent runtimes in their own pages when the game requires a different engine. On mobile, use the visible D-pad, face buttons and shoulder controls where supplied; on desktop, click the game canvas once if the runtime asks to capture pointer input.
+Start at the [main hub](https://mahankenway.github.io/RetroPlay/), select a **Ready** game card and choose its launch action. The hub opens independent runtimes in their own pages when the game requires a different engine. On mobile, use the visible D-pad, face buttons and shoulder controls where supplied; on desktop, click the game canvas once if the runtime asks to capture pointer input.
 
 | Task | Recommended action |
 |---|---|
@@ -117,8 +117,8 @@ Browser
 The authoritative build is [`.github/workflows/build-and-deploy.yml`](.github/workflows/build-and-deploy.yml). On a push to `main` or `master`, it installs the pinned Emscripten SDK, packages the redistributable content, compiles the engine modules, copies the static frontend to `dist/` and deploys the artifact to GitHub Pages.
 
 ```bash
-git clone https://github.com/MahanKenway/DOOM.git
-cd DOOM
+git clone https://github.com/MahanKenway/RetroPlay.git
+cd RetroPlay
 
 # The repository is a static frontend. To inspect an already generated artifact locally:
 python3 -m http.server 4180 --directory dist
