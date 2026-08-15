@@ -144,7 +144,9 @@
       const installedPath = `${downloads}/installed-packages.txt`;
       let installed = '';
       try { installed = FS.readFile(installedPath, { encoding:'utf8' }); } catch (_) {}
-      const exactRecord = `package set-easy\\nfilename ${filename}\\n`;
+      const exactRecord = `package set-easy
+filename ${filename}
+`;
       if (!FS.analyzePath(zipPath).exists || !installed.includes(exactRecord)) {
         for (const entry of FS.readdir(downloads)) {
           if (/^set-easy-.*\.zip$/.test(entry) || entry === 'set-easy.zip') { try { FS.unlink(`${downloads}/${entry}`); } catch (_) {} }
