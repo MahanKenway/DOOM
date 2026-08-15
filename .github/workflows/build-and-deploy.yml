@@ -121,6 +121,9 @@ jobs:
         GH_TOKEN: ${{ github.token }}
       run: ./scripts/build-liberquake-web.sh
 
+    - name: Package OpenTTD fully bundled strategy runtime
+      run: ./scripts/build-openttd-web.sh
+
     - name: Compile ECWolf local-data runtime
       env:
         GH_TOKEN: ${{ github.token }}
@@ -128,7 +131,7 @@ jobs:
 
     - name: Copy frontend files
       run: |
-        cp index.html cdogs.html freedink.html opentyrian.html librequake.html ecwolf.html openresident.html manifest.json robots.txt sitemap.xml google*.html dist/ 2>/dev/null || true
+        cp index.html cdogs.html freedink.html opentyrian.html librequake.html openttd.html ecwolf.html openresident.html manifest.json robots.txt sitemap.xml google*.html dist/ 2>/dev/null || true
         cp -r styles src dist/ 2>/dev/null || true
         mkdir -p dist/assets
         # Copy nested catalog artwork as well as existing icons. The WADs are
