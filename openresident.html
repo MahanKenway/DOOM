@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#141714" />
-  <title>RIFTWAD — OpenResident WebGL2 Study</title>
+  <title>RetroPlay — OpenResident WebGL2 Study</title>
   <style>
     :root { --paper:#e7e6e0; --ink:#161815; --night:#121512; --lime:#d7eb41; --line:rgba(23,26,23,.24); --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; }
     * { box-sizing:border-box; }
@@ -21,10 +21,12 @@
     .source { display:inline-block; margin-top:14px; color:var(--ink); font:10px var(--mono); letter-spacing:.07em; text-transform:uppercase; }
     @media (max-width:720px) { main { width:min(100% - 28px,620px); }.panel { grid-template-columns:1fr; }.result { padding:2px; } }
   </style>
+  <meta name="robots" content="noindex,nofollow" />
+  <link rel="canonical" href="https://mahankenway.github.io/DOOM/openresident.html" />
 </head>
 <body>
   <main>
-    <header><a class="brand" href="./" aria-label="Return to RIFTWAD">RIFT<b>WAD</b></a><a class="back" href="./">← World index</a></header>
+    <header><a class="brand" href="./" aria-label="Return to RetroPlay">RETRO<b>PLAY</b></a><a class="back" href="./">← World index</a></header>
     <p class="eyebrow"><span>// R-OR</span>Engine study / WebAssembly</p>
     <h1>OpenResident,<br />studied for the web.</h1>
     <p class="intro">This page validates a minimal <strong>WebAssembly + WebGL2</strong> rendering bridge for the BSD-2-Clause OpenResident engine. It is a technical probe, not a playable Resident Evil build.</p>
@@ -32,7 +34,7 @@
       <canvas id="canvas" width="960" height="720" aria-label="OpenResident WebGL2 technical probe canvas"></canvas>
       <div class="result"><span>Renderer status</span><output id="result" class="status">Loading WebAssembly probe…</output><dl class="facts"><div><dt>Runtime</dt><dd>WebAssembly / WebGL2</dd></div><div><dt>Scope</dt><dd>Renderer lifecycle only</dd></div><div><dt>Game data</dt><dd>None bundled or mounted</dd></div><div><dt>License</dt><dd>BSD 2-Clause engine code</dd></div></dl><a class="source" href="https://github.com/XProger/OpenResident" target="_blank" rel="noopener noreferrer">View upstream source ↗</a></div>
     </section>
-    <p class="notice"><strong>Why this is not playable:</strong> the upstream repository contains engine code but no Resident Evil game data, and a production browser port still needs a complete platform layer for files, input, audio, lifecycle and end-to-end compatibility testing. RIFTWAD does not distribute, mount or request copyrighted game data through this page.</p>
+    <p class="notice"><strong>Why this is not playable:</strong> the upstream repository contains engine code but no Resident Evil game data, and a production browser port still needs a complete platform layer for files, input, audio, lifecycle and end-to-end compatibility testing. RetroPlay does not distribute, mount or request copyrighted game data through this page.</p>
   </main>
   <script type="module">
     import OpenResidentProbe from './openresident/openresident-probe.js';

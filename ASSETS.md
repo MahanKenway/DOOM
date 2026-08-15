@@ -1,4 +1,4 @@
-# RIFTWAD — Asset Manifest
+# RetroPlay — Asset Manifest
 
 **Art direction:** یک هاب بازی premium با حس رابط‌های تکنولوژیک اوایل دههٔ ۲۰۰۰ و PSP؛ زمینهٔ گرمِ off-white و graphite، grid مهندسی بسیار ظریف، پنل‌های نیمه‌شفاف چندلایه با offset فضایی، سایه‌های پخش‌شده، typography فشرده و یک accent lime محدود. نتیجه باید editorial، آرام و مهندسی‌شده باشد؛ نه cyberpunk نئونی، نه CRT تزئینی و نه بازطراحی قرمز/مشکی Doom.
 
@@ -22,7 +22,7 @@
 | TNT: Evilution | `assets/screenshots/tnt-steel-works.webp` | Screenshot واقعی گیم‌پلی، MAP14 | Doom Wiki / Fandom |
 | Blasphemer | `assets/screenshots/blasphemer-gameplay.webp` | Screenshot واقعی گیم‌پلی | Blasphemer project / jeshimoth.com |
 | OpenResident | `assets/screenshots/openresident-gameplay.webp` | Screenshot واقعی گیم‌پلی | XProger/OpenResident README |
-| C-Dogs SDL | `assets/screenshots/cdogs-sdl-browser.png` | Screenshot واقعی اجرای local در browser | RIFTWAD C-Dogs SDL WebAssembly runtime |
+| C-Dogs SDL | `assets/screenshots/cdogs-sdl-browser.png` | Screenshot واقعی اجرای local در browser | RetroPlay C-Dogs SDL WebAssembly runtime |
 
 ## Visual reference
 

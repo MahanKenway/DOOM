@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Build OpenTyrian2000 as an isolated WebAssembly runtime for RIFTWAD.
+# Build OpenTyrian2000 as an isolated WebAssembly runtime for RetroPlay.
 # Source: aescarcha/opentyrian-wasm (GPLv2-or-later); data: documented freeware Tyrian 2000 archive.
 set -euo pipefail
 

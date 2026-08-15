@@ -5,7 +5,7 @@
 
 ## Selection decision
 
-RIFTWAD’s Quake-engine runtime uses **Qwasm** as the GPL WebAssembly engine layer and **LibreQuake Lite v0.09-beta** for game data. This delivers a complete independent classic first-person experience while deliberately excluding all original Quake game-data archives.
+RetroPlay’s Quake-engine runtime uses **Qwasm** as the GPL WebAssembly engine layer and **LibreQuake Lite v0.09-beta** for game data. This delivers a complete independent classic first-person experience while deliberately excluding all original Quake game-data archives.
 
 | Component | Selected source | Reason |
 |---|---|---|
@@ -19,7 +19,7 @@ Therefore the build script downloads only `lite.zip` from LibreQuake’s officia
 
 ## Runtime implementation
 
-The reproducible build script compiles Qwasm with Emscripten and preloads the LibreQuake `id1/` directory into `index.data`. A small RIFTWAD-only startup profile replaces configuration directives meant for unrelated desktop source ports. It binds browser controls, opens the free map `lq_e0m1`, and eliminates unsupported-command diagnostics without changing game assets. Browser saves remain in Qwasm’s IndexedDB location.
+The reproducible build script compiles Qwasm with Emscripten and preloads the LibreQuake `id1/` directory into `index.data`. A small RetroPlay-only startup profile replaces configuration directives meant for unrelated desktop source ports. It binds browser controls, opens the free map `lq_e0m1`, and eliminates unsupported-command diagnostics without changing game assets. Browser saves remain in Qwasm’s IndexedDB location.
 
 The public runtime is deliberately labeled **LibreQuake**, not Quake, and includes engine, data license, credit and source-notice files alongside the artifacts.
 

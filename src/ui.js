@@ -72,7 +72,7 @@ export class LoadingScreen {
    */
   async playBootSequence() {
     const lines = [
-      { text: 'RIFTWAD // browser catalog',              level: 'ok'   },
+      { text: 'RetroPlay // browser catalog',              level: 'ok'   },
       { text: 'Checking local runtime...',                level: 'info' },
       { text: 'Archive bridge: available.',               level: 'ok'   },
       { text: 'WAD parser: ready.',                       level: 'ok'   },

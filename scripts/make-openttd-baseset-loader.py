@@ -26,7 +26,7 @@ def make_loader(entries: list[dict[str, int | str]], remote_name: str) -> str:
   var Module = moduleScope.Module = moduleScope.Module || {{}};
   var REMOTE_PACKAGE = {remote_json};
   var FILES = {manifest};
-  var DEPENDENCY = 'riftwad-openttd-bundled-basesets';
+  var DEPENDENCY = 'retroplay-openttd-bundled-basesets';
 
   function mkdirp(path) {{
     var current = '';

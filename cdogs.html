@@ -3,8 +3,9 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="description" content="C-Dogs SDL on RetroPlay: a bundled libre top-down action game running in WebAssembly with PSP-style touch controls." />
   <meta name="theme-color" content="#111611" />
-  <title>RIFTWAD — C-Dogs SDL Runtime</title>
+  <title>RetroPlay — C-Dogs SDL Runtime</title>
   <style>
     :root { --paper:#e7e6e0; --ink:#151814; --night:#111511; --lime:#d7eb41; --line:rgba(21,24,20,.24); --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; }
     * { box-sizing:border-box; }
@@ -26,10 +27,20 @@
 
     @media (max-width:760px) { main { width:min(100% - 24px,680px); padding-top:18px; }.panel { grid-template-columns:1fr; }.controls { display:flex; }.intro { font-size:14px; } }
   </style>
+  <meta name="application-name" content="RetroPlay" />
+  <meta name="robots" content="index,follow,max-image-preview:large" />
+  <link rel="canonical" href="https://mahankenway.github.io/DOOM/cdogs.html" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="RetroPlay" />
+  <meta property="og:title" content="RetroPlay — C-Dogs SDL Runtime" />
+  <meta property="og:description" content="C-Dogs SDL on RetroPlay: a bundled libre top-down action game running in WebAssembly with PSP-style touch controls." />
+  <meta property="og:url" content="https://mahankenway.github.io/DOOM/cdogs.html" />
+  <meta property="og:image" content="https://mahankenway.github.io/DOOM/assets/screenshots/cdogs-sdl-browser.png" />
+  <meta name="twitter:card" content="summary_large_image" />
 </head>
 <body>
   <main>
-    <header><a class="brand" href="./" aria-label="Return to RIFTWAD">RIFT<b>WAD</b></a><a class="back" href="./">← World index</a></header>
+    <header><a class="brand" href="./" aria-label="Return to RetroPlay">RETRO<b>PLAY</b></a><a class="back" href="./">← World index</a></header>
     <p class="eyebrow"><span>// R-CD</span>Independent runtime / WebAssembly</p>
     <h1>C-Dogs SDL,<br />rebuilt for the browser.</h1>
     <p class="intro">A separate top-down action runtime for the libre C-Dogs SDL game. It has its own WebAssembly module, SDL input surface and local save filesystem; it does not share the Doom game loop or WAD loader.</p>

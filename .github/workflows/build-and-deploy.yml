@@ -1,4 +1,4 @@
-name: Build DOOM WASM & Deploy
+name: Build RetroPlay WASM & Deploy
 
 on:
   push:

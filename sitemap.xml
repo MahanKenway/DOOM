@@ -2,44 +2,34 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://mahankenway.github.io/DOOM/</loc>
-    <lastmod>2026-08-08</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>1.0</priority>
+    <lastmod>2026-08-15</lastmod>
+  </url>
+  <url>
+    <loc>https://mahankenway.github.io/DOOM/cdogs.html</loc>
+    <lastmod>2026-08-15</lastmod>
   </url>
   <url>
     <loc>https://mahankenway.github.io/DOOM/freedink.html</loc>
-    <lastmod>2026-08-14</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <lastmod>2026-08-15</lastmod>
   </url>
   <url>
     <loc>https://mahankenway.github.io/DOOM/opentyrian.html</loc>
-    <lastmod>2026-08-14</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <lastmod>2026-08-15</lastmod>
   </url>
   <url>
     <loc>https://mahankenway.github.io/DOOM/librequake.html</loc>
     <lastmod>2026-08-15</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
   </url>
   <url>
     <loc>https://mahankenway.github.io/DOOM/openttd.html</loc>
     <lastmod>2026-08-15</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
   </url>
   <url>
     <loc>https://mahankenway.github.io/DOOM/freerct.html</loc>
     <lastmod>2026-08-15</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
   </url>
   <url>
     <loc>https://mahankenway.github.io/DOOM/ecwolf.html</loc>
     <lastmod>2026-08-15</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
   </url>
 </urlset>

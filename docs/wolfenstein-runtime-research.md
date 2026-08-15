@@ -11,7 +11,7 @@
 
 ## Legal implementation boundary
 
-A public RIFTWAD deployment must not bundle or transform original Wolfenstein 3D data without a clear distribution grant. The feasible compliant path is therefore either:
+A public RetroPlay deployment must not bundle or transform original Wolfenstein 3D data without a clear distribution grant. The feasible compliant path is therefore either:
 
 1. an ECWolf WebAssembly engine that accepts only data a player lawfully provides, or
 2. a separate Wolfenstein-style open game whose maps, art, sounds and code all have redistributable licenses.

@@ -50,7 +50,7 @@ The running OpenTTD build uses a Canvas 2D context, not WebGL. Its actual buffer
 
 ## Upstream reference comparison started
 
-The upstream deployment at `https://openttdonline.com/play/` uses the same recognizable browser shell and began at `(0 / 42) Loading … Preparing game …` with a full-screen canvas. This confirms that the selected upstream project is capable of rendering in the current browser environment. The RIFTWAD black-canvas behavior is therefore specific to its integration/asset preloading rather than an inherent browser limitation. Next compare the reference page after startup and its exact delivered artifact set against the local bundle.
+The upstream deployment at `https://openttdonline.com/play/` uses the same recognizable browser shell and began at `(0 / 42) Loading … Preparing game …` with a full-screen canvas. This confirms that the selected upstream project is capable of rendering in the current browser environment. The RetroPlay black-canvas behavior is therefore specific to its integration/asset preloading rather than an inherent browser limitation. Next compare the reference page after startup and its exact delivered artifact set against the local bundle.
 
 ## Upstream reference loading progress
 
@@ -58,15 +58,15 @@ At the second observation, the upstream page advanced through its original `open
 
 ## Reference post-dependency observation
 
-The upstream page reached `(42 / 42) Loading … Preparing game …` but remained on its overlay for the next observation. It does not yet prove a visual rendering advantage over RIFTWAD at this exact point. The next reliable comparison is its delivered `openttd.js`/HTML artifact behavior and any startup timing hooks, rather than judging only the transient black canvas screenshot.
+The upstream page reached `(42 / 42) Loading … Preparing game …` but remained on its overlay for the next observation. It does not yet prove a visual rendering advantage over RetroPlay at this exact point. The next reliable comparison is its delivered `openttd.js`/HTML artifact behavior and any startup timing hooks, rather than judging only the transient black canvas screenshot.
 
 ## Reference result and local recheck
 
-The upstream reference ultimately reported `Failed to download base graphics`, so it is not a successful rendering control in this browser session. It confirms the importance of RIFTWAD's fully bundled data requirement. RIFTWAD v3 again entered the executable (`OpenTTD 15.3` title) without any missing-base-set message, but its visible Canvas2D buffer remained black. The next check is local VFS presence and in-engine configuration state, not a comparison to the upstream page.
+The upstream reference ultimately reported `Failed to download base graphics`, so it is not a successful rendering control in this browser session. It confirms the importance of RetroPlay's fully bundled data requirement. RetroPlay v3 again entered the executable (`OpenTTD 15.3` title) without any missing-base-set message, but its visible Canvas2D buffer remained black. The next check is local VFS presence and in-engine configuration state, not a comparison to the upstream page.
 
 ## Milestone — fully bundled menu renders
 
-The global-Module loader fix succeeded. RIFTWAD v4 reached `READY`, displayed the genuine OpenTTD 15.3 main menu inside the project shell, and showed the built-in first-run survey prompt. This is visual proof that the OpenGFX/OpenSFX/OpenMSX data are present and usable by the engine, without original game files or a player upload. Remaining tests are: dismiss the first-run modal, enter a new game, validate PSP controls, and verify fullscreen rendering.
+The global-Module loader fix succeeded. RetroPlay v4 reached `READY`, displayed the genuine OpenTTD 15.3 main menu inside the project shell, and showed the built-in first-run survey prompt. This is visual proof that the OpenGFX/OpenSFX/OpenMSX data are present and usable by the engine, without original game files or a player upload. Remaining tests are: dismiss the first-run modal, enter a new game, validate PSP controls, and verify fullscreen rendering.
 
 ## In-game interaction test begun
 
@@ -82,7 +82,7 @@ The title screen remains fully rendered and animated. Direct synthetic mouse and
 
 ## Fullscreen acceptance test — PASS
 
-The runtime entered native fullscreen from the RIFTWAD control. The canvas immediately filled the viewport and kept rendering the genuine OpenTTD title menu and first-run dialog; it did not turn black. Pressing Escape returned to the normal RIFTWAD layout with the menu still animated and correctly sized. This verifies stable fullscreen entry, resizing, and exit.
+The runtime entered native fullscreen from the RetroPlay control. The canvas immediately filled the viewport and kept rendering the genuine OpenTTD title menu and first-run dialog; it did not turn black. Pressing Escape returned to the normal RetroPlay layout with the menu still animated and correctly sized. This verifies stable fullscreen entry, resizing, and exit.
 
 ## PSP touch-control dispatch — PASS
 
@@ -90,7 +90,7 @@ On v5, a touch-style PointerEvent sequence on the `ArrowUp` D-pad control produc
 
 ## Catalog integration — PASS
 
-The refreshed local RIFTWAD hub rendered 19 records. OpenTTD appears as record `// 17`, with the copied real fullscreen gameplay screenshot, `INDEPENDENT RUNTIME` state, free bundled licensing text, the no-upload description, and a `Launch OpenTTD` action. This validates the catalog entry and asset path before CI integration.
+The refreshed local RetroPlay hub rendered 19 records. OpenTTD appears as record `// 17`, with the copied real fullscreen gameplay screenshot, `INDEPENDENT RUNTIME` state, free bundled licensing text, the no-upload description, and a `Launch OpenTTD` action. This validates the catalog entry and asset path before CI integration.
 
 ## Final packaged-data VFS test — PASS
 

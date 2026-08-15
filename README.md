@@ -1,161 +1,203 @@
 <div align="center">
 
-# RIFTWAD
+# RetroPlay
 
-> **WAD worlds, played here.** RIFTWAD is a curated browser hub for playable WAD archives, local mapsets and experimental Doom-engine worlds.
+> **Classic worlds, ready to play.**
+>
+> A curated browser hub for open-source retro games, classic engines and WAD worlds that run through WebAssembly.
 
-[![Open RIFTWAD](https://img.shields.io/badge/OPEN_RIFTWAD-1a1d18?style=for-the-badge&logo=googlechrome&logoColor=d7eb41)](https://mahankenway.github.io/DOOM/)
-[![Build Status](https://img.shields.io/github/actions/workflow/status/MahanKenway/DOOM/build-and-deploy.yml?style=for-the-badge&label=BUILD&logo=githubactions&logoColor=white&color=success)](../../actions/workflows/build-and-deploy.yml)
-[![License](https://img.shields.io/badge/LICENSE-DOOM_SOURCE-blueviolet?style=for-the-badge&logo=gnu&logoColor=white)](#-license)
+[![Play RetroPlay](https://img.shields.io/badge/PLAY_RETROPLAY-1a1d18?style=for-the-badge&logo=googlechrome&logoColor=d7eb41)](https://mahankenway.github.io/DOOM/)
+[![Build and deploy](https://img.shields.io/github/actions/workflow/status/MahanKenway/DOOM/build-and-deploy.yml?style=for-the-badge&label=BUILD&logo=githubactions&logoColor=white&color=success)](../../actions/workflows/build-and-deploy.yml)
+[![GitHub Pages](https://img.shields.io/badge/HOSTED_ON-GitHub_Pages-222?style=for-the-badge&logo=github&logoColor=white)](https://pages.github.com/)
 
 [![WebAssembly](https://img.shields.io/badge/WebAssembly-654FF0?style=flat-square&logo=webassembly&logoColor=white)](https://webassembly.org/)
-[![Emscripten](https://img.shields.io/badge/Emscripten-3.1.51-black?style=flat-square)](https://emscripten.org/)
-[![C89](https://img.shields.io/badge/C-89-A8B9CC?style=flat-square&logo=c&logoColor=white)](https://en.wikipedia.org/wiki/ANSI_C)
-[![JavaScript](https://img.shields.io/badge/JavaScript-ES2022-F7DF1E?style=flat-square&logo=javascript&logoColor=black)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
-[![GitHub Pages](https://img.shields.io/badge/Hosted_on-GitHub_Pages-222?style=flat-square&logo=github&logoColor=white)](https://pages.github.com/)
-[![Freedoom](https://img.shields.io/badge/WAD-Freedoom_Phase_1-orange?style=flat-square)](https://freedoom.github.io/)
-[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen?style=flat-square)](../../pulls)
-[![Made with 💀](https://img.shields.io/badge/Made_with-💀-red?style=flat-square)]()
+[![Emscripten](https://img.shields.io/badge/Emscripten-3.1.51-111?style=flat-square)](https://emscripten.org/)
+[![Static deployment](https://img.shields.io/badge/DEPLOYMENT-static-54785c?style=flat-square)](https://pages.github.com/)
+[![Non-commercial](https://img.shields.io/badge/DEPLOYMENT-non--commercial-7b5aa6?style=flat-square)](#licensing-and-attribution)
 
-<sub>No plugins. No native app. A browser catalog, local library, and a WebAssembly runtime.</sub>
+[**Open RetroPlay**](https://mahankenway.github.io/DOOM/) · [**Browse the catalog**](https://mahankenway.github.io/DOOM/#catalog) · [**Report an issue**](../../issues) · [**View releases**](../../actions)
+
+</div>
 
 ---
 
-## Play and import
+[![OpenTTD in the RetroPlay browser runtime: a colorful town, rail network and the game’s new-game menu.](assets/screenshots/openttd-runtime.webp)](https://mahankenway.github.io/DOOM/openttd.html)
 
-RIFTWAD ships with **Freedoom: Phase 1** as a ready-to-play open WAD. The catalog also supports a locally selected base IWAD plus up to three PWAD patches, so users can launch game worlds they legally own without uploading archives to a server.
+## A browser-first retro game collection
 
-The current runtime compiles the **linuxdoom-1.10** C source to WebAssembly and renders it into an HTML5 `<canvas>`. The RIFTWAD shell adds browsing, client-side filtering, a local pinned library and a clear import path around that engine.
+**RetroPlay** is no longer only a Doom WAD launcher. It is a deliberately small, curated collection of independently built browser runtimes: first-person action, top-down combat, adventure, shooters, transport strategy and theme-park strategy. The shell provides discovery, a local library and PSP-inspired touch controls; each game runtime owns its engine, data path and persistence model.
 
----
+> **Design rule:** a game marked **Ready** includes the free content it needs and launches from the browser. It does not ask the player to upload a commercial archive, create an account or install a native application.
 
-## ⌨️ Controls
+The project is published as a static GitHub Pages site. Its browser runtimes use WebAssembly, a web standard intended to run compiled code efficiently in the browser [1], with Emscripten used by the project’s C and C++ build paths [2]. GitHub Actions builds the deployable artifact and GitHub Pages serves the static result [3].
 
-|                | Keyboard                 | Gamepad          | Touch          |
-|----------------|---------------------------|-------------------|----------------|
-| Move           | `↑ ↓ ← →` / `WASD`        | Left stick        | D-Pad          |
-| Turn           | Mouse (pointer-locked)     | Right stick*       | Swipe          |
-| Fire           | `Ctrl` / Left click        | `A` / Cross        | 🔫 button      |
-| Use / Open     | `Space`                    | `B` / Circle       | ⚙ button       |
-| Strafe         | `Alt` + `← →`              | `LB`               | ↰ ↱ buttons    |
-| Run            | `Shift`                    | `X` / Square       | 💨 button      |
-| Automap        | `Tab`                      | `Y` / Triangle     | 🗺 button      |
-| Pause          | `P`                        | `Start`            | ⏸ button       |
-| Fullscreen     | `F` / `F11`                | —                  | —              |
-
----
-
-## 🏗️ How it works
-
-```
-┌─────────────────────────────────────────────────────────────┐
-│  linuxdoom-1.10/*.c   (original 1997 id Software source)     │
-│  + web/*.c            (browser platform layer — new)         │
-│           │                                                   │
-│           ▼  emcc -O2 --no-entry -s STANDALONE_WASM=1        │
-│  ┌───────────────────┐                                       │
-│  │    doom.wasm       │◄──── WAD bytes injected via JS       │
-│  └─────────┬───────────┘                                     │
-│            │  WebAssembly.instantiateStreaming()             │
-│            ▼                                                  │
-│  ┌────────────────────────────────────────────────────┐     │
-│  │  DoomEngine.js                                       │     │
-│  │   ├─ Renderer.js      320×200 → pixel-perfect canvas │     │
-│  │   ├─ AudioManager.js  Web Audio API mixer (8ch)       │     │
-│  │   ├─ InputHandler.js  Keyboard/Mouse/Gamepad/Touch    │     │
-│  │   └─ 35 Hz fixed-step loop (requestAnimationFrame)    │     │
-│  └────────────────────────────────────────────────────┘     │
-└─────────────────────────────────────────────────────────────┘
-```
-
-The trickiest part wasn't the renderer — it was convincing 1997 C code that expects a real POSIX filesystem (`open()`, `fopen()`, `access()`) that it's living inside a sandboxed WebAssembly module with **zero** filesystem syscalls. See [`web/w_io_web.c`](linuxdoom-1.10/web/w_io_web.c) for the virtual filesystem shim that makes it possible — the WAD is injected directly into linear memory from JavaScript, no disk required.
-
-### Key engineering pieces
-
-| Piece | What it solves |
+| Area | What RetroPlay provides |
 |---|---|
-| [`i_video_web.c`](linuxdoom-1.10/web/i_video_web.c) | 8-bit paletted framebuffer → RGBA → `<canvas>`, with gamma correction |
-| [`i_sound_web.c`](linuxdoom-1.10/web/i_sound_web.c) | DMX 8-bit PCM lumps → Web Audio `AudioBufferSourceNode` graph |
-| [`i_system_web.c`](linuxdoom-1.10/web/i_system_web.c) | `I_Error`/`I_GetTime` without POSIX — `performance.now()`-backed |
-| [`w_io_web.c`](linuxdoom-1.10/web/w_io_web.c) | Virtual filesystem — the whole game lives in one memory buffer |
-| [`i_main_web.c`](linuxdoom-1.10/web/i_main_web.c) | The 4 exports JS calls: `initGame` / `tickGame` / key events |
-| [`patch_web.py`](linuxdoom-1.10/patch_web.py) | Surgical, auditable patches applied at CI time — original source stays untouched in the repo |
+| **Discover** | A searchable catalog that combines classic WAD material with standalone, free-content games. |
+| **Play** | One click opens the relevant browser runtime; bundled entries are designed to start on first load. |
+| **Control** | Keyboard, mouse and desktop gamepad support alongside PSP-style touch controls on supported runtimes. |
+| **Keep progress** | Game-specific browser-local persistence, plus the hub’s local library and settings. |
+| **Respect rights** | Source, asset and license notices remain with each runtime; no commercial game data is repackaged. |
 
----
+## Live runtime index
 
-## 🧩 Tech stack
+The ready entries below are the current focus of the project. Each has a direct link from the main catalog and a dedicated runtime page.
 
-- **Core engine:** unmodified `linuxdoom-1.10` — [id Software](https://www.idsoftware.com/), 1997
-- **Compiler:** [Emscripten](https://emscripten.org/) 3.1.51 (LLVM/clang → WebAssembly)
-- **Runtime:** vanilla ES2022 modules, zero frontend frameworks
-- **Audio:** Web Audio API (no `<audio>` tags, no polyfills)
-- **IWAD:** [Freedoom Phase 1](https://freedoom.github.io/) — 100% free-content replacement for `DOOM1.WAD`
-- **CI/CD:** GitHub Actions — every push auto-compiles and deploys to Pages
-- **Hosting:** GitHub Pages (static, no backend, no server costs)
+| Runtime | Genre | Content status | Direct page |
+|---|---|---|---|
+| **Doom / Freedoom catalog** | First-person action | Free WAD bundles and optional local WAD tooling | [Open catalog](https://mahankenway.github.io/DOOM/) |
+| **C-Dogs SDL** | Top-down action | Ready with libre upstream game data | [Launch C-Dogs](https://mahankenway.github.io/DOOM/cdogs.html) |
+| **GNU FreeDink** | Action-adventure | Ready with redistributable game data | [Launch FreeDink](https://mahankenway.github.io/DOOM/freedink.html) |
+| **OpenTyrian2000** | Vertical shooter | Ready with documented freeware data | [Launch OpenTyrian](https://mahankenway.github.io/DOOM/opentyrian.html) |
+| **LibreQuake** | First-person action | Ready with LibreQuake Lite data | [Launch LibreQuake](https://mahankenway.github.io/DOOM/librequake.html) |
+| **OpenTTD** | Transport strategy | Ready with OpenGFX, OpenSFX and OpenMSX | [Launch OpenTTD](https://mahankenway.github.io/DOOM/openttd.html) |
+| **FreeRCT** | Theme-park strategy | Ready with clean-room, free game data | [Launch FreeRCT](https://mahankenway.github.io/DOOM/freerct.html) |
 
----
+Two deliberately limited pages remain visible for transparency. **ECWolf** is an engine-only browser host and therefore requires lawfully obtained compatible data selected locally; it is not represented as a zero-friction bundled game. **OpenResident** is a WebGL2/WebAssembly technical probe, not a playable Resident Evil distribution, because its upstream engine source contains no game data.
 
-## 🛠️ Building it yourself
+## Real gameplay, not promotional art
+
+All catalog and README visuals are sourced from actual game or local browser-runtime captures. The images below show two of the fully bundled strategy runtimes running in their native interfaces.
+
+| OpenTTD browser runtime | FreeRCT browser runtime |
+|---|---|
+| [![OpenTTD gameplay and menu in a browser.](assets/screenshots/openttd-runtime.webp)](https://mahankenway.github.io/DOOM/openttd.html) | [![FreeRCT title menu over an isometric theme park.](assets/screenshots/freerct-runtime.webp)](https://mahankenway.github.io/DOOM/freerct.html) |
+| **OpenTTD** uses its free graphics, effects and music sets. | **FreeRCT** uses its project-generated clean-room graphics and data. |
+
+## Playing RetroPlay
+
+Start at the [main hub](https://mahankenway.github.io/DOOM/), select a **Ready** game card and choose its launch action. The hub opens independent runtimes in their own pages when the game requires a different engine. On mobile, use the visible D-pad, face buttons and shoulder controls where supplied; on desktop, click the game canvas once if the runtime asks to capture pointer input.
+
+| Task | Recommended action |
+|---|---|
+| **Play a bundled title** | Select a game marked **Free / bundled** or **Ready**, then use its launch action. |
+| **Enter fullscreen** | Use the runtime’s **Fullscreen** control after the canvas has initialized. |
+| **Save progress** | Let the game use browser-local storage; do not clear site data if you want to retain saves. |
+| **Use a Doom mapset you own** | Use the separate local WAD importer on the main hub. Files stay in the browser session and are never uploaded to a RetroPlay server. |
+| **Find a game** | Use catalog search, genre filters and the local pinned library. |
+
+## Runtime architecture
+
+RetroPlay intentionally does not force all games through one emulation layer. The hub is static HTML, CSS and ES modules; the individual runtime pages load their own WebAssembly build and assets. This isolates dependencies and lets each classic engine keep its natural rendering, audio and input model.
+
+```text
+Browser
+├── RetroPlay hub
+│   ├── index.html + styles/ + src/
+│   ├── catalog search, filtering and local library
+│   └── Doom WAD runtime and optional local WAD importer
+│
+├── Independent WebAssembly runtime pages
+│   ├── cdogs.html       → C-Dogs SDL
+│   ├── freedink.html    → GNU FreeDink
+│   ├── opentyrian.html  → OpenTyrian2000
+│   ├── librequake.html  → LibreQuake / Qwasm
+│   ├── openttd.html     → OpenTTD + free base sets
+│   ├── freerct.html     → FreeRCT + clean-room game data
+│   └── ecwolf.html      → ECWolf engine host
+│
+└── GitHub Actions
+    ├── compiles and packages runtime assets
+    ├── copies the static hub into dist/
+    └── deploys the artifact to GitHub Pages
+```
+
+| Directory | Responsibility |
+|---|---|
+| [`src/`](src/) | Hub catalog, UI behavior, Doom runtime bridge and browser persistence. |
+| [`styles/`](styles/) | The shared PSP-inspired visual system. |
+| [`scripts/`](scripts/) | Reproducible builders and validation utilities for browser runtimes. |
+| [`linuxdoom-1.10/`](linuxdoom-1.10/) | Doom source and browser-specific platform layer. |
+| [`third_party/`](third_party/) | License-preserving upstream source material and adapters. |
+| [`.github/workflows/`](.github/workflows/) | The reproducible GitHub Actions build-and-deploy workflow. |
+| [`docs/`](docs/) | Research, feasibility notes and runtime test records. |
+
+## Build and deployment
+
+The authoritative build is [`.github/workflows/build-and-deploy.yml`](.github/workflows/build-and-deploy.yml). On a push to `main` or `master`, it installs the pinned Emscripten SDK, packages the redistributable content, compiles the engine modules, copies the static frontend to `dist/` and deploys the artifact to GitHub Pages.
 
 ```bash
 git clone https://github.com/MahanKenway/DOOM.git
 cd DOOM
 
-# Compile (requires the Emscripten SDK)
-source /path/to/emsdk/emsdk_env.sh
-cd linuxdoom-1.10
-python3 patch_web.py          # apply the browser-compat patches
-emcc *.c web/*.c \
-  -o ../dist/wasm/doom.wasm \
-  -O2 -w -I. -DNORMALUNIX \
-  -s WASM=1 -s STANDALONE_WASM=1 \
-  -s INITIAL_MEMORY=33554432 -s ALLOW_MEMORY_GROWTH=1 \
-  -s EXPORTED_FUNCTIONS='["_initGame","_tickGame","_reportKeyDown","_reportKeyUp"]' \
-  --no-entry
-
-# Serve locally
-cd .. && python3 -m http.server 8080
+# The repository is a static frontend. To inspect an already generated artifact locally:
+python3 -m http.server 4180 --directory dist
+# Then visit http://localhost:4180/
 ```
 
-Or just push to `main` — [`.github/workflows/build-and-deploy.yml`](.github/workflows/build-and-deploy.yml) does all of this automatically and deploys straight to Pages.
+A complete local rebuild needs the pinned Emscripten toolchain plus the prerequisites used by the individual scripts. Use the same order as CI when validating a substantive engine change:
 
----
+```bash
+# After activating a compatible Emscripten environment:
+./scripts/build-cdogs-web.sh
+./scripts/build-freedink-web.sh
+./scripts/build-opentyrian-web.sh
+./scripts/build-liberquake-web.sh
+./scripts/build-openttd-web.sh
+./scripts/build-freerct-web.sh
+./scripts/build-ecwolf-web.sh
+```
 
-## 🗺️ Roadmap
+Do not commit generated `dist/` content. It is a deployment artifact and is rebuilt by CI. For a documentation-only or hub-only change, push to the deployment branch and use the workflow run as the canonical build check.
 
-- [x] Core rendering pipeline (BSP, walls, sprites, flats)
-- [x] Full audio (SFX via Web Audio; MUS→MIDI still a stub)
-- [x] Keyboard + mouse (Pointer Lock) + gamepad + touch controls
-- [x] Auto-deploy via GitHub Actions
-- [x] Virtual in-memory filesystem (no real disk needed for the WAD)
-- [ ] Save/load via `localStorage` or `IndexedDB` (currently no-op — see `w_io_web.c`)
-- [ ] MUS format → real music playback
-- [ ] PWAD upload support (currently single bundled IWAD only)
-- [ ] Optional multiplayer via WebRTC data channels
+## Quality and contribution expectations
 
-Contributions welcome — see [Issues](../../issues) for open items.
+A contribution should preserve the project’s practical rules: the public build must remain static, an advertised **Ready** runtime must launch with its included lawful content, touch controls must not compromise desktop input, and fullscreen must be exercised before a release. Use actual gameplay captures for catalog art; generated concept art does not substitute for a runtime screenshot.
 
----
-
-## ⚖️ License
-
-| Component | License |
+| Change type | Expected evidence before merge |
 |---|---|
-| **DOOM source code** (`linuxdoom-1.10/*.c`, `*.h`) | [DOOM Source Code License](https://github.com/id-Software/DOOM/blob/master/doomlic.txt) © id Software, 1997 |
-| **Freedoom IWAD** (bundled at build time) | [BSD-3-Clause](https://github.com/freedoom/freedoom/blob/master/COPYING.adoc) |
-| **Browser platform layer** (`web/*.c`, `src/*.js`, this build system) | MIT — see [LICENSE](LICENSE) |
+| Hub copy, catalog or styling | No broken navigation, correct title/metadata and a checked build artifact. |
+| New ready-to-play runtime | Reproducible script, license/source notice, browser launch test, fullscreen test and real screenshot. |
+| Runtime control change | Desktop input check and a touch interaction check on the runtime page. |
+| Asset/data addition | Clear upstream provenance, license compatibility and no requirement for a player to upload proprietary files. |
 
-This project does not distribute or require any commercial DOOM IWAD. It ships exclusively with **Freedoom**, an independently developed, completely free set of levels and assets designed as a drop-in DOOM-engine content pack. You may optionally drag-and-drop your own legally owned `DOOM.WAD` / `DOOM2.WAD` for the full original experience — nothing proprietary ever leaves your machine, since everything runs client-side.
+Open an [issue](../../issues) for defects, compatibility reports or candidate free-content runtimes. Pull requests should keep attribution files intact and describe both the technical change and the runtime verification performed.
+
+## Licensing and attribution
+
+RetroPlay is a **non-commercial** deployment. The hub does not claim ownership of the engines, game data or artwork represented in the catalog. Each package remains subject to its own license and attribution obligations; the repository keeps runtime-specific notices alongside the relevant bundles and source material.
+
+| Component | Primary licensing / attribution path |
+|---|---|
+| Hub frontend and browser integration | [`LICENSE`](LICENSE) |
+| Doom source lineage | [DOOM source license](https://github.com/id-Software/DOOM/blob/master/doomlic.txt) |
+| Freedoom and FreeDM bundles | [Freedoom project](https://freedoom.github.io/) [4] |
+| C-Dogs SDL | [C-Dogs SDL source](https://github.com/cxong/cdogs-sdl) [5] |
+| GNU FreeDink | [GNU FreeDink project](https://www.gnu.org/software/freedink/) [6] |
+| OpenTyrian2000 | [OpenTyrian2000 source](https://github.com/opentyrian/opentyrian) [7] |
+| LibreQuake | [LibreQuake project](https://librequake.github.io/) [8] |
+| OpenTTD and base sets | [OpenTTD](https://www.openttd.org/) [9] |
+| FreeRCT | [FreeRCT source](https://github.com/FreeRCT/FreeRCT) [10] |
+| ECWolf | [`ecwolf/`](ecwolf/) notices and its upstream project |
+
+For the historical legal and technical decision not to package OpenRCT2 or proprietary RollerCoaster Tycoon data, see [`docs/openrct2-runtime-feasibility.md`](docs/openrct2-runtime-feasibility.md).
+
+## References
+
+[1] [WebAssembly — official overview](https://webassembly.org/)
+
+[2] [Emscripten documentation](https://emscripten.org/docs/)
+
+[3] [GitHub Pages documentation](https://docs.github.com/pages)
+
+[4] [Freedoom project](https://freedoom.github.io/)
+
+[5] [C-Dogs SDL source repository](https://github.com/cxong/cdogs-sdl)
+
+[6] [GNU FreeDink](https://www.gnu.org/software/freedink/)
+
+[7] [OpenTyrian source repository](https://github.com/opentyrian/opentyrian)
+
+[8] [LibreQuake project](https://librequake.github.io/)
+
+[9] [OpenTTD project](https://www.openttd.org/)
+
+[10] [FreeRCT source repository](https://github.com/FreeRCT/FreeRCT)
 
 ---
-
-## 🙏 Acknowledgements
-
-- **[id Software](https://www.idsoftware.com/)** — for open-sourcing DOOM in 1997 and changing game development forever
-- **[Freedoom Project](https://freedoom.github.io/)** — for the incredible free IWAD that makes legal, zero-friction distribution possible
-- **[Emscripten](https://emscripten.org/) / [WebAssembly](https://webassembly.org/)** — for making "1993 C code, in a browser tab, at native speed" a genuinely boring, solved problem
-- Every [DOOM source port](https://doomwiki.org/wiki/Source_port) that came before this one, proving the engine's architecture is timeless
 
 <div align="center">
-<sub>Built with 🩸 by <a href="https://github.com/MahanKenway">MahanKenway</a> · Rip and tear, until it is done.</sub>
+
+Built and maintained by [MahanKenway](https://github.com/MahanKenway). RetroPlay is a preservation-minded, non-commercial experiment in making free classic game worlds easier to explore.
+
 </div>

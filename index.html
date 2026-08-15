@@ -4,8 +4,21 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
   <meta name="theme-color" content="#e9e8e3" />
-  <meta name="description" content="RIFTWAD — a curated hub for playable WAD worlds" />
-  <title>RIFTWAD — WAD worlds, played here</title>
+  <meta name="application-name" content="RetroPlay" />
+  <meta name="description" content="RetroPlay is a curated browser hub for ready-to-play open-source retro games, classic engines and WAD worlds." />
+  <meta name="robots" content="index,follow,max-image-preview:large" />
+  <link rel="canonical" href="https://mahankenway.github.io/DOOM/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="RetroPlay" />
+  <meta property="og:title" content="RetroPlay — Classic worlds, ready to play" />
+  <meta property="og:description" content="A curated browser hub for ready-to-play open-source retro games, classic engines and WAD worlds." />
+  <meta property="og:url" content="https://mahankenway.github.io/DOOM/" />
+  <meta property="og:image" content="https://mahankenway.github.io/DOOM/assets/screenshots/freedoom-phase1.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="RetroPlay — Classic worlds, ready to play" />
+  <meta name="twitter:description" content="Open-source retro games and classic engines, ready to play in your browser." />
+  <meta name="twitter:image" content="https://mahankenway.github.io/DOOM/assets/screenshots/freedoom-phase1.png" />
+  <title>RetroPlay — Classic worlds, ready to play</title>
   <link rel="manifest" href="manifest.json" />
   <link rel="icon" href="assets/favicon.ico" type="image/x-icon" />
   <link rel="stylesheet" href="styles/main.css" />
@@ -13,8 +26,8 @@
 <body>
 
 <div id="loading-screen" class="screen active" role="status" aria-live="polite">
-  <div class="loading-inner rift-loading">
-    <div class="loading-mark" aria-hidden="true"><span>RIFT</span><span>WAD</span></div>
+  <div class="loading-inner retro-loading">
+    <div class="loading-mark" aria-hidden="true"><span>RETRO</span><span>PLAY</span></div>
     <p class="loading-kicker">Runtime / preflight</p>
     <div class="boot-log" id="boot-log" aria-label="Loading progress"></div>
     <div class="progress-container">
@@ -25,19 +38,19 @@
   </div>
 </div>
 
-<div id="wad-picker" class="screen" role="main" aria-label="RIFTWAD game hub">
-  <div class="rift-shell">
-    <header class="rift-header">
-      <button class="brand-mark" data-rift-nav="featured" aria-label="Go to featured collection"><span>RIFT</span><b>WAD</b></button>
-      <nav class="rift-nav" aria-label="Primary navigation">
-        <button data-rift-nav="featured" class="is-active">Discover</button>
-        <button data-rift-nav="catalog">Collections</button>
-        <button data-rift-nav="library">Library <span id="library-count">00</span></button>
+<div id="wad-picker" class="screen" role="main" aria-label="RetroPlay classic game hub">
+  <div class="retro-shell">
+    <header class="retro-header">
+      <button class="brand-mark" data-retro-nav="featured" aria-label="Go to featured collection"><span>RETRO</span><b>PLAY</b></button>
+      <nav class="retro-nav" aria-label="Primary navigation">
+        <button data-retro-nav="featured" class="is-active">Discover</button>
+        <button data-retro-nav="catalog">Collections</button>
+        <button data-retro-nav="library">Library <span id="library-count">00</span></button>
       </nav>
       <div class="header-status"><span class="status-dot"></span><span>Browser runtime</span><span class="header-divider"></span><span id="system-time">Online</span></div>
     </header>
 
-    <main class="rift-main">
+    <main class="retro-main">
       <section id="featured" class="featured-zone" aria-labelledby="featured-title">
         <div class="section-tag"><span>// 01</span><span>Featured world</span></div>
         <article class="featured-panel spatial-panel">
@@ -60,8 +73,8 @@
             </dl>
             <p id="featured-credit" class="featured-credit">Screenshot: Freedoom project</p>
             <div class="featured-actions">
-              <button id="btn-freedoom" class="rift-button rift-button-primary" data-action="play-featured">Launch featured</button>
-              <button class="rift-text-button" data-rift-nav="catalog">Browse catalog <span>↘</span></button>
+              <button id="btn-freedoom" class="retro-button retro-button-primary" data-action="play-featured">Launch featured</button>
+              <button class="retro-text-button" data-retro-nav="catalog">Browse catalog <span>↘</span></button>
             </div>
           </div>
           <div class="featured-footer"><span>Archive state / open</span><span>Engine / WASM-32</span><span>Build / 01</span></div>
@@ -96,8 +109,8 @@
       <section class="import-panel spatial-panel" aria-labelledby="import-title">
         <div class="import-copy"><p class="section-tag"><span>// 03</span><span>Bring your own</span></p><h2 id="import-title">Run the worlds<br />you already own.</h2><p>Attach one IWAD with up to three PWADs. Your files stay in this browser session.</p></div>
         <div class="import-actions">
-          <label class="rift-button rift-button-primary file-button" for="wad-upload">Choose WAD file(s)<input type="file" id="wad-upload" accept=".wad,.WAD" multiple hidden /></label>
-          <button class="rift-button rift-button-quiet" data-action="import">Open local importer</button>
+          <label class="retro-button retro-button-primary file-button" for="wad-upload">Choose WAD file(s)<input type="file" id="wad-upload" accept=".wad,.WAD" multiple hidden /></label>
+          <button class="retro-button retro-button-quiet" data-action="import">Open local importer</button>
           <div id="wad-drop-zone" class="drop-zone" aria-label="Drop an IWAD and optional PWADs here"><span>Drop IWAD + PWAD(s) here</span><small>1 base archive / 3 patches maximum</small></div>
         </div>
         <div class="import-schematic" aria-hidden="true"><span>IWAD</span><i></i><span>PWAD</span><i></i><span>PWAD</span><i></i><span>RUN</span></div>
@@ -110,19 +123,19 @@
       </section>
     </main>
 
-    <footer class="rift-footer"><span>RIFTWAD / WORLD INDEX</span><span>WAD archives remain the property of their creators.</span><span>Build 01 · 2026</span></footer>
+    <footer class="retro-footer"><span>RetroPlay / GAME INDEX</span><span>Games, engines and archives remain the property of their creators.</span><span>Build 01 · 2026</span></footer>
   </div>
 </div>
 
 <div id="game-screen" class="screen" role="main">
   <div id="crt-overlay" aria-hidden="true"></div>
-  <div class="game-topbar" aria-hidden="true"><button class="game-return-chip" id="btn-return-hub" type="button">← RIFTWAD</button><span>Runtime / active</span><span>Pointer lock for direct input</span></div>
-  <canvas id="doom-canvas" width="320" height="200" aria-label="RIFTWAD game canvas" tabindex="0">Your browser does not support the HTML canvas element.</canvas>
+  <div class="game-topbar" aria-hidden="true"><button class="game-return-chip" id="btn-return-hub" type="button">← RetroPlay</button><span>Runtime / active</span><span>Pointer lock for direct input</span></div>
+  <canvas id="doom-canvas" width="320" height="200" aria-label="RetroPlay game canvas" tabindex="0">Your browser does not support the HTML canvas element.</canvas>
   <div id="hud-overlay" aria-hidden="true"><div id="hud-fps" class="hud-chip">-- FPS</div><div id="hud-map" class="hud-chip">E1M1</div><div id="hud-ping" class="hud-chip" style="display:none">LOCAL</div></div>
 
-  <div id="pause-overlay" class="hidden" aria-live="polite"><div class="pause-box"><p class="pause-title">Session paused</p><p class="pause-hint">Your runtime remains ready.</p><button id="btn-resume" class="rift-button rift-button-primary">Resume</button><button id="btn-settings" class="rift-button rift-button-quiet">Settings</button><button id="btn-fullscreen" class="rift-button rift-button-quiet">Fullscreen</button><button id="btn-restart" class="rift-text-button">Restart session</button></div></div>
+  <div id="pause-overlay" class="hidden" aria-live="polite"><div class="pause-box"><p class="pause-title">Session paused</p><p class="pause-hint">Your runtime remains ready.</p><button id="btn-resume" class="retro-button retro-button-primary">Resume</button><button id="btn-settings" class="retro-button retro-button-quiet">Settings</button><button id="btn-fullscreen" class="retro-button retro-button-quiet">Fullscreen</button><button id="btn-restart" class="retro-text-button">Restart session</button></div></div>
 
-  <div id="settings-overlay" class="hidden" aria-live="polite"><div class="settings-box"><p class="pause-title">Session settings</p><p class="settings-note">Saved on this device. Cloud sync is intentionally opt-in and is not enabled in this static build.</p><div class="settings-group"><span>Display</span><div class="settings-row"><label for="setting-crt">Scanline overlay</label><input type="checkbox" id="setting-crt" checked /></div><div class="settings-row"><label for="setting-smoothing">Smooth scaling</label><input type="checkbox" id="setting-smoothing" /></div><div class="settings-row"><label for="setting-scale">Display scale</label><select id="setting-scale"><option value="auto" selected>Auto / fit</option><option value="1">1×</option><option value="2">2×</option><option value="3">3×</option><option value="4">4×</option><option value="5">5×</option></select></div><div class="settings-row"><label for="setting-performance">Mobile performance</label><select id="setting-performance"><option value="auto">Auto</option><option value="battery">Battery saver</option><option value="quality">High quality</option></select></div></div><div class="settings-group"><span>Input</span><div class="settings-row"><label for="setting-sensitivity">Mouse sensitivity</label><input type="range" id="setting-sensitivity" min="0.2" max="3" step="0.1" value="1" /><span id="setting-sensitivity-value">1.0×</span></div><div class="settings-row"><label for="setting-deadzone">Gamepad deadzone</label><input type="range" id="setting-deadzone" min="0.05" max="0.75" step="0.05" value="0.25" /><span id="setting-deadzone-value">25%</span></div><div class="settings-row" id="settings-row-gyro"><label for="setting-gyro">Gyroscope look</label><input type="checkbox" id="setting-gyro" /></div></div><div class="settings-group"><span>Audio</span><div class="settings-row"><label for="setting-master">Master</label><input type="range" id="setting-master" min="0" max="1" step="0.05" value="1" /><span id="setting-master-value">100%</span></div><div class="settings-row"><label for="setting-sfx">Effects</label><input type="range" id="setting-sfx" min="0" max="1" step="0.05" value="1" /><span id="setting-sfx-value">100%</span></div><div class="settings-row"><label for="setting-music">Music</label><input type="range" id="setting-music" min="0" max="1" step="0.05" value="0.6" /><span id="setting-music-value">60%</span></div></div><div class="settings-group settings-saves"><span>Local saves</span><p id="save-profile-label">Profile: no active WAD</p><div id="save-slot-list" class="save-slot-list"><p>Load a world to inspect save slots.</p></div><div class="save-actions"><button id="btn-export-saves" class="rift-button rift-button-quiet">Export saves</button><label class="rift-button rift-button-quiet file-button" for="save-import">Import saves<input type="file" id="save-import" accept="application/json,.json" hidden /></label></div></div><button id="btn-settings-close" class="rift-button rift-button-primary">Done</button></div></div>
+  <div id="settings-overlay" class="hidden" aria-live="polite"><div class="settings-box"><p class="pause-title">Session settings</p><p class="settings-note">Saved on this device. Cloud sync is intentionally opt-in and is not enabled in this static build.</p><div class="settings-group"><span>Display</span><div class="settings-row"><label for="setting-crt">Scanline overlay</label><input type="checkbox" id="setting-crt" checked /></div><div class="settings-row"><label for="setting-smoothing">Smooth scaling</label><input type="checkbox" id="setting-smoothing" /></div><div class="settings-row"><label for="setting-scale">Display scale</label><select id="setting-scale"><option value="auto" selected>Auto / fit</option><option value="1">1×</option><option value="2">2×</option><option value="3">3×</option><option value="4">4×</option><option value="5">5×</option></select></div><div class="settings-row"><label for="setting-performance">Mobile performance</label><select id="setting-performance"><option value="auto">Auto</option><option value="battery">Battery saver</option><option value="quality">High quality</option></select></div></div><div class="settings-group"><span>Input</span><div class="settings-row"><label for="setting-sensitivity">Mouse sensitivity</label><input type="range" id="setting-sensitivity" min="0.2" max="3" step="0.1" value="1" /><span id="setting-sensitivity-value">1.0×</span></div><div class="settings-row"><label for="setting-deadzone">Gamepad deadzone</label><input type="range" id="setting-deadzone" min="0.05" max="0.75" step="0.05" value="0.25" /><span id="setting-deadzone-value">25%</span></div><div class="settings-row" id="settings-row-gyro"><label for="setting-gyro">Gyroscope look</label><input type="checkbox" id="setting-gyro" /></div></div><div class="settings-group"><span>Audio</span><div class="settings-row"><label for="setting-master">Master</label><input type="range" id="setting-master" min="0" max="1" step="0.05" value="1" /><span id="setting-master-value">100%</span></div><div class="settings-row"><label for="setting-sfx">Effects</label><input type="range" id="setting-sfx" min="0" max="1" step="0.05" value="1" /><span id="setting-sfx-value">100%</span></div><div class="settings-row"><label for="setting-music">Music</label><input type="range" id="setting-music" min="0" max="1" step="0.05" value="0.6" /><span id="setting-music-value">60%</span></div></div><div class="settings-group settings-saves"><span>Local saves</span><p id="save-profile-label">Profile: no active WAD</p><div id="save-slot-list" class="save-slot-list"><p>Load a world to inspect save slots.</p></div><div class="save-actions"><button id="btn-export-saves" class="retro-button retro-button-quiet">Export saves</button><label class="retro-button retro-button-quiet file-button" for="save-import">Import saves<input type="file" id="save-import" accept="application/json,.json" hidden /></label></div></div><button id="btn-settings-close" class="retro-button retro-button-primary">Done</button></div></div>
 
   <div id="mobile-controls" aria-label="PSP-style on-screen game controls">
     <div class="touch-look-zone" data-look-zone aria-label="Drag horizontally to turn"><span>DRAG TO LOOK</span></div>
@@ -134,6 +147,6 @@
 </div>
 
 <div id="click-to-play" class="click-overlay hidden" role="button" tabindex="0" aria-label="Click to capture mouse and start playing"><div class="click-box"><p>Capture mouse to play</p><p class="small">Press Esc to release</p></div></div>
-<script type="module" src="src/main.js"></script>
+<script type="module" src="src/main.js?v=retroplay-20260815-r2"></script>
 </body>
 </html>

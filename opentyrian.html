@@ -4,9 +4,9 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <meta name="theme-color" content="#101126" />
-  <meta name="description" content="OpenTyrian2000 — a freeware retro shoot-'em-up running independently in RIFTWAD." />
+  <meta name="description" content="OpenTyrian2000 on RetroPlay: a freeware vertical shooter running in WebAssembly with browser-local saves and touch controls." />
   <link rel="icon" href="assets/favicon.ico" type="image/x-icon" />
-  <title>RIFTWAD — OpenTyrian2000 Runtime</title>
+  <title>RetroPlay — OpenTyrian2000 Runtime</title>
   <style>
     :root { --paper:#e8e8e2; --ink:#131520; --night:#101126; --violet:#8874f5; --cyan:#55dbef; --line:rgba(19,21,32,.23); --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; }
     * { box-sizing:border-box; }
@@ -27,10 +27,20 @@
     .controls { display:none; margin-top:20px; align-items:center; justify-content:space-between; gap:20px; user-select:none; touch-action:none; }.dpad,.actions { display:grid; gap:7px; }.dpad { grid-template-columns:repeat(3,48px); grid-template-rows:repeat(3,48px); }.actions { grid-template-columns:repeat(3,48px); grid-template-rows:repeat(3,48px); align-items:center; }.pad-btn { display:grid; place-items:center; width:48px; height:48px; border:1px solid rgba(85,219,239,.75); border-radius:50%; color:#d7fbff; background:rgba(15,17,39,.94); box-shadow:0 3px 0 rgba(0,0,0,.3); font:700 12px var(--mono); touch-action:none; }.pad-btn--menu { width:103px; grid-column:1 / span 2; border-color:rgba(136,116,245,.8); border-radius:24px; font-size:10px; letter-spacing:.08em; }.pad-btn:active,.pad-btn.is-active { transform:translateY(2px); background:#373061; box-shadow:0 1px 0 rgba(0,0,0,.3); }.dpad .pad-btn:nth-child(1) { grid-column:2; }.dpad .pad-btn:nth-child(2) { grid-row:2; grid-column:1; }.dpad .pad-btn:nth-child(3) { grid-row:2; grid-column:2; }.dpad .pad-btn:nth-child(4) { grid-row:2; grid-column:3; }.touch-note { margin:0; color:#666a82; font:10px var(--mono); text-align:center; }
     @media (max-width:760px) { main { width:min(100% - 24px,680px); padding-top:18px; }.panel { grid-template-columns:1fr; }.controls { display:flex; }.intro { font-size:14px; } canvas { max-height:54vh; } }
   </style>
+  <meta name="application-name" content="RetroPlay" />
+  <meta name="robots" content="index,follow,max-image-preview:large" />
+  <link rel="canonical" href="https://mahankenway.github.io/DOOM/opentyrian.html" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="RetroPlay" />
+  <meta property="og:title" content="RetroPlay — OpenTyrian2000 Runtime" />
+  <meta property="og:description" content="OpenTyrian2000 on RetroPlay: a freeware vertical shooter running in WebAssembly with browser-local saves and touch controls." />
+  <meta property="og:url" content="https://mahankenway.github.io/DOOM/opentyrian.html" />
+  <meta property="og:image" content="https://mahankenway.github.io/DOOM/assets/screenshots/opentyrian-runtime.png" />
+  <meta name="twitter:card" content="summary_large_image" />
 </head>
 <body>
   <main>
-    <header><a class="brand" href="./" aria-label="Return to RIFTWAD">RIFT<b>WAD</b></a><a class="back" href="./">← World index</a></header>
+    <header><a class="brand" href="./" aria-label="Return to RetroPlay">RETRO<b>PLAY</b></a><a class="back" href="./">← World index</a></header>
     <p class="eyebrow"><span>// R-OT</span>Independent runtime / WebAssembly</p>
     <h1>OpenTyrian,<br />take flight.</h1>
     <p class="intro">A complete arcade shoot-’em-up in its own WebAssembly runtime. Pilot through Tyrian 2000’s freeware campaign with browser-local saves; this engine does not share Doom’s WAD loader, game loop or data files.</p>

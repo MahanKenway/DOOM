@@ -4,7 +4,7 @@
 
 Freedoom states that the original Doom program code was released separately while Doom game content remains proprietary. It describes Freedoom as a complete free/libre replacement and says its assets are BSD-licensed; redistribution must retain the same copyright statement and credit the project. Its repository further describes three distributable WADs: Freedoom Phase 1, Freedoom Phase 2, and FreeDM, and explicitly states that redistribution is allowed provided the license remains intact.
 
-Final Doom content, including TNT: Evilution and The Plutonia Experiment, is treated by RIFTWAD as **metadata-only / bring-your-own-file**. The catalog may describe compatibility and help a user attach a legally obtained IWAD, but it must not bundle or host those WAD files. Community archive entries also require per-item license review before hosting; a third-party archive listing alone is not proof of redistribution rights.
+Final Doom content, including TNT: Evilution and The Plutonia Experiment, is treated by RetroPlay as **metadata-only / bring-your-own-file**. The catalog may describe compatibility and help a user attach a legally obtained IWAD, but it must not bundle or host those WAD files. Community archive entries also require per-item license review before hosting; a third-party archive listing alone is not proof of redistribution rights.
 
 ## Runtime persistence capability
 

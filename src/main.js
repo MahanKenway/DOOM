@@ -20,18 +20,18 @@
  * ─────────────────────────────────────────────────────────────────
  */
 
-import { DoomEngine }   from './engine/DoomEngine.js';
-import { WadLoader }    from './WadLoader.js';
-import { EventBus }     from './EventBus.js';
-import { CatalogController } from './catalog.js';
-import { loadSettings, saveSettings, profileIdFor, listSaveSlots, exportSaveBundle, importSaveBundle } from './persistence.js';
+import { DoomEngine }   from './engine/DoomEngine.js?v=retroplay-20260815-r2';
+import { WadLoader }    from './WadLoader.js?v=retroplay-20260815-r2';
+import { EventBus }     from './EventBus.js?v=retroplay-20260815-r2';
+import { CatalogController } from './catalog.js?v=retroplay-20260815-r2';
+import { loadSettings, saveSettings, profileIdFor, listSaveSlots, exportSaveBundle, importSaveBundle } from './persistence.js?v=retroplay-20260815-r2';
 import {
   LoadingScreen,
   HUD,
   PauseMenu,
   MobileControls,
   sleep,
-}                       from './ui.js';
+}                       from './ui.js?v=retroplay-20260815-r2';
 
 // ── Config ────────────────────────────────────────────────────────
 const CONFIG = {
@@ -69,7 +69,7 @@ const ui = {
 async function init() {
   // Show loading screen immediately
   ui.loading.show();
-  ui.loading.update(0, 'Opening RIFTWAD…');
+  ui.loading.update(0, 'Opening RetroPlay…');
 
   // Play the ASCII boot sequence for that classic feel
   await ui.loading.playBootSequence();
@@ -102,7 +102,7 @@ function bootstrapUI() {
   // inside it. Wiring this once, here, satisfies that ordering
   // requirement permanently (no need to re-wire on every startGame).
   EventBus.on('engine:log', ({ text, level }) => {
-    console.log('[RIFTWAD]', text);
+    console.log('[RetroPlay]', text);
     logHistory.push({ text, level: level ?? 'info', t: performance.now() });
     if (logHistory.length > LOG_HISTORY_MAX) logHistory.shift();
   });
@@ -315,7 +315,7 @@ async function startGame(sources, type, { catalogGame = null } = {}) {
     applySettings(loadSettings());
     renderSaveSlots(activeSaveProfile);
 
-    console.log('[RIFTWAD] Runtime started');
+    console.log('[RetroPlay] Runtime started');
 
   } catch (err) {
     console.error('[DOOM] Startup error:', err);

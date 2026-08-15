@@ -24,7 +24,7 @@ gh repo clone "$ECWOLF_REPO" "$SOURCE_DIR" -- --filter=blob:none
   test "$(git rev-parse HEAD)" = "$ECWOLF_COMMIT"
 )
 
-# Custom frontend mode exports a module factory; RIFTWAD mounts the GPL engine PK3
+# Custom frontend mode exports a module factory; RetroPlay mounts the GPL engine PK3
 # and a player-supplied lawful IWAD in its own browser VFS before calling main().
 emcmake cmake -S "$SOURCE_DIR" -B "$BUILD_DIR" \
   -DEMSCRIPTEN_DEFAULT_FRONTEND=OFF \

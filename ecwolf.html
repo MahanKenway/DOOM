@@ -4,9 +4,9 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <meta name="theme-color" content="#111812" />
-  <meta name="description" content="ECWolf — a Wolfenstein-compatible WebAssembly engine runtime for lawfully supplied local game data." />
+  <meta name="description" content="ECWolf on RetroPlay: a Wolfenstein-compatible browser engine host for locally selected lawful game data." />
   <link rel="icon" href="assets/favicon.ico" type="image/x-icon" />
-  <title>RIFTWAD — ECWolf Runtime</title>
+  <title>RetroPlay — ECWolf Runtime</title>
   <style>
     :root { --sand:#e5e2d4; --ink:#151a14; --pine:#112015; --moss:#385b38; --acid:#b6d35c; --line:rgba(21,26,20,.24); --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; }
     * { box-sizing:border-box; } body { min-height:100vh; margin:0; color:var(--ink); background:var(--sand); font:14px/1.5 Arial,sans-serif; }
@@ -22,20 +22,30 @@
     .notice { margin:26px 0 0; padding:15px 18px; border-left:3px solid var(--moss); background:rgba(56,91,56,.1); color:#4a5647; font-size:13px; }.notice strong { color:var(--ink); }.notice a { color:inherit; }
     @media (max-width:760px) { main { width:min(100% - 24px,680px); padding-top:18px; }.panel { grid-template-columns:1fr; }.controls { display:flex; }.intro { font-size:14px; } canvas { max-height:54vh; } }
   </style>
+  <meta name="application-name" content="RetroPlay" />
+  <meta name="robots" content="index,follow,max-image-preview:large" />
+  <link rel="canonical" href="https://mahankenway.github.io/DOOM/ecwolf.html" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="RetroPlay" />
+  <meta property="og:title" content="RetroPlay — ECWolf Runtime" />
+  <meta property="og:description" content="ECWolf on RetroPlay: a Wolfenstein-compatible browser engine host for locally selected lawful game data." />
+  <meta property="og:url" content="https://mahankenway.github.io/DOOM/ecwolf.html" />
+  <meta property="og:image" content="https://mahankenway.github.io/DOOM/assets/screenshots/ecwolf-runtime.png" />
+  <meta name="twitter:card" content="summary_large_image" />
 </head>
 <body>
   <main>
-    <header><a class="brand" href="./" aria-label="Return to RIFTWAD">RIFT<b>WAD</b></a><a class="back" href="./">← World index</a></header>
+    <header><a class="brand" href="./" aria-label="Return to RetroPlay">RETRO<b>PLAY</b></a><a class="back" href="./">← World index</a></header>
     <p class="eyebrow"><span>// R-EW</span>Independent runtime / WebAssembly</p>
     <h1>Enter the<br />iron labyrinth.</h1>
-    <p class="intro">A Wolfenstein-compatible browser engine built with ECWolf WebAssembly. The engine is ready here; select your own lawfully obtained compatible data files locally to launch a game. No original Wolfenstein data is bundled, uploaded or transmitted by RIFTWAD.</p>
+    <p class="intro">A Wolfenstein-compatible browser engine built with ECWolf WebAssembly. The engine is ready here; select your own lawfully obtained compatible data files locally to launch a game. No original Wolfenstein data is bundled, uploaded or transmitted by RetroPlay.</p>
     <section class="panel" aria-label="ECWolf runtime">
       <div id="screen" class="screen"><canvas id="canvas" width="640" height="480" tabindex="0" aria-label="ECWolf game canvas"></canvas><div id="standby" class="standby"><strong>ECWolf ready</strong><span>Import local data to launch</span></div></div>
       <div class="result"><span>Runtime status</span><output id="result" class="status">Loading ECWolf engine…</output><dl class="facts"><div><dt>Runtime</dt><dd>ECWolf / WebAssembly</dd></div><div><dt>Content</dt><dd>Player-provided lawful data</dd></div><div><dt>Session</dt><dd>Browser-local storage</dd></div><div><dt>Input</dt><dd>Keyboard / touch / mouse-look</dd></div></dl><button id="btn-fullscreen" class="utility" type="button">Fullscreen</button></div>
     </section>
     <section class="importer" aria-label="Local game-data importer">
       <h2>Import local game data</h2>
-      <p>Select the complete group of original, shareware, or otherwise lawfully obtained compatible game files from your device. Files remain in this browser session and are never sent to RIFTWAD.</p>
+      <p>Select the complete group of original, shareware, or otherwise lawfully obtained compatible game files from your device. Files remain in this browser session and are never sent to RetroPlay.</p>
       <div class="file-row"><label class="file-label">Choose compatible files<input id="data-files" type="file" multiple accept=".wl1,.wl6,.sdm,.sod,.n3d,.vswap,.vgagraph,.vgahead,.audiohed,.audiot,.maphead,.gamemaps" /></label><span id="selected-files" class="selected">No files selected</span><button id="btn-start" class="utility" type="button" disabled>Start local data</button></div>
       <p class="warning">The original Wolfenstein 3D content is not included. The source release requires data from a released game version, so this runtime will only start after you choose a complete compatible data set.</p>
     </section>
@@ -44,7 +54,7 @@
       <p class="touch-note">D-pad: move / turn<br />△ use · □ strafe · ○ fire · × menu</p>
       <div class="actions"><span></span><button class="pad-btn" data-key="Space">△</button><span></span><button class="pad-btn" data-key="AltLeft">□</button><button class="pad-btn" data-key="ControlLeft">○</button><button class="pad-btn" data-key="Escape">×</button><button class="pad-btn pad-btn--menu" data-key="Tab">MENU</button></div>
     </div>
-    <p class="notice"><strong>Engine-only deployment:</strong> ECWolf’s browser build and its GPL notices are bundled. The original Wolfenstein 3D source release requires separate released game data and retains its own limited-use terms, so RIFTWAD does not distribute those data files. <a href="ecwolf/ECWOLF-COPYING.txt">Engine notices</a> · <a href="ecwolf/SOURCE-NOTICE.txt">Source notice</a> · <a href="https://github.com/54ac/ecwolf-js">ECWolf JS source</a>.</p>
+    <p class="notice"><strong>Engine-only deployment:</strong> ECWolf’s browser build and its GPL notices are bundled. The original Wolfenstein 3D source release requires separate released game data and retains its own limited-use terms, so RetroPlay does not distribute those data files. <a href="ecwolf/ECWOLF-COPYING.txt">Engine notices</a> · <a href="ecwolf/SOURCE-NOTICE.txt">Source notice</a> · <a href="https://github.com/54ac/ecwolf-js">ECWolf JS source</a>.</p>
   </main>
   <script type="module">
     const BUILD_ID = '20260815-ecwolf-rift-importer-v1';

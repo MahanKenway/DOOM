@@ -48,7 +48,7 @@ export const COLLECTIONS = [
     artwork: 'assets/screenshots/freedm.png',
     artworkCredit: 'Screenshot: Freedoom project',
     source: 'assets/freedm.wad',
-    description: 'A libre 32-map deathmatch archive. RIFTWAD can launch the levels for local exploration, but it does not add bots, online play or matchmaking.',
+    description: 'A libre 32-map deathmatch archive. RetroPlay can launch the levels for local exploration, but it does not add bots, online play or matchmaking.',
     playable: true,
     playLabel: 'Explore archive',
   },
@@ -80,7 +80,7 @@ export const COLLECTIONS = [
     duration: '32 maps',
     maps: 'Boom-compatible',
     status: 'External engine required',
-    license: 'Project download only · not bundled by RIFTWAD',
+    license: 'Project download only · not bundled by RetroPlay',
     artwork: 'assets/screenshots/ancient-aliens-gameplay.jpg',
     artworkCredit: 'Gameplay screenshot: Ancient Aliens project / ModDB',
     description: 'A colorful 32-map synthwave megawad with custom music and a Boom-compatible ruleset. Use a compatible source port such as Woof! or DSDA-Doom; its files are not bundled here.',
@@ -98,7 +98,7 @@ export const COLLECTIONS = [
     duration: '32 maps',
     maps: 'Boom-compatible',
     status: 'External engine required',
-    license: 'Project download only · not bundled by RIFTWAD',
+    license: 'Project download only · not bundled by RetroPlay',
     artwork: 'assets/screenshots/eviternity-gameplay.jpg',
     artworkCredit: 'Gameplay screenshot: Eviternity project / ModDB',
     description: 'A six-chapter Doom II megawad built around distinct visual worlds and Boom features. Open its release with a Boom-capable port; the current browser runtime does not claim that compatibility.',
@@ -116,7 +116,7 @@ export const COLLECTIONS = [
     duration: '25 maps + 2 secrets',
     maps: 'Doom II / Chocolate-compatible',
     status: 'Download project WADs locally',
-    license: 'Project download only · not bundled by RIFTWAD',
+    license: 'Project download only · not bundled by RetroPlay',
     artwork: 'assets/screenshots/back-to-saturn-x-gameplay.jpg',
     artworkCredit: 'Gameplay screenshot: Back to Saturn X project / ModDB',
     description: 'A polished two-WAD science-fiction episode with custom art and music. The project release supplies both PWAD files; add them locally to a compatible Doom II base archive.',
@@ -135,10 +135,10 @@ export const COLLECTIONS = [
     duration: '19 levels + 3 secrets',
     maps: 'GZDoom package required',
     status: 'External engine required',
-    license: 'Official package only · not bundled by RIFTWAD',
+    license: 'Official package only · not bundled by RetroPlay',
     artwork: 'assets/screenshots/adventures-of-square-gameplay.png',
     artworkCredit: 'Gameplay screenshot: BigBrik Games / Square press kit',
-    description: 'A colorful standalone total conversion with its own modified GZDoom package, music, voice work and controller support. RIFTWAD links to the official project rather than repackaging its files.',
+    description: 'A colorful standalone total conversion with its own modified GZDoom package, music, voice work and controller support. RetroPlay links to the official project rather than repackaging its files.',
     playable: false,
     projectUrl: 'http://adventuresofsquare.com/',
     projectLabel: 'View official project',
@@ -153,10 +153,10 @@ export const COLLECTIONS = [
     duration: '32 maps',
     maps: 'Final Doom campaign',
     status: 'Requires your legal IWAD',
-    license: 'Not bundled or hosted by RIFTWAD',
+    license: 'Not bundled or hosted by RetroPlay',
     artwork: 'assets/screenshots/plutonia-gateway-of-hell.webp',
     artworkCredit: 'Gameplay screenshot: Doom Wiki / Fandom · MAP30: The Gateway of Hell',
-    description: 'A demanding Final Doom campaign known for compressed combat spaces and high-pressure encounters. RIFTWAD can launch a lawfully owned copy selected from your device, but does not distribute this IWAD.',
+    description: 'A demanding Final Doom campaign known for compressed combat spaces and high-pressure encounters. RetroPlay can launch a lawfully owned copy selected from your device, but does not distribute this IWAD.',
     playable: false,
   },
   {
@@ -169,7 +169,7 @@ export const COLLECTIONS = [
     duration: '32 maps',
     maps: 'Final Doom campaign',
     status: 'Requires your legal IWAD',
-    license: 'Not bundled or hosted by RIFTWAD',
+    license: 'Not bundled or hosted by RetroPlay',
     artwork: 'assets/screenshots/tnt-steel-works.webp',
     artworkCredit: 'Gameplay screenshot: Doom Wiki / Fandom · MAP14: Steel Works',
     description: 'A Final Doom campaign with industrial spaces, larger progression routes and authored set pieces. Attach a legally acquired TNT IWAD from your device to play it here.',
@@ -188,7 +188,7 @@ export const COLLECTIONS = [
     license: 'Only archives you have the right to use',
     artwork: 'assets/screenshots/freedoom-phase2.png',
     artworkCredit: 'Gameplay screenshot: Freedoom project · example compatible runtime',
-    description: 'A local route for compatible mapsets and experiments. Attach one base IWAD and up to three PWADs; files stay in this browser session and are never uploaded by RIFTWAD.',
+    description: 'A local route for compatible mapsets and experiments. Attach one base IWAD and up to three PWADs; files stay in this browser session and are never uploaded by RetroPlay.',
     playable: false,
   },
   {
@@ -204,7 +204,7 @@ export const COLLECTIONS = [
     license: 'BSD 3-Clause content · attribution retained',
     artwork: 'assets/screenshots/blasphemer-gameplay.webp',
     artworkCredit: 'Gameplay screenshot: Blasphemer project / jeshimoth.com',
-    description: 'A fully playable libre dark-fantasy IWAD for the Heretic engine. It is verified in the index, but cannot launch in RIFTWAD yet because this browser runtime currently implements Doom 1.10 only.',
+    description: 'A fully playable libre dark-fantasy IWAD for the Heretic engine. It is verified in the index, but cannot launch in RetroPlay yet because this browser runtime currently implements Doom 1.10 only.',
     playable: false,
     projectUrl: 'https://github.com/Blasphemer/blasphemer/releases/tag/v0.1.8',
     projectLabel: 'View official release',
@@ -221,7 +221,7 @@ export const COLLECTIONS = [
     status: 'Free / bundled',
     license: 'GPL-2.0 engine · free upstream game data · attribution retained',
     artwork: 'assets/screenshots/cdogs-sdl-browser.png',
-    artworkCredit: 'Gameplay screenshot: RIFTWAD local C-Dogs SDL browser build',
+    artworkCredit: 'Gameplay screenshot: RetroPlay local C-Dogs SDL browser build',
     description: 'A top-down retro action game running in its own C-Dogs SDL WebAssembly module. It includes the libre upstream campaign and dogfight data, has PSP-style mobile controls and never shares Doom’s WAD loader or game loop.',
     playable: true,
     runtimePath: 'cdogs.html',
@@ -297,7 +297,7 @@ export const COLLECTIONS = [
     status: 'Free / bundled',
     license: 'GPL-2.0 engine + OpenGFX/OpenMSX · OpenSFX attribution notice retained',
     artwork: 'assets/screenshots/openttd-runtime.webp',
-    artworkCredit: 'Gameplay screenshot: RIFTWAD local OpenTTD browser runtime',
+    artworkCredit: 'Gameplay screenshot: RetroPlay local OpenTTD browser runtime',
     description: 'A complete transport-strategy game in its own OpenTTD WebAssembly runtime. It bundles the free OpenGFX graphics, OpenSFX effects and OpenMSX music sets, keeps saves in the browser, includes PSP-style touch controls and never asks the player to upload Transport Tycoon Deluxe files.',
     playable: true,
     runtimePath: 'openttd.html',
@@ -316,7 +316,7 @@ export const COLLECTIONS = [
     status: 'Free / bundled',
     license: 'GPL-2.0-only engine and clean-room game data · notices retained',
     artwork: 'assets/screenshots/freerct-runtime.webp',
-    artworkCredit: 'Gameplay screenshot: RIFTWAD local FreeRCT browser runtime',
+    artworkCredit: 'Gameplay screenshot: RetroPlay local FreeRCT browser runtime',
     description: 'A complete clean-room theme-park strategy game in its own FreeRCT WebAssembly runtime. It bundles its own libre graphics, rides, scenery and scenarios, keeps saves in the browser and offers PSP-style touch controls without asking players to upload RollerCoaster Tycoon or OpenRCT2 files.',
     playable: true,
     runtimePath: 'freerct.html',
@@ -336,7 +336,7 @@ export const COLLECTIONS = [
     license: 'GPL engine resources · original game data not distributed',
     artwork: 'assets/screenshots/ecwolf-runtime.png',
     artworkCredit: 'Gameplay screenshot: ECWolf / DieHard Wolfers',
-    description: 'A Wolfenstein-compatible ECWolf WebAssembly engine with PSP-style controls, browser-local storage and stable fullscreen. RIFTWAD ships only the engine resources: select a complete lawful compatible game-data set locally to launch it, with no original game files uploaded or bundled.',
+    description: 'A Wolfenstein-compatible ECWolf WebAssembly engine with PSP-style controls, browser-local storage and stable fullscreen. RetroPlay ships only the engine resources: select a complete lawful compatible game-data set locally to launch it, with no original game files uploaded or bundled.',
     playable: true,
     runtimePath: 'ecwolf.html',
     runtimeLabel: 'Launch ECWolf',
@@ -355,7 +355,7 @@ export const COLLECTIONS = [
     license: 'BSD 2-Clause engine code · no game data bundled',
     artwork: 'assets/screenshots/openresident-gameplay.webp',
     artworkCredit: 'Gameplay screenshot: XProger/OpenResident README',
-    description: 'An open C engine studied for a future browser port. The upstream source has no Resident Evil game data and currently targets X11/GLX or Win32/WGL, so RIFTWAD does not package, emulate or launch it as a game.',
+    description: 'An open C engine studied for a future browser port. The upstream source has no Resident Evil game data and currently targets X11/GLX or Win32/WGL, so RetroPlay does not package, emulate or launch it as a game.',
     playable: false,
     probePath: 'openresident.html',
     projectUrl: 'https://github.com/XProger/OpenResident',
@@ -363,7 +363,8 @@ export const COLLECTIONS = [
   },
 ];
 
-const LIBRARY_KEY = 'riftwad-library-v2';
+const LIBRARY_KEY = 'retroplay-library-v2';
+const LEGACY_LIBRARY_KEYS = ['riftwad-library-v2', 'riftwad-library-v1', 'retroplay-library-v1'];
 
 export class CatalogController {
   #onPlay;
@@ -403,7 +404,7 @@ export class CatalogController {
   }
 
   #wireControls() {
-    document.querySelectorAll('[data-rift-nav]').forEach((button) => {
+    document.querySelectorAll('[data-retro-nav]').forEach((button) => {
       button.addEventListener('click', () => document.getElementById(button.dataset.riftNav)?.scrollIntoView({ behavior: 'smooth', block: 'start' }));
     });
 
@@ -466,7 +467,7 @@ export class CatalogController {
         <h3>${game.title}</h3><p>${game.description}</p>
         <p class="card-license">${game.license}</p>
         <div class="card-meta"><span>${game.year}</span><span>${game.duration}</span><span>${game.maps}</span></div>
-        <div class="card-actions"><button class="rift-button rift-button-compact" data-action="${action}" data-game="${game.id}">${actionLabel}</button><button class="icon-button ${saved ? 'is-saved' : ''}" data-action="toggle-library" data-game="${game.id}" aria-label="${saved ? 'Remove from' : 'Add to'} Library" aria-pressed="${saved}">${saved ? '★' : '☆'}</button></div>
+        <div class="card-actions"><button class="retro-button retro-button-compact" data-action="${action}" data-game="${game.id}">${actionLabel}</button><button class="icon-button ${saved ? 'is-saved' : ''}" data-action="toggle-library" data-game="${game.id}" aria-label="${saved ? 'Remove from' : 'Add to'} Library" aria-pressed="${saved}">${saved ? '★' : '☆'}</button></div>
       </div>
     </article>`;
   }
@@ -528,7 +529,8 @@ export class CatalogController {
 
   #readLibrary() {
     try {
-      const saved = JSON.parse(localStorage.getItem(LIBRARY_KEY) ?? localStorage.getItem('riftwad-library-v1') ?? '[]');
+      const legacy = LEGACY_LIBRARY_KEYS.map((key) => localStorage.getItem(key)).find((value) => value != null);
+      const saved = JSON.parse(localStorage.getItem(LIBRARY_KEY) ?? legacy ?? '[]');
       return new Set(Array.isArray(saved) ? saved.filter((id) => COLLECTIONS.some((game) => game.id === id)) : []);
     } catch { return new Set(); }
   }

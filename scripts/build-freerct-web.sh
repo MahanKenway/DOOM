@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Build a fully bundled FreeRCT WebAssembly runtime for RIFTWAD.
+# Build a fully bundled FreeRCT WebAssembly runtime for RetroPlay.
 # FreeRCT is a GPL-2.0-only, clean-room theme-park strategy game with its own free data.
 set -euo pipefail
 
@@ -50,11 +50,11 @@ FreeRCT WebAssembly source: https://github.com/freerct/freerct
 Pinned source commit: $SOURCE_COMMIT
 Engine and bundled game-data license: GPL-2.0-only (see ENGINE-COPYING.txt)
 
-RIFTWAD profile: FreeRCT is compiled with its upstream WEBASSEMBLY CMake option.
+RetroPlay profile: FreeRCT is compiled with its upstream WEBASSEMBLY CMake option.
 The produced freerct.data package contains the game's clean-room graphics, rides,
 scenery, RCD data, fonts, shaders and runtime data generated from the source tree.
 No RollerCoaster Tycoon, OpenRCT2, proprietary game data, user upload or account is
-used or requested. Saves are stored locally by the RIFTWAD browser shell.
+used or requested. Saves are stored locally by the RetroPlay browser shell.
 EOF
 
 for artifact in freerct.js freerct.wasm freerct.data ENGINE-COPYING.txt SOURCE-NOTICE.txt; do

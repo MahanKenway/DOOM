@@ -13,7 +13,7 @@ from __future__ import annotations
 import sys
 from pathlib import Path
 
-MARKER = b"riftwad-no-survey-config-seed"
+MARKER = b"retroplay-no-survey-config-seed"
 NEEDLE = (
     b'FS.mount(IDBFS,{},personal_dir);Module.addRunDependency("syncfs");'
     b'FS.syncfs(true,function(err){Module.removeRunDependency("syncfs")})'
@@ -22,13 +22,13 @@ REPLACEMENT = (
     b'FS.mount(IDBFS,{},personal_dir);Module.addRunDependency("syncfs");'
     b'FS.syncfs(true,function(err){'
     b'if(err){Module.removeRunDependency("syncfs");return}'
-    b'try{var riftwadConfigPath=personal_dir+"/openttd.cfg";'
-    b'if(!FS.analyzePath(riftwadConfigPath).exists){'
-    b'FS.writeFile(riftwadConfigPath,"[network]\\nparticipate_survey = no\\n");'
+    b'try{var retroplayConfigPath=personal_dir+"/openttd.cfg";'
+    b'if(!FS.analyzePath(retroplayConfigPath).exists){'
+    b'FS.writeFile(retroplayConfigPath,"[network]\\nparticipate_survey = no\\n");'
     b'FS.syncfs(false,function(){Module.removeRunDependency("syncfs")});return}'
     b'}catch(e){}'
     b'Module.removeRunDependency("syncfs")'
-    b'})/*riftwad-no-survey-config-seed*/'
+    b'})/*retroplay-no-survey-config-seed*/'
 )
 
 

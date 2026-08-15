@@ -4,9 +4,9 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <meta name="theme-color" content="#111611" />
-  <meta name="description" content="GNU FreeDink — a libre retro action-adventure running independently in RIFTWAD." />
+  <meta name="description" content="GNU FreeDink on RetroPlay: a bundled libre action-adventure running in WebAssembly with browser-local saves and touch controls." />
   <link rel="icon" href="assets/favicon.ico" type="image/x-icon" />
-  <title>RIFTWAD — GNU FreeDink Runtime</title>
+  <title>RetroPlay — GNU FreeDink Runtime</title>
   <style>
     :root { --paper:#e7e6e0; --ink:#151814; --night:#111511; --amber:#efae45; --line:rgba(21,24,20,.24); --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; }
     * { box-sizing:border-box; }
@@ -27,10 +27,20 @@
     .controls { display:none; margin-top:20px; align-items:center; justify-content:space-between; gap:20px; user-select:none; touch-action:none; } .dpad,.actions { display:grid; gap:7px; }.dpad { grid-template-columns:repeat(3,48px); grid-template-rows:repeat(3,48px); }.actions { grid-template-columns:repeat(3,48px); grid-template-rows:repeat(3,48px); align-items:center; }.pad-btn { display:grid; place-items:center; width:48px; height:48px; border:1px solid rgba(239,174,69,.65); border-radius:50%; color:var(--amber); background:rgba(12,17,12,.92); box-shadow:0 3px 0 rgba(0,0,0,.3); font:700 13px var(--mono); touch-action:none; }.pad-btn--menu { width:103px; grid-column:1 / span 2; border-radius:24px; font-size:10px; letter-spacing:.08em; }.pad-btn:active,.pad-btn.is-active { transform:translateY(2px); background:#3f3220; box-shadow:0 1px 0 rgba(0,0,0,.3); }.dpad .pad-btn:nth-child(1) { grid-column:2; }.dpad .pad-btn:nth-child(2) { grid-row:2; grid-column:1; }.dpad .pad-btn:nth-child(3) { grid-row:2; grid-column:2; }.dpad .pad-btn:nth-child(4) { grid-row:2; grid-column:3; }.touch-note { margin:0; color:#666d63; font:10px var(--mono); text-align:center; }
     @media (max-width:760px) { main { width:min(100% - 24px,680px); padding-top:18px; }.panel { grid-template-columns:1fr; }.controls { display:flex; }.intro { font-size:14px; } }
   </style>
+  <meta name="application-name" content="RetroPlay" />
+  <meta name="robots" content="index,follow,max-image-preview:large" />
+  <link rel="canonical" href="https://mahankenway.github.io/DOOM/freedink.html" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="RetroPlay" />
+  <meta property="og:title" content="RetroPlay — GNU FreeDink Runtime" />
+  <meta property="og:description" content="GNU FreeDink on RetroPlay: a bundled libre action-adventure running in WebAssembly with browser-local saves and touch controls." />
+  <meta property="og:url" content="https://mahankenway.github.io/DOOM/freedink.html" />
+  <meta property="og:image" content="https://mahankenway.github.io/DOOM/assets/screenshots/freedink-runtime.png" />
+  <meta name="twitter:card" content="summary_large_image" />
 </head>
 <body>
   <main>
-    <header><a class="brand" href="./" aria-label="Return to RIFTWAD">RIFT<b>WAD</b></a><a class="back" href="./">← World index</a></header>
+    <header><a class="brand" href="./" aria-label="Return to RetroPlay">RETRO<b>PLAY</b></a><a class="back" href="./">← World index</a></header>
     <p class="eyebrow"><span>// R-FD</span>Independent runtime / WebAssembly</p>
     <h1>GNU FreeDink,<br />free to explore.</h1>
     <p class="intro">A complete libre 2D action-adventure in its own WebAssembly runtime. Explore Dink Smallwood’s world with browser-local saves; this engine has no connection to Doom’s WAD loader, game loop or data files.</p>

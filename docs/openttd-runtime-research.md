@@ -15,11 +15,11 @@ OpenTTD is selected as the next fully playable strategy runtime candidate becaus
 
 ## Decision criterion
 
-The runtime must bundle the engine and the OpenGFX, OpenSFX and OpenMSX base sets. It will not ask a player to provide original Transport Tycoon Deluxe files, create an account or download a separate game package. The build should use a browser-focused OpenTTD port with tested touch input and preserve full-screen rendering in the custom RIFTWAD shell.
+The runtime must bundle the engine and the OpenGFX, OpenSFX and OpenMSX base sets. It will not ask a player to provide original Transport Tycoon Deluxe files, create an account or download a separate game package. The build should use a browser-focused OpenTTD port with tested touch input and preserve full-screen rendering in the custom RetroPlay shell.
 
 ## Verified packaging contract
 
-The checked OpenTTD Online artifacts (`openttd.js`, `openttd.wasm`, and `openttd.data`) contain the engine and OpenTTD's internal fallback files, but not a complete free graphics, sound, and music set. The RIFTWAD build therefore packages the official archives directly in `baseset/`; OpenTTD's documented baseset discovery uses this directory, so the game can start immediately without runtime bootstrap downloads or player-supplied Transport Tycoon Deluxe files.
+The checked OpenTTD Online artifacts (`openttd.js`, `openttd.wasm`, and `openttd.data`) contain the engine and OpenTTD's internal fallback files, but not a complete free graphics, sound, and music set. The RetroPlay build therefore packages the official archives directly in `baseset/`; OpenTTD's documented baseset discovery uses this directory, so the game can start immediately without runtime bootstrap downloads or player-supplied Transport Tycoon Deluxe files.
 
 | Base set | Pinned version | Official archive | Role in runtime | License |
 |---|---:|---|---|---|
@@ -31,9 +31,9 @@ Each archive URL was verified on 2026-08-15 to return a ZIP payload from the off
 
 ## Runtime compatibility notes
 
-The selected `swords02/openttd-online` browser build is an Emscripten runtime that accepts a custom `Module` object before `openttd.js` is loaded. Its existing shell uses `IDBFS` for browser-local persistence, a canvas named `canvas`, and DOM keyboard/touch events. RIFTWAD can provide the same Module contract while replacing the unrelated toolbar, analytics, bootstrap overlay, and file-import UI with the project's PSP-style page. The runtime will direct `locateFile` to the local `openttd/` folder and use a fullscreen wrapper that resizes the canvas on the browser `fullscreenchange` event.
+The selected `swords02/openttd-online` browser build is an Emscripten runtime that accepts a custom `Module` object before `openttd.js` is loaded. Its existing shell uses `IDBFS` for browser-local persistence, a canvas named `canvas`, and DOM keyboard/touch events. RetroPlay can provide the same Module contract while replacing the unrelated toolbar, analytics, bootstrap overlay, and file-import UI with the project's PSP-style page. The runtime will direct `locateFile` to the local `openttd/` folder and use a fullscreen wrapper that resizes the canvas on the browser `fullscreenchange` event.
 
-The upstream browser build's own `play/baseset` directory holds internal OpenTTD fallback assets and metadata for the original TTD base sets. It does not contain proprietary Transport Tycoon Deluxe files; RIFTWAD will include only the three independently free replacement sets listed above.
+The upstream browser build's own `play/baseset` directory holds internal OpenTTD fallback assets and metadata for the original TTD base sets. It does not contain proprietary Transport Tycoon Deluxe files; RetroPlay will include only the three independently free replacement sets listed above.
 
 ## Sources
 

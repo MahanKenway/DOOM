@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Build the isolated C-Dogs SDL WebAssembly runtime used by RIFTWAD.
+# Build the isolated C-Dogs SDL WebAssembly runtime used by RetroPlay.
 # Requires emcmake/emmake from the Emscripten SDK to already be on PATH.
 set -euo pipefail
 

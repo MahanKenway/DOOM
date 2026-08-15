@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Build LibreQuake Lite on the Qwasm Quake engine as an isolated browser runtime for RIFTWAD.
+# Build LibreQuake Lite on the Qwasm Quake engine as an isolated browser runtime for RetroPlay.
 # Engine: GMH-Code/Qwasm (GPL-2.0-or-later lineage). Game data: LibreQuake v0.09-beta Lite (free content).
 set -euo pipefail
 
@@ -34,12 +34,12 @@ test -f "$DATA_DIR/lite/id1/docs/CREDITS"
 # Qwasm expects all Quake-compatible content in WinQuake/id1 and packages it as index.data.
 # The SDL window title otherwise changes the browser tab to the generic engine title.
 sed -i 's/"Quake"/"LibreQuake"/g' "$SOURCE_DIR/WinQuake/vid_sdl.c"
-sed -i 's/Cbuf_InsertText ("exec quake.rc\\n");/Cbuf_InsertText ("exec riftwad.cfg\\n");/' "$SOURCE_DIR/WinQuake/host.c"
+sed -i 's/Cbuf_InsertText ("exec quake.rc\\n");/Cbuf_InsertText ("exec retroplay.cfg\\n");/' "$SOURCE_DIR/WinQuake/host.c"
 rm -rf "$SOURCE_DIR/WinQuake/id1"
 cp -a "$DATA_DIR/lite/id1" "$SOURCE_DIR/WinQuake/id1"
-cat > "$SOURCE_DIR/WinQuake/id1/riftwad.cfg" <<'EOF'
-// RIFTWAD browser profile: use only commands implemented by Qwasm/WinQuake.
-name "RIFTWAD"
+cat > "$SOURCE_DIR/WinQuake/id1/retroplay.cfg" <<'EOF'
+// RetroPlay browser profile: use only commands implemented by Qwasm/WinQuake.
+name "RetroPlay"
 bind "ESCAPE" "togglemenu"
 bind "`" "toggleconsole"
 bind "UPARROW" "+forward"

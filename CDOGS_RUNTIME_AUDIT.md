@@ -2,7 +2,7 @@
 
 ## Scope
 
-RIFTWAD evaluates **C-Dogs SDL** as an independent, browser-based runtime for a top-down retro action game. This runtime is separate from the existing Doom/WAD engine: it has its own WebAssembly module, SDL input path, asset archive, lifecycle and storage policy.
+RetroPlay evaluates **C-Dogs SDL** as an independent, browser-based runtime for a top-down retro action game. This runtime is separate from the existing Doom/WAD engine: it has its own WebAssembly module, SDL input path, asset archive, lifecycle and storage policy.
 
 ## Upstream and licensing
 

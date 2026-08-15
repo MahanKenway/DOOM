@@ -1,6 +1,12 @@
-const SETTINGS_KEY = 'riftwad:settings:v2';
-const SAVE_INDEX_KEY = 'riftwad:save-index:v1';
-const SAVE_PREFIX = 'riftwad:save:v1';
+const SETTINGS_KEY = 'retroplay:settings:v2';
+const SAVE_INDEX_KEY = 'retroplay:save-index:v1';
+const SAVE_PREFIX = 'retroplay:save:v1';
+
+// Keep prior browser-only data readable after the public rename. New writes use RetroPlay keys.
+const LEGACY_SETTINGS_KEY = 'riftwad:settings:v2';
+const LEGACY_SAVE_INDEX_KEY = 'riftwad:save-index:v1';
+const LEGACY_SAVE_PREFIX = 'riftwad:save:v1';
+const SAVE_BUNDLE_SCHEMAS = new Set(['retroplay-save-bundle-v1', 'riftwad-save-bundle-v1']);
 
 export const DEFAULT_SETTINGS = Object.freeze({
   crt: true,
@@ -15,12 +21,8 @@ export const DEFAULT_SETTINGS = Object.freeze({
 });
 
 export function loadSettings() {
-  try {
-    const parsed = JSON.parse(localStorage.getItem(SETTINGS_KEY) ?? '{}');
-    return { ...DEFAULT_SETTINGS, ...(parsed && typeof parsed === 'object' ? parsed : {}) };
-  } catch {
-    return { ...DEFAULT_SETTINGS };
-  }
+  const parsed = readJson(SETTINGS_KEY, LEGACY_SETTINGS_KEY);
+  return { ...DEFAULT_SETTINGS, ...(parsed && typeof parsed === 'object' ? parsed : {}) };
 }
 
 export function saveSettings(settings) {
@@ -52,7 +54,7 @@ export function listSaveSlots(profileId) {
 
 export function readSaveBytes(profileId, name) {
   try {
-    const raw = localStorage.getItem(saveKey(profileId, name));
+    const raw = readSaveRaw(profileId, name);
     return raw == null ? null : base64ToBytes(raw);
   } catch {
     return null;
@@ -80,11 +82,11 @@ export function exportSaveBundle(profileId) {
   const slots = listSaveSlots(profileId);
   const saves = {};
   for (const slot of slots) {
-    const raw = localStorage.getItem(saveKey(profileId, slot.name));
+    const raw = readSaveRaw(profileId, slot.name);
     if (raw) saves[slot.name] = { ...slot, payload: raw };
   }
   return JSON.stringify({
-    schema: 'riftwad-save-bundle-v1',
+    schema: 'retroplay-save-bundle-v1',
     profileId,
     createdAt: new Date().toISOString(),
     saves,
@@ -93,8 +95,8 @@ export function exportSaveBundle(profileId) {
 
 export function importSaveBundle(serialized, expectedProfileId) {
   const parsed = typeof serialized === 'string' ? JSON.parse(serialized) : serialized;
-  if (!parsed || parsed.schema !== 'riftwad-save-bundle-v1' || !parsed.saves || typeof parsed.saves !== 'object') {
-    throw new Error('This file is not a valid RIFTWAD save export.');
+  if (!parsed || !SAVE_BUNDLE_SCHEMAS.has(parsed.schema) || !parsed.saves || typeof parsed.saves !== 'object') {
+    throw new Error('This file is not a valid RetroPlay save export.');
   }
   if (expectedProfileId && parsed.profileId !== expectedProfileId) {
     throw new Error('This save export belongs to a different WAD profile.');
@@ -118,20 +120,34 @@ export function importSaveBundle(serialized, expectedProfileId) {
 }
 
 function readSaveIndex() {
-  try {
-    const parsed = JSON.parse(localStorage.getItem(SAVE_INDEX_KEY) ?? '{}');
-    return parsed && typeof parsed === 'object' ? parsed : {};
-  } catch {
-    return {};
-  }
+  const parsed = readJson(SAVE_INDEX_KEY, LEGACY_SAVE_INDEX_KEY);
+  return parsed && typeof parsed === 'object' ? parsed : {};
 }
 
 function writeSaveIndex(index) {
   localStorage.setItem(SAVE_INDEX_KEY, JSON.stringify(index));
 }
 
+function readSaveRaw(profileId, name) {
+  return localStorage.getItem(saveKey(profileId, name))
+    ?? localStorage.getItem(legacySaveKey(profileId, name));
+}
+
 function saveKey(profileId, name) {
   return `${SAVE_PREFIX}:${profileId}:${name}`;
+}
+
+function legacySaveKey(profileId, name) {
+  return `${LEGACY_SAVE_PREFIX}:${profileId}:${name}`;
+}
+
+function readJson(primaryKey, legacyKey) {
+  try {
+    const primary = localStorage.getItem(primaryKey);
+    return JSON.parse(primary ?? localStorage.getItem(legacyKey) ?? '{}');
+  } catch {
+    return {};
+  }
 }
 
 function bytesToBase64(bytes) {

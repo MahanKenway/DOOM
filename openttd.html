@@ -4,9 +4,9 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <meta name="theme-color" content="#152018" />
-  <meta name="description" content="OpenTTD — a complete free transport strategy game running independently in RIFTWAD with bundled OpenGFX, OpenSFX and OpenMSX." />
+  <meta name="description" content="OpenTTD on RetroPlay: a complete free transport strategy game with bundled OpenGFX, OpenSFX and OpenMSX." />
   <link rel="icon" href="assets/favicon.ico" type="image/x-icon" />
-  <title>RIFTWAD — OpenTTD Runtime</title>
+  <title>RetroPlay — OpenTTD Runtime</title>
   <style>
     :root { --paper:#e8e7df; --ink:#121a13; --night:#07100b; --green:#7ebc46; --lime:#c9ef77; --amber:#efae45; --line:rgba(18,26,19,.24); --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; }
     * { box-sizing:border-box; }
@@ -32,10 +32,20 @@
     @media (max-width:760px) { main { width:min(100% - 24px,680px); padding-top:18px; }.panel { grid-template-columns:1fr; }.touch-controls { display:flex; }.intro { font-size:14px; } canvas { min-height:250px; } }
     @media (max-width:430px) { .touch-controls { gap:10px; }.dpad { grid-template-columns:repeat(3,43px); grid-template-rows:repeat(3,43px); }.actions { grid-template-columns:repeat(3,43px); grid-template-rows:repeat(3,43px); }.pad-btn { width:43px; height:43px; }.pad-btn--menu { width:93px; }.touch-note { font-size:9px; } }
   </style>
+  <meta name="application-name" content="RetroPlay" />
+  <meta name="robots" content="index,follow,max-image-preview:large" />
+  <link rel="canonical" href="https://mahankenway.github.io/DOOM/openttd.html" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="RetroPlay" />
+  <meta property="og:title" content="RetroPlay — OpenTTD Runtime" />
+  <meta property="og:description" content="OpenTTD on RetroPlay: a complete free transport strategy game with bundled OpenGFX, OpenSFX and OpenMSX." />
+  <meta property="og:url" content="https://mahankenway.github.io/DOOM/openttd.html" />
+  <meta property="og:image" content="https://mahankenway.github.io/DOOM/assets/screenshots/openttd-runtime.webp" />
+  <meta name="twitter:card" content="summary_large_image" />
 </head>
 <body>
   <main>
-    <header><a class="brand" href="./" aria-label="Return to RIFTWAD">RIFT<b>WAD</b></a><a class="back" href="./">← World index</a></header>
+    <header><a class="brand" href="./" aria-label="Return to RetroPlay">RETRO<b>PLAY</b></a><a class="back" href="./">← World index</a></header>
     <p class="eyebrow"><span>// R-TTD</span>Independent runtime / WebAssembly</p>
     <h1>OpenTTD,<br />routes without limits.</h1>
     <p class="intro">Build a living transport network in a complete libre strategy game. Graphics, sound and music are bundled on this page, so a new game starts with no account, original-data hunt or player file upload.</p>
@@ -122,7 +132,7 @@
     });
 
     const LIVE_ROOT = '/home/web_user/.openttd';
-    const IDB_ROOT = '/riftwad-openttd-idb';
+    const IDB_ROOT = '/retroplay-openttd-idb';
     const IDB_MIRROR = IDB_ROOT + LIVE_ROOT;
     let savesReady = false;
     let saveInFlight = false;
@@ -140,7 +150,7 @@
       }
     };
     function initialiseSaves() {
-      const dependency = 'riftwad-openttd-local-saves';
+      const dependency = 'retroplay-openttd-local-saves';
       Module.addRunDependency(dependency);
       try {
         mkdirp(LIVE_ROOT);
