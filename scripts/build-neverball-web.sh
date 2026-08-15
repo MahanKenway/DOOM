@@ -56,26 +56,29 @@ emcmake cmake -S "$GL4ES_DIR" -B "$GL4ES_BUILD_DIR" \
 emmake make -C "$GL4ES_BUILD_DIR" -j2
 
 # This creates neverball.js, neverball.wasm and a preloaded data file containing
-# the libre base game. The Easy level set is separately built and copied into
-# the browser-local download folder at first launch by neverball.html.
+# the libre base game. The official Easy and Medium level sets are separately
+# packaged and copied into browser-local storage at first launch by neverball.html.
 make -C "$SOURCE_DIR" -f emscripten/ball.mk BUILD=release GL4ES_DIR="$GL4ES_DIR"
-make -C "$SOURCE_DIR" -f mk/package-levelset.mk \
-  ADDON_SET=0 \
-  PACKAGE_ID=set-easy \
-  SET_FILE=data/set-easy.txt \
-  DATA_DIR=data \
-  OUTPUT_DIR="$PACKAGE_DIR"
-
-SET_EASY_ZIP="$(find "$PACKAGE_DIR" -maxdepth 1 -type f -name 'set-easy-*.zip' | head -n1)"
-test -n "$SET_EASY_ZIP"
-test -s "$SET_EASY_ZIP"
+for SET_NAME in easy medium; do
+  make -C "$SOURCE_DIR" -f mk/package-levelset.mk \
+    ADDON_SET=0 \
+    PACKAGE_ID="set-$SET_NAME" \
+    SET_FILE="data/set-$SET_NAME.txt" \
+    DATA_DIR=data \
+    OUTPUT_DIR="$PACKAGE_DIR"
+done
 
 cp "$SOURCE_DIR/js/neverball.js" "$OUT_DIR/neverball.js"
 cp "$SOURCE_DIR/js/neverball.wasm" "$OUT_DIR/neverball.wasm"
 cp "$SOURCE_DIR/js/neverball.data" "$OUT_DIR/neverball.data"
-SET_EASY_FILENAME="$(basename "$SET_EASY_ZIP")"
-cp "$SET_EASY_ZIP" "$OUT_DIR/$SET_EASY_FILENAME"
-printf '{"filename":"%s"}\n' "$SET_EASY_FILENAME" > "$OUT_DIR/set-easy-package.json"
+for PACKAGE_ID in set-easy set-medium; do
+  SET_ZIP="$(find "$PACKAGE_DIR" -maxdepth 1 -type f -name "$PACKAGE_ID-*.zip" | head -n1)"
+  test -n "$SET_ZIP"
+  test -s "$SET_ZIP"
+  SET_FILENAME="$(basename "$SET_ZIP")"
+  cp "$SET_ZIP" "$OUT_DIR/$SET_FILENAME"
+  printf '{"filename":"%s"}\n' "$SET_FILENAME" > "$OUT_DIR/$PACKAGE_ID-package.json"
+done
 cp "$SOURCE_DIR/LICENSE.md" "$OUT_DIR/NEVERBALL-LICENSE.md"
 cp -a "$SOURCE_DIR/doc/legal" "$OUT_DIR/LEGAL"
 cat > "$OUT_DIR/SOURCE-NOTICE.txt" <<EOF
@@ -87,19 +90,21 @@ WebGL translation layer: https://github.com/$GL4ES_REPO
 Pinned gl4es revision: $GL4ES_COMMIT
 Build route: the upstream Emscripten makefile (emscripten/ball.mk).
 
-This distribution bundles Neverball's libre base data and the official Easy
-level-set package compiled from the pinned source. It does not download
-campaigns, accept add-ons, or request any game data from the player.
+This distribution bundles Neverball's libre base data plus the official Easy
+and Medium level-set packages compiled from the pinned source. It does not
+download campaigns, accept add-ons, or request any game data from the player.
 Saves and replay state stay in the browser's IndexedDB storage.
 EOF
 
 test -s "$OUT_DIR/neverball.js"
 test -s "$OUT_DIR/neverball.wasm"
 test -s "$OUT_DIR/neverball.data"
-test -s "$OUT_DIR/$SET_EASY_FILENAME"
-test -s "$OUT_DIR/set-easy-package.json"
+for PACKAGE_ID in set-easy set-medium; do
+  test -s "$(find "$OUT_DIR" -maxdepth 1 -type f -name "$PACKAGE_ID-*.zip" | head -n1)"
+  test -s "$OUT_DIR/$PACKAGE_ID-package.json"
+done
 test -s "$OUT_DIR/NEVERBALL-LICENSE.md"
 test -d "$OUT_DIR/LEGAL"
 
 printf 'Neverball WebAssembly build ready:\n'
-ls -lh "$OUT_DIR"/neverball.{js,wasm,data} "$OUT_DIR/$SET_EASY_FILENAME" "$OUT_DIR/set-easy-package.json"
+ls -lh "$OUT_DIR"/neverball.{js,wasm,data} "$OUT_DIR"/set-{easy,medium}-*.zip "$OUT_DIR"/set-{easy,medium}-package.json

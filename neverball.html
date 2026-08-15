@@ -126,36 +126,43 @@
     };
     window.Neverball = Neverball;
 
-    async function installBundledSet(module) {
+    const BUNDLED_SETS = [
+      { id:'set-easy', label:'Easy' },
+      { id:'set-medium', label:'Medium' },
+    ];
+
+    async function installBundledSets(module) {
       const { FS, IDBFS } = module;
       try { FS.mkdir('/neverball'); } catch (_) {}
       FS.mount(IDBFS, { autoPersist:true }, '/neverball');
       await new Promise((resolve, reject) => FS.syncfs(true, (error) => error ? reject(error) : resolve()));
       for (const dir of ['/neverball/Downloads', '/neverball/Replays']) { try { FS.mkdir(dir); } catch (_) {} }
 
-      setStatus('Installing bundled Easy set…');
-      const manifestResponse = await fetch(`neverball/set-easy-package.json?v=${BUILD_ID}`, { cache:'no-store' });
-      if (!manifestResponse.ok) throw new Error(`Bundled level manifest could not load (${manifestResponse.status})`);
-      const { filename } = await manifestResponse.json();
-      if (!/^set-easy-[a-f0-9]{32}\.zip$/.test(filename || '')) throw new Error('Bundled level manifest is invalid');
-
       const downloads = '/neverball/Downloads';
-      const zipPath = `${downloads}/${filename}`;
       const installedPath = `${downloads}/installed-packages.txt`;
       let installed = '';
       try { installed = FS.readFile(installedPath, { encoding:'utf8' }); } catch (_) {}
-      const exactRecord = `package set-easy
-filename ${filename}
-`;
-      if (!FS.analyzePath(zipPath).exists || !installed.includes(exactRecord)) {
-        for (const entry of FS.readdir(downloads)) {
-          if (/^set-easy-.*\.zip$/.test(entry) || entry === 'set-easy.zip') { try { FS.unlink(`${downloads}/${entry}`); } catch (_) {} }
+
+      for (const { id, label } of BUNDLED_SETS) {
+        setStatus(`Installing bundled ${label} set…`);
+        const manifestResponse = await fetch(`neverball/${id}-package.json?v=${BUILD_ID}`, { cache:'no-store' });
+        if (!manifestResponse.ok) throw new Error(`Bundled ${label} manifest could not load (${manifestResponse.status})`);
+        const { filename } = await manifestResponse.json();
+        if (!new RegExp(`^${id}-[a-f0-9]{32}\\.zip$`).test(filename || '')) throw new Error(`Bundled ${label} manifest is invalid`);
+
+        const zipPath = `${downloads}/${filename}`;
+        const exactRecord = `package ${id}\nfilename ${filename}\n`;
+        if (!FS.analyzePath(zipPath).exists || !installed.includes(exactRecord)) {
+          for (const entry of FS.readdir(downloads)) {
+            if (new RegExp(`^${id}-.*\\.zip$`).test(entry) || entry === `${id}.zip`) { try { FS.unlink(`${downloads}/${entry}`); } catch (_) {} }
+          }
+          const response = await fetch(`neverball/${filename}?v=${BUILD_ID}`, { cache:'no-store' });
+          if (!response.ok) throw new Error(`Bundled ${label} level set could not load (${response.status})`);
+          FS.writeFile(zipPath, new Uint8Array(await response.arrayBuffer()));
+          installed = installed.replace(new RegExp(`package ${id}\\nfilename [^\\n]*\\n`, 'g'), '') + exactRecord;
         }
-        const response = await fetch(`neverball/${filename}?v=${BUILD_ID}`, { cache:'no-store' });
-        if (!response.ok) throw new Error(`Bundled level set could not load (${response.status})`);
-        FS.writeFile(zipPath, new Uint8Array(await response.arrayBuffer()));
-        FS.writeFile(installedPath, exactRecord);
       }
+      FS.writeFile(installedPath, installed);
       await new Promise((resolve, reject) => FS.syncfs(false, (error) => error ? reject(error) : resolve()));
     }
 
@@ -172,7 +179,7 @@ filename ${filename}
         });
         Neverball.module = module;
         await navigator.storage?.persist?.();
-        await installBundledSet(module);
+        await installBundledSets(module);
         setStatus('READY\nNeverball is running. Use keyboard, gamepad or PSP touch controls.');
         module.callMain([]);
       } catch (error) {
