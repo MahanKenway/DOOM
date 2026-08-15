@@ -73,7 +73,9 @@ test -s "$SET_EASY_ZIP"
 cp "$SOURCE_DIR/js/neverball.js" "$OUT_DIR/neverball.js"
 cp "$SOURCE_DIR/js/neverball.wasm" "$OUT_DIR/neverball.wasm"
 cp "$SOURCE_DIR/js/neverball.data" "$OUT_DIR/neverball.data"
-cp "$SET_EASY_ZIP" "$OUT_DIR/set-easy.zip"
+SET_EASY_FILENAME="$(basename "$SET_EASY_ZIP")"
+cp "$SET_EASY_ZIP" "$OUT_DIR/$SET_EASY_FILENAME"
+printf '{"filename":"%s"}\n' "$SET_EASY_FILENAME" > "$OUT_DIR/set-easy-package.json"
 cp "$SOURCE_DIR/LICENSE.md" "$OUT_DIR/NEVERBALL-LICENSE.md"
 cp -a "$SOURCE_DIR/doc/legal" "$OUT_DIR/LEGAL"
 cat > "$OUT_DIR/SOURCE-NOTICE.txt" <<EOF
@@ -94,9 +96,10 @@ EOF
 test -s "$OUT_DIR/neverball.js"
 test -s "$OUT_DIR/neverball.wasm"
 test -s "$OUT_DIR/neverball.data"
-test -s "$OUT_DIR/set-easy.zip"
+test -s "$OUT_DIR/$SET_EASY_FILENAME"
+test -s "$OUT_DIR/set-easy-package.json"
 test -s "$OUT_DIR/NEVERBALL-LICENSE.md"
 test -d "$OUT_DIR/LEGAL"
 
 printf 'Neverball WebAssembly build ready:\n'
-ls -lh "$OUT_DIR"/neverball.{js,wasm,data} "$OUT_DIR"/set-easy.zip
+ls -lh "$OUT_DIR"/neverball.{js,wasm,data} "$OUT_DIR/$SET_EASY_FILENAME" "$OUT_DIR/set-easy-package.json"

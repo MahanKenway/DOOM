@@ -28,7 +28,9 @@ grep -q "neverball.html" src/catalog.js
 grep -q "neverball-runtime.png" src/catalog.js
 grep -q "Compile Neverball fully bundled physics-puzzle runtime" .github/workflows/build-and-deploy.yml
 grep -q "neverball.html" sitemap.xml
-grep -q "set-easy.zip" neverball.html
+grep -q "set-easy-package.json" neverball.html
+grep -q "set-easy-\[a-f0-9\]" neverball.html
+grep -q "set-easy-package.json" scripts/build-neverball-web.sh
 ! grep -q 'type="file"' neverball.html
 
 grep -q "assets/hacx.wad" src/catalog.js

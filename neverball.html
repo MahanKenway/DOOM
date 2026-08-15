@@ -132,13 +132,27 @@
       FS.mount(IDBFS, { autoPersist:true }, '/neverball');
       await new Promise((resolve, reject) => FS.syncfs(true, (error) => error ? reject(error) : resolve()));
       for (const dir of ['/neverball/Downloads', '/neverball/Replays']) { try { FS.mkdir(dir); } catch (_) {} }
-      const zipPath = '/neverball/Downloads/set-easy.zip';
-      if (!FS.analyzePath(zipPath).exists) {
-        setStatus('Installing bundled Easy set…');
-        const response = await fetch(`neverball/set-easy.zip?v=${BUILD_ID}`, { cache:'no-store' });
+
+      setStatus('Installing bundled Easy set…');
+      const manifestResponse = await fetch(`neverball/set-easy-package.json?v=${BUILD_ID}`, { cache:'no-store' });
+      if (!manifestResponse.ok) throw new Error(`Bundled level manifest could not load (${manifestResponse.status})`);
+      const { filename } = await manifestResponse.json();
+      if (!/^set-easy-[a-f0-9]{32}\\.zip$/.test(filename || '')) throw new Error('Bundled level manifest is invalid');
+
+      const downloads = '/neverball/Downloads';
+      const zipPath = `${downloads}/${filename}`;
+      const installedPath = `${downloads}/installed-packages.txt`;
+      let installed = '';
+      try { installed = FS.readFile(installedPath, { encoding:'utf8' }); } catch (_) {}
+      const exactRecord = `package set-easy\\nfilename ${filename}\\n`;
+      if (!FS.analyzePath(zipPath).exists || !installed.includes(exactRecord)) {
+        for (const entry of FS.readdir(downloads)) {
+          if (/^set-easy-.*\\.zip$/.test(entry) || entry === 'set-easy.zip') { try { FS.unlink(`${downloads}/${entry}`); } catch (_) {} }
+        }
+        const response = await fetch(`neverball/${filename}?v=${BUILD_ID}`, { cache:'no-store' });
         if (!response.ok) throw new Error(`Bundled level set could not load (${response.status})`);
         FS.writeFile(zipPath, new Uint8Array(await response.arrayBuffer()));
-        FS.writeFile('/neverball/Downloads/installed-packages.txt', 'package set-easy\nfilename set-easy.zip\n');
+        FS.writeFile(installedPath, exactRecord);
       }
       await new Promise((resolve, reject) => FS.syncfs(false, (error) => error ? reject(error) : resolve()));
     }
