@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#123027" />
+  <meta name="description" content="FreeRCT — a fully bundled libre theme-park strategy game running independently in RIFTWAD." />
+  <link rel="icon" href="assets/favicon.ico" type="image/x-icon" />
+  <title>RIFTWAD — FreeRCT Runtime</title>
+  <style>
+    :root { --paper:#e5e9df; --ink:#14231d; --night:#071a14; --mint:#70cd85; --lime:#c8e35d; --line:rgba(20,35,29,.24); --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; }
+    * { box-sizing:border-box; }
+    html { background:var(--paper); }
+    body { min-height:100vh; margin:0; color:var(--ink); background:var(--paper); font:14px/1.5 Arial,sans-serif; }
+    body::before { content:''; position:fixed; inset:0; pointer-events:none; opacity:.7; background:linear-gradient(rgba(17,49,35,.055) 1px,transparent 1px),linear-gradient(90deg,rgba(17,49,35,.055) 1px,transparent 1px); background-size:36px 36px; }
+    main { position:relative; width:min(1140px,calc(100% - 36px)); margin:0 auto; padding:26px 0 48px; }
+    header { display:flex; justify-content:space-between; align-items:center; gap:20px; padding-bottom:16px; border-top:1px solid var(--line); border-bottom:1px solid var(--line); }
+    .brand { color:var(--ink); font:600 30px/.9 Arial,sans-serif; letter-spacing:-.11em; text-decoration:none; }.brand b { color:#51785c; font-weight:500; }
+    .back,.utility { border:1px solid var(--line); padding:9px 12px; color:var(--ink); background:rgba(255,255,255,.38); font:10px var(--mono); letter-spacing:.08em; text-decoration:none; text-transform:uppercase; }
+    .eyebrow { margin:44px 0 12px; color:#576a60; font:10px var(--mono); text-transform:uppercase; letter-spacing:.11em; }.eyebrow span { color:var(--ink); padding-right:13px; margin-right:13px; border-right:1px solid var(--line); }
+    h1 { max-width:780px; margin:0; font-size:clamp(40px,7vw,78px); line-height:.9; letter-spacing:-.08em; font-weight:500; }.intro { max-width:770px; margin:22px 0 32px; color:#465a50; font-size:16px; }
+    .panel { display:grid; grid-template-columns:minmax(0,1fr) 290px; gap:22px; padding:18px; border:1px solid var(--line); background:rgba(255,255,251,.44); box-shadow:12px 14px 0 rgba(22,55,39,.08); }
+    .screen { position:relative; min-width:0; background:#06120f; border:1px solid #315043; overflow:hidden; }.screen::after { content:''; position:absolute; inset:0; pointer-events:none; opacity:.13; background:repeating-linear-gradient(0deg,transparent 0 2px,rgba(190,240,130,.3) 3px); }
+    canvas { display:block; width:100%; aspect-ratio:4/3; image-rendering:auto; background:#06120f; outline:none; touch-action:none; }
+    canvas:fullscreen { width:100vw; height:100vh; aspect-ratio:auto; object-fit:contain; background:#000; }
+    .result { display:grid; align-content:start; gap:12px; padding:7px; }.result > span { color:#547a60; font:10px var(--mono); text-transform:uppercase; letter-spacing:.1em; }.status { min-height:88px; padding:12px; border:1px solid rgba(20,35,29,.22); background:#0a241b; color:#d9f1ba; font:11px/1.45 var(--mono); white-space:pre-wrap; }.facts { margin:0; display:grid; gap:0; border-top:1px solid var(--line); }.facts div { padding:10px 0; border-bottom:1px solid var(--line); }.facts dt { color:#708176; font:9px var(--mono); text-transform:uppercase; }.facts dd { margin:4px 0 0; font-size:12px; }.utility { cursor:pointer; }
+    .notice { margin:26px 0 0; padding:15px 18px; border-left:3px solid var(--mint); background:rgba(112,205,133,.13); color:#3c5247; font-size:13px; }.notice strong { color:var(--ink); }.notice a { color:inherit; }
+    .controls { display:none; margin-top:20px; align-items:center; justify-content:space-between; gap:20px; user-select:none; touch-action:none; } .dpad,.actions { display:grid; gap:7px; }.dpad { grid-template-columns:repeat(3,48px); grid-template-rows:repeat(3,48px); }.actions { grid-template-columns:repeat(3,48px); grid-template-rows:repeat(3,48px); align-items:center; }.pad-btn { display:grid; place-items:center; width:48px; height:48px; border:1px solid rgba(112,205,133,.7); border-radius:50%; color:#dff5ba; background:rgba(7,26,20,.94); box-shadow:0 3px 0 rgba(0,0,0,.28); font:700 13px var(--mono); touch-action:none; }.pad-btn--menu { width:103px; grid-column:1 / span 2; border-radius:24px; font-size:10px; letter-spacing:.08em; }.pad-btn:active,.pad-btn.is-active { transform:translateY(2px); background:#27523b; box-shadow:0 1px 0 rgba(0,0,0,.28); }.dpad .pad-btn:nth-child(1) { grid-column:2; }.dpad .pad-btn:nth-child(2) { grid-row:2; grid-column:1; }.dpad .pad-btn:nth-child(3) { grid-row:2; grid-column:2; }.dpad .pad-btn:nth-child(4) { grid-row:2; grid-column:3; }.touch-note { margin:0; color:#607268; font:10px var(--mono); text-align:center; }
+    @media (max-width:760px) { main { width:min(100% - 24px,680px); padding-top:18px; }.panel { grid-template-columns:1fr; }.controls { display:flex; }.intro { font-size:14px; } }
+  </style>
+</head>
+<body>
+  <main>
+    <header><a class="brand" href="./" aria-label="Return to RIFTWAD">RIFT<b>WAD</b></a><a class="back" href="./">← World index</a></header>
+    <p class="eyebrow"><span>// R-FRCT</span>Independent runtime / WebAssembly</p>
+    <h1>FreeRCT,<br />build the ride.</h1>
+    <p class="intro">Create and manage an amusement park in a complete libre strategy game. Its clean-room graphics, rides, scenery and data are bundled here, so a new park begins with no account, original-game search or player file upload.</p>
+    <section class="panel" aria-label="FreeRCT runtime">
+      <div class="screen"><canvas id="canvas" width="1280" height="960" tabindex="0" aria-label="FreeRCT game canvas"></canvas></div>
+      <div class="result"><span>Runtime status</span><output id="result" class="status">Preparing FreeRCT…</output><dl class="facts"><div><dt>Runtime</dt><dd>FreeRCT / WebGL / WebAssembly</dd></div><div><dt>Content</dt><dd>FreeRCT clean-room game data</dd></div><div><dt>Session</dt><dd>Local browser saves</dd></div><div><dt>Input</dt><dd>Touch / keyboard / mouse</dd></div></dl><button id="btn-fullscreen" class="utility" type="button">Fullscreen</button></div>
+    </section>
+    <div class="controls" aria-label="Touch controls">
+      <div class="dpad"><button class="pad-btn" data-key="ArrowUp">▲</button><button class="pad-btn" data-key="ArrowLeft">◀</button><button class="pad-btn" data-key="ArrowDown">▼</button><button class="pad-btn" data-key="ArrowRight">▶</button></div>
+      <p class="touch-note">Tap the park to build / select<br />D-pad: navigate menus / view</p>
+      <div class="actions"><span></span><button class="pad-btn" data-key="KeyN">N</button><span></span><button class="pad-btn" data-key="KeyL">L</button><button class="pad-btn" data-key="KeyE">E</button><button class="pad-btn" data-key="KeyO">O</button><button class="pad-btn pad-btn--menu" data-key="Escape">MENU</button></div>
+    </div>
+    <p class="notice"><strong>Fully bundled libre game:</strong> FreeRCT is a clean-room, GPL-2.0-only theme-park strategy game. This runtime compiles its upstream WebAssembly path and bundles the project’s own generated game data. It does not include RollerCoaster Tycoon or OpenRCT2 data, and it never asks the player to upload files. Saves stay in browser-local storage. <a href="freerct/ENGINE-COPYING.txt">License</a> · <a href="freerct/SOURCE-NOTICE.txt">Source and attribution</a>.</p>
+  </main>
+  <script>
+    const BUILD_ID = '20260815-freerct-rift-runtime-v1';
+    const canvas = document.getElementById('canvas');
+    const result = document.getElementById('result');
+    const setStatus = (text) => { result.textContent = text || 'Starting FreeRCT…'; };
+    const STORE_KEY = 'riftwad-freerct-local-saves-v1';
+    const readStore = () => { try { const data = JSON.parse(localStorage.getItem(STORE_KEY) || '{}'); return data && typeof data === 'object' ? data : {}; } catch (_) { return {}; } };
+    const writeStore = (data) => { try { localStorage.setItem(STORE_KEY, JSON.stringify(data)); return true; } catch (error) { setStatus(`Save warning\n${error.message}`); return false; } };
+    const storedFiles = () => Object.entries(readStore()).filter(([name, data]) => typeof name === 'string' && typeof data === 'string').slice(0, 64);
+
+    // FreeRCT's upstream WebAssembly bridge: existing saved games are restored at startup,
+    // and future saves stay entirely in this browser's local storage.
+    window.CountRemoteDataFiles = () => storedFiles().length;
+    window.GetRemoteDataFileName = (index) => storedFiles()[index]?.[0] || '';
+    window.GetRemoteDataFileContent = (index) => storedFiles()[index]?.[1] || '';
+    window.GameFileSaved = (filename, encodedData) => {
+      const store = readStore();
+      store[String(filename)] = String(encodedData);
+      if (writeStore(store)) setStatus(`Saved locally\n${filename}`);
+    };
+    for (let index = 0; index < 64; index += 1) {
+      window[`GetRemoteDataFileName${index}`] = () => window.GetRemoteDataFileName(index);
+      window[`GetRemoteDataFileContent${index}`] = () => window.GetRemoteDataFileContent(index);
+    }
+
+    const keyCodes = { ArrowUp:38, ArrowLeft:37, ArrowDown:40, ArrowRight:39, Escape:27, KeyN:78, KeyL:76, KeyE:69, KeyO:79 };
+    const keyNames = { ArrowUp:'ArrowUp', ArrowLeft:'ArrowLeft', ArrowDown:'ArrowDown', ArrowRight:'ArrowRight', Escape:'Escape', KeyN:'n', KeyL:'l', KeyE:'e', KeyO:'o' };
+    const dispatchKey = (code, type) => { canvas.focus({ preventScroll:true }); const event = new KeyboardEvent(type, { code, key:keyNames[code] || code, bubbles:true, cancelable:true }); Object.defineProperties(event, { keyCode:{ value:keyCodes[code] || 0 }, which:{ value:keyCodes[code] || 0 } }); canvas.dispatchEvent(event); };
+    document.querySelectorAll('[data-key]').forEach((button) => {
+      const code = button.dataset.key;
+      const release = (event) => { event.preventDefault(); button.classList.remove('is-active'); dispatchKey(code, 'keyup'); };
+      button.addEventListener('pointerdown', (event) => { event.preventDefault(); try { button.setPointerCapture?.(event.pointerId); } catch (_) {} button.classList.add('is-active'); dispatchKey(code, 'keydown'); });
+      button.addEventListener('pointerup', release);
+      button.addEventListener('pointercancel', release);
+      button.addEventListener('lostpointercapture', (event) => { if (button.classList.contains('is-active')) release(event); });
+    });
+    canvas.addEventListener('pointerdown', () => canvas.focus({ preventScroll:true }));
+    document.addEventListener('fullscreenchange', () => { if (document.fullscreenElement === canvas) canvas.focus({ preventScroll:true }); });
+    document.getElementById('btn-fullscreen').addEventListener('click', () => (document.fullscreenElement ? document.exitFullscreen() : canvas.requestFullscreen({ navigationUI:'hide' })).catch((error) => setStatus(`Fullscreen unavailable\n${error.message}`)));
+
+    window.Module = {
+      canvas,
+      locateFile: (file) => `freerct/${file}?v=${BUILD_ID}`,
+      print: (...args) => console.log('[FREERCT]', ...args),
+      printErr: (...args) => { console.warn('[FREERCT]', ...args); },
+      setStatus: (message) => { if (message) setStatus(message); },
+      monitorRunDependencies: (remaining) => setStatus(remaining ? `Loading FreeRCT data (${remaining} tasks remaining)…` : 'Starting FreeRCT…'),
+      onRuntimeInitialized: () => setStatus('READY\nFreeRCT is running with bundled free data. Tap the park or use PSP controls.'),
+      onAbort: (reason) => setStatus(`NOT READY\n${reason || 'The runtime stopped unexpectedly.'}`),
+    };
+    window.addEventListener('error', (event) => { if (/freerct|wasm|WebGL|RuntimeError/i.test(String(event.message))) setStatus(`NOT READY\n${event.message}`); });
+  </script>
+  <script src="freerct/freerct.js?v=20260815-freerct-rift-runtime-v1"></script>
+</body>
+</html>
