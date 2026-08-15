@@ -137,7 +137,7 @@
       const manifestResponse = await fetch(`neverball/set-easy-package.json?v=${BUILD_ID}`, { cache:'no-store' });
       if (!manifestResponse.ok) throw new Error(`Bundled level manifest could not load (${manifestResponse.status})`);
       const { filename } = await manifestResponse.json();
-      if (!/^set-easy-[a-f0-9]{32}\\.zip$/.test(filename || '')) throw new Error('Bundled level manifest is invalid');
+      if (!/^set-easy-[a-f0-9]{32}\.zip$/.test(filename || '')) throw new Error('Bundled level manifest is invalid');
 
       const downloads = '/neverball/Downloads';
       const zipPath = `${downloads}/${filename}`;
@@ -147,7 +147,7 @@
       const exactRecord = `package set-easy\\nfilename ${filename}\\n`;
       if (!FS.analyzePath(zipPath).exists || !installed.includes(exactRecord)) {
         for (const entry of FS.readdir(downloads)) {
-          if (/^set-easy-.*\\.zip$/.test(entry) || entry === 'set-easy.zip') { try { FS.unlink(`${downloads}/${entry}`); } catch (_) {} }
+          if (/^set-easy-.*\.zip$/.test(entry) || entry === 'set-easy.zip') { try { FS.unlink(`${downloads}/${entry}`); } catch (_) {} }
         }
         const response = await fetch(`neverball/${filename}?v=${BUILD_ID}`, { cache:'no-store' });
         if (!response.ok) throw new Error(`Bundled level set could not load (${response.status})`);
