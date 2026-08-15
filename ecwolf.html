@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#111812" />
+  <meta name="description" content="ECWolf — a Wolfenstein-compatible WebAssembly engine runtime for lawfully supplied local game data." />
+  <link rel="icon" href="assets/favicon.ico" type="image/x-icon" />
+  <title>RIFTWAD — ECWolf Runtime</title>
+  <style>
+    :root { --sand:#e5e2d4; --ink:#151a14; --pine:#112015; --moss:#385b38; --acid:#b6d35c; --line:rgba(21,26,20,.24); --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; }
+    * { box-sizing:border-box; } body { min-height:100vh; margin:0; color:var(--ink); background:var(--sand); font:14px/1.5 Arial,sans-serif; }
+    body::before { content:''; position:fixed; inset:0; pointer-events:none; opacity:.58; background:radial-gradient(circle at 17% 14%,rgba(182,211,92,.17),transparent 26%),repeating-linear-gradient(90deg,rgba(23,43,25,.06) 0 1px,transparent 1px 34px),repeating-linear-gradient(0deg,rgba(23,43,25,.06) 0 1px,transparent 1px 34px); }
+    main { position:relative; width:min(1140px,calc(100% - 36px)); margin:0 auto; padding:26px 0 48px; } header { display:flex; justify-content:space-between; align-items:center; gap:20px; padding-bottom:16px; border-top:1px solid var(--line); border-bottom:1px solid var(--line); }
+    .brand { color:var(--ink); font:600 30px/.9 Arial,sans-serif; letter-spacing:-.11em; text-decoration:none; }.brand b { color:#617457; font-weight:500; }.back,.utility { border:1px solid var(--line); padding:9px 12px; color:var(--ink); background:rgba(255,255,255,.3); font:10px var(--mono); letter-spacing:.08em; text-decoration:none; text-transform:uppercase; }.eyebrow { margin:44px 0 12px; color:#5d6657; font:10px var(--mono); text-transform:uppercase; letter-spacing:.11em; }.eyebrow span { color:var(--ink); padding-right:13px; margin-right:13px; border-right:1px solid var(--line); }
+    h1 { max-width:860px; margin:0; font-size:clamp(40px,7vw,78px); line-height:.9; letter-spacing:-.08em; font-weight:500; }.intro { max-width:800px; margin:22px 0 32px; color:#4b5649; font-size:16px; }
+    .panel { display:grid; grid-template-columns:minmax(0,1fr) 290px; gap:22px; padding:18px; border:1px solid var(--line); background:rgba(255,253,245,.42); box-shadow:12px 14px 0 rgba(24,42,20,.08); }.screen { position:relative; min-width:0; display:grid; place-items:center; overflow:hidden; background:#070d08; border:1px solid #45603e; box-shadow:inset 0 0 0 1px rgba(182,211,92,.2); }.screen::after { content:''; position:absolute; inset:0; pointer-events:none; opacity:.1; background:repeating-linear-gradient(0deg,transparent 0 2px,rgba(182,211,92,.4) 3px); }.screen:fullscreen { width:100vw; height:100vh; border:0; background:#071008; }.screen:fullscreen canvas { width:100vw !important; height:100vh !important; max-height:none; aspect-ratio:auto; object-fit:contain; background:#000; cursor:none; }
+    canvas { display:block; width:100%; max-height:70vh; aspect-ratio:4/3; object-fit:contain; image-rendering:pixelated; background:linear-gradient(135deg,#071008,#122617); outline:none; cursor:crosshair; }.standby { position:absolute; z-index:2; display:grid; place-items:center; gap:9px; width:min(76%,420px); padding:22px; border:1px solid rgba(182,211,92,.55); background:rgba(7,16,8,.82); color:#e4f3bd; text-align:center; font:12px/1.5 var(--mono); letter-spacing:.07em; text-transform:uppercase; }.standby strong { font-size:18px; letter-spacing:.14em; }.standby span { color:#b6d35c; font-size:10px; }.screen.is-running .standby { display:none; }
+    .result { display:grid; align-content:start; gap:12px; padding:7px; }.result > span { color:#507d45; font:10px var(--mono); text-transform:uppercase; letter-spacing:.1em; }.status { min-height:92px; padding:12px; border:1px solid rgba(28,49,24,.45); background:#112015; color:#e4f3bd; font:11px/1.45 var(--mono); white-space:pre-wrap; }.facts { margin:0; display:grid; gap:0; border-top:1px solid var(--line); }.facts div { padding:10px 0; border-bottom:1px solid var(--line); }.facts dt { color:#6c7967; font:9px var(--mono); text-transform:uppercase; }.facts dd { margin:4px 0 0; font-size:12px; }.utility { cursor:pointer; }.utility:disabled { cursor:not-allowed; opacity:.45; }
+    .importer { margin:22px 0 0; padding:16px; border:1px solid rgba(22,40,19,.28); background:rgba(70,102,57,.08); }.importer h2 { margin:0 0 8px; font-size:15px; }.importer p { margin:0 0 13px; max-width:890px; color:#485543; }.file-row { display:flex; flex-wrap:wrap; gap:10px; align-items:center; }.file-label { display:inline-block; cursor:pointer; border:1px solid #476640; background:#19301d; color:#eff8c7; padding:11px 14px; font:10px var(--mono); letter-spacing:.08em; text-transform:uppercase; }.file-label input { position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0,0,0,0); }.selected { min-width:180px; color:#52604d; font:11px var(--mono); }.warning { margin:10px 0 0; color:#604331; font-size:12px; }
+    .controls { display:none; margin-top:20px; align-items:center; justify-content:space-between; gap:20px; user-select:none; touch-action:none; }.dpad,.actions { display:grid; gap:7px; }.dpad { grid-template-columns:repeat(3,48px); grid-template-rows:repeat(3,48px); }.actions { grid-template-columns:repeat(3,48px); grid-template-rows:repeat(3,48px); align-items:center; }.pad-btn { display:grid; place-items:center; width:48px; height:48px; border:1px solid rgba(182,211,92,.84); border-radius:50%; color:#e8f4c2; background:rgba(17,32,21,.96); box-shadow:0 3px 0 rgba(0,0,0,.32); font:700 12px var(--mono); touch-action:none; }.pad-btn--menu { width:103px; grid-column:1 / span 2; border-color:rgba(94,151,77,.94); border-radius:24px; font-size:10px; letter-spacing:.08em; }.pad-btn:active,.pad-btn.is-active { transform:translateY(2px); background:#365a32; box-shadow:0 1px 0 rgba(0,0,0,.3); }.dpad .pad-btn:nth-child(1) { grid-column:2; }.dpad .pad-btn:nth-child(2) { grid-row:2; grid-column:1; }.dpad .pad-btn:nth-child(3) { grid-row:2; grid-column:2; }.dpad .pad-btn:nth-child(4) { grid-row:2; grid-column:3; }.touch-note { margin:0; color:#586451; font:10px var(--mono); text-align:center; }
+    .notice { margin:26px 0 0; padding:15px 18px; border-left:3px solid var(--moss); background:rgba(56,91,56,.1); color:#4a5647; font-size:13px; }.notice strong { color:var(--ink); }.notice a { color:inherit; }
+    @media (max-width:760px) { main { width:min(100% - 24px,680px); padding-top:18px; }.panel { grid-template-columns:1fr; }.controls { display:flex; }.intro { font-size:14px; } canvas { max-height:54vh; } }
+  </style>
+</head>
+<body>
+  <main>
+    <header><a class="brand" href="./" aria-label="Return to RIFTWAD">RIFT<b>WAD</b></a><a class="back" href="./">← World index</a></header>
+    <p class="eyebrow"><span>// R-EW</span>Independent runtime / WebAssembly</p>
+    <h1>Enter the<br />iron labyrinth.</h1>
+    <p class="intro">A Wolfenstein-compatible browser engine built with ECWolf WebAssembly. The engine is ready here; select your own lawfully obtained compatible data files locally to launch a game. No original Wolfenstein data is bundled, uploaded or transmitted by RIFTWAD.</p>
+    <section class="panel" aria-label="ECWolf runtime">
+      <div id="screen" class="screen"><canvas id="canvas" width="640" height="480" tabindex="0" aria-label="ECWolf game canvas"></canvas><div id="standby" class="standby"><strong>ECWolf ready</strong><span>Import local data to launch</span></div></div>
+      <div class="result"><span>Runtime status</span><output id="result" class="status">Loading ECWolf engine…</output><dl class="facts"><div><dt>Runtime</dt><dd>ECWolf / WebAssembly</dd></div><div><dt>Content</dt><dd>Player-provided lawful data</dd></div><div><dt>Session</dt><dd>Browser-local storage</dd></div><div><dt>Input</dt><dd>Keyboard / touch / mouse-look</dd></div></dl><button id="btn-fullscreen" class="utility" type="button">Fullscreen</button></div>
+    </section>
+    <section class="importer" aria-label="Local game-data importer">
+      <h2>Import local game data</h2>
+      <p>Select the complete group of original, shareware, or otherwise lawfully obtained compatible game files from your device. Files remain in this browser session and are never sent to RIFTWAD.</p>
+      <div class="file-row"><label class="file-label">Choose compatible files<input id="data-files" type="file" multiple accept=".wl1,.wl6,.sdm,.sod,.n3d,.vswap,.vgagraph,.vgahead,.audiohed,.audiot,.maphead,.gamemaps" /></label><span id="selected-files" class="selected">No files selected</span><button id="btn-start" class="utility" type="button" disabled>Start local data</button></div>
+      <p class="warning">The original Wolfenstein 3D content is not included. The source release requires data from a released game version, so this runtime will only start after you choose a complete compatible data set.</p>
+    </section>
+    <div class="controls" aria-label="Touch controls">
+      <div class="dpad"><button class="pad-btn" data-key="ArrowUp">▲</button><button class="pad-btn" data-key="ArrowLeft">◀</button><button class="pad-btn" data-key="ArrowDown">▼</button><button class="pad-btn" data-key="ArrowRight">▶</button></div>
+      <p class="touch-note">D-pad: move / turn<br />△ use · □ strafe · ○ fire · × menu</p>
+      <div class="actions"><span></span><button class="pad-btn" data-key="Space">△</button><span></span><button class="pad-btn" data-key="AltLeft">□</button><button class="pad-btn" data-key="ControlLeft">○</button><button class="pad-btn" data-key="Escape">×</button><button class="pad-btn pad-btn--menu" data-key="Tab">MENU</button></div>
+    </div>
+    <p class="notice"><strong>Engine-only deployment:</strong> ECWolf’s browser build and its GPL notices are bundled. The original Wolfenstein 3D source release requires separate released game data and retains its own limited-use terms, so RIFTWAD does not distribute those data files. <a href="ecwolf/ECWOLF-COPYING.txt">Engine notices</a> · <a href="ecwolf/SOURCE-NOTICE.txt">Source notice</a> · <a href="https://github.com/54ac/ecwolf-js">ECWolf JS source</a>.</p>
+  </main>
+  <script type="module">
+    const BUILD_ID = '20260815-ecwolf-rift-importer-v1';
+    const canvas = document.getElementById('canvas');
+    const screen = document.getElementById('screen');
+    const result = document.getElementById('result');
+    const filesInput = document.getElementById('data-files');
+    const selectedFiles = document.getElementById('selected-files');
+    const startButton = document.getElementById('btn-start');
+    const setStatus = (text) => { result.textContent = text || 'Starting ECWolf…'; };
+    const keyCodes = { ArrowUp: 38, ArrowLeft: 37, ArrowDown: 40, ArrowRight: 39, Space: 32, Escape: 27, AltLeft: 18, ControlLeft: 17, Tab: 9 };
+    const keyNames = { ArrowUp: 'ArrowUp', ArrowLeft: 'ArrowLeft', ArrowDown: 'ArrowDown', ArrowRight: 'ArrowRight', Space: ' ', Escape: 'Escape', AltLeft: 'Alt', ControlLeft: 'Control', Tab: 'Tab' };
+    const dispatch = (code, type) => { canvas.focus({ preventScroll: true }); const event = new KeyboardEvent(type, { code, key: keyNames[code] || code, bubbles: true, cancelable: true }); Object.defineProperties(event, { keyCode: { value: keyCodes[code] || 0 }, which: { value: keyCodes[code] || 0 } }); canvas.dispatchEvent(event); };
+    document.querySelectorAll('[data-key]').forEach((button) => { const key = button.dataset.key; const press = (event) => { event.preventDefault(); button.classList.add('is-active'); dispatch(key, 'keydown'); }; const release = (event) => { event.preventDefault(); button.classList.remove('is-active'); dispatch(key, 'keyup'); }; button.addEventListener('pointerdown', press); button.addEventListener('pointerup', release); button.addEventListener('pointercancel', release); button.addEventListener('pointerleave', (event) => { if (event.buttons) release(event); }); });
+    let pointerLockArmed = false;
+    const captureMouse = () => { if (!pointerLockArmed || document.pointerLockElement === canvas || !canvas.requestPointerLock) return; const request = canvas.requestPointerLock(); if (request && typeof request.catch === 'function') request.catch(() => {}); };
+    canvas.addEventListener('pointerdown', () => { pointerLockArmed = true; canvas.focus({ preventScroll: true }); captureMouse(); });
+    document.addEventListener('fullscreenchange', () => { if (document.fullscreenElement === screen) canvas.focus({ preventScroll: true }); });
+    document.getElementById('btn-fullscreen').addEventListener('click', async () => { try { if (document.fullscreenElement) await document.exitFullscreen(); else await screen.requestFullscreen({ navigationUI: 'hide' }); canvas.focus({ preventScroll: true }); } catch (error) { setStatus(`Fullscreen unavailable\n${error.message}`); } });
+
+    let moduleInstance = null;
+    let engineStarted = false;
+    const selected = () => Array.from(filesInput.files || []);
+    const requiredFamilies = new Set(['vswap', 'vgagraph', 'vgahead', 'audiohed', 'audiot', 'maphead', 'gamemaps']);
+    const hasPlausibleDataSet = (files) => {
+      const names = new Set(files.map((file) => file.name.toLowerCase().split('.')[0]));
+      return files.some((file) => /\.(wl1|wl6|sdm|sod|n3d)$/i.test(file.name)) && [...requiredFamilies].filter((name) => names.has(name)).length >= 5;
+    };
+    filesInput.addEventListener('change', () => { const files = selected(); selectedFiles.textContent = files.length ? `${files.length} local file${files.length === 1 ? '' : 's'} selected` : 'No files selected'; startButton.disabled = !moduleInstance || engineStarted || !hasPlausibleDataSet(files); if (files.length && !hasPlausibleDataSet(files)) setStatus('DATA CHECK\nSelect the complete matching game-data set; partial files are not started.'); });
+
+    try {
+      const { default: createModule } = await import(`./ecwolf/ecwolf.js?v=${BUILD_ID}`);
+      moduleInstance = await createModule({
+        canvas,
+        locateFile: (file) => `ecwolf/${file}?v=${BUILD_ID}`,
+        print: (message) => console.log('[ECWOLF]', message),
+        printErr: (message) => console.warn('[ECWOLF]', message),
+        onAbort: (message) => setStatus(`NOT READY\n${message}`),
+      });
+      const resources = await fetch(`ecwolf/ecwolf.pk3?v=${BUILD_ID}`).then((response) => { if (!response.ok) throw new Error(`Engine resource HTTP ${response.status}`); return response.arrayBuffer(); });
+      moduleInstance.FS.writeFile('/ecwolf.pk3', new Uint8Array(resources));
+      setStatus('ENGINE READY\nSelect a complete local compatible data set to start ECWolf.');
+      startButton.disabled = !hasPlausibleDataSet(selected());
+    } catch (error) {
+      console.error(error);
+      setStatus(`NOT READY\n${error.message}`);
+    }
+
+    startButton.addEventListener('click', async () => {
+      if (!moduleInstance || engineStarted || !hasPlausibleDataSet(selected())) return;
+      engineStarted = true;
+      startButton.disabled = true;
+      setStatus('IMPORTING LOCAL DATA\nFiles remain in this browser session. Starting ECWolf…');
+      try {
+        for (const file of selected()) moduleInstance.FS.writeFile(`/${file.name}`, new Uint8Array(await file.arrayBuffer()));
+        moduleInstance.callMain(['--nowait']);
+        screen.classList.add('is-running');
+        setStatus('RUNNING\nECWolf started with local game data.');
+      } catch (error) {
+        console.error(error);
+        setStatus(`NOT READY\n${error.message}`);
+        engineStarted = false;
+      }
+    });
+  </script>
+</body>
+</html>
