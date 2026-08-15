@@ -51,8 +51,8 @@
       <div id="play-area" class="play-area"><canvas id="canvas" tabindex="0" aria-label="Neverball game canvas"></canvas>
         <div class="controls" aria-label="Neverball PSP-style touch controls">
           <div class="dpad"><button class="pad-btn" data-key="ArrowUp">▲</button><button class="pad-btn" data-key="ArrowLeft">◀</button><button class="pad-btn" data-key="ArrowDown">▼</button><button class="pad-btn" data-key="ArrowRight">▶</button></div>
-          <p class="touch-note">D-pad: tilt / menus<br />△ ○ ×: camera · □: camera toggle<br />L / R: orbit camera</p>
-          <div class="actions"><button class="pad-btn" data-key="KeyS">L</button><button class="pad-btn" data-key="Digit1">△</button><button class="pad-btn" data-key="KeyD">R</button><button class="pad-btn" data-key="KeyE">□</button><button class="pad-btn" data-key="Digit2">○</button><button class="pad-btn" data-key="Digit3">×</button><button class="pad-btn pad-btn--menu" data-key="Escape">MENU</button></div>
+          <p class="touch-note">D-pad: tilt / menus<br />△ ○: camera · ×: select<br />□: camera toggle · L / R: orbit</p>
+          <div class="actions"><button class="pad-btn" data-key="KeyS">L</button><button class="pad-btn" data-key="Digit1">△</button><button class="pad-btn" data-key="KeyD">R</button><button class="pad-btn" data-key="KeyE">□</button><button class="pad-btn" data-key="Digit2">○</button><button class="pad-btn" data-key="Enter">×</button><button class="pad-btn pad-btn--menu" data-key="Escape">MENU</button></div>
         </div>
       </div>
       <div class="result"><span>Runtime status</span><output id="result" class="status">Loading Neverball runtime…</output><dl class="facts"><div><dt>Runtime</dt><dd>Emscripten / WebGL</dd></div><div><dt>Content</dt><dd>Bundled base + Easy set</dd></div><div><dt>Session</dt><dd>Browser IndexedDB saves</dd></div><div><dt>Input</dt><dd>Keyboard / touch / gamepad</dd></div></dl><button id="btn-fullscreen" class="utility" type="button">Fullscreen</button></div>
@@ -65,8 +65,8 @@
     const playArea = document.getElementById('play-area');
     const result = document.getElementById('result');
     const setStatus = (text) => { result.textContent = text || 'Starting Neverball…'; };
-    const keyCodes = { ArrowUp:38, ArrowLeft:37, ArrowDown:40, ArrowRight:39, Escape:27, KeyS:83, KeyD:68, KeyE:69, Digit1:49, Digit2:50, Digit3:51 };
-    const keyNames = { ArrowUp:'ArrowUp', ArrowLeft:'ArrowLeft', ArrowDown:'ArrowDown', ArrowRight:'ArrowRight', Escape:'Escape', KeyS:'s', KeyD:'d', KeyE:'e', Digit1:'1', Digit2:'2', Digit3:'3' };
+    const keyCodes = { ArrowUp:38, ArrowLeft:37, ArrowDown:40, ArrowRight:39, Enter:13, Escape:27, KeyS:83, KeyD:68, KeyE:69, Digit1:49, Digit2:50 };
+    const keyNames = { ArrowUp:'ArrowUp', ArrowLeft:'ArrowLeft', ArrowDown:'ArrowDown', ArrowRight:'ArrowRight', Enter:'Enter', Escape:'Escape', KeyS:'s', KeyD:'d', KeyE:'e', Digit1:'1', Digit2:'2' };
     const dispatchKey = (code, type) => {
       canvas.focus({ preventScroll:true });
       const event = new KeyboardEvent(type, { code, key:keyNames[code] || code, bubbles:true, cancelable:true });
@@ -150,7 +150,8 @@
           canvas,
           locateFile: (file) => `neverball/${file}?v=${BUILD_ID}`,
           print: (text) => console.log('[NEVERBALL]', text),
-          printErr: (text) => { console.warn('[NEVERBALL]', text); if (/error|failed|cannot|abort|exception/i.test(String(text))) setStatus(`Runtime warning\n${text}`); },
+          printErr: (text) => console.warn('[NEVERBALL]', text),
+          onAbort: (text) => setStatus(`NOT READY\n${text}`),
           setStatus: (text) => { if (text) setStatus(text); },
         });
         Neverball.module = module;
