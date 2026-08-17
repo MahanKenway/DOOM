@@ -34,6 +34,10 @@ grep -q 'id}-package.json' neverball.html
 grep -q 'id}-\[a-f0-9\]' neverball.html
 grep -q 'set-easy set-medium' scripts/build-neverball-web.sh
 grep -q '\$PACKAGE_ID-package.json' scripts/build-neverball-web.sh
+grep -q 'releaseVirtualKeys' neverball.html
+grep -q 'gamepadconnected' neverball.html
+grep -q 'controller-status' neverball.html
+grep -q 'data-key="KeyR"' neverball.html
 ! grep -q 'type="file"' neverball.html
 
 grep -q "assets/hacx.wad" src/catalog.js
