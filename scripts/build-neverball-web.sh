@@ -28,18 +28,18 @@ mkdir -p "$CACHE_DIR" "$PACKAGE_DIR" "$OUT_DIR"
 
 # These packages match the maintained upstream web workflow. The native SOL
 # prebuild is needed before compiling Neverball itself to WebAssembly.
-sudo apt-get update -qq
-sudo apt-get install -y -qq libpng-dev libjpeg-dev pkg-config libsdl2-dev libcurl4-openssl-dev ffmpeg
+timeout 180 sudo apt-get update -qq -o Acquire::Retries=2 -o Acquire::http::Timeout=30 -o Acquire::https::Timeout=30
+timeout 300 sudo apt-get install -y -qq libpng-dev libjpeg-dev pkg-config libsdl2-dev libcurl4-openssl-dev ffmpeg
 command -v ffmpeg >/dev/null
 
-gh repo clone "$NEVERBALL_REPO" "$SOURCE_DIR" -- --filter=blob:none
+timeout 180 gh repo clone "$NEVERBALL_REPO" "$SOURCE_DIR" -- --filter=blob:none
 (
   cd "$SOURCE_DIR"
   git checkout --detach "$NEVERBALL_COMMIT"
   test "$(git rev-parse HEAD)" = "$NEVERBALL_COMMIT"
 )
 
-gh repo clone "$GL4ES_REPO" "$GL4ES_DIR" -- --filter=blob:none
+timeout 180 gh repo clone "$GL4ES_REPO" "$GL4ES_DIR" -- --filter=blob:none
 (
   cd "$GL4ES_DIR"
   git checkout --detach "$GL4ES_COMMIT"
