@@ -144,6 +144,9 @@ jobs:
         ./emsdk/emsdk activate 3.1.6
         source ./emsdk/emsdk_env.sh
         ./scripts/build-blasphemer-web.sh
+        # Emscripten 3.1.6 uses the legacy single `upstream` layout and
+        # replaces the active 3.1.51 tool files, so reinstall before restore.
+        ./emsdk/emsdk install 3.1.51
         ./emsdk/emsdk activate 3.1.51
 
     - name: Compile ECWolf local-data runtime
