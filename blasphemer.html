@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#160b11" />
+  <meta name="description" content="Blasphemer on RetroPlay: a fully bundled free Heretic-style fantasy shooter running in WebAssembly, with no file upload, fullscreen and PSP-style touch controls." />
+  <meta name="application-name" content="RetroPlay" />
+  <meta name="robots" content="index,follow,max-image-preview:large" />
+  <link rel="canonical" href="https://mahankenway.github.io/RetroPlay/blasphemer.html" />
+  <link rel="icon" href="assets/favicon.ico" type="image/x-icon" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="RetroPlay" />
+  <meta property="og:title" content="RetroPlay — Blasphemer Runtime" />
+  <meta property="og:description" content="A fully bundled free fantasy shooter using Chocolate Heretic in WebAssembly, ready from first load with PSP-style touch controls." />
+  <meta property="og:url" content="https://mahankenway.github.io/RetroPlay/blasphemer.html" />
+  <meta property="og:image" content="https://mahankenway.github.io/RetroPlay/assets/screenshots/blasphemer-runtime.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <title>RetroPlay — Blasphemer Runtime</title>
+  <style>
+    :root { --paper:#eee7df; --ink:#231116; --night:#160b11; --maroon:#74283d; --ember:#d7543a; --gold:#dcb365; --line:rgba(35,17,22,.22); --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; }
+    * { box-sizing:border-box; }
+    body { min-height:100vh; margin:0; color:var(--ink); background:var(--paper); font:14px/1.5 Arial,sans-serif; }
+    body::before { content:''; position:fixed; inset:0; pointer-events:none; opacity:.72; background:radial-gradient(circle at 18% 14%,rgba(215,84,58,.16),transparent 27%),repeating-linear-gradient(90deg,rgba(79,28,41,.055) 0 1px,transparent 1px 34px),repeating-linear-gradient(0deg,rgba(79,28,41,.055) 0 1px,transparent 1px 34px); }
+    main { position:relative; width:min(1140px,calc(100% - 36px)); margin:0 auto; padding:26px 0 48px; }
+    header { display:flex; justify-content:space-between; align-items:center; gap:20px; padding-bottom:16px; border-top:1px solid var(--line); border-bottom:1px solid var(--line); }
+    .brand { color:var(--ink); font:600 30px/.9 Arial,sans-serif; letter-spacing:-.11em; text-decoration:none; }.brand b { color:var(--maroon); font-weight:500; }
+    .back,.utility { border:1px solid var(--line); padding:9px 12px; color:var(--ink); background:rgba(255,255,255,.32); font:10px var(--mono); letter-spacing:.08em; text-decoration:none; text-transform:uppercase; }.utility { cursor:pointer; }
+    .eyebrow { margin:44px 0 12px; color:#785765; font:10px var(--mono); text-transform:uppercase; letter-spacing:.11em; }.eyebrow span { color:var(--ink); padding-right:13px; margin-right:13px; border-right:1px solid var(--line); }
+    h1 { max-width:900px; margin:0; font-size:clamp(40px,7vw,78px); line-height:.9; letter-spacing:-.08em; font-weight:500; }.intro { max-width:800px; margin:22px 0 32px; color:#60424c; font-size:16px; }
+    .panel { display:grid; grid-template-columns:minmax(0,1fr) 290px; gap:22px; padding:18px; border:1px solid var(--line); background:rgba(255,251,247,.48); box-shadow:12px 14px 0 rgba(68,27,39,.09); }
+    .play-area { min-width:0; overflow:hidden; background:#050304; border:1px solid #613341; box-shadow:inset 0 0 0 1px rgba(220,179,101,.20); }
+    canvas { display:block; width:100%; max-height:70vh; aspect-ratio:4/3; object-fit:contain; image-rendering:pixelated; background:#050304; outline:none; cursor:crosshair; touch-action:none; }
+    .play-area:fullscreen { width:100vw; height:100vh; display:flex; flex-direction:column; justify-content:center; align-items:stretch; background:#000; }
+    .play-area:fullscreen canvas { width:100%; height:auto; max-height:calc(100vh - 146px); aspect-ratio:4/3; object-fit:contain; cursor:none; }
+    .result { display:grid; align-content:start; gap:12px; padding:7px; }.result > span { color:#994234; font:10px var(--mono); text-transform:uppercase; letter-spacing:.1em; }.status { min-height:110px; padding:12px; border:1px solid rgba(35,17,22,.3); background:var(--night); color:#ffe8ba; font:11px/1.45 var(--mono); white-space:pre-wrap; }.facts { margin:0; display:grid; gap:0; border-top:1px solid var(--line); }.facts div { padding:10px 0; border-bottom:1px solid var(--line); }.facts dt { color:#80666c; font:9px var(--mono); text-transform:uppercase; }.facts dd { margin:4px 0 0; font-size:12px; }
+    .notice { margin:26px 0 0; padding:15px 18px; border-left:3px solid var(--ember); background:rgba(215,84,58,.10); color:#60424c; font-size:13px; }.notice strong { color:var(--ink); }.notice a { color:inherit; }
+    .controls { display:none; margin:0; min-height:140px; padding:12px max(14px,env(safe-area-inset-right)) max(14px,env(safe-area-inset-bottom)) max(14px,env(safe-area-inset-left)); align-items:center; justify-content:space-between; gap:12px; background:linear-gradient(135deg,#17080e,#32121d); user-select:none; -webkit-user-select:none; touch-action:none; }
+    .control-cluster { display:grid; justify-items:center; gap:5px; min-width:132px; }.control-label { color:#e9b2a9; font:9px var(--mono); letter-spacing:.1em; text-transform:uppercase; }.dpad,.actions { display:grid; gap:7px; }.dpad { grid-template-columns:repeat(3,58px); grid-template-rows:repeat(3,58px); }.actions { grid-template-columns:repeat(3,58px); grid-template-rows:repeat(3,58px); align-items:center; }.pad-btn { display:grid; place-items:center; width:58px; height:58px; border:1px solid rgba(220,179,101,.9); border-radius:50%; color:#fff0cf; background:rgba(46,16,27,.98); box-shadow:0 3px 0 rgba(0,0,0,.42),inset 0 0 0 1px rgba(255,255,255,.06); font:700 14px var(--mono); touch-action:none; -webkit-tap-highlight-color:transparent; }.pad-btn--menu { width:123px; grid-column:1 / span 2; border-color:rgba(215,84,58,.92); border-radius:28px; font-size:10px; letter-spacing:.08em; }.pad-btn--run { border-color:rgba(160,203,154,.9); color:#e6ffdf; font-size:10px; }.pad-btn:active,.pad-btn.is-active { transform:translateY(2px); background:#743042; box-shadow:0 1px 0 rgba(0,0,0,.3),inset 0 0 0 1px rgba(255,255,255,.13); }.dpad .pad-btn:nth-child(1) { grid-column:2; }.dpad .pad-btn:nth-child(2) { grid-row:2; grid-column:1; }.dpad .pad-btn:nth-child(3) { grid-row:2; grid-column:2; }.dpad .pad-btn:nth-child(4) { grid-row:2; grid-column:3; }.touch-note { max-width:220px; margin:0; color:#efc7c0; font:10px/1.45 var(--mono); text-align:center; }.touch-note strong { color:#fff0df; font-size:11px; }.controller-status { display:block; margin-top:6px; color:#e8b6ab; font-size:9px; }.controller-status.is-gamepad { color:#e8f5b1; }
+    @media (max-width:760px) { main { width:min(100% - 24px,680px); padding-top:18px; }.panel { grid-template-columns:1fr; }.controls { display:flex; }.intro { font-size:14px; } canvas { max-height:54vh; } .play-area:fullscreen .controls { display:flex; } }
+    @media (max-width:540px) { main { width:100%; padding-top:0; }.panel { gap:0; padding:0; border:0; box-shadow:none; }.controls { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); grid-template-areas:'move action' 'note note'; justify-items:center; gap:7px 8px; padding:9px max(8px,env(safe-area-inset-right)) max(10px,env(safe-area-inset-bottom)) max(8px,env(safe-area-inset-left)); }.control-cluster { min-width:0; }.control-cluster:first-child { grid-area:move; }.control-cluster:last-child { grid-area:action; }.touch-note { grid-area:note; max-width:none; font-size:9px; }.dpad { grid-template-columns:repeat(3,44px); grid-template-rows:repeat(3,44px); }.actions { grid-template-columns:repeat(3,44px); grid-template-rows:repeat(3,44px); }.pad-btn { width:44px; height:44px; font-size:11px; }.pad-btn--menu { width:95px; font-size:9px; }.pad-btn--run { font-size:8px; }.control-label { font-size:8px; }.touch-note strong { font-size:10px; } }
+    @media (max-width:760px) and (orientation:landscape) { .play-area:fullscreen canvas { max-height:calc(100vh - 172px); } }
+    @media (min-width:761px) { .play-area:fullscreen .controls { display:none; } .play-area:fullscreen canvas { width:100vw; height:100vh; max-height:none; aspect-ratio:auto; } }
+  </style>
+</head>
+<body>
+  <main>
+    <header><a class="brand" href="./" aria-label="Return to RetroPlay">RETRO<b>PLAY</b></a><a class="back" href="./">← World index</a></header>
+    <p class="eyebrow"><span>// R-BL</span>Independent runtime / WebAssembly</p>
+    <h1>Shadowed corridors.<br />No borrowed data.</h1>
+    <p class="intro">Blasphemer is a fully free fantasy-shooter world, bundled with a browser build of Chocolate Heretic. Its WAD is already inside this page’s runtime: press play, move through the world and use the menus without uploading a file or finding original game data.</p>
+    <section class="panel" aria-label="Blasphemer runtime">
+      <div id="play-area" class="play-area"><canvas id="canvas" width="640" height="480" tabindex="0" aria-label="Blasphemer game canvas"></canvas>
+        <div class="controls" role="group" aria-label="Blasphemer PSP-style touch controls">
+          <div class="control-cluster"><span class="control-label">Move / turn</span><div class="dpad"><button class="pad-btn" data-key="ArrowUp" aria-label="Move forward">▲</button><button class="pad-btn" data-key="ArrowLeft" aria-label="Turn left">◀</button><button class="pad-btn" data-key="ArrowDown" aria-label="Move backward">▼</button><button class="pad-btn" data-key="ArrowRight" aria-label="Turn right">▶</button></div></div>
+          <p class="touch-note"><strong>PSP TOUCH</strong><br />D-pad: move / turn<br />△: use · ○: fire<br />□: strafe · ×: select<br /><output id="controller-status" class="controller-status" aria-live="polite">Touch ready · Gamepad waiting</output></p>
+          <div class="control-cluster"><span class="control-label">Action / menu</span><div class="actions"><button class="pad-btn pad-btn--run" data-key="ShiftLeft" aria-label="Run">RUN</button><button class="pad-btn" data-key="Space" aria-label="Use">△</button><span></span><button class="pad-btn" data-key="AltLeft" aria-label="Strafe">□</button><button class="pad-btn" data-key="ControlLeft" aria-label="Fire">○</button><button class="pad-btn" data-key="Enter" aria-label="Select">×</button><button class="pad-btn pad-btn--menu" data-key="Escape" aria-label="Open menu or go back">MENU</button></div></div>
+        </div>
+      </div>
+      <div class="result"><span>Runtime status</span><output id="result" class="status">Preparing bundled Blasphemer…</output><dl class="facts"><div><dt>Runtime</dt><dd>Chocolate Heretic / WebAssembly</dd></div><div><dt>Content</dt><dd>Bundled Blasphemer 0.1.8 IWAD</dd></div><div><dt>Session</dt><dd>Browser-local configuration and saves</dd></div><div><dt>Input</dt><dd>Keyboard / touch / gamepad / mouse</dd></div><div><dt>First-load sound</dt><dd>Silent for mobile-safe startup</dd></div></dl><button id="btn-fullscreen" class="utility" type="button">Fullscreen</button></div>
+    </section>
+    <p class="notice"><strong>Fully bundled libre game:</strong> Chocolate Heretic and the Blasphemer game data are GPL-licensed free software. RetroPlay bundles the complete free IWAD and does not accept uploads, fetch external game content or include original Heretic data. The initial browser build starts silently to avoid mobile AudioContext stalls; gameplay, fullscreen, keyboard, mouse, gamepad and PSP touch controls remain available. <a href="blasphemer/CHOCOLATE-DOOM-COPYING.txt">Engine license</a> · <a href="blasphemer/BLASPHEMER-COPYING.txt">Game-data license</a> · <a href="blasphemer/BLASPHEMER-CREDITS.md">Credits</a> · <a href="blasphemer/SOURCE-NOTICE.txt">Source notice</a>.</p>
+  </main>
+  <script>
+    const BUILD_ID = '20260817-blasphemer-retroplay-v1';
+    const canvas = document.getElementById('canvas');
+    const playArea = document.getElementById('play-area');
+    const result = document.getElementById('result');
+    const controllerStatus = document.getElementById('controller-status');
+    const setStatus = (text) => { result.textContent = text || 'Starting Blasphemer…'; };
+    const keyCodes = { ArrowUp:38, ArrowLeft:37, ArrowDown:40, ArrowRight:39, Space:32, Enter:13, Escape:27, ShiftLeft:16, AltLeft:18, ControlLeft:17 };
+    const keyNames = { ArrowUp:'ArrowUp', ArrowLeft:'ArrowLeft', ArrowDown:'ArrowDown', ArrowRight:'ArrowRight', Space:' ', Enter:'Enter', Escape:'Escape', ShiftLeft:'Shift', AltLeft:'Alt', ControlLeft:'Control' };
+    const activePointers = new Map();
+    const heldVirtualKeys = new Map();
+    const focusCanvas = () => canvas.focus({ preventScroll:true });
+    const dispatchKey = (code, type) => {
+      focusCanvas();
+      const event = new KeyboardEvent(type, { code, key:keyNames[code] || code, bubbles:true, cancelable:true });
+      Object.defineProperties(event, { keyCode:{ value:keyCodes[code] || 0 }, which:{ value:keyCodes[code] || 0 } });
+      canvas.dispatchEvent(event);
+    };
+    const pressVirtualKey = (code, pointerId) => {
+      const pointers = heldVirtualKeys.get(code) || new Set();
+      if (!pointers.size) dispatchKey(code, 'keydown');
+      pointers.add(pointerId); heldVirtualKeys.set(code, pointers); activePointers.set(pointerId, code);
+    };
+    const releaseVirtualKey = (pointerId) => {
+      const code = activePointers.get(pointerId); if (!code) return;
+      const pointers = heldVirtualKeys.get(code); pointers?.delete(pointerId);
+      if (!pointers?.size) { heldVirtualKeys.delete(code); dispatchKey(code, 'keyup'); }
+      activePointers.delete(pointerId);
+    };
+    const releaseVirtualKeys = () => { for (const code of heldVirtualKeys.keys()) dispatchKey(code, 'keyup'); activePointers.clear(); heldVirtualKeys.clear(); document.querySelectorAll('.pad-btn.is-active').forEach((button) => button.classList.remove('is-active')); };
+    document.querySelectorAll('[data-key]').forEach((button) => {
+      const key = button.dataset.key;
+      const press = (event) => { if (event.pointerType === 'mouse' && event.button !== 0) return; event.preventDefault(); focusCanvas(); button.classList.add('is-active'); button.setPointerCapture?.(event.pointerId); pressVirtualKey(key, event.pointerId); };
+      const release = (event) => { event.preventDefault(); releaseVirtualKey(event.pointerId); if (![...activePointers.values()].includes(key)) button.classList.remove('is-active'); };
+      button.addEventListener('pointerdown', press); button.addEventListener('pointerup', release); button.addEventListener('pointercancel', release); button.addEventListener('lostpointercapture', release); button.addEventListener('contextmenu', (event) => event.preventDefault());
+    });
+    window.addEventListener('pagehide', releaseVirtualKeys);
+    document.addEventListener('visibilitychange', () => { if (document.hidden) releaseVirtualKeys(); });
+    let pointerLockArmed = false;
+    const captureMouse = () => { if (!pointerLockArmed || document.pointerLockElement === canvas || !canvas.requestPointerLock) return; const request = canvas.requestPointerLock(); if (request?.catch) request.catch(() => {}); };
+    canvas.addEventListener('pointerdown', () => { pointerLockArmed=true; focusCanvas(); captureMouse(); });
+    function monitorGamepad() {
+      const gamepad = Array.from(navigator.getGamepads?.() || []).find(Boolean);
+      if (gamepad) { const active = gamepad.buttons.some((button) => button.pressed || button.value > .5) || gamepad.axes.some((axis) => Math.abs(axis) > .35); if (active && !document.hidden) focusCanvas(); controllerStatus.textContent = `Gamepad ready · ${gamepad.id.slice(0,28)}${gamepad.id.length > 28 ? '…' : ''}`; controllerStatus.classList.add('is-gamepad'); }
+      else { controllerStatus.textContent='Touch ready · Gamepad waiting'; controllerStatus.classList.remove('is-gamepad'); }
+      requestAnimationFrame(monitorGamepad);
+    }
+    window.addEventListener('gamepadconnected', (event) => { controllerStatus.textContent=`Gamepad connected · ${event.gamepad.id.slice(0,28)}${event.gamepad.id.length > 28 ? '…' : ''}`; controllerStatus.classList.add('is-gamepad'); focusCanvas(); });
+    window.addEventListener('gamepaddisconnected', () => { controllerStatus.textContent='Touch ready · Gamepad waiting'; controllerStatus.classList.remove('is-gamepad'); });
+    monitorGamepad();
+    document.getElementById('btn-fullscreen').addEventListener('click', async () => { try { if (document.fullscreenElement) await document.exitFullscreen(); else await playArea.requestFullscreen({ navigationUI:'hide' }); focusCanvas(); } catch (error) { if (!document.fullscreenElement) setStatus(`Fullscreen unavailable\n${error.message}`); } });
+    window.addEventListener('error', (event) => { if (/wasm|runtime|abort|webassembly/i.test(String(event.message))) setStatus(`NOT READY\n${event.message}`); });
+    window.addEventListener('unhandledrejection', (event) => { const message=String(event.reason); if (/wasm|runtime|abort|webassembly/i.test(message)) setStatus(`NOT READY\n${message}`); });
+    const output = [];
+    window.Module = {
+      canvas,
+      noInitialRun:true,
+      locateFile: (file) => `blasphemer/${file}?v=${BUILD_ID}`,
+      print: (message) => { console.log('[BLASPHEMER]', message); output.push(String(message)); },
+      printErr: (message) => { console.warn('[BLASPHEMER]', message); if (/error|failed|cannot|invalid/i.test(String(message))) setStatus(`Runtime warning\n${message}`); },
+      setStatus: (message) => { if (message) setStatus(message); },
+      monitorRunDependencies: (left) => { if (left) setStatus(`Loading runtime assets (${left} remaining)…`); },
+      onAbort: (message) => setStatus(`NOT READY\n${message}`),
+      onRuntimeInitialized: async () => {
+        try {
+          setStatus('Loading bundled Blasphemer world…');
+          const response = await fetch(`blasphemer/heretic.wad?v=${BUILD_ID}`, { cache:'no-store' });
+          if (!response.ok) throw new Error(`Bundled IWAD could not load (${response.status})`);
+          Module.FS.writeFile('/heretic.wad', new Uint8Array(await response.arrayBuffer()));
+          Module.FS.chdir('/');
+          setStatus('READY\nBlasphemer is running. Use keyboard, gamepad, mouse or PSP touch controls.');
+          Module.ccall('Web_DoomMain', null, [], []);
+          focusCanvas();
+        } catch (error) { console.error(error); setStatus(`NOT READY\n${error?.message || error}`); }
+      },
+    };
+  </script>
+  <script src="blasphemer/chocolate-heretic.js?v=20260817-blasphemer-retroplay-v1" onerror="setStatus('NOT READY\nThe Blasphemer engine file could not load.')"></script>
+</body>
+</html>

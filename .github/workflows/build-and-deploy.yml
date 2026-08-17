@@ -27,14 +27,16 @@ jobs:
       uses: actions/cache@v4
       with:
         path: emsdk
-        key: emsdk-3.1.51
+        key: emsdk-3.1.6
 
     - name: Install Emscripten SDK
       if: steps.cache-emsdk.outputs.cache-hit != 'true'
       run: |
+        sudo apt-get update -qq
+        sudo apt-get install -y -qq lbzip2
         git clone https://github.com/emscripten-core/emsdk.git
-        ./emsdk/emsdk install 3.1.51
-        ./emsdk/emsdk activate 3.1.51
+        ./emsdk/emsdk install 3.1.6
+        ./emsdk/emsdk activate 3.1.6
 
     - name: Add emcc to PATH
       run: echo "$GITHUB_WORKSPACE/emsdk/upstream/emscripten" >> $GITHUB_PATH
@@ -132,6 +134,11 @@ jobs:
         GH_TOKEN: ${{ github.token }}
       run: ./scripts/build-neverball-web.sh
 
+    - name: Compile Blasphemer fully bundled fantasy-shooter runtime
+      env:
+        GH_TOKEN: ${{ github.token }}
+      run: ./scripts/build-blasphemer-web.sh
+
     - name: Compile ECWolf local-data runtime
       env:
         GH_TOKEN: ${{ github.token }}
@@ -139,7 +146,7 @@ jobs:
 
     - name: Copy frontend files
       run: |
-        cp index.html cdogs.html freedink.html opentyrian.html librequake.html openttd.html freerct.html neverball.html ecwolf.html openresident.html manifest.json robots.txt sitemap.xml google*.html dist/ 2>/dev/null || true
+        cp index.html cdogs.html freedink.html opentyrian.html librequake.html openttd.html freerct.html neverball.html blasphemer.html ecwolf.html openresident.html manifest.json robots.txt sitemap.xml google*.html dist/ 2>/dev/null || true
         cp -r styles src dist/ 2>/dev/null || true
         mkdir -p dist/assets
         # Copy nested catalog artwork as well as existing icons. The WADs are

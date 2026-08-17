@@ -40,6 +40,21 @@ grep -q 'controller-status' neverball.html
 grep -q 'data-key="KeyR"' neverball.html
 ! grep -q 'type="file"' neverball.html
 
+test -f blasphemer.html
+test -x scripts/build-blasphemer-web.sh
+test -f scripts/patches/chocolate-heretic-retroplay.patch
+grep -q "blasphemer.html" src/catalog.js
+grep -q "blasphemer-runtime.png" src/catalog.js
+grep -q "Compile Blasphemer fully bundled fantasy-shooter runtime" .github/workflows/build-and-deploy.yml
+grep -q "blasphemer.html" sitemap.xml
+grep -q "Web_DoomMain" scripts/patches/chocolate-heretic-retroplay.patch
+grep -q "emscripten_set_main_loop" scripts/patches/chocolate-heretic-retroplay.patch
+grep -q "releaseVirtualKeys" blasphemer.html
+grep -q "gamepadconnected" blasphemer.html
+grep -q "controller-status" blasphemer.html
+grep -q 'data-key="ControlLeft"' blasphemer.html
+! grep -q 'type="file"' blasphemer.html
+
 grep -q "assets/hacx.wad" src/catalog.js
 grep -q "hacx12.zip" .github/workflows/build-and-deploy.yml
 test -f assets/licenses/HACX-LEGAL.txt

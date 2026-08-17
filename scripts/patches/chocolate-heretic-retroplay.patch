@@ -1,0 +1,121 @@
+diff --git a/configure.ac b/configure.ac
+index 26e6958..c1e9bfb 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -24,13 +24,13 @@ AC_ARG_ENABLE(
+ 
+ AS_IF([test "x$enable_emscripten" = "xyes"],
+   AC_MSG_NOTICE([auto-detected use of Emscripten])
+-  SDL_CFLAGS="-s USE_SDL=2"
++  SDL_CFLAGS="-s USE_SDL=2 -DSDL_MAIN_HANDLED"
+   SDL_LIBS="-s USE_SDL=2"
+   SDLMIXER_CFLAGS="-s USE_SDL=2 -s USE_SDL_MIXER=2"
+   SDLMIXER_LIBS="-s USE_SDL=2 -s USE_SDL_MIXER=2"
+   SDLNET_CFLAGS="-s USE_SDL=2 -s USE_SDL_NET=2"
+   SDLNET_LIBS="-s USE_SDL=2 -s USE_SDL_NET=2"
+-  EM_LDFLAGS="-s ALLOW_MEMORY_GROWTH=1 -s ASYNCIFY=1 -s EXPORTED_RUNTIME_METHODS=[ccall,cwrap,FS,ENV,PATH,ERRNO_CODES] -s FORCE_FILESYSTEM"
++  EM_LDFLAGS="-sALLOW_MEMORY_GROWTH=1 -sLEGACY_GL_EMULATION=0 -sASYNCIFY=1 -sEXPORTED_FUNCTIONS=['_Web_DoomMain'] -sEXPORTED_RUNTIME_METHODS=['FS','ccall'] -sFORCE_FILESYSTEM"
+ )
+ 
+ AC_CONFIG_AUX_DIR(autotools)
+diff --git a/src/heretic/d_main.c b/src/heretic/d_main.c
+index 9090df8..d4a5ee9 100644
+--- a/src/heretic/d_main.c
++++ b/src/heretic/d_main.c
+@@ -19,6 +19,10 @@
+ #include <stdio.h>
+ #include <stdlib.h>
+ 
++#ifdef EMSCRIPTEN
++#include <emscripten/emscripten.h>
++#endif
++
+ #include "txt_main.h"
+ #include "txt_io.h"
+ 
+@@ -223,6 +227,18 @@ boolean D_GrabMouseCallback(void)
+     return (gamestate == GS_LEVEL) && !demoplayback && !advancedemo;
+ }
+ 
++// Browser frame callback: unlike the native infinite loop, this yields back
++// to the host after every frame so SDL can paint the WebAssembly canvas.
++#ifdef EMSCRIPTEN
++static void D_RunFrame(void)
++{
++    I_StartFrame();
++    TryRunTics();
++    S_UpdateSounds(players[consoleplayer].mo);
++    D_Display();
++}
++#endif
++
+ //---------------------------------------------------------------------------
+ //
+ // PROC D_DoomLoop
+@@ -237,26 +253,29 @@ void D_DoomLoop(void)
+         M_snprintf(filename, sizeof(filename), "debug%i.txt", consoleplayer);
+         debugfile = M_fopen(filename, "w");
+     }
++#ifdef EMSCRIPTEN
++    // Start the browser loop before SDL video initialization so its timing is
++    // already available when the canvas-backed video surface is created.
++    emscripten_set_main_loop(D_RunFrame, 0, 0);
++#endif
++
+     I_GraphicsCheckCommandLine();
+     I_SetGrabMouseCallback(D_GrabMouseCallback);
+     I_RegisterWindowIcon(heretic_icon_data, heretic_icon_w, heretic_icon_h);
+     I_InitGraphics();
++    D_StartGameLoop();
+ 
+     main_loop_started = true;
+ 
++#ifndef EMSCRIPTEN
+     while (1)
+     {
+-        // Frame syncronous IO operations
+         I_StartFrame();
+-
+-        // Process one or more tics
+-        // Will run at least one tic
+         TryRunTics();
+-
+-        // Move positional sounds
+         S_UpdateSounds(players[consoleplayer].mo);
+         D_Display();
+     }
++#endif
+ }
+ 
+ /*
+diff --git a/src/i_main.c b/src/i_main.c
+index 851f0e9..a8344b3 100644
+--- a/src/i_main.c
++++ b/src/i_main.c
+@@ -38,6 +38,26 @@
+ 
+ void D_DoomMain (void);
+ 
++#ifdef EMSCRIPTEN
++// RetroPlay invokes this browser entrypoint after its bundled IWAD has been
++// written to the virtual filesystem. Audio contexts often need a user gesture
++// on mobile browsers, so the guaranteed first-load path is silent.
++void Web_DoomMain(void)
++{
++    static char *web_argv[] = {
++        "chocolate-heretic",
++        "-iwad", "/heretic.wad",
++        "-nosound",
++        "-nomusic",
++        "-nogui",
++    };
++
++    myargc = (int) (sizeof(web_argv) / sizeof(web_argv[0]));
++    myargv = web_argv;
++    D_DoomMain();
++}
++#endif
++
+ int main(int argc, char **argv)
+ {
+     // save arguments
