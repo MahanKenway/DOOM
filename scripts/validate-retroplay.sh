@@ -55,6 +55,16 @@ grep -q "controller-status" blasphemer.html
 grep -q 'data-key="ControlLeft"' blasphemer.html
 ! grep -q 'type="file"' blasphemer.html
 
+test -f hexgl.html
+test -x scripts/build-hexgl-web.sh
+grep -q "hexgl.html" src/catalog.js
+grep -q "hexgl-runtime.webp" src/catalog.js
+grep -q "Package HexGL fully bundled 3D racing runtime" .github/workflows/build-and-deploy.yml
+grep -q "hexgl.html" sitemap.xml
+grep -q "fullscreenchange" hexgl.html
+grep -q "gamepadconnected" hexgl.html
+! grep -q 'type="file"' hexgl.html
+
 grep -q "assets/hacx.wad" src/catalog.js
 grep -q "hacx12.zip" .github/workflows/build-and-deploy.yml
 test -f assets/licenses/HACX-LEGAL.txt

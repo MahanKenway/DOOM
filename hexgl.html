@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#0b1022" />
+  <meta name="description" content="HexGL on RetroPlay: a fully bundled 3D WebGL racing game with PSP-style touch controls, gamepad support and fullscreen." />
+  <meta name="application-name" content="RetroPlay" />
+  <link rel="canonical" href="https://mahankenway.github.io/RetroPlay/hexgl.html" />
+  <link rel="icon" href="assets/favicon.ico" type="image/x-icon" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="RetroPlay" />
+  <meta property="og:title" content="RetroPlay — HexGL Runtime" />
+  <meta property="og:description" content="A fully bundled 3D futuristic racing game with local assets, fullscreen and PSP-style touch controls." />
+  <meta property="og:url" content="https://mahankenway.github.io/RetroPlay/hexgl.html" />
+  <meta property="og:image" content="https://mahankenway.github.io/RetroPlay/assets/screenshots/hexgl-runtime.webp" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <title>RetroPlay — HexGL Runtime</title>
+  <style>
+    :root { --paper:#e8ecea; --ink:#071126; --night:#060816; --violet:#624aff; --cyan:#3ad7ff; --lime:#d7f64f; --line:rgba(7,17,38,.22); --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; }
+    * { box-sizing:border-box; } body { min-height:100vh; margin:0; color:var(--ink); background:var(--paper); font:14px/1.5 Arial,sans-serif; }
+    body::before { content:''; position:fixed; inset:0; pointer-events:none; opacity:.72; background:linear-gradient(rgba(7,17,38,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(7,17,38,.045) 1px,transparent 1px); background-size:36px 36px; }
+    main { position:relative; width:min(1140px,calc(100% - 36px)); margin:0 auto; padding:26px 0 48px; }
+    header { display:flex; justify-content:space-between; align-items:center; gap:20px; padding-bottom:16px; border-top:1px solid var(--line); border-bottom:1px solid var(--line); }
+    .brand { color:var(--ink); font:600 30px/.9 Arial,sans-serif; letter-spacing:-.11em; text-decoration:none; }.brand b { color:var(--violet); font-weight:500; }
+    .back,.utility { border:1px solid var(--line); padding:9px 12px; color:var(--ink); background:rgba(255,255,255,.35); font:10px var(--mono); letter-spacing:.08em; text-decoration:none; text-transform:uppercase; }.utility { cursor:pointer; }
+    .eyebrow { margin:44px 0 12px; color:#46527b; font:10px var(--mono); text-transform:uppercase; letter-spacing:.11em; }.eyebrow span { color:var(--ink); padding-right:13px; margin-right:13px; border-right:1px solid var(--line); }
+    h1 { max-width:820px; margin:0; font-size:clamp(40px,7vw,78px); line-height:.9; letter-spacing:-.08em; font-weight:500; }.intro { max-width:780px; margin:22px 0 32px; color:#354169; font-size:16px; }
+    .panel { display:grid; grid-template-columns:minmax(0,1fr) 290px; gap:22px; padding:18px; border:1px solid var(--line); background:rgba(255,255,251,.42); box-shadow:12px 14px 0 rgba(7,17,38,.07); }
+    .play-area { min-width:0; overflow:hidden; background:#030510; border:1px solid #342a91; box-shadow:inset 0 0 0 1px rgba(58,215,255,.19); }.game-frame { display:block; width:100%; aspect-ratio:16/9; border:0; background:#030510; outline:0; }
+    .play-area:fullscreen { width:100vw; height:100vh; display:flex; flex-direction:column; justify-content:center; align-items:stretch; background:#000; }.play-area:fullscreen .game-frame { width:100%; height:auto; max-height:calc(100vh - 138px); aspect-ratio:16/9; }
+    .result { display:grid; align-content:start; gap:12px; padding:7px; }.result > span { color:#5040c8; font:10px var(--mono); text-transform:uppercase; letter-spacing:.1em; }.status { min-height:112px; padding:12px; border:1px solid rgba(7,17,38,.25); background:#090b21; color:#d1f6ff; font:11px/1.45 var(--mono); white-space:pre-wrap; }.facts { margin:0; display:grid; gap:0; border-top:1px solid var(--line); }.facts div { padding:10px 0; border-bottom:1px solid var(--line); }.facts dt { color:#58638a; font:9px var(--mono); text-transform:uppercase; }.facts dd { margin:4px 0 0; font-size:12px; }
+    .notice { margin:26px 0 0; padding:15px 18px; border-left:3px solid var(--violet); background:rgba(98,74,255,.09); color:#303b61; font-size:13px; }.notice strong { color:var(--ink); }.notice a { color:inherit; }
+    .controls { display:none; min-height:136px; padding:12px max(14px,env(safe-area-inset-right)) max(14px,env(safe-area-inset-bottom)) max(14px,env(safe-area-inset-left)); align-items:center; justify-content:space-between; gap:12px; background:linear-gradient(135deg,#070a1a,#15124b); user-select:none; -webkit-user-select:none; touch-action:none; }.control-cluster { display:grid; justify-items:center; gap:5px; min-width:132px; }.control-label { color:#a6a2ff; font:9px var(--mono); letter-spacing:.1em; text-transform:uppercase; }.dpad,.actions { display:grid; gap:7px; }.dpad { grid-template-columns:repeat(3,58px); grid-template-rows:repeat(3,58px); }.actions { grid-template-columns:repeat(3,58px); grid-template-rows:repeat(3,58px); align-items:center; }.pad-btn { display:grid; place-items:center; width:58px; height:58px; border:1px solid rgba(58,215,255,.9); border-radius:50%; color:#e3fdff; background:rgba(8,13,39,.97); box-shadow:0 3px 0 rgba(0,0,0,.38),inset 0 0 0 1px rgba(255,255,255,.07); font:700 15px var(--mono); touch-action:none; -webkit-tap-highlight-color:transparent; }.pad-btn--menu { width:123px; grid-column:1 / span 2; border-color:rgba(215,246,79,.88); border-radius:28px; color:#f0ffd0; font-size:10px; letter-spacing:.08em; }.pad-btn--restart { border-color:rgba(255,176,94,.88); color:#ffe1ad; font-size:13px; }.pad-btn:active,.pad-btn.is-active { transform:translateY(2px); background:#3930a7; box-shadow:0 1px 0 rgba(0,0,0,.3),inset 0 0 0 1px rgba(255,255,255,.15); }.dpad .pad-btn:nth-child(1) { grid-column:2; }.dpad .pad-btn:nth-child(2) { grid-row:2; grid-column:1; }.dpad .pad-btn:nth-child(3) { grid-row:2; grid-column:2; }.dpad .pad-btn:nth-child(4) { grid-row:2; grid-column:3; }.touch-note { max-width:210px; margin:0; color:#d1d5ff; font:10px/1.45 var(--mono); text-align:center; }.touch-note strong { color:#fff; font-size:11px; }.controller-status { display:block; margin-top:6px; color:#b9c4fa; font-size:9px; }.controller-status.is-gamepad { color:#eeffc5; }
+    @media (max-width:760px) { main { width:min(100% - 24px,680px); padding-top:18px; }.panel { grid-template-columns:1fr; }.controls { display:flex; }.intro { font-size:14px; }.game-frame { max-height:54vh; } .play-area:fullscreen .controls { display:flex; } }
+    @media (max-width:540px) { main { width:100%; padding-top:0; }.panel { gap:0; padding:0; border:0; box-shadow:none; }.controls { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); grid-template-areas:'turn brake' 'note note'; justify-items:center; gap:7px 8px; padding:9px max(8px,env(safe-area-inset-right)) max(10px,env(safe-area-inset-bottom)) max(8px,env(safe-area-inset-left)); }.control-cluster { min-width:0; }.control-cluster:first-child { grid-area:turn; }.control-cluster:last-child { grid-area:brake; }.touch-note { grid-area:note; max-width:none; font-size:9px; }.dpad { grid-template-columns:repeat(3,44px); grid-template-rows:repeat(3,44px); }.actions { grid-template-columns:repeat(3,44px); grid-template-rows:repeat(3,44px); }.pad-btn { width:44px; height:44px; font-size:12px; }.pad-btn--menu { width:95px; font-size:9px; }.pad-btn--restart { font-size:12px; }.control-label { font-size:8px; }.touch-note strong { font-size:10px; } }
+    @media (max-width:760px) and (orientation:landscape) { .play-area:fullscreen .game-frame { max-height:calc(100vh - 168px); } }
+    @media (min-width:761px) { .play-area:fullscreen .controls { display:none; } .play-area:fullscreen .game-frame { width:100vw; height:100vh; max-height:none; aspect-ratio:auto; } }
+  </style>
+</head>
+<body>
+  <main>
+    <header><a class="brand" href="./" aria-label="Return to RetroPlay">RETRO<b>PLAY</b></a><a class="back" href="./">← World index</a></header>
+    <p class="eyebrow"><span>// R-HX</span>Independent runtime / WebGL</p>
+    <h1>Cut the apex.<br />Keep the charge.</h1>
+    <p class="intro">HexGL is a complete futuristic 3D racing world already packed inside this page. Launch straight into Cityscape, fly with the keyboard or gamepad, and race from a phone with PSP-style controls — no account, upload, external data or original game disc required.</p>
+    <section class="panel" aria-label="HexGL runtime">
+      <div id="play-area" class="play-area">
+        <iframe id="game-frame" class="game-frame" title="HexGL 3D racing game" src="hexgl/index.html?autostart=1&amp;controlType=0" allow="autoplay; fullscreen" tabindex="0"></iframe>
+        <div class="controls" role="group" aria-label="HexGL PSP-style touch controls">
+          <div class="control-cluster"><span class="control-label">Steer / throttle</span><div class="dpad"><button class="pad-btn" data-key="ArrowUp" aria-label="Accelerate">▲</button><button class="pad-btn" data-key="ArrowLeft" aria-label="Steer left">◀</button><button class="pad-btn" data-key="ArrowDown" aria-label="Brake">▼</button><button class="pad-btn" data-key="ArrowRight" aria-label="Steer right">▶</button></div></div>
+          <p class="touch-note"><strong>PSP TOUCH</strong><br />D-pad: steer / throttle<br />△ / ○: left and right air-brake<br />×: accelerate · ↻: restart<br /><output id="controller-status" class="controller-status" aria-live="polite">Touch ready · Gamepad waiting</output></p>
+          <div class="control-cluster"><span class="control-label">Air-brake / session</span><div class="actions"><button class="pad-btn" data-key="KeyA" aria-label="Left air-brake">△</button><button class="pad-btn" data-key="ArrowUp" aria-label="Accelerate">×</button><button class="pad-btn" data-key="KeyD" aria-label="Right air-brake">○</button><button id="btn-restart" class="pad-btn pad-btn--restart" aria-label="Restart race">↻</button><button id="btn-fullscreen-touch" class="pad-btn" aria-label="Toggle fullscreen">□</button><button id="btn-menu" class="pad-btn pad-btn--menu" aria-label="Return to HexGL menu">MENU</button></div></div>
+        </div>
+      </div>
+      <div class="result"><span>Runtime status</span><output id="result" class="status">Loading bundled HexGL runtime…</output><dl class="facts"><div><dt>Runtime</dt><dd>Native WebGL / JavaScript</dd></div><div><dt>Content</dt><dd>Bundled Cityscape race + audio</dd></div><div><dt>Session</dt><dd>Browser-local settings</dd></div><div><dt>Input</dt><dd>Keyboard / touch / gamepad</dd></div><div><dt>Distribution</dt><dd>Non-commercial RetroPlay package</dd></div></dl><button id="btn-fullscreen" class="utility" type="button">Fullscreen</button></div>
+    </section>
+    <p class="notice"><strong>Fully bundled 3D game:</strong> HexGL ships from a pinned upstream source revision with all required tracks, models, textures, scripts and audio inside RetroPlay. The copied runtime removes legacy analytics and remote icon requests; it does not fetch playable content from another site. Root code is MIT-licensed, while individual upstream files retain their own notices, including the non-commercial ShipControls file and the sound attributions. <a href="hexgl/HEXGL-MIT-LICENSE.txt">MIT license</a> · <a href="hexgl/HEXGL-AUDIO-LICENSE.txt">Audio attributions</a> · <a href="hexgl/SOURCE-NOTICE.txt">Source notice</a>.</p>
+  </main>
+  <script>
+    const frame = document.getElementById('game-frame');
+    const playArea = document.getElementById('play-area');
+    const result = document.getElementById('result');
+    const controllerStatus = document.getElementById('controller-status');
+    const held = new Map();
+    const pointerCodes = new Map();
+    const keyCodes = { ArrowUp:38, ArrowDown:40, ArrowLeft:37, ArrowRight:39, KeyA:65, KeyD:68 };
+    const keyNames = { ArrowUp:'ArrowUp', ArrowDown:'ArrowDown', ArrowLeft:'ArrowLeft', ArrowRight:'ArrowRight', KeyA:'a', KeyD:'d' };
+    const setStatus = (text) => { result.textContent = text; };
+    const gameDocument = () => frame.contentDocument;
+    const focusGame = () => { try { frame.contentWindow.focus(); gameDocument()?.body?.focus(); } catch (_) {} };
+    const dispatchKey = (code, type) => {
+      const target = gameDocument();
+      if (!target) return;
+      const event = new KeyboardEvent(type, { code, key:keyNames[code] || code, bubbles:true, cancelable:true });
+      Object.defineProperties(event, { keyCode:{ value:keyCodes[code] || 0 }, which:{ value:keyCodes[code] || 0 } });
+      target.dispatchEvent(event); focusGame();
+    };
+    const hold = (code, source) => { const sources = held.get(code) || new Set(); if (!sources.size) dispatchKey(code, 'keydown'); sources.add(source); held.set(code, sources); };
+    const release = (code, source) => { const sources = held.get(code); if (!sources) return; sources.delete(source); if (!sources.size) { held.delete(code); dispatchKey(code, 'keyup'); } };
+    const releaseAll = () => { [...held.keys()].forEach((code) => dispatchKey(code, 'keyup')); held.clear(); pointerCodes.clear(); document.querySelectorAll('.pad-btn.is-active').forEach((button) => button.classList.remove('is-active')); };
+    document.querySelectorAll('[data-key]').forEach((button) => {
+      const press = (event) => { if (event.pointerType === 'mouse' && event.button !== 0) return; event.preventDefault(); const code=button.dataset.key; button.classList.add('is-active'); button.setPointerCapture?.(event.pointerId); pointerCodes.set(event.pointerId, code); hold(code, `pointer-${event.pointerId}`); };
+      const lift = (event) => { event.preventDefault(); const code=pointerCodes.get(event.pointerId); if (!code) return; release(code, `pointer-${event.pointerId}`); pointerCodes.delete(event.pointerId); if (![...pointerCodes.values()].includes(code)) button.classList.remove('is-active'); };
+      button.addEventListener('pointerdown', press); button.addEventListener('pointerup', lift); button.addEventListener('pointercancel', lift); button.addEventListener('lostpointercapture', lift); button.addEventListener('contextmenu', (event) => event.preventDefault());
+    });
+    const restartRace = () => { frame.contentWindow?.location.reload(); setStatus('Restarting bundled Cityscape race…'); };
+    document.getElementById('btn-restart').addEventListener('click', restartRace);
+    document.getElementById('btn-menu').addEventListener('click', () => { frame.src='hexgl/index.html?controlType=0'; setStatus('HexGL menu ready. Choose a quality preset or press START.'); });
+    const toggleFullscreen = async () => { try { if (document.fullscreenElement) await document.exitFullscreen(); else await playArea.requestFullscreen({ navigationUI:'hide' }); focusGame(); } catch (error) { setStatus(`Fullscreen unavailable\n${error.message}`); } };
+    document.getElementById('btn-fullscreen').addEventListener('click', toggleFullscreen); document.getElementById('btn-fullscreen-touch').addEventListener('click', toggleFullscreen);
+    document.addEventListener('fullscreenchange', () => {
+      // HexGL captures viewport dimensions at construction time. Recreate its
+      // local-only frame after a fullscreen transition so WebGL uses the new
+      // viewport instead of leaving an unrendered strip below the race.
+      if (document.fullscreenElement) window.setTimeout(() => { frame.src = 'hexgl/index.html?autostart=1&controlType=0&fullscreen=1'; }, 50);
+    });
+    frame.addEventListener('load', () => { setStatus('Loading bundled Cityscape assets…'); focusGame(); const check = window.setInterval(() => { try { if (frame.contentWindow.hexGL) { setStatus('READY\nHexGL is running. Use keyboard, gamepad or PSP touch controls.'); clearInterval(check); } } catch (_) {} }, 250); window.setTimeout(() => clearInterval(check), 15000); });
+    const gamepadCodes = { ArrowLeft:false, ArrowRight:false, ArrowUp:false, KeyA:false, KeyD:false };
+    function updateGamepad() {
+      const pad = Array.from(navigator.getGamepads?.() || []).find(Boolean);
+      if (pad) {
+        const left = pad.axes[0] < -0.35 || pad.buttons[14]?.pressed;
+        const right = pad.axes[0] > 0.35 || pad.buttons[15]?.pressed;
+        const thrust = pad.buttons[0]?.pressed || pad.buttons[7]?.value > 0.35 || pad.axes[1] < -0.55 || pad.buttons[12]?.pressed;
+        const lBrake = pad.buttons[4]?.pressed || pad.buttons[2]?.pressed;
+        const rBrake = pad.buttons[5]?.pressed || pad.buttons[1]?.pressed;
+        const next = { ArrowLeft:left, ArrowRight:right, ArrowUp:thrust, KeyA:lBrake, KeyD:rBrake };
+        Object.entries(next).forEach(([code, active]) => { if (active !== gamepadCodes[code]) { gamepadCodes[code]=active; active ? hold(code, `gamepad-${code}`) : release(code, `gamepad-${code}`); } });
+        controllerStatus.textContent = `Gamepad ready · ${pad.id.slice(0, 28)}${pad.id.length > 28 ? '…' : ''}`; controllerStatus.classList.add('is-gamepad');
+      } else { Object.keys(gamepadCodes).forEach((code) => { if (gamepadCodes[code]) { gamepadCodes[code]=false; release(code, `gamepad-${code}`); } }); controllerStatus.textContent='Touch ready · Gamepad waiting'; controllerStatus.classList.remove('is-gamepad'); }
+      requestAnimationFrame(updateGamepad);
+    }
+    window.addEventListener('gamepadconnected', () => focusGame()); window.addEventListener('pagehide', releaseAll); document.addEventListener('visibilitychange', () => { if (document.hidden) releaseAll(); });
+    updateGamepad();
+  </script>
+</body>
+</html>
