@@ -75,6 +75,16 @@ grep -q "fullscreenchange" hextris.html
 grep -q "gamepadconnected" hextris.html
 ! grep -q 'type="file"' hextris.html
 
+test -f rocksndiamonds.html
+test -x scripts/build-rocksndiamonds-web.sh
+grep -q "rocksndiamonds.html" src/catalog.js
+grep -q "rocksndiamonds-runtime.webp" src/catalog.js
+grep -q "Compile Rocks'n'Diamonds fully bundled rock-and-gem runtime" .github/workflows/build-and-deploy.yml
+grep -q "rocksndiamonds.html" sitemap.xml
+grep -q "fullscreenchange" rocksndiamonds.html
+grep -q "gamepadconnected" rocksndiamonds.html
+! grep -q 'type="file"' rocksndiamonds.html
+
 grep -q "assets/hacx.wad" src/catalog.js
 grep -q "hacx12.zip" .github/workflows/build-and-deploy.yml
 test -f assets/licenses/HACX-LEGAL.txt
