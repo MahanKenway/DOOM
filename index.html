@@ -81,11 +81,20 @@
         </article>
       </section>
 
-      <section class="collection-strip" aria-label="Browse by atmosphere">
-        <button class="collection-card collection-action" data-action="focus-genre" data-genre="Action"><span>// A</span><b>Action</b><small>Immediate impact</small><strong data-collection-count="Action">01</strong></button>
-        <button class="collection-card collection-horror" data-action="focus-genre" data-genre="Horror"><span>// H</span><b>Horror</b><small>Pressure &amp; unease</small><strong data-collection-count="Horror">01</strong></button>
-        <button class="collection-card collection-explore" data-action="focus-genre" data-genre="Exploration"><span>// E</span><b>Exploration</b><small>Slow world-building</small><strong data-collection-count="Exploration">01</strong></button>
-        <button class="collection-card collection-experimental" data-action="focus-genre" data-genre="Experimental"><span>// X</span><b>Experimental</b><small>Unknown structures</small><strong data-collection-count="Experimental">01</strong></button>
+      <section id="genre-nav" class="genre-deck" aria-labelledby="genre-nav-title">
+        <div class="genre-deck-heading"><p class="section-tag"><span>// 02</span><span>Genre navigation</span></p><div><h2 id="genre-nav-title">Choose a lane.<br />Enter a world.</h2><p>Every genre in the RetroPlay catalog has a direct route. Pick a lane to jump to its filtered collection, then switch or reset from the persistent catalog controls.</p></div></div>
+        <div class="collection-strip" aria-label="Browse every game genre">
+          <button class="collection-card collection-action" data-action="focus-genre" data-genre="Action"><span>// A</span><b>Action</b><small>Combat &amp; arcade</small><strong data-collection-count="Action">00</strong></button>
+          <button class="collection-card collection-horror" data-action="focus-genre" data-genre="Horror"><span>// H</span><b>Horror</b><small>Tension &amp; survival</small><strong data-collection-count="Horror">00</strong></button>
+          <button class="collection-card collection-explore" data-action="focus-genre" data-genre="Exploration"><span>// E</span><b>Exploration</b><small>Adventure &amp; discovery</small><strong data-collection-count="Exploration">00</strong></button>
+          <button class="collection-card collection-strategy" data-action="focus-genre" data-genre="Strategy"><span>// S</span><b>Strategy</b><small>Build &amp; command</small><strong data-collection-count="Strategy">00</strong></button>
+          <button class="collection-card collection-racing" data-action="focus-genre" data-genre="Racing"><span>// R</span><b>Racing</b><small>Speed &amp; control</small><strong data-collection-count="Racing">00</strong></button>
+          <button class="collection-card collection-arcade" data-action="focus-genre" data-genre="Arcade Puzzle"><span>// P1</span><b>Arcade puzzle</b><small>Fast pattern play</small><strong data-collection-count="Arcade Puzzle">00</strong></button>
+          <button class="collection-card collection-gems" data-action="focus-genre" data-genre="Rock &amp; Gem Action Puzzle"><span>// P2</span><b>Rock &amp; gem</b><small>Dig, collect, escape</small><strong data-collection-count="Rock &amp; Gem Action Puzzle">00</strong></button>
+          <button class="collection-card collection-rhythm" data-action="focus-genre" data-genre="Rhythm"><span>// M</span><b>Rhythm</b><small>Tap into the forge</small><strong data-collection-count="Rhythm">00</strong></button>
+          <button class="collection-card collection-fantasy" data-action="focus-genre" data-genre="Fantasy shooter"><span>// F</span><b>Fantasy shooter</b><small>Mythic first-person action</small><strong data-collection-count="Fantasy shooter">00</strong></button>
+          <button class="collection-card collection-experimental" data-action="focus-genre" data-genre="Experimental"><span>// X</span><b>Experimental</b><small>Physics &amp; new shapes</small><strong data-collection-count="Experimental">00</strong></button>
+        </div>
       </section>
 
       <section id="catalog" class="catalog-layout" aria-labelledby="catalog-title">
@@ -99,8 +108,8 @@
 
         <aside class="filter-panel spatial-panel" aria-label="Catalog filters">
           <div class="filter-panel-title"><span>// Filters</span><button data-genre="All" class="filter-reset is-active">Reset</button></div>
-          <div class="filter-group"><span class="filter-label">Atmosphere</span><div class="genre-filter-row"><button data-genre="All" class="filter-chip is-active">All</button><button data-genre="Action" class="filter-chip">Action</button><button data-genre="Horror" class="filter-chip">Horror</button><button data-genre="Exploration" class="filter-chip">Explore</button><button data-genre="Experimental" class="filter-chip">Experimental</button></div></div>
-          <div class="filter-group"><label class="filter-label" for="filter-format">Format</label><select id="filter-format"><option value="All">All formats</option><option value="IWAD">IWAD</option><option value="PWAD">PWAD</option></select></div>
+          <div class="filter-group"><span class="filter-label">Browse every genre</span><div class="genre-filter-row"><button data-genre="All" class="filter-chip is-active">All</button><button data-genre="Action" class="filter-chip">Action</button><button data-genre="Horror" class="filter-chip">Horror</button><button data-genre="Exploration" class="filter-chip">Explore</button><button data-genre="Strategy" class="filter-chip">Strategy</button><button data-genre="Racing" class="filter-chip">Racing</button><button data-genre="Arcade Puzzle" class="filter-chip">Arcade puzzle</button><button data-genre="Rock &amp; Gem Action Puzzle" class="filter-chip">Rock &amp; gem</button><button data-genre="Rhythm" class="filter-chip">Rhythm</button><button data-genre="Fantasy shooter" class="filter-chip">Fantasy shooter</button><button data-genre="Experimental" class="filter-chip">Experimental</button></div></div>
+          <div class="filter-group"><label class="filter-label" for="filter-format">Runtime format</label><select id="filter-format"><option value="All">All formats</option><option value="Bundled independent runtime">Ready-to-play runtimes</option><option value="IWAD">Bundled base archives</option><option value="PWAD">Map and level packs</option><option value="Local-data">Local-data engines</option></select></div>
           <div class="filter-readout"><span>Runtime</span><b>LOCAL / READY</b><span>Library</span><b>LOCAL STORAGE</b></div>
         </aside>
         <div id="catalog-grid" class="catalog-grid" aria-live="polite"></div>

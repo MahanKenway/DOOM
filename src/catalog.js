@@ -401,6 +401,25 @@ export const COLLECTIONS = [
     catalogState: 'INDEPENDENT RUNTIME',
   },
   {
+    id: 'beats-into-shapes',
+    title: 'Beats into Shapes',
+    studio: 'CoCoSol & Edmond · Youth Hacking 4 Freedom 2024',
+    year: 'Godot Web runtime',
+    format: 'Bundled independent runtime',
+    genre: 'Rhythm',
+    duration: 'Four original forge tracks',
+    maps: 'Native timing lanes and progression',
+    status: 'Free / bundled',
+    license: 'GPL-3.0-or-later game · MIT isolation worker · notices retained',
+    artwork: 'assets/screenshots/beats-into-shapes-runtime.webp',
+    artworkCredit: 'Gameplay screenshot: RetroPlay local Beats into Shapes browser runtime',
+    description: 'A full rhythm-forge game running from the official Godot Web release in its own local WebGL 2 runtime. Hit left, centre and right lanes to forge shapes in time with four bundled original tracks; browser-local progress, fullscreen, gamepad and PSP-style touch controls are ready without an upload, account or remote playable data.',
+    playable: true,
+    runtimePath: 'beats-into-shapes.html',
+    runtimeLabel: 'Launch Beats into Shapes',
+    catalogState: 'INDEPENDENT RUNTIME',
+  },
+  {
     id: 'ecwolf',
     title: 'ECWolf',
     studio: 'ECWolf project / ECWolf JS',
@@ -519,7 +538,7 @@ export class CatalogController {
     const format = document.getElementById('filter-format')?.value ?? 'All';
     return COLLECTIONS.filter((game) => {
       const matchesGenre = this.#activeGenre === 'All' || game.genre === this.#activeGenre;
-      const matchesFormat = format === 'All' || game.format.includes(format);
+      const matchesFormat = format === 'All' || game.format.toLowerCase().includes(format.toLowerCase());
       const haystack = `${game.title} ${game.genre} ${game.description} ${game.license}`.toLowerCase();
       return matchesGenre && matchesFormat && (!this.#query || haystack.includes(this.#query));
     });

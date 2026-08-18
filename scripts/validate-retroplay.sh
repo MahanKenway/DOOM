@@ -85,6 +85,30 @@ grep -q "fullscreenchange" rocksndiamonds.html
 grep -q "gamepadconnected" rocksndiamonds.html
 ! grep -q 'type="file"' rocksndiamonds.html
 
+test -f beats-into-shapes.html
+test -x scripts/build-beats-into-shapes-web.sh
+test -f assets/screenshots/beats-into-shapes-runtime.webp
+test -f coi-serviceworker.js
+grep -q "beats-into-shapes.html" src/catalog.js
+grep -q "beats-into-shapes-runtime.webp" src/catalog.js
+grep -q "Package Beats into Shapes fully bundled rhythm runtime" .github/workflows/build-and-deploy.yml
+grep -q "beats-into-shapes.html" sitemap.xml
+grep -q 'data-key="KeyA"' beats-into-shapes.html
+grep -q 'data-key="Space"' beats-into-shapes.html
+grep -q 'data-key="KeyD"' beats-into-shapes.html
+grep -q "fullscreenchange" beats-into-shapes.html
+grep -q "gamepadconnected" beats-into-shapes.html
+grep -q 'src="coi-serviceworker.js"' beats-into-shapes.html
+! grep -q 'type="file"' beats-into-shapes.html
+
+grep -q 'data-genre="Strategy"' index.html
+grep -q 'data-genre="Racing"' index.html
+grep -q 'data-genre="Arcade Puzzle"' index.html
+grep -q 'data-genre="Rock &amp; Gem Action Puzzle"' index.html
+grep -q 'data-genre="Rhythm"' index.html
+grep -q 'data-genre="Fantasy shooter"' index.html
+grep -q 'genre-deck' styles/main.css
+
 grep -q "assets/hacx.wad" src/catalog.js
 grep -q "hacx12.zip" .github/workflows/build-and-deploy.yml
 test -f assets/licenses/HACX-LEGAL.txt

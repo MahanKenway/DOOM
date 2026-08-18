@@ -141,6 +141,9 @@ jobs:
     - name: Compile Rocks'n'Diamonds fully bundled rock-and-gem runtime
       run: ./scripts/build-rocksndiamonds-web.sh
 
+    - name: Package Beats into Shapes fully bundled rhythm runtime
+      run: ./scripts/build-beats-into-shapes-web.sh
+
     - name: Compile Blasphemer fully bundled fantasy-shooter runtime
       env:
         GH_TOKEN: ${{ github.token }}
@@ -165,7 +168,7 @@ jobs:
 
     - name: Copy frontend files
       run: |
-        cp index.html cdogs.html freedink.html opentyrian.html librequake.html openttd.html freerct.html neverball.html blasphemer.html hexgl.html hextris.html rocksndiamonds.html ecwolf.html openresident.html manifest.json robots.txt sitemap.xml google*.html dist/ 2>/dev/null || true
+        cp index.html cdogs.html freedink.html opentyrian.html librequake.html openttd.html freerct.html neverball.html blasphemer.html hexgl.html hextris.html rocksndiamonds.html beats-into-shapes.html ecwolf.html openresident.html coi-serviceworker.js manifest.json robots.txt sitemap.xml google*.html dist/ 2>/dev/null || true
         cp -r styles src dist/ 2>/dev/null || true
         mkdir -p dist/assets
         # Copy nested catalog artwork as well as existing icons. The WADs are
