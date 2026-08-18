@@ -4,6 +4,7 @@ set -euo pipefail
 cd "$(dirname "$0")/.."
 
 node --check src/catalog.js
+node --check src/runtime-shell.js
 node --check src/ui.js
 node --check src/engine/InputHandler.js
 node --check src/main.js
@@ -100,6 +101,31 @@ grep -q "fullscreenchange" beats-into-shapes.html
 grep -q "gamepadconnected" beats-into-shapes.html
 grep -q 'src="coi-serviceworker.js"' beats-into-shapes.html
 ! grep -q 'type="file"' beats-into-shapes.html
+
+for runtime in 2048 javascript-tetris adarkroom digger; do
+  test -f "$runtime.html"
+  test -x "scripts/build-$runtime-web.sh"
+  test -f "assets/screenshots/$runtime-runtime.webp"
+  grep -q "$runtime.html" src/catalog.js
+  grep -q "$runtime-runtime.webp" src/catalog.js
+  grep -q "$runtime.html" sitemap.xml
+  grep -q 'src="src/runtime-shell.js"' "$runtime.html"
+  grep -q 'data-runtime-fullscreen' "$runtime.html"
+  ! grep -q 'type="file"' "$runtime.html"
+done
+
+grep -q 'Package A Dark Room fully bundled text-adventure runtime' .github/workflows/build-and-deploy.yml
+grep -q 'Package 2048 fully bundled arcade-puzzle runtime' .github/workflows/build-and-deploy.yml
+grep -q 'Package JavaScript Tetris fully bundled arcade-puzzle runtime' .github/workflows/build-and-deploy.yml
+grep -q 'Compile Digger Remastered fully bundled action runtime' .github/workflows/build-and-deploy.yml
+grep -q '2048.html javascript-tetris.html adarkroom.html digger.html' .github/workflows/build-and-deploy.yml
+
+grep -q 'Mahan Tavakoli' index.html
+grep -q 'ماهان توکلی' index.html
+grep -q 'https://github.com/MahanKenway' index.html
+grep -q 'data-retro-nav="about"' index.html
+grep -q 'button.dataset.retroNav' src/catalog.js
+grep -q 'about-panel' styles/main.css
 
 grep -q 'data-genre="Strategy"' index.html
 grep -q 'data-genre="Racing"' index.html

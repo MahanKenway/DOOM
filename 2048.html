@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#eff0e5" />
+  <meta name="description" content="Play the original MIT-licensed 2048 locally on RetroPlay with touch controls, gamepad support and fullscreen." />
+  <link rel="canonical" href="https://mahankenway.github.io/RetroPlay/2048.html" />
+  <link rel="icon" href="assets/favicon.ico" type="image/x-icon" />
+  <meta property="og:type" content="website" /><meta property="og:site_name" content="RetroPlay" />
+  <meta property="og:title" content="RetroPlay — 2048" /><meta property="og:description" content="A fully bundled classic number puzzle with fullscreen and PSP-style controls." />
+  <meta property="og:image" content="https://mahankenway.github.io/RetroPlay/assets/screenshots/2048-runtime.webp" />
+  <title>RetroPlay — 2048</title>
+  <link rel="stylesheet" href="styles/runtime-shell.css" />
+</head>
+<body>
+  <main class="runtime-main" data-retro-runtime data-runtime-title="2048">
+    <header class="runtime-head"><a class="runtime-brand" href="./" aria-label="Return to RetroPlay">RETRO<b>PLAY</b></a><a class="runtime-back" href="./">← World index</a></header>
+    <p class="runtime-eyebrow"><span>// P-2048</span>Independent runtime / Number puzzle</p>
+    <h1>Shift the grid.<br />Build the number.</h1>
+    <p class="runtime-intro">The original 2048 is a compact classic that rewards a few clean moves over fast reflexes. It starts immediately with the upstream HTML, JavaScript, local fonts and touch swipe support bundled in RetroPlay—no account, upload or online score service.</p>
+    <section class="runtime-panel" aria-label="2048 runtime">
+      <div class="runtime-play-area"><iframe class="runtime-frame" title="2048 number puzzle game" src="2048/index.html" allow="fullscreen" tabindex="0"></iframe>
+        <div class="runtime-controls" role="group" aria-label="2048 PSP-style touch controls">
+          <div class="runtime-control-cluster"><span class="runtime-control-label">Move tiles</span><div class="runtime-dpad"><button class="runtime-pad" data-key="ArrowUp" aria-label="Move up">▲</button><button class="runtime-pad" data-key="ArrowLeft" aria-label="Move left">◀</button><button class="runtime-pad" data-key="ArrowDown" aria-label="Move down">▼</button><button class="runtime-pad" data-key="ArrowRight" aria-label="Move right">▶</button></div></div>
+          <p class="runtime-touch-note"><strong>PSP TOUCH</strong><br />Use the pad or swipe directly on the grid.<br />□: fullscreen · ↻: start a new board.<output class="runtime-controller-status" aria-live="polite">Touch ready · Gamepad waiting</output></p>
+          <div class="runtime-control-cluster"><span class="runtime-control-label">Session</span><div class="runtime-actions"><button class="runtime-pad runtime-pad--action" data-key="ArrowUp" data-gamepad-primary="ArrowUp" aria-label="Move up">▲</button><button class="runtime-pad" data-runtime-fullscreen aria-label="Toggle fullscreen">□</button><button class="runtime-pad" data-runtime-restart aria-label="Start a new board">↻</button><button class="runtime-pad runtime-pad--wide" data-runtime-restart aria-label="New game">NEW GAME</button></div></div>
+        </div>
+      </div>
+      <div class="runtime-result"><span class="runtime-kicker">Runtime status</span><output class="runtime-status">Starting 2048…</output><dl class="runtime-facts"><div><dt>Runtime</dt><dd>Original HTML5 / DOM</dd></div><div><dt>Content</dt><dd>Fully local puzzle logic and fonts</dd></div><div><dt>Session</dt><dd>Browser-local best score</dd></div><div><dt>Input</dt><dd>Keyboard / swipe / PSP touch / gamepad</dd></div><div><dt>Distribution</dt><dd>MIT package</dd></div></dl><button class="runtime-button" type="button" data-runtime-fullscreen>Fullscreen</button></div>
+    </section>
+    <p class="runtime-notice"><strong>Fully bundled classic puzzle:</strong> 2048 is packaged from the pinned upstream source with local scripts, fonts and mobile swipe input. The game keeps its score in this browser. <a href="2048/2048-MIT.txt">MIT license</a> · <a href="2048/SOURCE-NOTICE.txt">Source notice</a>.</p>
+  </main>
+  <script src="src/runtime-shell.js"></script>
+</body>
+</html>

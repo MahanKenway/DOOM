@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#101713" />
+  <meta name="description" content="Play Digger Remastered locally on RetroPlay with the official WebAssembly build, fullscreen and PSP-style mobile controls." />
+  <link rel="canonical" href="https://mahankenway.github.io/RetroPlay/digger.html" />
+  <link rel="icon" href="assets/favicon.ico" type="image/x-icon" />
+  <meta property="og:type" content="website" /><meta property="og:site_name" content="RetroPlay" />
+  <meta property="og:title" content="RetroPlay — Digger Remastered" /><meta property="og:description" content="A classic digging action game in a fully local SDL2/WebAssembly runtime." />
+  <meta property="og:image" content="https://mahankenway.github.io/RetroPlay/assets/screenshots/digger-runtime.webp" />
+  <title>RetroPlay — Digger Remastered</title>
+  <link rel="stylesheet" href="styles/runtime-shell.css" />
+</head>
+<body>
+  <main class="runtime-main" data-retro-runtime data-runtime-title="Digger Remastered">
+    <header class="runtime-head"><a class="runtime-brand" href="./" aria-label="Return to RetroPlay">RETRO<b>PLAY</b></a><a class="runtime-back" href="./">← World index</a></header>
+    <p class="runtime-eyebrow"><span>// A-DIGGER</span>Independent runtime / Digging action</p>
+    <h1>Dig deep.<br />Outrun the bags.</h1>
+    <p class="runtime-intro">Digger Remastered brings the 1983 digging-action classic to RetroPlay through its upstream SDL2/WebAssembly target. Enter the one-player game, collect emeralds, push gold bags and outmaneuver the Hobbins using the classic directional controls.</p>
+    <section class="runtime-panel" aria-label="Digger Remastered runtime">
+      <div class="runtime-play-area"><iframe class="runtime-frame" title="Digger Remastered WebAssembly game" src="digger/digger.html" allow="fullscreen; autoplay" tabindex="0"></iframe>
+        <div class="runtime-controls" role="group" aria-label="Digger PSP-style touch controls">
+          <div class="runtime-control-cluster"><span class="runtime-control-label">Move</span><div class="runtime-dpad"><button class="runtime-pad" data-key="ArrowUp" aria-label="Move up">▲</button><button class="runtime-pad" data-key="ArrowLeft" aria-label="Move left">◀</button><button class="runtime-pad" data-key="ArrowDown" aria-label="Move down">▼</button><button class="runtime-pad" data-key="ArrowRight" aria-label="Move right">▶</button></div></div>
+          <p class="runtime-touch-note"><strong>PSP TOUCH</strong><br />D-pad: move · ✦: fire · Ⅱ: pause.<br />□: fullscreen · ↻: return to title.<output class="runtime-controller-status" aria-live="polite">Touch ready · Gamepad waiting</output></p>
+          <div class="runtime-control-cluster"><span class="runtime-control-label">Action</span><div class="runtime-actions"><button class="runtime-pad runtime-pad--action" data-tap-key="F1" data-gamepad-primary="F1" aria-label="Fire or start">✦</button><button class="runtime-pad" data-tap-key="Space" aria-label="Pause or resume">Ⅱ</button><button class="runtime-pad" data-runtime-fullscreen aria-label="Toggle fullscreen">□</button><button class="runtime-pad runtime-pad--wide" data-runtime-restart aria-label="Restart Digger">RESTART</button></div></div>
+        </div>
+      </div>
+      <div class="runtime-result"><span class="runtime-kicker">Runtime status</span><output class="runtime-status">Starting Digger Remastered…</output><dl class="runtime-facts"><div><dt>Runtime</dt><dd>SDL2 / WebAssembly</dd></div><div><dt>Content</dt><dd>Upstream Remastered game logic</dd></div><div><dt>Session</dt><dd>Browser-local runtime</dd></div><div><dt>Input</dt><dd>Keyboard / PSP touch / gamepad</dd></div><div><dt>Distribution</dt><dd>Upstream mixed notices retained</dd></div></dl><button class="runtime-button" type="button" data-runtime-fullscreen>Fullscreen</button></div>
+    </section>
+    <p class="runtime-notice"><strong>Fully bundled classic action runtime:</strong> Digger uses the upstream project’s own `ARCH=WASM` target. Its source contains several historical license notices, all preserved with this package. <a href="digger/DIGGER-UPSTREAM-NOTICES.txt">Upstream notices</a> · <a href="digger/SOURCE-NOTICE.txt">Source notice</a>.</p>
+  </main>
+  <script src="src/runtime-shell.js"></script>
+</body>
+</html>

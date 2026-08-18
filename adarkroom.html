@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#eff0e5" />
+  <meta name="description" content="Play A Dark Room locally on RetroPlay, a fully bundled MPL-2.0 minimalist adventure with touch support, local saves and fullscreen." />
+  <link rel="canonical" href="https://mahankenway.github.io/RetroPlay/adarkroom.html" />
+  <link rel="icon" href="assets/favicon.ico" type="image/x-icon" />
+  <meta property="og:type" content="website" /><meta property="og:site_name" content="RetroPlay" />
+  <meta property="og:title" content="RetroPlay — A Dark Room" /><meta property="og:description" content="A fully bundled minimalist adventure with touch input, browser-local saves and fullscreen." />
+  <meta property="og:image" content="https://mahankenway.github.io/RetroPlay/assets/screenshots/adarkroom-runtime.webp" />
+  <title>RetroPlay — A Dark Room</title>
+  <link rel="stylesheet" href="styles/runtime-shell.css" />
+</head>
+<body>
+  <main class="runtime-main" data-retro-runtime data-runtime-title="A Dark Room">
+    <header class="runtime-head"><a class="runtime-brand" href="./" aria-label="Return to RetroPlay">RETRO<b>PLAY</b></a><a class="runtime-back" href="./">← World index</a></header>
+    <p class="runtime-eyebrow"><span>// E-DARKROOM</span>Independent runtime / Text adventure</p>
+    <h1>Light the fire.<br />Find the world.</h1>
+    <p class="runtime-intro">A Dark Room is a quiet browser adventure that unfolds from one tap into a crafted survival journey. Its original code, art, sound, translations and browser-local save system are bundled inside RetroPlay with no ad network, account or external playable data.</p>
+    <section class="runtime-panel" aria-label="A Dark Room runtime">
+      <div class="runtime-play-area"><iframe class="runtime-frame" title="A Dark Room adventure game" src="adarkroom/index.html" allow="fullscreen; autoplay" tabindex="0"></iframe>
+        <div class="runtime-controls" role="group" aria-label="A Dark Room touch controls">
+          <div class="runtime-control-cluster"><span class="runtime-control-label">Native touch</span><div class="runtime-actions"><button class="runtime-pad runtime-pad--wide" data-runtime-focus aria-label="Focus game surface">TAP GAME</button><button class="runtime-pad" data-tap-key="Enter" aria-label="Confirm focused action">●</button><button class="runtime-pad" data-tap-key="Escape" aria-label="Dismiss dialog">×</button></div></div>
+          <p class="runtime-touch-note"><strong>TOUCH STORY</strong><br />Tap choices directly in the story surface.<br />●: confirm · □: fullscreen · ↻: new journey.<output class="runtime-controller-status" aria-live="polite">Touch ready · Gamepad waiting</output></p>
+          <div class="runtime-control-cluster"><span class="runtime-control-label">Session</span><div class="runtime-actions"><button class="runtime-pad" data-runtime-fullscreen aria-label="Toggle fullscreen">□</button><button class="runtime-pad" data-runtime-restart aria-label="Restart A Dark Room">↻</button><button class="runtime-pad runtime-pad--wide" data-runtime-focus aria-label="Focus story controls">FOCUS STORY</button></div></div>
+        </div>
+      </div>
+      <div class="runtime-result"><span class="runtime-kicker">Runtime status</span><output class="runtime-status">Starting A Dark Room…</output><dl class="runtime-facts"><div><dt>Runtime</dt><dd>Original HTML5 / jQuery</dd></div><div><dt>Content</dt><dd>Local story, audio, art and translations</dd></div><div><dt>Session</dt><dd>Browser-local save state</dd></div><div><dt>Input</dt><dd>Touch / click / keyboard / gamepad focus</dd></div><div><dt>Distribution</dt><dd>MPL-2.0 package</dd></div></dl><button class="runtime-button" type="button" data-runtime-fullscreen>Fullscreen</button></div>
+    </section>
+    <p class="runtime-notice"><strong>Fully bundled minimalist adventure:</strong> A Dark Room is packaged at a pinned upstream revision with all story scripts, audio and translations local. Choices and saves stay in the browser. <a href="adarkroom/ADARKROOM-MPL-2.0.txt">MPL-2.0 license</a> · <a href="adarkroom/SOURCE-NOTICE.txt">Source notice</a>.</p>
+  </main>
+  <script src="src/runtime-shell.js"></script>
+</body>
+</html>

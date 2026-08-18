@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#eff0e5" />
+  <meta name="description" content="Play JavaScript Tetris locally on RetroPlay with a classic HTML5 canvas, fullscreen and PSP-style touch controls." />
+  <link rel="canonical" href="https://mahankenway.github.io/RetroPlay/javascript-tetris.html" />
+  <link rel="icon" href="assets/favicon.ico" type="image/x-icon" />
+  <meta property="og:type" content="website" /><meta property="og:site_name" content="RetroPlay" />
+  <meta property="og:title" content="RetroPlay — JavaScript Tetris" /><meta property="og:description" content="A fully bundled HTML5 block-stacking classic with PSP-style controls." />
+  <meta property="og:image" content="https://mahankenway.github.io/RetroPlay/assets/screenshots/javascript-tetris-runtime.webp" />
+  <title>RetroPlay — JavaScript Tetris</title>
+  <link rel="stylesheet" href="styles/runtime-shell.css" />
+</head>
+<body>
+  <main class="runtime-main" data-retro-runtime data-runtime-title="JavaScript Tetris">
+    <header class="runtime-head"><a class="runtime-brand" href="./" aria-label="Return to RetroPlay">RETRO<b>PLAY</b></a><a class="runtime-back" href="./">← World index</a></header>
+    <p class="runtime-eyebrow"><span>// P-TETRIS</span>Independent runtime / Block stacker</p>
+    <h1>Stack clean.<br />Clear lines.</h1>
+    <p class="runtime-intro">This classic HTML5 canvas Tetris begins as soon as RetroPlay opens it. Guide falling pieces with the D-pad, rotate with the action button and keep the board clear—no ROM, account, upload or remote asset is required.</p>
+    <section class="runtime-panel" aria-label="JavaScript Tetris runtime">
+      <div class="runtime-play-area"><iframe class="runtime-frame" title="JavaScript Tetris game" src="javascript-tetris/index.html?autostart=1" allow="fullscreen" tabindex="0"></iframe>
+        <div class="runtime-controls" role="group" aria-label="Tetris PSP-style touch controls">
+          <div class="runtime-control-cluster"><span class="runtime-control-label">Move</span><div class="runtime-dpad"><button class="runtime-pad" data-key="ArrowUp" aria-label="Rotate piece">▲</button><button class="runtime-pad" data-key="ArrowLeft" aria-label="Move piece left">◀</button><button class="runtime-pad" data-key="ArrowDown" aria-label="Drop piece">▼</button><button class="runtime-pad" data-key="ArrowRight" aria-label="Move piece right">▶</button></div></div>
+          <p class="runtime-touch-note"><strong>PSP TOUCH</strong><br />▲ rotate · ◀ / ▶ move · ▼ drop.<br />□: fullscreen · ↻: restart board.<output class="runtime-controller-status" aria-live="polite">Touch ready · Gamepad waiting</output></p>
+          <div class="runtime-control-cluster"><span class="runtime-control-label">Session</span><div class="runtime-actions"><button class="runtime-pad runtime-pad--action" data-tap-key="ArrowUp" data-gamepad-primary="ArrowUp" aria-label="Rotate piece">△</button><button class="runtime-pad" data-runtime-fullscreen aria-label="Toggle fullscreen">□</button><button class="runtime-pad" data-runtime-restart aria-label="Restart game">↻</button><button class="runtime-pad runtime-pad--wide" data-tap-key="Space" aria-label="Start or resume">START</button></div></div>
+        </div>
+      </div>
+      <div class="runtime-result"><span class="runtime-kicker">Runtime status</span><output class="runtime-status">Starting JavaScript Tetris…</output><dl class="runtime-facts"><div><dt>Runtime</dt><dd>HTML5 Canvas</dd></div><div><dt>Content</dt><dd>Local logic and texture</dd></div><div><dt>Session</dt><dd>Fresh local score per launch</dd></div><div><dt>Input</dt><dd>Keyboard / PSP touch / gamepad</dd></div><div><dt>Distribution</dt><dd>MIT package</dd></div></dl><button class="runtime-button" type="button" data-runtime-fullscreen>Fullscreen</button></div>
+    </section>
+    <p class="runtime-notice"><strong>Fully bundled block-stacking classic:</strong> JavaScript Tetris is packaged from a pinned upstream revision with its canvas logic and texture stored locally. Opening this page begins a new game automatically. <a href="javascript-tetris/JAVASCRIPT-TETRIS-MIT.txt">MIT license</a> · <a href="javascript-tetris/SOURCE-NOTICE.txt">Source notice</a>.</p>
+  </main>
+  <script src="src/runtime-shell.js"></script>
+</body>
+</html>
