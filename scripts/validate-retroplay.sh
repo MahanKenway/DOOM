@@ -67,6 +67,38 @@ grep -q 'data-runtime-fullscreen' vector-putt.html
 grep -q '../hexgl/libs/Three.r53.js' vector-putt/index.html
 ! grep -q 'type="file"' vector-putt.html
 
+test -f orbit-lander.html
+test -f orbit-lander/index.html
+test -f assets/screenshots/orbit-lander-runtime.webp
+grep -q "orbit-lander.html" src/catalog.js
+grep -q "orbit-lander-runtime.webp" src/catalog.js
+grep -q "orbit-lander.html" sitemap.xml
+grep -q 'src="src/runtime-shell.js"' orbit-lander.html
+grep -q 'data-runtime-fullscreen' orbit-lander.html
+! grep -q 'type="file"' orbit-lander.html
+
+grep -q 'Six physics mini-golf courses' src/catalog.js
+grep -q 'moving gates and stay clear of water across the six bundled courses' vector-putt.html
+
+for runtime in skyline-sprint comet-breaker; do
+  test -f "$runtime.html"
+  test -f "$runtime/index.html"
+  test -f "assets/screenshots/$runtime-runtime.webp"
+  grep -q "$runtime.html" src/catalog.js
+  grep -q "$runtime-runtime.webp" src/catalog.js
+  grep -q "$runtime.html" sitemap.xml
+  grep -q 'src="src/runtime-shell.js"' "$runtime.html"
+  grep -q 'data-key="KeyZ"' "$runtime.html"
+  grep -q 'data-runtime-fullscreen' "$runtime.html"
+  grep -q 'retroplay-runtime-status' "$runtime/index.html"
+  ! grep -q 'type="file"' "$runtime.html"
+done
+
+test -f scripts/build-wasm4-canvas-runtime.mjs
+test -f scripts/wasm4-canvas2d-template.html
+grep -q 'Package Skyline Sprint and Comet Breaker Canvas runtimes' .github/workflows/build-and-deploy.yml
+grep -q 'orbit-lander.html skyline-sprint.html comet-breaker.html' .github/workflows/build-and-deploy.yml
+
 test -f hexgl.html
 test -x scripts/build-hexgl-web.sh
 grep -q "hexgl.html" src/catalog.js

@@ -8,8 +8,8 @@
   const title = shell.dataset.runtimeTitle || 'Bundled runtime';
   const held = new Map();
   const pointerCodes = new Map();
-  const keyValues = { ArrowLeft:'ArrowLeft', ArrowUp:'ArrowUp', ArrowRight:'ArrowRight', ArrowDown:'ArrowDown', Space:' ', Escape:'Escape', Enter:'Enter', KeyN:'n', F1:'F1', F7:'F7', F9:'F9', F10:'F10' };
-  const keyCodes = { ArrowLeft:37, ArrowUp:38, ArrowRight:39, ArrowDown:40, Space:32, Escape:27, Enter:13, KeyN:78, F1:112, F7:118, F9:120, F10:121 };
+  const keyValues = { ArrowLeft:'ArrowLeft', ArrowUp:'ArrowUp', ArrowRight:'ArrowRight', ArrowDown:'ArrowDown', Space:' ', Escape:'Escape', Enter:'Enter', KeyN:'n', KeyZ:'z', KeyX:'x', F1:'F1', F7:'F7', F9:'F9', F10:'F10' };
+  const keyCodes = { ArrowLeft:37, ArrowUp:38, ArrowRight:39, ArrowDown:40, Space:32, Escape:27, Enter:13, KeyN:78, KeyZ:90, KeyX:88, F1:112, F7:118, F9:120, F10:121 };
   const setStatus = text => { if (status) status.textContent = text; };
   const gameDocument = () => { try { return frame.contentDocument; } catch (_) { return null; } };
   const focusGame = () => { try { frame.contentWindow.focus(); const doc = gameDocument(); const target = doc?.getElementById('canvas') || doc?.querySelector('canvas') || doc?.body; target?.focus?.(); } catch (_) {} };

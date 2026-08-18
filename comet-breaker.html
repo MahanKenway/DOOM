@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#07162b" />
+  <meta name="description" content="Play Comet Breaker locally on RetroPlay: an original WASM-4 brick breaker with PSP-style touch controls and fullscreen." />
+  <link rel="canonical" href="https://mahankenway.github.io/RetroPlay/comet-breaker.html" />
+  <link rel="icon" href="assets/favicon.ico" type="image/x-icon" />
+  <meta property="og:type" content="website" /><meta property="og:site_name" content="RetroPlay" />
+  <meta property="og:title" content="RetroPlay — Comet Breaker" /><meta property="og:description" content="An original fantasy-console brick breaker, bundled for instant local play." />
+  <meta property="og:image" content="https://mahankenway.github.io/RetroPlay/assets/screenshots/comet-breaker-runtime.webp" />
+  <title>RetroPlay — Comet Breaker</title>
+  <link rel="stylesheet" href="styles/runtime-shell.css" />
+</head>
+<body>
+  <main class="runtime-main" data-retro-runtime data-runtime-title="Comet Breaker" data-runtime-status-events="true">
+    <header class="runtime-head"><a class="runtime-brand" href="./" aria-label="Return to RetroPlay">RETRO<b>PLAY</b></a><a class="runtime-back" href="./">← World index</a></header>
+    <p class="runtime-eyebrow"><span>// W4-CB1</span>Original cartridge / Arcade puzzle</p>
+    <h1>Launch the comet.<br />Clear the field.</h1>
+    <p class="runtime-intro">Comet Breaker is an original 160×160 fantasy-console brick breaker built for RetroPlay. Track the ball, bend the rebound with the paddle and clear the field before your three lives run out. The complete WASM-4 cartridge and Canvas runtime are bundled here: no account, download, WebGL support or player-file upload is required.</p>
+    <section class="runtime-panel" aria-label="Comet Breaker runtime">
+      <div class="runtime-play-area"><iframe class="runtime-frame" title="Comet Breaker original WASM-4 brick breaker" src="comet-breaker/index.html" allow="fullscreen" tabindex="0"></iframe>
+        <div class="runtime-controls" role="group" aria-label="Comet Breaker PSP-style touch controls">
+          <div class="runtime-control-cluster"><span class="runtime-control-label">Paddle</span><div class="runtime-dpad"><button class="runtime-pad" data-key="ArrowUp" aria-label="Move paddle upward view">▲</button><button class="runtime-pad" data-key="ArrowLeft" aria-label="Move paddle left">◀</button><button class="runtime-pad" data-key="ArrowDown" aria-label="Move paddle downward view">▼</button><button class="runtime-pad" data-key="ArrowRight" aria-label="Move paddle right">▶</button></div></div>
+          <p class="runtime-touch-note"><strong>PSP TOUCH</strong><br />← →: move paddle · ×: launch / reset<br />□: alternate action · MENU: release controls.<output class="runtime-controller-status" aria-live="polite">Touch ready · Gamepad waiting</output></p>
+          <div class="runtime-control-cluster"><span class="runtime-control-label">Launch / display</span><div class="runtime-actions"><button class="runtime-pad runtime-pad--action" data-key="KeyZ" data-gamepad-primary="KeyZ" aria-label="Launch ball or reset game">×</button><button class="runtime-pad" data-key="KeyX" aria-label="Alternate cartridge action">○</button><button class="runtime-pad" data-runtime-fullscreen aria-label="Toggle fullscreen">□</button><button class="runtime-pad" data-key="Escape" aria-label="Release controls">MENU</button><button class="runtime-pad runtime-pad--wide" data-runtime-restart aria-label="Restart runtime">RESTART GAME</button></div></div>
+        </div>
+      </div>
+      <div class="runtime-result"><span class="runtime-kicker">Runtime status</span><output class="runtime-status">Starting Comet Breaker…</output><dl class="runtime-facts"><div><dt>Runtime</dt><dd>WASM-4 / Canvas 2D</dd></div><div><dt>Content</dt><dd>Three-life brick-breaker challenge</dd></div><div><dt>Session</dt><dd>No account or upload required</dd></div><div><dt>Input</dt><dd>Keyboard / PSP touch / gamepad</dd></div><div><dt>Distribution</dt><dd>RetroPlay original cartridge</dd></div></dl><button class="runtime-button" type="button" data-runtime-fullscreen>Fullscreen</button></div>
+    </section>
+    <p class="runtime-notice"><strong>Fully bundled classic runtime:</strong> Comet Breaker is an original RetroPlay cartridge for the WASM-4 fantasy-console format. Its compatibility-first Canvas 2D host avoids a WebGL requirement while preserving immediate play on desktop and mobile browsers.</p>
+  </main>
+  <script src="src/runtime-shell.js"></script>
+</body>
+</html>

@@ -178,10 +178,30 @@ jobs:
         GH_TOKEN: ${{ github.token }}
       run: ./scripts/build-ecwolf-web.sh
 
+    - name: Build original WASM-4 classic cartridges
+      uses: actions/setup-node@v4
+      with:
+        node-version: '22'
+        cache: 'npm'
+        cache-dependency-path: |
+          wasm4-skyline-sprint/package-lock.json
+          wasm4-comet-breaker/package-lock.json
+
+    - name: Package Skyline Sprint and Comet Breaker Canvas runtimes
+      run: |
+        npm ci --prefix wasm4-skyline-sprint
+        npm run build --prefix wasm4-skyline-sprint
+        npm ci --prefix wasm4-comet-breaker
+        npm run build --prefix wasm4-comet-breaker
+        node scripts/build-wasm4-canvas-runtime.mjs scripts/wasm4-canvas2d-template.html wasm4-skyline-sprint/build/cart.wasm dist/skyline-sprint/index.html "Skyline Sprint"
+        node scripts/build-wasm4-canvas-runtime.mjs scripts/wasm4-canvas2d-template.html wasm4-comet-breaker/build/cart.wasm dist/comet-breaker/index.html "Comet Breaker"
+        test -s dist/skyline-sprint/index.html || { echo "FATAL: Skyline Sprint runtime missing"; exit 1; }
+        test -s dist/comet-breaker/index.html || { echo "FATAL: Comet Breaker runtime missing"; exit 1; }
+
     - name: Copy frontend files
       run: |
-        cp index.html cdogs.html freedink.html opentyrian.html librequake.html openttd.html freerct.html neverball.html vector-putt.html blasphemer.html hexgl.html hextris.html rocksndiamonds.html beats-into-shapes.html 2048.html javascript-tetris.html adarkroom.html digger.html ecwolf.html openresident.html coi-serviceworker.js manifest.json robots.txt sitemap.xml google*.html dist/ 2>/dev/null || true
-        cp -r styles src vector-putt dist/ 2>/dev/null || true
+        cp index.html orbit-lander.html skyline-sprint.html comet-breaker.html cdogs.html freedink.html opentyrian.html librequake.html openttd.html freerct.html neverball.html vector-putt.html blasphemer.html hexgl.html hextris.html rocksndiamonds.html beats-into-shapes.html 2048.html javascript-tetris.html adarkroom.html digger.html ecwolf.html openresident.html coi-serviceworker.js manifest.json robots.txt sitemap.xml google*.html dist/ 2>/dev/null || true
+        cp -r styles src vector-putt orbit-lander dist/ 2>/dev/null || true
         mkdir -p dist/assets
         # Copy nested catalog artwork as well as existing icons. The WADs are
         # downloaded above into dist/assets and remain untouched because the
