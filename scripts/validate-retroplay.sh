@@ -65,6 +65,16 @@ grep -q "fullscreenchange" hexgl.html
 grep -q "gamepadconnected" hexgl.html
 ! grep -q 'type="file"' hexgl.html
 
+test -f hextris.html
+test -x scripts/build-hextris-web.sh
+grep -q "hextris.html" src/catalog.js
+grep -q "hextris-runtime.webp" src/catalog.js
+grep -q "Package Hextris fully bundled arcade-puzzle runtime" .github/workflows/build-and-deploy.yml
+grep -q "hextris.html" sitemap.xml
+grep -q "fullscreenchange" hextris.html
+grep -q "gamepadconnected" hextris.html
+! grep -q 'type="file"' hextris.html
+
 grep -q "assets/hacx.wad" src/catalog.js
 grep -q "hacx12.zip" .github/workflows/build-and-deploy.yml
 test -f assets/licenses/HACX-LEGAL.txt
