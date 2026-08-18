@@ -56,6 +56,17 @@ grep -q "controller-status" blasphemer.html
 grep -q 'data-key="ControlLeft"' blasphemer.html
 ! grep -q 'type="file"' blasphemer.html
 
+test -f vector-putt.html
+test -f vector-putt/index.html
+test -f assets/screenshots/vector-putt-runtime.webp
+grep -q "vector-putt.html" src/catalog.js
+grep -q "vector-putt-runtime.webp" src/catalog.js
+grep -q "vector-putt.html" sitemap.xml
+grep -q 'src="src/runtime-shell.js"' vector-putt.html
+grep -q 'data-runtime-fullscreen' vector-putt.html
+grep -q '../hexgl/libs/Three.r53.js' vector-putt/index.html
+! grep -q 'type="file"' vector-putt.html
+
 test -f hexgl.html
 test -x scripts/build-hexgl-web.sh
 grep -q "hexgl.html" src/catalog.js

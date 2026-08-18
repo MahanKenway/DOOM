@@ -44,7 +44,19 @@
   const fullscreen = async () => { try { if (document.fullscreenElement) await document.exitFullscreen(); else await playArea.requestFullscreen({ navigationUI:'hide' }); window.setTimeout(resizeRuntime, 120); } catch (error) { setStatus(`Fullscreen unavailable\n${error.message}`); } };
   shell.querySelectorAll('[data-runtime-fullscreen]').forEach(button => button.addEventListener('click', fullscreen));
   document.addEventListener('fullscreenchange', () => window.setTimeout(resizeRuntime, 120));
-  frame.addEventListener('load', () => { focusGame(); window.setTimeout(() => setStatus(`READY\n${title} is running locally. Use keyboard, PSP touch controls or a gamepad.`), 300); });
+  const expectsStatusEvents = shell.dataset.runtimeStatusEvents === 'true';
+  window.addEventListener('message', event => {
+    if (event.origin !== location.origin || event.source !== frame.contentWindow) return;
+    const data = event.data;
+    if (!data || data.type !== 'retroplay-runtime-status') return;
+    if (data.message) setStatus(data.message);
+    if (data.state === 'ready') focusGame();
+  });
+  frame.addEventListener('load', () => {
+    focusGame();
+    if (expectsStatusEvents) setStatus(`Loading ${title}…`);
+    else window.setTimeout(() => setStatus(`READY\n${title} is running locally. Use keyboard, PSP touch controls or a gamepad.`), 300);
+  });
   const primary = shell.querySelector('[data-gamepad-primary]')?.dataset.gamepadPrimary || 'Space';
   const states = { ArrowLeft:false, ArrowUp:false, ArrowRight:false, ArrowDown:false, [primary]:false };
   let pauseWasPressed = false;
