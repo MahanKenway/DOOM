@@ -28,8 +28,8 @@ mkdir -p "$CACHE_DIR" "$PACKAGE_DIR" "$OUT_DIR"
 
 # These packages match the maintained upstream web workflow. The native SOL
 # prebuild is needed before compiling Neverball itself to WebAssembly.
-timeout 180 sudo apt-get update -qq -o Acquire::Retries=2 -o Acquire::http::Timeout=30 -o Acquire::https::Timeout=30
-timeout 300 sudo apt-get install -y -qq libpng-dev libjpeg-dev pkg-config libsdl2-dev libcurl4-openssl-dev ffmpeg
+timeout 360 sudo apt-get update -qq -o Acquire::Retries=2 -o Acquire::http::Timeout=30 -o Acquire::https::Timeout=30
+timeout 900 sudo apt-get install -y -qq libpng-dev libjpeg-dev pkg-config libsdl2-dev libcurl4-openssl-dev ffmpeg
 command -v ffmpeg >/dev/null
 
 timeout 180 gh repo clone "$NEVERBALL_REPO" "$SOURCE_DIR" -- --filter=blob:none
