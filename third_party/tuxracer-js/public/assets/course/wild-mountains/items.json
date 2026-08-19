@@ -1,0 +1,8955 @@
+{
+  "items" : [ {
+    "type" : "SHRUB",
+    "x" : 44.0,
+    "z" : 2.0,
+    "height" : 0.6,
+    "diameter" : 0.6
+  }, {
+    "type" : "SHRUB",
+    "x" : 52.0,
+    "z" : 2.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "SHRUB",
+    "x" : 53.0,
+    "z" : 2.0,
+    "height" : 0.6,
+    "diameter" : 0.6
+  }, {
+    "type" : "TREE",
+    "x" : 62.0,
+    "z" : 2.0,
+    "height" : 2.2,
+    "diameter" : 1.3
+  }, {
+    "type" : "SHRUB",
+    "x" : 49.0,
+    "z" : 3.0,
+    "height" : 0.8,
+    "diameter" : 0.8
+  }, {
+    "type" : "SHRUB",
+    "x" : 53.0,
+    "z" : 3.0,
+    "height" : 0.9,
+    "diameter" : 0.9
+  }, {
+    "type" : "SHRUB",
+    "x" : 54.0,
+    "z" : 3.0,
+    "height" : 0.8,
+    "diameter" : 0.8
+  }, {
+    "type" : "SHRUB",
+    "x" : 55.0,
+    "z" : 3.0,
+    "height" : 0.9,
+    "diameter" : 0.9
+  }, {
+    "type" : "SHRUB",
+    "x" : 52.0,
+    "z" : 4.0,
+    "height" : 0.8,
+    "diameter" : 0.8
+  }, {
+    "type" : "SHRUB",
+    "x" : 53.0,
+    "z" : 4.0,
+    "height" : 0.7,
+    "diameter" : 0.7
+  }, {
+    "type" : "SHRUB",
+    "x" : 54.0,
+    "z" : 4.0,
+    "height" : 0.9,
+    "diameter" : 0.9
+  }, {
+    "type" : "TREE",
+    "x" : 64.0,
+    "z" : 4.0,
+    "height" : 3.3,
+    "diameter" : 2.7
+  }, {
+    "type" : "TREE",
+    "x" : 67.0,
+    "z" : 4.0,
+    "height" : 2.2,
+    "diameter" : 2.1
+  }, {
+    "type" : "TREE",
+    "x" : 60.0,
+    "z" : 5.0,
+    "height" : 3.5,
+    "diameter" : 3.1
+  }, {
+    "type" : "TREE",
+    "x" : 64.0,
+    "z" : 5.0,
+    "height" : 2.2,
+    "diameter" : 1.4
+  }, {
+    "type" : "TREE",
+    "x" : 65.0,
+    "z" : 5.0,
+    "height" : 2.4,
+    "diameter" : 1.3
+  }, {
+    "type" : "TREE",
+    "x" : 68.0,
+    "z" : 5.0,
+    "height" : 3.7,
+    "diameter" : 2.6
+  }, {
+    "type" : "TREE",
+    "x" : 71.0,
+    "z" : 5.0,
+    "height" : 2.2,
+    "diameter" : 1.3
+  }, {
+    "type" : "TREE",
+    "x" : 62.0,
+    "z" : 6.0,
+    "height" : 2.0,
+    "diameter" : 1.3
+  }, {
+    "type" : "TREE",
+    "x" : 63.0,
+    "z" : 6.0,
+    "height" : 2.4,
+    "diameter" : 2.1
+  }, {
+    "type" : "TREE",
+    "x" : 64.0,
+    "z" : 6.0,
+    "height" : 2.8,
+    "diameter" : 2.8
+  }, {
+    "type" : "TREE",
+    "x" : 66.0,
+    "z" : 6.0,
+    "height" : 3.0,
+    "diameter" : 2.8
+  }, {
+    "type" : "TREE",
+    "x" : 67.0,
+    "z" : 6.0,
+    "height" : 2.2,
+    "diameter" : 1.8
+  }, {
+    "type" : "TREE",
+    "x" : 70.0,
+    "z" : 6.0,
+    "height" : 2.4,
+    "diameter" : 1.9
+  }, {
+    "type" : "TREE",
+    "x" : 64.0,
+    "z" : 7.0,
+    "height" : 4.0,
+    "diameter" : 3.3
+  }, {
+    "type" : "TREE",
+    "x" : 65.0,
+    "z" : 7.0,
+    "height" : 3.9,
+    "diameter" : 2.2
+  }, {
+    "type" : "TREE",
+    "x" : 69.0,
+    "z" : 7.0,
+    "height" : 2.3,
+    "diameter" : 1.8
+  }, {
+    "type" : "TREE",
+    "x" : 70.0,
+    "z" : 7.0,
+    "height" : 3.5,
+    "diameter" : 2.2
+  }, {
+    "type" : "TREE",
+    "x" : 71.0,
+    "z" : 8.0,
+    "height" : 3.0,
+    "diameter" : 2.2
+  }, {
+    "type" : "TREE",
+    "x" : 69.0,
+    "z" : 9.0,
+    "height" : 2.1,
+    "diameter" : 1.7
+  }, {
+    "type" : "TREE",
+    "x" : 65.0,
+    "z" : 10.0,
+    "height" : 3.4,
+    "diameter" : 2.1
+  }, {
+    "type" : "TREE",
+    "x" : 66.0,
+    "z" : 10.0,
+    "height" : 3.3,
+    "diameter" : 2.6
+  }, {
+    "type" : "TREE",
+    "x" : 69.0,
+    "z" : 10.0,
+    "height" : 3.2,
+    "diameter" : 2.9
+  }, {
+    "type" : "TREE",
+    "x" : 71.0,
+    "z" : 10.0,
+    "height" : 3.5,
+    "diameter" : 2.8
+  }, {
+    "type" : "TREE",
+    "x" : 67.0,
+    "z" : 11.0,
+    "height" : 2.2,
+    "diameter" : 2.2
+  }, {
+    "type" : "TREE",
+    "x" : 71.0,
+    "z" : 11.0,
+    "height" : 2.7,
+    "diameter" : 2.0
+  }, {
+    "type" : "TREE",
+    "x" : 72.0,
+    "z" : 11.0,
+    "height" : 3.9,
+    "diameter" : 3.6
+  }, {
+    "type" : "FINISH",
+    "x" : 48.0,
+    "z" : 12.0,
+    "height" : 6.0,
+    "diameter" : 9.0
+  }, {
+    "type" : "TREE",
+    "x" : 65.0,
+    "z" : 12.0,
+    "height" : 2.7,
+    "diameter" : 1.4
+  }, {
+    "type" : "TREE",
+    "x" : 67.0,
+    "z" : 12.0,
+    "height" : 3.0,
+    "diameter" : 2.3
+  }, {
+    "type" : "TREE",
+    "x" : 72.0,
+    "z" : 12.0,
+    "height" : 3.3,
+    "diameter" : 2.4
+  }, {
+    "type" : "TREE",
+    "x" : 74.0,
+    "z" : 12.0,
+    "height" : 2.5,
+    "diameter" : 2.0
+  }, {
+    "type" : "TREE",
+    "x" : 66.0,
+    "z" : 13.0,
+    "height" : 3.2,
+    "diameter" : 2.2
+  }, {
+    "type" : "TREE",
+    "x" : 74.0,
+    "z" : 13.0,
+    "height" : 2.4,
+    "diameter" : 1.7
+  }, {
+    "type" : "TREE",
+    "x" : 75.0,
+    "z" : 13.0,
+    "height" : 3.3,
+    "diameter" : 2.8
+  }, {
+    "type" : "TREE",
+    "x" : 65.0,
+    "z" : 14.0,
+    "height" : 3.7,
+    "diameter" : 3.1
+  }, {
+    "type" : "TREE",
+    "x" : 66.0,
+    "z" : 14.0,
+    "height" : 2.6,
+    "diameter" : 2.0
+  }, {
+    "type" : "TREE",
+    "x" : 67.0,
+    "z" : 14.0,
+    "height" : 3.8,
+    "diameter" : 3.7
+  }, {
+    "type" : "TREE",
+    "x" : 74.0,
+    "z" : 14.0,
+    "height" : 2.3,
+    "diameter" : 1.7
+  }, {
+    "type" : "TREE",
+    "x" : 75.0,
+    "z" : 14.0,
+    "height" : 3.5,
+    "diameter" : 3.3
+  }, {
+    "type" : "TREE",
+    "x" : 76.0,
+    "z" : 14.0,
+    "height" : 2.3,
+    "diameter" : 2.1
+  }, {
+    "type" : "TREE",
+    "x" : 77.0,
+    "z" : 14.0,
+    "height" : 3.7,
+    "diameter" : 2.8
+  }, {
+    "type" : "TREE",
+    "x" : 65.0,
+    "z" : 15.0,
+    "height" : 2.7,
+    "diameter" : 2.4
+  }, {
+    "type" : "TREE",
+    "x" : 67.0,
+    "z" : 15.0,
+    "height" : 2.7,
+    "diameter" : 2.3
+  }, {
+    "type" : "TREE",
+    "x" : 75.0,
+    "z" : 15.0,
+    "height" : 3.7,
+    "diameter" : 3.4
+  }, {
+    "type" : "TREE",
+    "x" : 78.0,
+    "z" : 15.0,
+    "height" : 2.5,
+    "diameter" : 1.9
+  }, {
+    "type" : "TREE",
+    "x" : 79.0,
+    "z" : 15.0,
+    "height" : 2.7,
+    "diameter" : 2.0
+  }, {
+    "type" : "TREE",
+    "x" : 64.0,
+    "z" : 16.0,
+    "height" : 2.2,
+    "diameter" : 2.1
+  }, {
+    "type" : "TREE",
+    "x" : 65.0,
+    "z" : 16.0,
+    "height" : 3.7,
+    "diameter" : 2.4
+  }, {
+    "type" : "TREE",
+    "x" : 66.0,
+    "z" : 16.0,
+    "height" : 2.6,
+    "diameter" : 1.9
+  }, {
+    "type" : "TREE",
+    "x" : 76.0,
+    "z" : 16.0,
+    "height" : 4.0,
+    "diameter" : 2.3
+  }, {
+    "type" : "TREE",
+    "x" : 64.0,
+    "z" : 17.0,
+    "height" : 2.3,
+    "diameter" : 1.5
+  }, {
+    "type" : "TREE",
+    "x" : 65.0,
+    "z" : 17.0,
+    "height" : 3.5,
+    "diameter" : 1.9
+  }, {
+    "type" : "TREE",
+    "x" : 76.0,
+    "z" : 17.0,
+    "height" : 2.5,
+    "diameter" : 2.4
+  }, {
+    "type" : "TREE",
+    "x" : 79.0,
+    "z" : 17.0,
+    "height" : 3.2,
+    "diameter" : 1.6
+  }, {
+    "type" : "TREE",
+    "x" : 80.0,
+    "z" : 17.0,
+    "height" : 3.6,
+    "diameter" : 3.1
+  }, {
+    "type" : "HERRING",
+    "x" : 48.0,
+    "z" : 18.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "TREE",
+    "x" : 76.0,
+    "z" : 18.0,
+    "height" : 3.6,
+    "diameter" : 3.1
+  }, {
+    "type" : "TREE",
+    "x" : 77.0,
+    "z" : 18.0,
+    "height" : 3.0,
+    "diameter" : 1.7
+  }, {
+    "type" : "TREE",
+    "x" : 80.0,
+    "z" : 18.0,
+    "height" : 2.0,
+    "diameter" : 2.0
+  }, {
+    "type" : "TREE",
+    "x" : 63.0,
+    "z" : 19.0,
+    "height" : 2.2,
+    "diameter" : 1.3
+  }, {
+    "type" : "TREE",
+    "x" : 80.0,
+    "z" : 19.0,
+    "height" : 2.3,
+    "diameter" : 1.6
+  }, {
+    "type" : "TREE",
+    "x" : 35.0,
+    "z" : 20.0,
+    "height" : 3.8,
+    "diameter" : 2.3
+  }, {
+    "type" : "TREE",
+    "x" : 36.0,
+    "z" : 20.0,
+    "height" : 3.3,
+    "diameter" : 3.0
+  }, {
+    "type" : "TREE",
+    "x" : 59.0,
+    "z" : 20.0,
+    "height" : 3.6,
+    "diameter" : 2.9
+  }, {
+    "type" : "TREE",
+    "x" : 65.0,
+    "z" : 20.0,
+    "height" : 3.2,
+    "diameter" : 2.4
+  }, {
+    "type" : "TREE",
+    "x" : 77.0,
+    "z" : 20.0,
+    "height" : 3.0,
+    "diameter" : 1.8
+  }, {
+    "type" : "TREE",
+    "x" : 35.0,
+    "z" : 21.0,
+    "height" : 3.5,
+    "diameter" : 3.0
+  }, {
+    "type" : "TREE",
+    "x" : 36.0,
+    "z" : 21.0,
+    "height" : 3.2,
+    "diameter" : 2.2
+  }, {
+    "type" : "TREE",
+    "x" : 37.0,
+    "z" : 21.0,
+    "height" : 3.3,
+    "diameter" : 3.1
+  }, {
+    "type" : "TREE",
+    "x" : 38.0,
+    "z" : 21.0,
+    "height" : 3.6,
+    "diameter" : 3.3
+  }, {
+    "type" : "TREE",
+    "x" : 61.0,
+    "z" : 21.0,
+    "height" : 3.1,
+    "diameter" : 2.4
+  }, {
+    "type" : "TREE",
+    "x" : 34.0,
+    "z" : 22.0,
+    "height" : 3.0,
+    "diameter" : 2.0
+  }, {
+    "type" : "TREE",
+    "x" : 35.0,
+    "z" : 22.0,
+    "height" : 2.5,
+    "diameter" : 1.3
+  }, {
+    "type" : "TREE",
+    "x" : 38.0,
+    "z" : 22.0,
+    "height" : 2.9,
+    "diameter" : 1.9
+  }, {
+    "type" : "TREE",
+    "x" : 40.0,
+    "z" : 22.0,
+    "height" : 4.0,
+    "diameter" : 3.1
+  }, {
+    "type" : "TREE",
+    "x" : 58.0,
+    "z" : 22.0,
+    "height" : 2.9,
+    "diameter" : 1.7
+  }, {
+    "type" : "TREE",
+    "x" : 59.0,
+    "z" : 22.0,
+    "height" : 3.9,
+    "diameter" : 2.7
+  }, {
+    "type" : "TREE",
+    "x" : 61.0,
+    "z" : 22.0,
+    "height" : 2.7,
+    "diameter" : 2.1
+  }, {
+    "type" : "TREE",
+    "x" : 33.0,
+    "z" : 23.0,
+    "height" : 2.4,
+    "diameter" : 1.3
+  }, {
+    "type" : "TREE",
+    "x" : 34.0,
+    "z" : 23.0,
+    "height" : 2.5,
+    "diameter" : 2.2
+  }, {
+    "type" : "TREE",
+    "x" : 40.0,
+    "z" : 23.0,
+    "height" : 3.3,
+    "diameter" : 2.9
+  }, {
+    "type" : "TREE",
+    "x" : 59.0,
+    "z" : 23.0,
+    "height" : 2.0,
+    "diameter" : 1.4
+  }, {
+    "type" : "TREE",
+    "x" : 60.0,
+    "z" : 23.0,
+    "height" : 3.0,
+    "diameter" : 2.4
+  }, {
+    "type" : "TREE",
+    "x" : 64.0,
+    "z" : 23.0,
+    "height" : 3.4,
+    "diameter" : 2.0
+  }, {
+    "type" : "TREE",
+    "x" : 60.0,
+    "z" : 24.0,
+    "height" : 2.9,
+    "diameter" : 2.2
+  }, {
+    "type" : "TREE",
+    "x" : 66.0,
+    "z" : 24.0,
+    "height" : 2.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "TREE",
+    "x" : 57.0,
+    "z" : 25.0,
+    "height" : 2.1,
+    "diameter" : 1.6
+  }, {
+    "type" : "TREE",
+    "x" : 58.0,
+    "z" : 25.0,
+    "height" : 2.7,
+    "diameter" : 1.8
+  }, {
+    "type" : "TREE",
+    "x" : 60.0,
+    "z" : 25.0,
+    "height" : 3.0,
+    "diameter" : 2.8
+  }, {
+    "type" : "TREE",
+    "x" : 61.0,
+    "z" : 25.0,
+    "height" : 3.2,
+    "diameter" : 2.4
+  }, {
+    "type" : "TREE",
+    "x" : 62.0,
+    "z" : 25.0,
+    "height" : 2.8,
+    "diameter" : 1.5
+  }, {
+    "type" : "TREE",
+    "x" : 63.0,
+    "z" : 25.0,
+    "height" : 3.3,
+    "diameter" : 2.2
+  }, {
+    "type" : "TREE",
+    "x" : 58.0,
+    "z" : 26.0,
+    "height" : 2.9,
+    "diameter" : 2.9
+  }, {
+    "type" : "TREE",
+    "x" : 64.0,
+    "z" : 26.0,
+    "height" : 3.9,
+    "diameter" : 3.1
+  }, {
+    "type" : "TREE",
+    "x" : 69.0,
+    "z" : 26.0,
+    "height" : 2.3,
+    "diameter" : 1.3
+  }, {
+    "type" : "TREE",
+    "x" : 56.0,
+    "z" : 27.0,
+    "height" : 2.8,
+    "diameter" : 2.5
+  }, {
+    "type" : "TREE",
+    "x" : 63.0,
+    "z" : 27.0,
+    "height" : 3.9,
+    "diameter" : 2.7
+  }, {
+    "type" : "TREE",
+    "x" : 56.0,
+    "z" : 28.0,
+    "height" : 2.3,
+    "diameter" : 1.7
+  }, {
+    "type" : "TREE",
+    "x" : 63.0,
+    "z" : 28.0,
+    "height" : 2.1,
+    "diameter" : 1.9
+  }, {
+    "type" : "TREE",
+    "x" : 65.0,
+    "z" : 28.0,
+    "height" : 3.2,
+    "diameter" : 2.4
+  }, {
+    "type" : "TREE",
+    "x" : 53.0,
+    "z" : 30.0,
+    "height" : 2.8,
+    "diameter" : 2.2
+  }, {
+    "type" : "TREE",
+    "x" : 55.0,
+    "z" : 30.0,
+    "height" : 3.0,
+    "diameter" : 2.2
+  }, {
+    "type" : "TREE",
+    "x" : 63.0,
+    "z" : 30.0,
+    "height" : 2.2,
+    "diameter" : 2.1
+  }, {
+    "type" : "TREE",
+    "x" : 64.0,
+    "z" : 30.0,
+    "height" : 3.6,
+    "diameter" : 2.9
+  }, {
+    "type" : "TREE",
+    "x" : 77.0,
+    "z" : 30.0,
+    "height" : 3.4,
+    "diameter" : 2.4
+  }, {
+    "type" : "TREE",
+    "x" : 79.0,
+    "z" : 30.0,
+    "height" : 2.3,
+    "diameter" : 1.2
+  }, {
+    "type" : "TREE",
+    "x" : 62.0,
+    "z" : 31.0,
+    "height" : 3.0,
+    "diameter" : 2.7
+  }, {
+    "type" : "TREE",
+    "x" : 63.0,
+    "z" : 31.0,
+    "height" : 2.9,
+    "diameter" : 2.8
+  }, {
+    "type" : "TREE",
+    "x" : 77.0,
+    "z" : 31.0,
+    "height" : 3.5,
+    "diameter" : 2.4
+  }, {
+    "type" : "TREE",
+    "x" : 79.0,
+    "z" : 31.0,
+    "height" : 3.2,
+    "diameter" : 3.0
+  }, {
+    "type" : "TREE",
+    "x" : 53.0,
+    "z" : 32.0,
+    "height" : 3.0,
+    "diameter" : 3.0
+  }, {
+    "type" : "TREE",
+    "x" : 55.0,
+    "z" : 32.0,
+    "height" : 3.3,
+    "diameter" : 2.4
+  }, {
+    "type" : "TREE",
+    "x" : 57.0,
+    "z" : 32.0,
+    "height" : 2.8,
+    "diameter" : 2.6
+  }, {
+    "type" : "TREE",
+    "x" : 62.0,
+    "z" : 32.0,
+    "height" : 3.8,
+    "diameter" : 2.7
+  }, {
+    "type" : "TREE",
+    "x" : 64.0,
+    "z" : 32.0,
+    "height" : 3.4,
+    "diameter" : 2.5
+  }, {
+    "type" : "TREE",
+    "x" : 77.0,
+    "z" : 32.0,
+    "height" : 3.9,
+    "diameter" : 2.1
+  }, {
+    "type" : "TREE",
+    "x" : 53.0,
+    "z" : 33.0,
+    "height" : 2.2,
+    "diameter" : 1.6
+  }, {
+    "type" : "TREE",
+    "x" : 55.0,
+    "z" : 33.0,
+    "height" : 3.1,
+    "diameter" : 1.9
+  }, {
+    "type" : "TREE",
+    "x" : 61.0,
+    "z" : 33.0,
+    "height" : 2.7,
+    "diameter" : 1.8
+  }, {
+    "type" : "TREE",
+    "x" : 64.0,
+    "z" : 33.0,
+    "height" : 3.7,
+    "diameter" : 1.9
+  }, {
+    "type" : "TREE",
+    "x" : 75.0,
+    "z" : 33.0,
+    "height" : 3.6,
+    "diameter" : 3.5
+  }, {
+    "type" : "TREE",
+    "x" : 79.0,
+    "z" : 33.0,
+    "height" : 2.3,
+    "diameter" : 1.5
+  }, {
+    "type" : "HERRING",
+    "x" : 46.0,
+    "z" : 34.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "TREE",
+    "x" : 53.0,
+    "z" : 34.0,
+    "height" : 3.4,
+    "diameter" : 2.7
+  }, {
+    "type" : "TREE",
+    "x" : 54.0,
+    "z" : 34.0,
+    "height" : 2.5,
+    "diameter" : 1.9
+  }, {
+    "type" : "TREE",
+    "x" : 55.0,
+    "z" : 34.0,
+    "height" : 3.8,
+    "diameter" : 3.5
+  }, {
+    "type" : "TREE",
+    "x" : 56.0,
+    "z" : 34.0,
+    "height" : 2.8,
+    "diameter" : 2.0
+  }, {
+    "type" : "TREE",
+    "x" : 57.0,
+    "z" : 34.0,
+    "height" : 3.7,
+    "diameter" : 1.9
+  }, {
+    "type" : "TREE",
+    "x" : 58.0,
+    "z" : 34.0,
+    "height" : 3.7,
+    "diameter" : 2.3
+  }, {
+    "type" : "TREE",
+    "x" : 59.0,
+    "z" : 34.0,
+    "height" : 3.8,
+    "diameter" : 3.3
+  }, {
+    "type" : "TREE",
+    "x" : 73.0,
+    "z" : 34.0,
+    "height" : 3.4,
+    "diameter" : 2.7
+  }, {
+    "type" : "TREE",
+    "x" : 58.0,
+    "z" : 35.0,
+    "height" : 2.5,
+    "diameter" : 2.0
+  }, {
+    "type" : "TREE",
+    "x" : 59.0,
+    "z" : 35.0,
+    "height" : 3.4,
+    "diameter" : 2.3
+  }, {
+    "type" : "TREE",
+    "x" : 60.0,
+    "z" : 35.0,
+    "height" : 2.2,
+    "diameter" : 1.4
+  }, {
+    "type" : "TREE",
+    "x" : 57.0,
+    "z" : 36.0,
+    "height" : 3.0,
+    "diameter" : 2.2
+  }, {
+    "type" : "TREE",
+    "x" : 60.0,
+    "z" : 36.0,
+    "height" : 3.3,
+    "diameter" : 2.2
+  }, {
+    "type" : "TREE",
+    "x" : 61.0,
+    "z" : 36.0,
+    "height" : 2.9,
+    "diameter" : 2.1
+  }, {
+    "type" : "TREE",
+    "x" : 63.0,
+    "z" : 36.0,
+    "height" : 2.6,
+    "diameter" : 2.0
+  }, {
+    "type" : "HERRING",
+    "x" : 46.0,
+    "z" : 37.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "TREE",
+    "x" : 57.0,
+    "z" : 37.0,
+    "height" : 3.5,
+    "diameter" : 1.8
+  }, {
+    "type" : "TREE",
+    "x" : 58.0,
+    "z" : 37.0,
+    "height" : 2.3,
+    "diameter" : 2.2
+  }, {
+    "type" : "TREE",
+    "x" : 59.0,
+    "z" : 37.0,
+    "height" : 3.0,
+    "diameter" : 1.6
+  }, {
+    "type" : "SHRUB",
+    "x" : 79.0,
+    "z" : 37.0,
+    "height" : 1.1,
+    "diameter" : 1.1
+  }, {
+    "type" : "TREE",
+    "x" : 59.0,
+    "z" : 38.0,
+    "height" : 3.8,
+    "diameter" : 2.8
+  }, {
+    "type" : "TREE",
+    "x" : 60.0,
+    "z" : 38.0,
+    "height" : 3.3,
+    "diameter" : 3.2
+  }, {
+    "type" : "TREE",
+    "x" : 61.0,
+    "z" : 38.0,
+    "height" : 2.6,
+    "diameter" : 2.5
+  }, {
+    "type" : "SHRUB",
+    "x" : 70.0,
+    "z" : 38.0,
+    "height" : 1.1,
+    "diameter" : 1.1
+  }, {
+    "type" : "SHRUB",
+    "x" : 71.0,
+    "z" : 38.0,
+    "height" : 0.6,
+    "diameter" : 0.6
+  }, {
+    "type" : "SHRUB",
+    "x" : 73.0,
+    "z" : 38.0,
+    "height" : 0.9,
+    "diameter" : 0.9
+  }, {
+    "type" : "SHRUB",
+    "x" : 80.0,
+    "z" : 38.0,
+    "height" : 0.9,
+    "diameter" : 0.9
+  }, {
+    "type" : "SHRUB",
+    "x" : 81.0,
+    "z" : 38.0,
+    "height" : 0.8,
+    "diameter" : 0.8
+  }, {
+    "type" : "SHRUB",
+    "x" : 74.0,
+    "z" : 39.0,
+    "height" : 0.7,
+    "diameter" : 0.7
+  }, {
+    "type" : "SHRUB",
+    "x" : 75.0,
+    "z" : 39.0,
+    "height" : 0.7,
+    "diameter" : 0.7
+  }, {
+    "type" : "SHRUB",
+    "x" : 76.0,
+    "z" : 39.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "TREE",
+    "x" : 57.0,
+    "z" : 40.0,
+    "height" : 2.6,
+    "diameter" : 1.9
+  }, {
+    "type" : "TREE",
+    "x" : 58.0,
+    "z" : 40.0,
+    "height" : 2.3,
+    "diameter" : 1.9
+  }, {
+    "type" : "TREE",
+    "x" : 59.0,
+    "z" : 40.0,
+    "height" : 2.2,
+    "diameter" : 1.6
+  }, {
+    "type" : "TREE",
+    "x" : 60.0,
+    "z" : 40.0,
+    "height" : 2.3,
+    "diameter" : 1.7
+  }, {
+    "type" : "SHRUB",
+    "x" : 76.0,
+    "z" : 40.0,
+    "height" : 1.1,
+    "diameter" : 1.1
+  }, {
+    "type" : "SHRUB",
+    "x" : 88.0,
+    "z" : 40.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "SHRUB",
+    "x" : 89.0,
+    "z" : 40.0,
+    "height" : 0.7,
+    "diameter" : 0.7
+  }, {
+    "type" : "TREE",
+    "x" : 62.0,
+    "z" : 41.0,
+    "height" : 3.6,
+    "diameter" : 3.3
+  }, {
+    "type" : "SHRUB",
+    "x" : 90.0,
+    "z" : 41.0,
+    "height" : 0.7,
+    "diameter" : 0.7
+  }, {
+    "type" : "HERRING",
+    "x" : 46.0,
+    "z" : 42.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "TREE",
+    "x" : 62.0,
+    "z" : 42.0,
+    "height" : 2.6,
+    "diameter" : 2.5
+  }, {
+    "type" : "SHRUB",
+    "x" : 90.0,
+    "z" : 42.0,
+    "height" : 0.6,
+    "diameter" : 0.6
+  }, {
+    "type" : "TREE",
+    "x" : 62.0,
+    "z" : 43.0,
+    "height" : 2.4,
+    "diameter" : 1.6
+  }, {
+    "type" : "TREE",
+    "x" : 63.0,
+    "z" : 43.0,
+    "height" : 3.4,
+    "diameter" : 2.0
+  }, {
+    "type" : "SHRUB",
+    "x" : 91.0,
+    "z" : 43.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "TREE",
+    "x" : 62.0,
+    "z" : 44.0,
+    "height" : 3.1,
+    "diameter" : 1.6
+  }, {
+    "type" : "TREE",
+    "x" : 63.0,
+    "z" : 44.0,
+    "height" : 3.4,
+    "diameter" : 1.9
+  }, {
+    "type" : "TREE",
+    "x" : 63.0,
+    "z" : 45.0,
+    "height" : 3.0,
+    "diameter" : 1.5
+  }, {
+    "type" : "TREE",
+    "x" : 64.0,
+    "z" : 45.0,
+    "height" : 2.6,
+    "diameter" : 2.2
+  }, {
+    "type" : "SHRUB",
+    "x" : 91.0,
+    "z" : 45.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "SHRUB",
+    "x" : 91.0,
+    "z" : 46.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "SHRUB",
+    "x" : 93.0,
+    "z" : 46.0,
+    "height" : 0.7,
+    "diameter" : 0.7
+  }, {
+    "type" : "TREE",
+    "x" : 70.0,
+    "z" : 50.0,
+    "height" : 3.5,
+    "diameter" : 2.3
+  }, {
+    "type" : "TREE",
+    "x" : 71.0,
+    "z" : 50.0,
+    "height" : 2.5,
+    "diameter" : 1.5
+  }, {
+    "type" : "TREE",
+    "x" : 73.0,
+    "z" : 50.0,
+    "height" : 2.9,
+    "diameter" : 2.5
+  }, {
+    "type" : "HERRING",
+    "x" : 55.0,
+    "z" : 51.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "TREE",
+    "x" : 69.0,
+    "z" : 51.0,
+    "height" : 2.0,
+    "diameter" : 1.2
+  }, {
+    "type" : "TREE",
+    "x" : 33.0,
+    "z" : 52.0,
+    "height" : 4.0,
+    "diameter" : 3.6
+  }, {
+    "type" : "TREE",
+    "x" : 34.0,
+    "z" : 52.0,
+    "height" : 2.1,
+    "diameter" : 1.3
+  }, {
+    "type" : "TREE",
+    "x" : 35.0,
+    "z" : 52.0,
+    "height" : 2.3,
+    "diameter" : 2.2
+  }, {
+    "type" : "TREE",
+    "x" : 69.0,
+    "z" : 52.0,
+    "height" : 2.5,
+    "diameter" : 1.7
+  }, {
+    "type" : "TREE",
+    "x" : 33.0,
+    "z" : 53.0,
+    "height" : 2.5,
+    "diameter" : 2.4
+  }, {
+    "type" : "TREE",
+    "x" : 34.0,
+    "z" : 53.0,
+    "height" : 3.1,
+    "diameter" : 2.9
+  }, {
+    "type" : "TREE",
+    "x" : 69.0,
+    "z" : 53.0,
+    "height" : 3.0,
+    "diameter" : 2.4
+  }, {
+    "type" : "TREE",
+    "x" : 75.0,
+    "z" : 53.0,
+    "height" : 3.2,
+    "diameter" : 2.6
+  }, {
+    "type" : "TREE",
+    "x" : 32.0,
+    "z" : 54.0,
+    "height" : 2.3,
+    "diameter" : 1.8
+  }, {
+    "type" : "TREE",
+    "x" : 69.0,
+    "z" : 54.0,
+    "height" : 3.9,
+    "diameter" : 3.6
+  }, {
+    "type" : "TREE",
+    "x" : 76.0,
+    "z" : 54.0,
+    "height" : 2.5,
+    "diameter" : 1.9
+  }, {
+    "type" : "TREE",
+    "x" : 77.0,
+    "z" : 54.0,
+    "height" : 4.0,
+    "diameter" : 4.0
+  }, {
+    "type" : "TREE",
+    "x" : 76.0,
+    "z" : 55.0,
+    "height" : 3.7,
+    "diameter" : 2.2
+  }, {
+    "type" : "TREE",
+    "x" : 78.0,
+    "z" : 55.0,
+    "height" : 2.5,
+    "diameter" : 1.6
+  }, {
+    "type" : "TREE",
+    "x" : 49.0,
+    "z" : 56.0,
+    "height" : 3.9,
+    "diameter" : 2.5
+  }, {
+    "type" : "TREE",
+    "x" : 50.0,
+    "z" : 56.0,
+    "height" : 3.0,
+    "diameter" : 2.9
+  }, {
+    "type" : "TREE",
+    "x" : 71.0,
+    "z" : 56.0,
+    "height" : 2.2,
+    "diameter" : 1.6
+  }, {
+    "type" : "TREE",
+    "x" : 48.0,
+    "z" : 57.0,
+    "height" : 2.3,
+    "diameter" : 1.4
+  }, {
+    "type" : "TREE",
+    "x" : 51.0,
+    "z" : 57.0,
+    "height" : 2.8,
+    "diameter" : 2.0
+  }, {
+    "type" : "TREE",
+    "x" : 74.0,
+    "z" : 57.0,
+    "height" : 3.2,
+    "diameter" : 2.7
+  }, {
+    "type" : "TREE",
+    "x" : 76.0,
+    "z" : 57.0,
+    "height" : 2.7,
+    "diameter" : 1.6
+  }, {
+    "type" : "TREE",
+    "x" : 78.0,
+    "z" : 57.0,
+    "height" : 3.1,
+    "diameter" : 2.9
+  }, {
+    "type" : "TREE",
+    "x" : 48.0,
+    "z" : 58.0,
+    "height" : 3.6,
+    "diameter" : 2.0
+  }, {
+    "type" : "TREE",
+    "x" : 49.0,
+    "z" : 58.0,
+    "height" : 3.0,
+    "diameter" : 2.8
+  }, {
+    "type" : "TREE",
+    "x" : 50.0,
+    "z" : 58.0,
+    "height" : 3.5,
+    "diameter" : 2.5
+  }, {
+    "type" : "TREE",
+    "x" : 51.0,
+    "z" : 58.0,
+    "height" : 3.5,
+    "diameter" : 3.5
+  }, {
+    "type" : "HERRING",
+    "x" : 60.0,
+    "z" : 58.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "TREE",
+    "x" : 72.0,
+    "z" : 58.0,
+    "height" : 3.9,
+    "diameter" : 3.4
+  }, {
+    "type" : "TREE",
+    "x" : 76.0,
+    "z" : 58.0,
+    "height" : 4.0,
+    "diameter" : 3.6
+  }, {
+    "type" : "HERRING",
+    "x" : 36.0,
+    "z" : 59.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "TREE",
+    "x" : 48.0,
+    "z" : 59.0,
+    "height" : 3.9,
+    "diameter" : 2.4
+  }, {
+    "type" : "TREE",
+    "x" : 50.0,
+    "z" : 59.0,
+    "height" : 2.2,
+    "diameter" : 2.1
+  }, {
+    "type" : "TREE",
+    "x" : 52.0,
+    "z" : 59.0,
+    "height" : 3.0,
+    "diameter" : 2.3
+  }, {
+    "type" : "TREE",
+    "x" : 72.0,
+    "z" : 59.0,
+    "height" : 3.8,
+    "diameter" : 3.0
+  }, {
+    "type" : "TREE",
+    "x" : 75.0,
+    "z" : 59.0,
+    "height" : 2.2,
+    "diameter" : 1.1
+  }, {
+    "type" : "TREE",
+    "x" : 76.0,
+    "z" : 59.0,
+    "height" : 3.6,
+    "diameter" : 2.7
+  }, {
+    "type" : "TREE",
+    "x" : 77.0,
+    "z" : 59.0,
+    "height" : 2.9,
+    "diameter" : 2.1
+  }, {
+    "type" : "SHRUB",
+    "x" : 82.0,
+    "z" : 59.0,
+    "height" : 0.7,
+    "diameter" : 0.7
+  }, {
+    "type" : "TREE",
+    "x" : 49.0,
+    "z" : 60.0,
+    "height" : 3.7,
+    "diameter" : 2.9
+  }, {
+    "type" : "TREE",
+    "x" : 50.0,
+    "z" : 60.0,
+    "height" : 3.4,
+    "diameter" : 2.9
+  }, {
+    "type" : "TREE",
+    "x" : 52.0,
+    "z" : 60.0,
+    "height" : 2.7,
+    "diameter" : 2.5
+  }, {
+    "type" : "TREE",
+    "x" : 53.0,
+    "z" : 60.0,
+    "height" : 2.4,
+    "diameter" : 1.5
+  }, {
+    "type" : "TREE",
+    "x" : 73.0,
+    "z" : 60.0,
+    "height" : 3.2,
+    "diameter" : 2.5
+  }, {
+    "type" : "TREE",
+    "x" : 77.0,
+    "z" : 60.0,
+    "height" : 2.1,
+    "diameter" : 1.7
+  }, {
+    "type" : "SHRUB",
+    "x" : 83.0,
+    "z" : 60.0,
+    "height" : 0.9,
+    "diameter" : 0.9
+  }, {
+    "type" : "SHRUB",
+    "x" : 84.0,
+    "z" : 60.0,
+    "height" : 1.1,
+    "diameter" : 1.1
+  }, {
+    "type" : "TREE",
+    "x" : 49.0,
+    "z" : 61.0,
+    "height" : 3.1,
+    "diameter" : 2.1
+  }, {
+    "type" : "TREE",
+    "x" : 53.0,
+    "z" : 61.0,
+    "height" : 3.6,
+    "diameter" : 3.2
+  }, {
+    "type" : "TREE",
+    "x" : 54.0,
+    "z" : 61.0,
+    "height" : 2.9,
+    "diameter" : 2.5
+  }, {
+    "type" : "SHRUB",
+    "x" : 84.0,
+    "z" : 61.0,
+    "height" : 0.8,
+    "diameter" : 0.8
+  }, {
+    "type" : "TREE",
+    "x" : 50.0,
+    "z" : 62.0,
+    "height" : 2.0,
+    "diameter" : 1.6
+  }, {
+    "type" : "TREE",
+    "x" : 55.0,
+    "z" : 62.0,
+    "height" : 3.7,
+    "diameter" : 2.0
+  }, {
+    "type" : "TREE",
+    "x" : 74.0,
+    "z" : 62.0,
+    "height" : 3.3,
+    "diameter" : 2.7
+  }, {
+    "type" : "TREE",
+    "x" : 75.0,
+    "z" : 62.0,
+    "height" : 3.2,
+    "diameter" : 1.8
+  }, {
+    "type" : "SHRUB",
+    "x" : 84.0,
+    "z" : 62.0,
+    "height" : 0.7,
+    "diameter" : 0.7
+  }, {
+    "type" : "TREE",
+    "x" : 53.0,
+    "z" : 63.0,
+    "height" : 3.5,
+    "diameter" : 3.4
+  }, {
+    "type" : "TREE",
+    "x" : 54.0,
+    "z" : 63.0,
+    "height" : 3.3,
+    "diameter" : 2.4
+  }, {
+    "type" : "TREE",
+    "x" : 55.0,
+    "z" : 63.0,
+    "height" : 3.3,
+    "diameter" : 1.7
+  }, {
+    "type" : "SHRUB",
+    "x" : 83.0,
+    "z" : 63.0,
+    "height" : 0.8,
+    "diameter" : 0.8
+  }, {
+    "type" : "TREE",
+    "x" : 49.0,
+    "z" : 64.0,
+    "height" : 3.6,
+    "diameter" : 2.4
+  }, {
+    "type" : "TREE",
+    "x" : 50.0,
+    "z" : 64.0,
+    "height" : 3.8,
+    "diameter" : 2.7
+  }, {
+    "type" : "TREE",
+    "x" : 51.0,
+    "z" : 64.0,
+    "height" : 2.7,
+    "diameter" : 2.0
+  }, {
+    "type" : "TREE",
+    "x" : 52.0,
+    "z" : 64.0,
+    "height" : 3.9,
+    "diameter" : 2.3
+  }, {
+    "type" : "TREE",
+    "x" : 57.0,
+    "z" : 64.0,
+    "height" : 2.1,
+    "diameter" : 1.4
+  }, {
+    "type" : "SHRUB",
+    "x" : 83.0,
+    "z" : 64.0,
+    "height" : 1.2,
+    "diameter" : 1.2
+  }, {
+    "type" : "SHRUB",
+    "x" : 82.0,
+    "z" : 65.0,
+    "height" : 1.1,
+    "diameter" : 1.1
+  }, {
+    "type" : "SHRUB",
+    "x" : 82.0,
+    "z" : 66.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "SHRUB",
+    "x" : 81.0,
+    "z" : 68.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "SHRUB",
+    "x" : 80.0,
+    "z" : 69.0,
+    "height" : 0.7,
+    "diameter" : 0.7
+  }, {
+    "type" : "SHRUB",
+    "x" : 78.0,
+    "z" : 70.0,
+    "height" : 1.1,
+    "diameter" : 1.1
+  }, {
+    "type" : "SHRUB",
+    "x" : 76.0,
+    "z" : 71.0,
+    "height" : 0.8,
+    "diameter" : 0.8
+  }, {
+    "type" : "SHRUB",
+    "x" : 84.0,
+    "z" : 71.0,
+    "height" : 1.2,
+    "diameter" : 1.2
+  }, {
+    "type" : "SHRUB",
+    "x" : 76.0,
+    "z" : 72.0,
+    "height" : 1.1,
+    "diameter" : 1.1
+  }, {
+    "type" : "SHRUB",
+    "x" : 75.0,
+    "z" : 73.0,
+    "height" : 1.1,
+    "diameter" : 1.1
+  }, {
+    "type" : "HERRING",
+    "x" : 29.0,
+    "z" : 81.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "HERRING",
+    "x" : 29.0,
+    "z" : 86.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "HERRING",
+    "x" : 59.0,
+    "z" : 89.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "HERRING",
+    "x" : 23.0,
+    "z" : 92.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "HERRING",
+    "x" : 59.0,
+    "z" : 94.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "HERRING",
+    "x" : 61.0,
+    "z" : 97.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "HERRING",
+    "x" : 25.0,
+    "z" : 114.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "HERRING",
+    "x" : 27.0,
+    "z" : 116.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "HERRING",
+    "x" : 37.0,
+    "z" : 121.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "HERRING",
+    "x" : 62.0,
+    "z" : 126.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "HERRING",
+    "x" : 65.0,
+    "z" : 129.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "HERRING",
+    "x" : 30.0,
+    "z" : 135.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "HERRING",
+    "x" : 66.0,
+    "z" : 144.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "HERRING",
+    "x" : 64.0,
+    "z" : 146.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "HERRING",
+    "x" : 25.0,
+    "z" : 157.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "HERRING",
+    "x" : 61.0,
+    "z" : 165.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "HERRING",
+    "x" : 29.0,
+    "z" : 166.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "HERRING",
+    "x" : 39.0,
+    "z" : 171.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "HERRING",
+    "x" : 51.0,
+    "z" : 176.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "HERRING",
+    "x" : 61.0,
+    "z" : 180.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "HERRING",
+    "x" : 62.0,
+    "z" : 185.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "HERRING",
+    "x" : 36.0,
+    "z" : 186.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "TREE",
+    "x" : 56.0,
+    "z" : 191.0,
+    "height" : 3.3,
+    "diameter" : 2.4
+  }, {
+    "type" : "TREE",
+    "x" : 56.0,
+    "z" : 193.0,
+    "height" : 2.0,
+    "diameter" : 1.8
+  }, {
+    "type" : "TREE",
+    "x" : 57.0,
+    "z" : 194.0,
+    "height" : 2.3,
+    "diameter" : 2.3
+  }, {
+    "type" : "TREE",
+    "x" : 58.0,
+    "z" : 195.0,
+    "height" : 2.8,
+    "diameter" : 2.3
+  }, {
+    "type" : "TREE",
+    "x" : 59.0,
+    "z" : 195.0,
+    "height" : 3.2,
+    "diameter" : 2.3
+  }, {
+    "type" : "TREE",
+    "x" : 57.0,
+    "z" : 196.0,
+    "height" : 3.8,
+    "diameter" : 2.7
+  }, {
+    "type" : "TREE",
+    "x" : 58.0,
+    "z" : 196.0,
+    "height" : 3.5,
+    "diameter" : 3.2
+  }, {
+    "type" : "TREE",
+    "x" : 59.0,
+    "z" : 196.0,
+    "height" : 3.7,
+    "diameter" : 2.1
+  }, {
+    "type" : "TREE",
+    "x" : 57.0,
+    "z" : 197.0,
+    "height" : 2.5,
+    "diameter" : 2.3
+  }, {
+    "type" : "TREE",
+    "x" : 59.0,
+    "z" : 197.0,
+    "height" : 2.6,
+    "diameter" : 1.8
+  }, {
+    "type" : "TREE",
+    "x" : 59.0,
+    "z" : 198.0,
+    "height" : 2.2,
+    "diameter" : 1.4
+  }, {
+    "type" : "HERRING",
+    "x" : 22.0,
+    "z" : 200.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "HERRING",
+    "x" : 68.0,
+    "z" : 204.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "HERRING",
+    "x" : 29.0,
+    "z" : 206.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "HERRING",
+    "x" : 67.0,
+    "z" : 210.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "HERRING",
+    "x" : 68.0,
+    "z" : 215.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "HERRING",
+    "x" : 73.0,
+    "z" : 216.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "HERRING",
+    "x" : 65.0,
+    "z" : 219.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "HERRING",
+    "x" : 28.0,
+    "z" : 220.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "HERRING",
+    "x" : 74.0,
+    "z" : 221.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "HERRING",
+    "x" : 70.0,
+    "z" : 222.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "SHRUB",
+    "x" : 33.0,
+    "z" : 223.0,
+    "height" : 0.7,
+    "diameter" : 0.7
+  }, {
+    "type" : "SHRUB",
+    "x" : 34.0,
+    "z" : 223.0,
+    "height" : 1.1,
+    "diameter" : 1.1
+  }, {
+    "type" : "SHRUB",
+    "x" : 35.0,
+    "z" : 223.0,
+    "height" : 1.2,
+    "diameter" : 1.2
+  }, {
+    "type" : "SHRUB",
+    "x" : 36.0,
+    "z" : 223.0,
+    "height" : 0.8,
+    "diameter" : 0.8
+  }, {
+    "type" : "SHRUB",
+    "x" : 33.0,
+    "z" : 224.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "SHRUB",
+    "x" : 35.0,
+    "z" : 224.0,
+    "height" : 0.7,
+    "diameter" : 0.7
+  }, {
+    "type" : "HERRING",
+    "x" : 68.0,
+    "z" : 224.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "SHRUB",
+    "x" : 33.0,
+    "z" : 225.0,
+    "height" : 0.8,
+    "diameter" : 0.8
+  }, {
+    "type" : "SHRUB",
+    "x" : 34.0,
+    "z" : 225.0,
+    "height" : 0.9,
+    "diameter" : 0.9
+  }, {
+    "type" : "SHRUB",
+    "x" : 33.0,
+    "z" : 226.0,
+    "height" : 0.7,
+    "diameter" : 0.7
+  }, {
+    "type" : "SHRUB",
+    "x" : 34.0,
+    "z" : 226.0,
+    "height" : 1.2,
+    "diameter" : 1.2
+  }, {
+    "type" : "HERRING",
+    "x" : 72.0,
+    "z" : 227.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "SHRUB",
+    "x" : 32.0,
+    "z" : 228.0,
+    "height" : 1.1,
+    "diameter" : 1.1
+  }, {
+    "type" : "SHRUB",
+    "x" : 33.0,
+    "z" : 228.0,
+    "height" : 0.7,
+    "diameter" : 0.7
+  }, {
+    "type" : "SHRUB",
+    "x" : 31.0,
+    "z" : 229.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "HERRING",
+    "x" : 76.0,
+    "z" : 230.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "SHRUB",
+    "x" : 19.0,
+    "z" : 231.0,
+    "height" : 0.6,
+    "diameter" : 0.6
+  }, {
+    "type" : "SHRUB",
+    "x" : 19.0,
+    "z" : 232.0,
+    "height" : 0.6,
+    "diameter" : 0.6
+  }, {
+    "type" : "SHRUB",
+    "x" : 19.0,
+    "z" : 233.0,
+    "height" : 0.7,
+    "diameter" : 0.7
+  }, {
+    "type" : "HERRING",
+    "x" : 72.0,
+    "z" : 233.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "SHRUB",
+    "x" : 18.0,
+    "z" : 234.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "TREE",
+    "x" : 34.0,
+    "z" : 234.0,
+    "height" : 3.4,
+    "diameter" : 2.7
+  }, {
+    "type" : "TREE",
+    "x" : 35.0,
+    "z" : 234.0,
+    "height" : 3.1,
+    "diameter" : 1.7
+  }, {
+    "type" : "SHRUB",
+    "x" : 19.0,
+    "z" : 235.0,
+    "height" : 0.8,
+    "diameter" : 0.8
+  }, {
+    "type" : "TREE",
+    "x" : 35.0,
+    "z" : 235.0,
+    "height" : 2.7,
+    "diameter" : 2.6
+  }, {
+    "type" : "TREE",
+    "x" : 36.0,
+    "z" : 235.0,
+    "height" : 3.0,
+    "diameter" : 2.5
+  }, {
+    "type" : "TREE",
+    "x" : 37.0,
+    "z" : 235.0,
+    "height" : 3.5,
+    "diameter" : 3.2
+  }, {
+    "type" : "HERRING",
+    "x" : 70.0,
+    "z" : 235.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "SHRUB",
+    "x" : 19.0,
+    "z" : 236.0,
+    "height" : 1.2,
+    "diameter" : 1.2
+  }, {
+    "type" : "TREE",
+    "x" : 37.0,
+    "z" : 236.0,
+    "height" : 3.7,
+    "diameter" : 2.1
+  }, {
+    "type" : "HERRING",
+    "x" : 75.0,
+    "z" : 238.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "HERRING",
+    "x" : 79.0,
+    "z" : 239.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "HERRING",
+    "x" : 32.0,
+    "z" : 241.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "HERRING",
+    "x" : 78.0,
+    "z" : 241.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "HERRING",
+    "x" : 56.0,
+    "z" : 242.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "HERRING",
+    "x" : 75.0,
+    "z" : 242.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "HERRING",
+    "x" : 54.0,
+    "z" : 244.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "TREE",
+    "x" : 27.0,
+    "z" : 246.0,
+    "height" : 2.3,
+    "diameter" : 2.0
+  }, {
+    "type" : "TREE",
+    "x" : 28.0,
+    "z" : 247.0,
+    "height" : 2.2,
+    "diameter" : 1.6
+  }, {
+    "type" : "TREE",
+    "x" : 30.0,
+    "z" : 247.0,
+    "height" : 2.6,
+    "diameter" : 1.7
+  }, {
+    "type" : "HERRING",
+    "x" : 68.0,
+    "z" : 247.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "TREE",
+    "x" : 26.0,
+    "z" : 248.0,
+    "height" : 3.6,
+    "diameter" : 3.2
+  }, {
+    "type" : "TREE",
+    "x" : 27.0,
+    "z" : 248.0,
+    "height" : 2.8,
+    "diameter" : 2.5
+  }, {
+    "type" : "TREE",
+    "x" : 28.0,
+    "z" : 248.0,
+    "height" : 3.3,
+    "diameter" : 2.5
+  }, {
+    "type" : "HERRING",
+    "x" : 77.0,
+    "z" : 248.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "TREE",
+    "x" : 26.0,
+    "z" : 249.0,
+    "height" : 3.0,
+    "diameter" : 2.6
+  }, {
+    "type" : "TREE",
+    "x" : 29.0,
+    "z" : 249.0,
+    "height" : 3.2,
+    "diameter" : 2.7
+  }, {
+    "type" : "TREE",
+    "x" : 30.0,
+    "z" : 249.0,
+    "height" : 2.7,
+    "diameter" : 1.8
+  }, {
+    "type" : "HERRING",
+    "x" : 66.0,
+    "z" : 249.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "TREE",
+    "x" : 41.0,
+    "z" : 250.0,
+    "height" : 2.6,
+    "diameter" : 2.5
+  }, {
+    "type" : "TREE",
+    "x" : 40.0,
+    "z" : 251.0,
+    "height" : 2.8,
+    "diameter" : 2.3
+  }, {
+    "type" : "HERRING",
+    "x" : 79.0,
+    "z" : 251.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "HERRING",
+    "x" : 64.0,
+    "z" : 252.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "HERRING",
+    "x" : 46.0,
+    "z" : 253.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "HERRING",
+    "x" : 67.0,
+    "z" : 253.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "HERRING",
+    "x" : 73.0,
+    "z" : 253.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "TREE",
+    "x" : 44.0,
+    "z" : 257.0,
+    "height" : 2.6,
+    "diameter" : 1.7
+  }, {
+    "type" : "HERRING",
+    "x" : 39.0,
+    "z" : 258.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "TREE",
+    "x" : 43.0,
+    "z" : 258.0,
+    "height" : 2.4,
+    "diameter" : 2.3
+  }, {
+    "type" : "HERRING",
+    "x" : 38.0,
+    "z" : 259.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "TREE",
+    "x" : 42.0,
+    "z" : 259.0,
+    "height" : 2.1,
+    "diameter" : 1.1
+  }, {
+    "type" : "TREE",
+    "x" : 41.0,
+    "z" : 260.0,
+    "height" : 3.8,
+    "diameter" : 3.7
+  }, {
+    "type" : "TREE",
+    "x" : 21.0,
+    "z" : 261.0,
+    "height" : 2.3,
+    "diameter" : 1.2
+  }, {
+    "type" : "TREE",
+    "x" : 22.0,
+    "z" : 261.0,
+    "height" : 3.2,
+    "diameter" : 2.0
+  }, {
+    "type" : "TREE",
+    "x" : 23.0,
+    "z" : 261.0,
+    "height" : 3.1,
+    "diameter" : 3.0
+  }, {
+    "type" : "TREE",
+    "x" : 21.0,
+    "z" : 262.0,
+    "height" : 3.0,
+    "diameter" : 2.0
+  }, {
+    "type" : "TREE",
+    "x" : 23.0,
+    "z" : 262.0,
+    "height" : 3.4,
+    "diameter" : 3.3
+  }, {
+    "type" : "TREE",
+    "x" : 25.0,
+    "z" : 262.0,
+    "height" : 2.2,
+    "diameter" : 1.5
+  }, {
+    "type" : "TREE",
+    "x" : 26.0,
+    "z" : 262.0,
+    "height" : 3.0,
+    "diameter" : 2.4
+  }, {
+    "type" : "TREE",
+    "x" : 27.0,
+    "z" : 262.0,
+    "height" : 2.0,
+    "diameter" : 1.1
+  }, {
+    "type" : "TREE",
+    "x" : 20.0,
+    "z" : 263.0,
+    "height" : 2.6,
+    "diameter" : 1.8
+  }, {
+    "type" : "TREE",
+    "x" : 21.0,
+    "z" : 263.0,
+    "height" : 2.8,
+    "diameter" : 2.2
+  }, {
+    "type" : "TREE",
+    "x" : 23.0,
+    "z" : 263.0,
+    "height" : 2.6,
+    "diameter" : 2.3
+  }, {
+    "type" : "TREE",
+    "x" : 25.0,
+    "z" : 263.0,
+    "height" : 2.5,
+    "diameter" : 2.0
+  }, {
+    "type" : "TREE",
+    "x" : 28.0,
+    "z" : 263.0,
+    "height" : 2.2,
+    "diameter" : 1.6
+  }, {
+    "type" : "TREE",
+    "x" : 29.0,
+    "z" : 263.0,
+    "height" : 3.0,
+    "diameter" : 1.8
+  }, {
+    "type" : "TREE",
+    "x" : 30.0,
+    "z" : 263.0,
+    "height" : 2.9,
+    "diameter" : 2.1
+  }, {
+    "type" : "TREE",
+    "x" : 31.0,
+    "z" : 263.0,
+    "height" : 2.2,
+    "diameter" : 1.8
+  }, {
+    "type" : "HERRING",
+    "x" : 37.0,
+    "z" : 263.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "TREE",
+    "x" : 25.0,
+    "z" : 264.0,
+    "height" : 3.0,
+    "diameter" : 2.6
+  }, {
+    "type" : "TREE",
+    "x" : 24.0,
+    "z" : 265.0,
+    "height" : 3.6,
+    "diameter" : 1.8
+  }, {
+    "type" : "TREE",
+    "x" : 25.0,
+    "z" : 265.0,
+    "height" : 3.3,
+    "diameter" : 2.2
+  }, {
+    "type" : "TREE",
+    "x" : 24.0,
+    "z" : 266.0,
+    "height" : 2.7,
+    "diameter" : 1.8
+  }, {
+    "type" : "TREE",
+    "x" : 24.0,
+    "z" : 267.0,
+    "height" : 2.5,
+    "diameter" : 1.8
+  }, {
+    "type" : "TREE",
+    "x" : 24.0,
+    "z" : 268.0,
+    "height" : 3.3,
+    "diameter" : 2.9
+  }, {
+    "type" : "TREE",
+    "x" : 26.0,
+    "z" : 270.0,
+    "height" : 2.2,
+    "diameter" : 1.8
+  }, {
+    "type" : "HERRING",
+    "x" : 75.0,
+    "z" : 270.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "TREE",
+    "x" : 26.0,
+    "z" : 271.0,
+    "height" : 3.7,
+    "diameter" : 2.5
+  }, {
+    "type" : "TREE",
+    "x" : 27.0,
+    "z" : 271.0,
+    "height" : 2.0,
+    "diameter" : 1.3
+  }, {
+    "type" : "TREE",
+    "x" : 28.0,
+    "z" : 272.0,
+    "height" : 3.9,
+    "diameter" : 2.6
+  }, {
+    "type" : "TREE",
+    "x" : 28.0,
+    "z" : 273.0,
+    "height" : 2.0,
+    "diameter" : 1.2
+  }, {
+    "type" : "HERRING",
+    "x" : 76.0,
+    "z" : 273.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "TREE",
+    "x" : 28.0,
+    "z" : 274.0,
+    "height" : 3.8,
+    "diameter" : 2.2
+  }, {
+    "type" : "TREE",
+    "x" : 29.0,
+    "z" : 274.0,
+    "height" : 3.3,
+    "diameter" : 2.3
+  }, {
+    "type" : "TREE",
+    "x" : 28.0,
+    "z" : 275.0,
+    "height" : 2.7,
+    "diameter" : 1.4
+  }, {
+    "type" : "HERRING",
+    "x" : 77.0,
+    "z" : 277.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "HERRING",
+    "x" : 46.0,
+    "z" : 282.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "HERRING",
+    "x" : 51.0,
+    "z" : 285.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "HERRING",
+    "x" : 24.0,
+    "z" : 286.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "HERRING",
+    "x" : 21.0,
+    "z" : 287.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "HERRING",
+    "x" : 73.0,
+    "z" : 288.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "TREE",
+    "x" : 24.0,
+    "z" : 290.0,
+    "height" : 3.7,
+    "diameter" : 2.7
+  }, {
+    "type" : "TREE",
+    "x" : 26.0,
+    "z" : 290.0,
+    "height" : 3.3,
+    "diameter" : 2.2
+  }, {
+    "type" : "HERRING",
+    "x" : 45.0,
+    "z" : 290.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "TREE",
+    "x" : 23.0,
+    "z" : 291.0,
+    "height" : 2.3,
+    "diameter" : 1.7
+  }, {
+    "type" : "TREE",
+    "x" : 24.0,
+    "z" : 291.0,
+    "height" : 2.7,
+    "diameter" : 2.5
+  }, {
+    "type" : "TREE",
+    "x" : 25.0,
+    "z" : 291.0,
+    "height" : 3.6,
+    "diameter" : 3.0
+  }, {
+    "type" : "TREE",
+    "x" : 26.0,
+    "z" : 291.0,
+    "height" : 2.3,
+    "diameter" : 1.2
+  }, {
+    "type" : "HERRING",
+    "x" : 70.0,
+    "z" : 291.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "TREE",
+    "x" : 25.0,
+    "z" : 292.0,
+    "height" : 2.3,
+    "diameter" : 2.1
+  }, {
+    "type" : "TREE",
+    "x" : 26.0,
+    "z" : 292.0,
+    "height" : 3.6,
+    "diameter" : 2.2
+  }, {
+    "type" : "HERRING",
+    "x" : 47.0,
+    "z" : 292.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "HERRING",
+    "x" : 49.0,
+    "z" : 293.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "TREE",
+    "x" : 44.0,
+    "z" : 295.0,
+    "height" : 2.9,
+    "diameter" : 2.4
+  }, {
+    "type" : "TREE",
+    "x" : 45.0,
+    "z" : 296.0,
+    "height" : 3.3,
+    "diameter" : 2.4
+  }, {
+    "type" : "TREE",
+    "x" : 60.0,
+    "z" : 296.0,
+    "height" : 3.7,
+    "diameter" : 3.0
+  }, {
+    "type" : "TREE",
+    "x" : 62.0,
+    "z" : 296.0,
+    "height" : 3.6,
+    "diameter" : 3.3
+  }, {
+    "type" : "TREE",
+    "x" : 45.0,
+    "z" : 297.0,
+    "height" : 3.6,
+    "diameter" : 3.0
+  }, {
+    "type" : "TREE",
+    "x" : 46.0,
+    "z" : 297.0,
+    "height" : 2.1,
+    "diameter" : 1.5
+  }, {
+    "type" : "TREE",
+    "x" : 47.0,
+    "z" : 298.0,
+    "height" : 2.2,
+    "diameter" : 1.5
+  }, {
+    "type" : "TREE",
+    "x" : 59.0,
+    "z" : 298.0,
+    "height" : 3.0,
+    "diameter" : 2.9
+  }, {
+    "type" : "TREE",
+    "x" : 61.0,
+    "z" : 298.0,
+    "height" : 3.6,
+    "diameter" : 2.1
+  }, {
+    "type" : "HERRING",
+    "x" : 10.0,
+    "z" : 299.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "TREE",
+    "x" : 47.0,
+    "z" : 299.0,
+    "height" : 2.5,
+    "diameter" : 2.5
+  }, {
+    "type" : "TREE",
+    "x" : 48.0,
+    "z" : 300.0,
+    "height" : 3.2,
+    "diameter" : 2.6
+  }, {
+    "type" : "HERRING",
+    "x" : 56.0,
+    "z" : 300.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "TREE",
+    "x" : 61.0,
+    "z" : 300.0,
+    "height" : 3.6,
+    "diameter" : 2.5
+  }, {
+    "type" : "TREE",
+    "x" : 48.0,
+    "z" : 301.0,
+    "height" : 2.6,
+    "diameter" : 2.6
+  }, {
+    "type" : "TREE",
+    "x" : 48.0,
+    "z" : 302.0,
+    "height" : 2.8,
+    "diameter" : 2.1
+  }, {
+    "type" : "HERRING",
+    "x" : 58.0,
+    "z" : 302.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "SHRUB",
+    "x" : 8.0,
+    "z" : 303.0,
+    "height" : 1.1,
+    "diameter" : 1.1
+  }, {
+    "type" : "SHRUB",
+    "x" : 9.0,
+    "z" : 303.0,
+    "height" : 0.7,
+    "diameter" : 0.7
+  }, {
+    "type" : "TREE",
+    "x" : 49.0,
+    "z" : 303.0,
+    "height" : 3.5,
+    "diameter" : 2.1
+  }, {
+    "type" : "SHRUB",
+    "x" : 9.0,
+    "z" : 304.0,
+    "height" : 1.1,
+    "diameter" : 1.1
+  }, {
+    "type" : "TREE",
+    "x" : 49.0,
+    "z" : 304.0,
+    "height" : 2.7,
+    "diameter" : 2.3
+  }, {
+    "type" : "TREE",
+    "x" : 49.0,
+    "z" : 305.0,
+    "height" : 3.3,
+    "diameter" : 3.3
+  }, {
+    "type" : "HERRING",
+    "x" : 69.0,
+    "z" : 305.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "TREE",
+    "x" : 49.0,
+    "z" : 306.0,
+    "height" : 2.9,
+    "diameter" : 2.2
+  }, {
+    "type" : "TREE",
+    "x" : 50.0,
+    "z" : 306.0,
+    "height" : 3.5,
+    "diameter" : 2.0
+  }, {
+    "type" : "TREE",
+    "x" : 51.0,
+    "z" : 307.0,
+    "height" : 3.2,
+    "diameter" : 1.9
+  }, {
+    "type" : "TREE",
+    "x" : 52.0,
+    "z" : 307.0,
+    "height" : 2.4,
+    "diameter" : 2.3
+  }, {
+    "type" : "SHRUB",
+    "x" : 16.0,
+    "z" : 315.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "HERRING",
+    "x" : 19.0,
+    "z" : 315.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "SHRUB",
+    "x" : 16.0,
+    "z" : 317.0,
+    "height" : 0.7,
+    "diameter" : 0.7
+  }, {
+    "type" : "SHRUB",
+    "x" : 17.0,
+    "z" : 317.0,
+    "height" : 1.1,
+    "diameter" : 1.1
+  }, {
+    "type" : "SHRUB",
+    "x" : 16.0,
+    "z" : 319.0,
+    "height" : 1.1,
+    "diameter" : 1.1
+  }, {
+    "type" : "SHRUB",
+    "x" : 12.0,
+    "z" : 320.0,
+    "height" : 0.8,
+    "diameter" : 0.8
+  }, {
+    "type" : "SHRUB",
+    "x" : 13.0,
+    "z" : 320.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "SHRUB",
+    "x" : 14.0,
+    "z" : 320.0,
+    "height" : 0.8,
+    "diameter" : 0.8
+  }, {
+    "type" : "SHRUB",
+    "x" : 15.0,
+    "z" : 320.0,
+    "height" : 0.6,
+    "diameter" : 0.6
+  }, {
+    "type" : "HERRING",
+    "x" : 79.0,
+    "z" : 332.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "HERRING",
+    "x" : 81.0,
+    "z" : 335.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "HERRING",
+    "x" : 83.0,
+    "z" : 337.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "HERRING",
+    "x" : 17.0,
+    "z" : 344.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "HERRING",
+    "x" : 15.0,
+    "z" : 347.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "HERRING",
+    "x" : 13.0,
+    "z" : 351.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "HERRING",
+    "x" : 79.0,
+    "z" : 368.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "HERRING",
+    "x" : 12.0,
+    "z" : 370.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "HERRING",
+    "x" : 79.0,
+    "z" : 371.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "HERRING",
+    "x" : 23.0,
+    "z" : 376.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "HERRING",
+    "x" : 27.0,
+    "z" : 378.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "HERRING",
+    "x" : 32.0,
+    "z" : 381.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "HERRING",
+    "x" : 37.0,
+    "z" : 385.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "TREE",
+    "x" : 9.0,
+    "z" : 388.0,
+    "height" : 3.1,
+    "diameter" : 2.7
+  }, {
+    "type" : "TREE",
+    "x" : 10.0,
+    "z" : 389.0,
+    "height" : 2.7,
+    "diameter" : 2.0
+  }, {
+    "type" : "TREE",
+    "x" : 8.0,
+    "z" : 390.0,
+    "height" : 2.4,
+    "diameter" : 2.2
+  }, {
+    "type" : "TREE",
+    "x" : 9.0,
+    "z" : 390.0,
+    "height" : 2.5,
+    "diameter" : 1.7
+  }, {
+    "type" : "TREE",
+    "x" : 10.0,
+    "z" : 390.0,
+    "height" : 3.1,
+    "diameter" : 2.2
+  }, {
+    "type" : "HERRING",
+    "x" : 38.0,
+    "z" : 390.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "TREE",
+    "x" : 8.0,
+    "z" : 391.0,
+    "height" : 2.4,
+    "diameter" : 2.3
+  }, {
+    "type" : "TREE",
+    "x" : 9.0,
+    "z" : 391.0,
+    "height" : 2.2,
+    "diameter" : 2.0
+  }, {
+    "type" : "TREE",
+    "x" : 11.0,
+    "z" : 391.0,
+    "height" : 3.8,
+    "diameter" : 2.9
+  }, {
+    "type" : "TREE",
+    "x" : 8.0,
+    "z" : 392.0,
+    "height" : 2.8,
+    "diameter" : 2.3
+  }, {
+    "type" : "HERRING",
+    "x" : 69.0,
+    "z" : 393.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "HERRING",
+    "x" : 36.0,
+    "z" : 395.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "SHRUB",
+    "x" : 8.0,
+    "z" : 397.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "SHRUB",
+    "x" : 9.0,
+    "z" : 397.0,
+    "height" : 1.2,
+    "diameter" : 1.2
+  }, {
+    "type" : "SHRUB",
+    "x" : 6.0,
+    "z" : 398.0,
+    "height" : 1.1,
+    "diameter" : 1.1
+  }, {
+    "type" : "SHRUB",
+    "x" : 7.0,
+    "z" : 398.0,
+    "height" : 1.1,
+    "diameter" : 1.1
+  }, {
+    "type" : "SHRUB",
+    "x" : 8.0,
+    "z" : 398.0,
+    "height" : 1.2,
+    "diameter" : 1.2
+  }, {
+    "type" : "SHRUB",
+    "x" : 8.0,
+    "z" : 399.0,
+    "height" : 0.9,
+    "diameter" : 0.9
+  }, {
+    "type" : "SHRUB",
+    "x" : 9.0,
+    "z" : 399.0,
+    "height" : 0.6,
+    "diameter" : 0.6
+  }, {
+    "type" : "SHRUB",
+    "x" : 10.0,
+    "z" : 399.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "HERRING",
+    "x" : 31.0,
+    "z" : 399.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "SHRUB",
+    "x" : 9.0,
+    "z" : 400.0,
+    "height" : 0.8,
+    "diameter" : 0.8
+  }, {
+    "type" : "SHRUB",
+    "x" : 10.0,
+    "z" : 400.0,
+    "height" : 0.8,
+    "diameter" : 0.8
+  }, {
+    "type" : "HERRING",
+    "x" : 74.0,
+    "z" : 402.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "FLAG",
+    "x" : 13.0,
+    "z" : 411.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "FLAG",
+    "x" : 13.0,
+    "z" : 414.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "FLAG",
+    "x" : 13.0,
+    "z" : 416.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "HERRING",
+    "x" : 66.0,
+    "z" : 417.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "SHRUB",
+    "x" : 11.0,
+    "z" : 420.0,
+    "height" : 0.9,
+    "diameter" : 0.9
+  }, {
+    "type" : "SHRUB",
+    "x" : 10.0,
+    "z" : 421.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "SHRUB",
+    "x" : 11.0,
+    "z" : 422.0,
+    "height" : 0.9,
+    "diameter" : 0.9
+  }, {
+    "type" : "HERRING",
+    "x" : 79.0,
+    "z" : 432.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "HERRING",
+    "x" : 78.0,
+    "z" : 441.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "TREE",
+    "x" : 8.0,
+    "z" : 443.0,
+    "height" : 3.9,
+    "diameter" : 3.0
+  }, {
+    "type" : "HERRING",
+    "x" : 79.0,
+    "z" : 443.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "TREE",
+    "x" : 6.0,
+    "z" : 445.0,
+    "height" : 3.5,
+    "diameter" : 2.5
+  }, {
+    "type" : "TREE",
+    "x" : 7.0,
+    "z" : 445.0,
+    "height" : 3.4,
+    "diameter" : 2.7
+  }, {
+    "type" : "HERRING",
+    "x" : 13.0,
+    "z" : 445.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "HERRING",
+    "x" : 79.0,
+    "z" : 445.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "HERRING",
+    "x" : 14.0,
+    "z" : 448.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "SHRUB",
+    "x" : 10.0,
+    "z" : 449.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "SHRUB",
+    "x" : 10.0,
+    "z" : 450.0,
+    "height" : 0.6,
+    "diameter" : 0.6
+  }, {
+    "type" : "SHRUB",
+    "x" : 10.0,
+    "z" : 451.0,
+    "height" : 0.7,
+    "diameter" : 0.7
+  }, {
+    "type" : "SHRUB",
+    "x" : 9.0,
+    "z" : 452.0,
+    "height" : 0.7,
+    "diameter" : 0.7
+  }, {
+    "type" : "SHRUB",
+    "x" : 10.0,
+    "z" : 452.0,
+    "height" : 0.7,
+    "diameter" : 0.7
+  }, {
+    "type" : "SHRUB",
+    "x" : 10.0,
+    "z" : 453.0,
+    "height" : 0.6,
+    "diameter" : 0.6
+  }, {
+    "type" : "HERRING",
+    "x" : 13.0,
+    "z" : 457.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "HERRING",
+    "x" : 13.0,
+    "z" : 459.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "SHRUB",
+    "x" : 10.0,
+    "z" : 461.0,
+    "height" : 0.7,
+    "diameter" : 0.7
+  }, {
+    "type" : "HERRING",
+    "x" : 76.0,
+    "z" : 461.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "SHRUB",
+    "x" : 11.0,
+    "z" : 462.0,
+    "height" : 0.7,
+    "diameter" : 0.7
+  }, {
+    "type" : "HERRING",
+    "x" : 73.0,
+    "z" : 462.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "HERRING",
+    "x" : 71.0,
+    "z" : 471.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "HERRING",
+    "x" : 72.0,
+    "z" : 484.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "HERRING",
+    "x" : 16.0,
+    "z" : 489.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "HERRING",
+    "x" : 15.0,
+    "z" : 493.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "SHRUB",
+    "x" : 10.0,
+    "z" : 494.0,
+    "height" : 1.2,
+    "diameter" : 1.2
+  }, {
+    "type" : "SHRUB",
+    "x" : 11.0,
+    "z" : 494.0,
+    "height" : 1.1,
+    "diameter" : 1.1
+  }, {
+    "type" : "SHRUB",
+    "x" : 9.0,
+    "z" : 495.0,
+    "height" : 0.9,
+    "diameter" : 0.9
+  }, {
+    "type" : "SHRUB",
+    "x" : 10.0,
+    "z" : 495.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "HERRING",
+    "x" : 74.0,
+    "z" : 495.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "HERRING",
+    "x" : 13.0,
+    "z" : 496.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "HERRING",
+    "x" : 12.0,
+    "z" : 498.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "SHRUB",
+    "x" : 4.0,
+    "z" : 508.0,
+    "height" : 0.9,
+    "diameter" : 0.9
+  }, {
+    "type" : "SHRUB",
+    "x" : 4.0,
+    "z" : 509.0,
+    "height" : 0.9,
+    "diameter" : 0.9
+  }, {
+    "type" : "SHRUB",
+    "x" : 4.0,
+    "z" : 510.0,
+    "height" : 0.9,
+    "diameter" : 0.9
+  }, {
+    "type" : "HERRING",
+    "x" : 67.0,
+    "z" : 511.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "SHRUB",
+    "x" : 4.0,
+    "z" : 512.0,
+    "height" : 0.8,
+    "diameter" : 0.8
+  }, {
+    "type" : "SHRUB",
+    "x" : 5.0,
+    "z" : 512.0,
+    "height" : 0.9,
+    "diameter" : 0.9
+  }, {
+    "type" : "HERRING",
+    "x" : 91.0,
+    "z" : 515.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "HERRING",
+    "x" : 93.0,
+    "z" : 518.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "HERRING",
+    "x" : 91.0,
+    "z" : 520.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "SHRUB",
+    "x" : 7.0,
+    "z" : 525.0,
+    "height" : 1.2,
+    "diameter" : 1.2
+  }, {
+    "type" : "HERRING",
+    "x" : 72.0,
+    "z" : 525.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "SHRUB",
+    "x" : 7.0,
+    "z" : 527.0,
+    "height" : 0.8,
+    "diameter" : 0.8
+  }, {
+    "type" : "HERRING",
+    "x" : 72.0,
+    "z" : 527.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "SHRUB",
+    "x" : 6.0,
+    "z" : 528.0,
+    "height" : 0.7,
+    "diameter" : 0.7
+  }, {
+    "type" : "SHRUB",
+    "x" : 7.0,
+    "z" : 528.0,
+    "height" : 0.8,
+    "diameter" : 0.8
+  }, {
+    "type" : "SHRUB",
+    "x" : 7.0,
+    "z" : 529.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "HERRING",
+    "x" : 11.0,
+    "z" : 531.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "HERRING",
+    "x" : 12.0,
+    "z" : 534.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "HERRING",
+    "x" : 12.0,
+    "z" : 536.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "TREE",
+    "x" : 59.0,
+    "z" : 536.0,
+    "height" : 3.1,
+    "diameter" : 1.6
+  }, {
+    "type" : "SHRUB",
+    "x" : 8.0,
+    "z" : 537.0,
+    "height" : 0.7,
+    "diameter" : 0.7
+  }, {
+    "type" : "SHRUB",
+    "x" : 9.0,
+    "z" : 537.0,
+    "height" : 0.9,
+    "diameter" : 0.9
+  }, {
+    "type" : "TREE",
+    "x" : 60.0,
+    "z" : 537.0,
+    "height" : 3.1,
+    "diameter" : 2.9
+  }, {
+    "type" : "SHRUB",
+    "x" : 9.0,
+    "z" : 538.0,
+    "height" : 1.2,
+    "diameter" : 1.2
+  }, {
+    "type" : "TREE",
+    "x" : 61.0,
+    "z" : 538.0,
+    "height" : 2.5,
+    "diameter" : 1.9
+  }, {
+    "type" : "SHRUB",
+    "x" : 56.0,
+    "z" : 539.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "TREE",
+    "x" : 59.0,
+    "z" : 539.0,
+    "height" : 2.6,
+    "diameter" : 2.2
+  }, {
+    "type" : "SHRUB",
+    "x" : 56.0,
+    "z" : 540.0,
+    "height" : 1.1,
+    "diameter" : 1.1
+  }, {
+    "type" : "HERRING",
+    "x" : 69.0,
+    "z" : 540.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "SHRUB",
+    "x" : 56.0,
+    "z" : 541.0,
+    "height" : 0.9,
+    "diameter" : 0.9
+  }, {
+    "type" : "SHRUB",
+    "x" : 56.0,
+    "z" : 542.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "SHRUB",
+    "x" : 57.0,
+    "z" : 543.0,
+    "height" : 1.2,
+    "diameter" : 1.2
+  }, {
+    "type" : "HERRING",
+    "x" : 86.0,
+    "z" : 543.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "SHRUB",
+    "x" : 57.0,
+    "z" : 544.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "TREE",
+    "x" : 65.0,
+    "z" : 545.0,
+    "height" : 3.4,
+    "diameter" : 3.0
+  }, {
+    "type" : "TREE",
+    "x" : 67.0,
+    "z" : 546.0,
+    "height" : 2.3,
+    "diameter" : 1.5
+  }, {
+    "type" : "SHRUB",
+    "x" : 56.0,
+    "z" : 547.0,
+    "height" : 0.7,
+    "diameter" : 0.7
+  }, {
+    "type" : "TREE",
+    "x" : 59.0,
+    "z" : 547.0,
+    "height" : 3.3,
+    "diameter" : 2.9
+  }, {
+    "type" : "TREE",
+    "x" : 60.0,
+    "z" : 547.0,
+    "height" : 3.1,
+    "diameter" : 1.6
+  }, {
+    "type" : "TREE",
+    "x" : 68.0,
+    "z" : 547.0,
+    "height" : 3.4,
+    "diameter" : 3.2
+  }, {
+    "type" : "TREE",
+    "x" : 59.0,
+    "z" : 548.0,
+    "height" : 2.4,
+    "diameter" : 1.2
+  }, {
+    "type" : "TREE",
+    "x" : 67.0,
+    "z" : 548.0,
+    "height" : 3.2,
+    "diameter" : 2.8
+  }, {
+    "type" : "TREE",
+    "x" : 57.0,
+    "z" : 549.0,
+    "height" : 2.1,
+    "diameter" : 1.8
+  }, {
+    "type" : "TREE",
+    "x" : 58.0,
+    "z" : 549.0,
+    "height" : 2.5,
+    "diameter" : 2.0
+  }, {
+    "type" : "TREE",
+    "x" : 64.0,
+    "z" : 549.0,
+    "height" : 3.3,
+    "diameter" : 2.0
+  }, {
+    "type" : "TREE",
+    "x" : 65.0,
+    "z" : 549.0,
+    "height" : 3.6,
+    "diameter" : 2.1
+  }, {
+    "type" : "TREE",
+    "x" : 67.0,
+    "z" : 549.0,
+    "height" : 3.7,
+    "diameter" : 2.1
+  }, {
+    "type" : "TREE",
+    "x" : 56.0,
+    "z" : 550.0,
+    "height" : 3.6,
+    "diameter" : 2.9
+  }, {
+    "type" : "TREE",
+    "x" : 58.0,
+    "z" : 550.0,
+    "height" : 3.3,
+    "diameter" : 2.5
+  }, {
+    "type" : "HERRING",
+    "x" : 87.0,
+    "z" : 550.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "TREE",
+    "x" : 58.0,
+    "z" : 551.0,
+    "height" : 3.2,
+    "diameter" : 2.1
+  }, {
+    "type" : "TREE",
+    "x" : 59.0,
+    "z" : 551.0,
+    "height" : 2.5,
+    "diameter" : 1.7
+  }, {
+    "type" : "FLAG",
+    "x" : 66.0,
+    "z" : 551.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "HERRING",
+    "x" : 73.0,
+    "z" : 551.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "TREE",
+    "x" : 56.0,
+    "z" : 552.0,
+    "height" : 2.9,
+    "diameter" : 2.2
+  }, {
+    "type" : "TREE",
+    "x" : 57.0,
+    "z" : 552.0,
+    "height" : 3.2,
+    "diameter" : 1.7
+  }, {
+    "type" : "TREE",
+    "x" : 54.0,
+    "z" : 553.0,
+    "height" : 2.6,
+    "diameter" : 1.5
+  }, {
+    "type" : "TREE",
+    "x" : 56.0,
+    "z" : 553.0,
+    "height" : 2.2,
+    "diameter" : 1.1
+  }, {
+    "type" : "TREE",
+    "x" : 52.0,
+    "z" : 554.0,
+    "height" : 2.0,
+    "diameter" : 1.3
+  }, {
+    "type" : "TREE",
+    "x" : 53.0,
+    "z" : 554.0,
+    "height" : 2.1,
+    "diameter" : 1.6
+  }, {
+    "type" : "TREE",
+    "x" : 55.0,
+    "z" : 554.0,
+    "height" : 2.1,
+    "diameter" : 1.1
+  }, {
+    "type" : "FLAG",
+    "x" : 55.0,
+    "z" : 557.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "FLAG",
+    "x" : 65.0,
+    "z" : 559.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "FLAG",
+    "x" : 53.0,
+    "z" : 560.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "FLAG",
+    "x" : 60.0,
+    "z" : 563.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "TREE",
+    "x" : 8.0,
+    "z" : 565.0,
+    "height" : 2.6,
+    "diameter" : 1.7
+  }, {
+    "type" : "HERRING",
+    "x" : 53.0,
+    "z" : 565.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "TREE",
+    "x" : 8.0,
+    "z" : 566.0,
+    "height" : 3.3,
+    "diameter" : 3.2
+  }, {
+    "type" : "TREE",
+    "x" : 10.0,
+    "z" : 566.0,
+    "height" : 3.1,
+    "diameter" : 2.3
+  }, {
+    "type" : "TREE",
+    "x" : 9.0,
+    "z" : 567.0,
+    "height" : 2.2,
+    "diameter" : 1.6
+  }, {
+    "type" : "TREE",
+    "x" : 10.0,
+    "z" : 567.0,
+    "height" : 3.2,
+    "diameter" : 3.0
+  }, {
+    "type" : "TREE",
+    "x" : 42.0,
+    "z" : 567.0,
+    "height" : 2.1,
+    "diameter" : 1.3
+  }, {
+    "type" : "TREE",
+    "x" : 43.0,
+    "z" : 567.0,
+    "height" : 2.8,
+    "diameter" : 2.4
+  }, {
+    "type" : "FLAG",
+    "x" : 48.0,
+    "z" : 567.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "HERRING",
+    "x" : 51.0,
+    "z" : 567.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "TREE",
+    "x" : 9.0,
+    "z" : 568.0,
+    "height" : 3.1,
+    "diameter" : 2.5
+  }, {
+    "type" : "TREE",
+    "x" : 10.0,
+    "z" : 568.0,
+    "height" : 2.1,
+    "diameter" : 2.1
+  }, {
+    "type" : "TREE",
+    "x" : 42.0,
+    "z" : 568.0,
+    "height" : 2.4,
+    "diameter" : 2.0
+  }, {
+    "type" : "TREE",
+    "x" : 43.0,
+    "z" : 568.0,
+    "height" : 2.0,
+    "diameter" : 1.5
+  }, {
+    "type" : "HERRING",
+    "x" : 50.0,
+    "z" : 568.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "TREE",
+    "x" : 9.0,
+    "z" : 569.0,
+    "height" : 3.7,
+    "diameter" : 2.1
+  }, {
+    "type" : "TREE",
+    "x" : 42.0,
+    "z" : 569.0,
+    "height" : 3.0,
+    "diameter" : 2.8
+  }, {
+    "type" : "TREE",
+    "x" : 43.0,
+    "z" : 569.0,
+    "height" : 2.9,
+    "diameter" : 2.2
+  }, {
+    "type" : "TREE",
+    "x" : 9.0,
+    "z" : 570.0,
+    "height" : 2.9,
+    "diameter" : 2.2
+  }, {
+    "type" : "TREE",
+    "x" : 42.0,
+    "z" : 570.0,
+    "height" : 3.2,
+    "diameter" : 2.8
+  }, {
+    "type" : "HERRING",
+    "x" : 49.0,
+    "z" : 570.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "HERRING",
+    "x" : 50.0,
+    "z" : 570.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "TREE",
+    "x" : 9.0,
+    "z" : 571.0,
+    "height" : 3.7,
+    "diameter" : 2.3
+  }, {
+    "type" : "HERRING",
+    "x" : 11.0,
+    "z" : 571.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "TREE",
+    "x" : 42.0,
+    "z" : 571.0,
+    "height" : 3.4,
+    "diameter" : 2.4
+  }, {
+    "type" : "FLAG",
+    "x" : 53.0,
+    "z" : 571.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "TREE",
+    "x" : 9.0,
+    "z" : 572.0,
+    "height" : 3.4,
+    "diameter" : 3.1
+  }, {
+    "type" : "TREE",
+    "x" : 40.0,
+    "z" : 572.0,
+    "height" : 3.6,
+    "diameter" : 2.4
+  }, {
+    "type" : "TREE",
+    "x" : 41.0,
+    "z" : 572.0,
+    "height" : 3.4,
+    "diameter" : 3.2
+  }, {
+    "type" : "TREE",
+    "x" : 42.0,
+    "z" : 572.0,
+    "height" : 3.1,
+    "diameter" : 1.7
+  }, {
+    "type" : "TREE",
+    "x" : 9.0,
+    "z" : 573.0,
+    "height" : 3.1,
+    "diameter" : 1.6
+  }, {
+    "type" : "TREE",
+    "x" : 10.0,
+    "z" : 573.0,
+    "height" : 3.5,
+    "diameter" : 2.8
+  }, {
+    "type" : "TREE",
+    "x" : 42.0,
+    "z" : 573.0,
+    "height" : 2.0,
+    "diameter" : 2.0
+  }, {
+    "type" : "HERRING",
+    "x" : 49.0,
+    "z" : 573.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "TREE",
+    "x" : 9.0,
+    "z" : 574.0,
+    "height" : 2.6,
+    "diameter" : 1.4
+  }, {
+    "type" : "TREE",
+    "x" : 40.0,
+    "z" : 574.0,
+    "height" : 2.9,
+    "diameter" : 1.6
+  }, {
+    "type" : "TREE",
+    "x" : 42.0,
+    "z" : 574.0,
+    "height" : 2.4,
+    "diameter" : 2.3
+  }, {
+    "type" : "TREE",
+    "x" : 40.0,
+    "z" : 575.0,
+    "height" : 2.0,
+    "diameter" : 1.7
+  }, {
+    "type" : "TREE",
+    "x" : 43.0,
+    "z" : 575.0,
+    "height" : 2.9,
+    "diameter" : 2.1
+  }, {
+    "type" : "FLAG",
+    "x" : 46.0,
+    "z" : 575.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "TREE",
+    "x" : 38.0,
+    "z" : 576.0,
+    "height" : 2.4,
+    "diameter" : 1.3
+  }, {
+    "type" : "TREE",
+    "x" : 41.0,
+    "z" : 576.0,
+    "height" : 2.4,
+    "diameter" : 1.3
+  }, {
+    "type" : "TREE",
+    "x" : 38.0,
+    "z" : 577.0,
+    "height" : 2.6,
+    "diameter" : 2.6
+  }, {
+    "type" : "TREE",
+    "x" : 41.0,
+    "z" : 577.0,
+    "height" : 2.9,
+    "diameter" : 1.5
+  }, {
+    "type" : "TREE",
+    "x" : 37.0,
+    "z" : 578.0,
+    "height" : 3.5,
+    "diameter" : 2.2
+  }, {
+    "type" : "TREE",
+    "x" : 41.0,
+    "z" : 578.0,
+    "height" : 2.6,
+    "diameter" : 1.9
+  }, {
+    "type" : "FLAG",
+    "x" : 51.0,
+    "z" : 578.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "TREE",
+    "x" : 39.0,
+    "z" : 579.0,
+    "height" : 2.3,
+    "diameter" : 2.1
+  }, {
+    "type" : "HERRING",
+    "x" : 15.0,
+    "z" : 580.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "TREE",
+    "x" : 36.0,
+    "z" : 580.0,
+    "height" : 3.1,
+    "diameter" : 2.6
+  }, {
+    "type" : "TREE",
+    "x" : 37.0,
+    "z" : 580.0,
+    "height" : 3.8,
+    "diameter" : 2.6
+  }, {
+    "type" : "TREE",
+    "x" : 39.0,
+    "z" : 580.0,
+    "height" : 2.6,
+    "diameter" : 2.5
+  }, {
+    "type" : "TREE",
+    "x" : 41.0,
+    "z" : 580.0,
+    "height" : 2.6,
+    "diameter" : 2.0
+  }, {
+    "type" : "TREE",
+    "x" : 53.0,
+    "z" : 580.0,
+    "height" : 4.0,
+    "diameter" : 3.4
+  }, {
+    "type" : "TREE",
+    "x" : 54.0,
+    "z" : 580.0,
+    "height" : 3.4,
+    "diameter" : 2.0
+  }, {
+    "type" : "HERRING",
+    "x" : 81.0,
+    "z" : 580.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "TREE",
+    "x" : 36.0,
+    "z" : 581.0,
+    "height" : 3.3,
+    "diameter" : 2.8
+  }, {
+    "type" : "TREE",
+    "x" : 41.0,
+    "z" : 581.0,
+    "height" : 3.6,
+    "diameter" : 2.0
+  }, {
+    "type" : "TREE",
+    "x" : 54.0,
+    "z" : 581.0,
+    "height" : 2.3,
+    "diameter" : 1.2
+  }, {
+    "type" : "TREE",
+    "x" : 39.0,
+    "z" : 582.0,
+    "height" : 2.4,
+    "diameter" : 1.6
+  }, {
+    "type" : "TREE",
+    "x" : 41.0,
+    "z" : 582.0,
+    "height" : 2.1,
+    "diameter" : 1.6
+  }, {
+    "type" : "FLAG",
+    "x" : 45.0,
+    "z" : 582.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "TREE",
+    "x" : 55.0,
+    "z" : 582.0,
+    "height" : 2.6,
+    "diameter" : 1.9
+  }, {
+    "type" : "TREE",
+    "x" : 34.0,
+    "z" : 583.0,
+    "height" : 3.1,
+    "diameter" : 1.6
+  }, {
+    "type" : "TREE",
+    "x" : 35.0,
+    "z" : 583.0,
+    "height" : 3.5,
+    "diameter" : 3.3
+  }, {
+    "type" : "TREE",
+    "x" : 37.0,
+    "z" : 583.0,
+    "height" : 3.0,
+    "diameter" : 2.8
+  }, {
+    "type" : "TREE",
+    "x" : 39.0,
+    "z" : 583.0,
+    "height" : 3.4,
+    "diameter" : 1.8
+  }, {
+    "type" : "TREE",
+    "x" : 41.0,
+    "z" : 583.0,
+    "height" : 3.1,
+    "diameter" : 2.5
+  }, {
+    "type" : "TREE",
+    "x" : 42.0,
+    "z" : 583.0,
+    "height" : 2.8,
+    "diameter" : 2.6
+  }, {
+    "type" : "TREE",
+    "x" : 55.0,
+    "z" : 583.0,
+    "height" : 3.1,
+    "diameter" : 2.6
+  }, {
+    "type" : "TREE",
+    "x" : 39.0,
+    "z" : 584.0,
+    "height" : 2.8,
+    "diameter" : 2.2
+  }, {
+    "type" : "TREE",
+    "x" : 55.0,
+    "z" : 584.0,
+    "height" : 2.8,
+    "diameter" : 1.6
+  }, {
+    "type" : "TREE",
+    "x" : 33.0,
+    "z" : 585.0,
+    "height" : 3.4,
+    "diameter" : 1.8
+  }, {
+    "type" : "TREE",
+    "x" : 35.0,
+    "z" : 585.0,
+    "height" : 3.7,
+    "diameter" : 2.9
+  }, {
+    "type" : "TREE",
+    "x" : 39.0,
+    "z" : 585.0,
+    "height" : 2.3,
+    "diameter" : 1.2
+  }, {
+    "type" : "TREE",
+    "x" : 42.0,
+    "z" : 585.0,
+    "height" : 3.1,
+    "diameter" : 2.0
+  }, {
+    "type" : "TREE",
+    "x" : 55.0,
+    "z" : 585.0,
+    "height" : 2.8,
+    "diameter" : 2.2
+  }, {
+    "type" : "TREE",
+    "x" : 56.0,
+    "z" : 585.0,
+    "height" : 3.6,
+    "diameter" : 3.1
+  }, {
+    "type" : "TREE",
+    "x" : 33.0,
+    "z" : 586.0,
+    "height" : 2.1,
+    "diameter" : 1.4
+  }, {
+    "type" : "TREE",
+    "x" : 38.0,
+    "z" : 586.0,
+    "height" : 3.6,
+    "diameter" : 3.2
+  }, {
+    "type" : "TREE",
+    "x" : 39.0,
+    "z" : 586.0,
+    "height" : 2.4,
+    "diameter" : 1.5
+  }, {
+    "type" : "TREE",
+    "x" : 42.0,
+    "z" : 586.0,
+    "height" : 3.4,
+    "diameter" : 3.3
+  }, {
+    "type" : "FLAG",
+    "x" : 51.0,
+    "z" : 586.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "TREE",
+    "x" : 56.0,
+    "z" : 586.0,
+    "height" : 2.7,
+    "diameter" : 1.7
+  }, {
+    "type" : "TREE",
+    "x" : 33.0,
+    "z" : 587.0,
+    "height" : 3.1,
+    "diameter" : 2.7
+  }, {
+    "type" : "TREE",
+    "x" : 35.0,
+    "z" : 587.0,
+    "height" : 2.2,
+    "diameter" : 1.2
+  }, {
+    "type" : "TREE",
+    "x" : 40.0,
+    "z" : 587.0,
+    "height" : 2.9,
+    "diameter" : 2.2
+  }, {
+    "type" : "TREE",
+    "x" : 41.0,
+    "z" : 587.0,
+    "height" : 3.3,
+    "diameter" : 3.0
+  }, {
+    "type" : "TREE",
+    "x" : 56.0,
+    "z" : 587.0,
+    "height" : 3.4,
+    "diameter" : 2.3
+  }, {
+    "type" : "TREE",
+    "x" : 32.0,
+    "z" : 588.0,
+    "height" : 3.7,
+    "diameter" : 2.9
+  }, {
+    "type" : "TREE",
+    "x" : 33.0,
+    "z" : 588.0,
+    "height" : 3.8,
+    "diameter" : 1.9
+  }, {
+    "type" : "TREE",
+    "x" : 35.0,
+    "z" : 588.0,
+    "height" : 3.1,
+    "diameter" : 2.3
+  }, {
+    "type" : "TREE",
+    "x" : 37.0,
+    "z" : 588.0,
+    "height" : 2.6,
+    "diameter" : 2.6
+  }, {
+    "type" : "TREE",
+    "x" : 55.0,
+    "z" : 588.0,
+    "height" : 2.0,
+    "diameter" : 1.2
+  }, {
+    "type" : "HERRING",
+    "x" : 72.0,
+    "z" : 588.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "TREE",
+    "x" : 37.0,
+    "z" : 589.0,
+    "height" : 3.4,
+    "diameter" : 1.8
+  }, {
+    "type" : "TREE",
+    "x" : 55.0,
+    "z" : 589.0,
+    "height" : 2.9,
+    "diameter" : 2.2
+  }, {
+    "type" : "TREE",
+    "x" : 31.0,
+    "z" : 590.0,
+    "height" : 3.8,
+    "diameter" : 3.2
+  }, {
+    "type" : "TREE",
+    "x" : 34.0,
+    "z" : 590.0,
+    "height" : 3.5,
+    "diameter" : 2.8
+  }, {
+    "type" : "FLAG",
+    "x" : 44.0,
+    "z" : 590.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "TREE",
+    "x" : 55.0,
+    "z" : 590.0,
+    "height" : 3.2,
+    "diameter" : 1.8
+  }, {
+    "type" : "HERRING",
+    "x" : 71.0,
+    "z" : 590.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "TREE",
+    "x" : 32.0,
+    "z" : 591.0,
+    "height" : 3.8,
+    "diameter" : 2.1
+  }, {
+    "type" : "TREE",
+    "x" : 34.0,
+    "z" : 591.0,
+    "height" : 3.8,
+    "diameter" : 1.9
+  }, {
+    "type" : "TREE",
+    "x" : 54.0,
+    "z" : 591.0,
+    "height" : 2.4,
+    "diameter" : 1.6
+  }, {
+    "type" : "TREE",
+    "x" : 55.0,
+    "z" : 591.0,
+    "height" : 3.1,
+    "diameter" : 2.9
+  }, {
+    "type" : "TREE",
+    "x" : 29.0,
+    "z" : 592.0,
+    "height" : 2.3,
+    "diameter" : 1.5
+  }, {
+    "type" : "TREE",
+    "x" : 32.0,
+    "z" : 592.0,
+    "height" : 2.5,
+    "diameter" : 1.3
+  }, {
+    "type" : "TREE",
+    "x" : 33.0,
+    "z" : 592.0,
+    "height" : 3.6,
+    "diameter" : 2.0
+  }, {
+    "type" : "TREE",
+    "x" : 35.0,
+    "z" : 592.0,
+    "height" : 2.1,
+    "diameter" : 1.4
+  }, {
+    "type" : "TREE",
+    "x" : 37.0,
+    "z" : 592.0,
+    "height" : 3.2,
+    "diameter" : 2.2
+  }, {
+    "type" : "TREE",
+    "x" : 38.0,
+    "z" : 592.0,
+    "height" : 2.7,
+    "diameter" : 2.2
+  }, {
+    "type" : "TREE",
+    "x" : 54.0,
+    "z" : 592.0,
+    "height" : 3.0,
+    "diameter" : 1.5
+  }, {
+    "type" : "TREE",
+    "x" : 32.0,
+    "z" : 593.0,
+    "height" : 3.4,
+    "diameter" : 3.3
+  }, {
+    "type" : "TREE",
+    "x" : 34.0,
+    "z" : 593.0,
+    "height" : 3.0,
+    "diameter" : 2.4
+  }, {
+    "type" : "TREE",
+    "x" : 35.0,
+    "z" : 593.0,
+    "height" : 3.3,
+    "diameter" : 2.1
+  }, {
+    "type" : "TREE",
+    "x" : 54.0,
+    "z" : 593.0,
+    "height" : 2.4,
+    "diameter" : 1.5
+  }, {
+    "type" : "TREE",
+    "x" : 5.0,
+    "z" : 594.0,
+    "height" : 2.8,
+    "diameter" : 1.5
+  }, {
+    "type" : "TREE",
+    "x" : 28.0,
+    "z" : 594.0,
+    "height" : 2.7,
+    "diameter" : 1.7
+  }, {
+    "type" : "TREE",
+    "x" : 31.0,
+    "z" : 594.0,
+    "height" : 2.3,
+    "diameter" : 1.8
+  }, {
+    "type" : "TREE",
+    "x" : 32.0,
+    "z" : 594.0,
+    "height" : 3.2,
+    "diameter" : 2.7
+  }, {
+    "type" : "TREE",
+    "x" : 33.0,
+    "z" : 594.0,
+    "height" : 2.9,
+    "diameter" : 2.5
+  }, {
+    "type" : "TREE",
+    "x" : 34.0,
+    "z" : 594.0,
+    "height" : 3.9,
+    "diameter" : 3.2
+  }, {
+    "type" : "TREE",
+    "x" : 36.0,
+    "z" : 594.0,
+    "height" : 3.6,
+    "diameter" : 3.1
+  }, {
+    "type" : "TREE",
+    "x" : 54.0,
+    "z" : 594.0,
+    "height" : 3.6,
+    "diameter" : 3.4
+  }, {
+    "type" : "HERRING",
+    "x" : 74.0,
+    "z" : 594.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "TREE",
+    "x" : 5.0,
+    "z" : 595.0,
+    "height" : 2.1,
+    "diameter" : 1.5
+  }, {
+    "type" : "TREE",
+    "x" : 30.0,
+    "z" : 595.0,
+    "height" : 2.4,
+    "diameter" : 1.7
+  }, {
+    "type" : "TREE",
+    "x" : 31.0,
+    "z" : 595.0,
+    "height" : 2.0,
+    "diameter" : 1.7
+  }, {
+    "type" : "FLAG",
+    "x" : 50.0,
+    "z" : 595.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "TREE",
+    "x" : 54.0,
+    "z" : 595.0,
+    "height" : 2.9,
+    "diameter" : 2.5
+  }, {
+    "type" : "TREE",
+    "x" : 55.0,
+    "z" : 595.0,
+    "height" : 3.3,
+    "diameter" : 3.2
+  }, {
+    "type" : "TREE",
+    "x" : 4.0,
+    "z" : 596.0,
+    "height" : 2.6,
+    "diameter" : 1.7
+  }, {
+    "type" : "TREE",
+    "x" : 5.0,
+    "z" : 596.0,
+    "height" : 2.4,
+    "diameter" : 1.9
+  }, {
+    "type" : "TREE",
+    "x" : 33.0,
+    "z" : 596.0,
+    "height" : 3.0,
+    "diameter" : 2.4
+  }, {
+    "type" : "HERRING",
+    "x" : 81.0,
+    "z" : 596.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "TREE",
+    "x" : 5.0,
+    "z" : 597.0,
+    "height" : 3.3,
+    "diameter" : 3.1
+  }, {
+    "type" : "HERRING",
+    "x" : 7.0,
+    "z" : 597.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "TREE",
+    "x" : 28.0,
+    "z" : 597.0,
+    "height" : 3.7,
+    "diameter" : 3.3
+  }, {
+    "type" : "TREE",
+    "x" : 29.0,
+    "z" : 597.0,
+    "height" : 2.8,
+    "diameter" : 2.0
+  }, {
+    "type" : "TREE",
+    "x" : 30.0,
+    "z" : 597.0,
+    "height" : 2.9,
+    "diameter" : 2.7
+  }, {
+    "type" : "TREE",
+    "x" : 32.0,
+    "z" : 597.0,
+    "height" : 2.4,
+    "diameter" : 1.7
+  }, {
+    "type" : "TREE",
+    "x" : 33.0,
+    "z" : 597.0,
+    "height" : 3.0,
+    "diameter" : 1.5
+  }, {
+    "type" : "TREE",
+    "x" : 54.0,
+    "z" : 597.0,
+    "height" : 2.2,
+    "diameter" : 1.4
+  }, {
+    "type" : "TREE",
+    "x" : 55.0,
+    "z" : 597.0,
+    "height" : 3.7,
+    "diameter" : 2.2
+  }, {
+    "type" : "TREE",
+    "x" : 5.0,
+    "z" : 598.0,
+    "height" : 3.4,
+    "diameter" : 1.9
+  }, {
+    "type" : "TREE",
+    "x" : 31.0,
+    "z" : 598.0,
+    "height" : 3.1,
+    "diameter" : 2.7
+  }, {
+    "type" : "TREE",
+    "x" : 33.0,
+    "z" : 598.0,
+    "height" : 3.6,
+    "diameter" : 3.6
+  }, {
+    "type" : "TREE",
+    "x" : 34.0,
+    "z" : 598.0,
+    "height" : 2.9,
+    "diameter" : 2.1
+  }, {
+    "type" : "TREE",
+    "x" : 55.0,
+    "z" : 598.0,
+    "height" : 3.9,
+    "diameter" : 3.4
+  }, {
+    "type" : "TREE",
+    "x" : 56.0,
+    "z" : 598.0,
+    "height" : 3.5,
+    "diameter" : 2.0
+  }, {
+    "type" : "TREE",
+    "x" : 5.0,
+    "z" : 599.0,
+    "height" : 2.6,
+    "diameter" : 1.6
+  }, {
+    "type" : "TREE",
+    "x" : 29.0,
+    "z" : 599.0,
+    "height" : 3.4,
+    "diameter" : 3.4
+  }, {
+    "type" : "TREE",
+    "x" : 33.0,
+    "z" : 599.0,
+    "height" : 2.2,
+    "diameter" : 1.7
+  }, {
+    "type" : "TREE",
+    "x" : 53.0,
+    "z" : 599.0,
+    "height" : 3.5,
+    "diameter" : 2.6
+  }, {
+    "type" : "TREE",
+    "x" : 57.0,
+    "z" : 599.0,
+    "height" : 2.0,
+    "diameter" : 1.2
+  }, {
+    "type" : "TREE",
+    "x" : 29.0,
+    "z" : 600.0,
+    "height" : 2.7,
+    "diameter" : 1.6
+  }, {
+    "type" : "TREE",
+    "x" : 31.0,
+    "z" : 600.0,
+    "height" : 3.2,
+    "diameter" : 3.0
+  }, {
+    "type" : "TREE",
+    "x" : 34.0,
+    "z" : 600.0,
+    "height" : 2.4,
+    "diameter" : 2.1
+  }, {
+    "type" : "FLAG",
+    "x" : 40.0,
+    "z" : 600.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "HERRING",
+    "x" : 42.0,
+    "z" : 600.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "TREE",
+    "x" : 52.0,
+    "z" : 600.0,
+    "height" : 2.4,
+    "diameter" : 1.3
+  }, {
+    "type" : "TREE",
+    "x" : 53.0,
+    "z" : 600.0,
+    "height" : 3.7,
+    "diameter" : 3.5
+  }, {
+    "type" : "TREE",
+    "x" : 54.0,
+    "z" : 600.0,
+    "height" : 2.3,
+    "diameter" : 1.6
+  }, {
+    "type" : "TREE",
+    "x" : 55.0,
+    "z" : 600.0,
+    "height" : 3.3,
+    "diameter" : 3.2
+  }, {
+    "type" : "TREE",
+    "x" : 29.0,
+    "z" : 601.0,
+    "height" : 2.8,
+    "diameter" : 1.5
+  }, {
+    "type" : "TREE",
+    "x" : 32.0,
+    "z" : 601.0,
+    "height" : 2.8,
+    "diameter" : 1.9
+  }, {
+    "type" : "TREE",
+    "x" : 52.0,
+    "z" : 601.0,
+    "height" : 3.7,
+    "diameter" : 2.2
+  }, {
+    "type" : "TREE",
+    "x" : 54.0,
+    "z" : 601.0,
+    "height" : 2.9,
+    "diameter" : 1.7
+  }, {
+    "type" : "TREE",
+    "x" : 29.0,
+    "z" : 602.0,
+    "height" : 2.8,
+    "diameter" : 1.7
+  }, {
+    "type" : "TREE",
+    "x" : 31.0,
+    "z" : 602.0,
+    "height" : 2.3,
+    "diameter" : 1.7
+  }, {
+    "type" : "TREE",
+    "x" : 32.0,
+    "z" : 602.0,
+    "height" : 3.5,
+    "diameter" : 3.3
+  }, {
+    "type" : "TREE",
+    "x" : 51.0,
+    "z" : 602.0,
+    "height" : 2.1,
+    "diameter" : 1.8
+  }, {
+    "type" : "TREE",
+    "x" : 30.0,
+    "z" : 603.0,
+    "height" : 2.1,
+    "diameter" : 1.5
+  }, {
+    "type" : "TREE",
+    "x" : 31.0,
+    "z" : 603.0,
+    "height" : 3.9,
+    "diameter" : 3.3
+  }, {
+    "type" : "HERRING",
+    "x" : 40.0,
+    "z" : 603.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "FLAG",
+    "x" : 45.0,
+    "z" : 603.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "TREE",
+    "x" : 50.0,
+    "z" : 603.0,
+    "height" : 2.5,
+    "diameter" : 1.5
+  }, {
+    "type" : "TREE",
+    "x" : 51.0,
+    "z" : 603.0,
+    "height" : 2.7,
+    "diameter" : 1.9
+  }, {
+    "type" : "HERRING",
+    "x" : 10.0,
+    "z" : 604.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "TREE",
+    "x" : 29.0,
+    "z" : 604.0,
+    "height" : 2.6,
+    "diameter" : 1.5
+  }, {
+    "type" : "TREE",
+    "x" : 30.0,
+    "z" : 604.0,
+    "height" : 2.7,
+    "diameter" : 2.0
+  }, {
+    "type" : "TREE",
+    "x" : 49.0,
+    "z" : 604.0,
+    "height" : 3.2,
+    "diameter" : 1.6
+  }, {
+    "type" : "TREE",
+    "x" : 50.0,
+    "z" : 604.0,
+    "height" : 2.8,
+    "diameter" : 2.8
+  }, {
+    "type" : "TREE",
+    "x" : 52.0,
+    "z" : 604.0,
+    "height" : 2.2,
+    "diameter" : 2.0
+  }, {
+    "type" : "HERRING",
+    "x" : 12.0,
+    "z" : 605.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "FLAG",
+    "x" : 34.0,
+    "z" : 605.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "TREE",
+    "x" : 48.0,
+    "z" : 605.0,
+    "height" : 2.6,
+    "diameter" : 2.6
+  }, {
+    "type" : "TREE",
+    "x" : 49.0,
+    "z" : 605.0,
+    "height" : 4.0,
+    "diameter" : 3.5
+  }, {
+    "type" : "TREE",
+    "x" : 52.0,
+    "z" : 605.0,
+    "height" : 2.3,
+    "diameter" : 1.6
+  }, {
+    "type" : "FLAG",
+    "x" : 43.0,
+    "z" : 606.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "TREE",
+    "x" : 47.0,
+    "z" : 606.0,
+    "height" : 3.9,
+    "diameter" : 2.6
+  }, {
+    "type" : "TREE",
+    "x" : 48.0,
+    "z" : 606.0,
+    "height" : 3.8,
+    "diameter" : 3.3
+  }, {
+    "type" : "TREE",
+    "x" : 51.0,
+    "z" : 606.0,
+    "height" : 2.3,
+    "diameter" : 2.3
+  }, {
+    "type" : "TREE",
+    "x" : 46.0,
+    "z" : 607.0,
+    "height" : 3.0,
+    "diameter" : 1.9
+  }, {
+    "type" : "TREE",
+    "x" : 48.0,
+    "z" : 607.0,
+    "height" : 2.7,
+    "diameter" : 2.0
+  }, {
+    "type" : "TREE",
+    "x" : 49.0,
+    "z" : 607.0,
+    "height" : 3.8,
+    "diameter" : 3.1
+  }, {
+    "type" : "HERRING",
+    "x" : 37.0,
+    "z" : 608.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "TREE",
+    "x" : 47.0,
+    "z" : 608.0,
+    "height" : 3.3,
+    "diameter" : 2.1
+  }, {
+    "type" : "TREE",
+    "x" : 48.0,
+    "z" : 608.0,
+    "height" : 2.1,
+    "diameter" : 2.0
+  }, {
+    "type" : "TREE",
+    "x" : 46.0,
+    "z" : 609.0,
+    "height" : 2.8,
+    "diameter" : 2.0
+  }, {
+    "type" : "TREE",
+    "x" : 47.0,
+    "z" : 609.0,
+    "height" : 2.8,
+    "diameter" : 1.4
+  }, {
+    "type" : "TREE",
+    "x" : 48.0,
+    "z" : 609.0,
+    "height" : 2.8,
+    "diameter" : 2.5
+  }, {
+    "type" : "TREE",
+    "x" : 49.0,
+    "z" : 609.0,
+    "height" : 4.0,
+    "diameter" : 3.0
+  }, {
+    "type" : "TREE",
+    "x" : 50.0,
+    "z" : 609.0,
+    "height" : 3.2,
+    "diameter" : 2.1
+  }, {
+    "type" : "TREE",
+    "x" : 46.0,
+    "z" : 610.0,
+    "height" : 3.0,
+    "diameter" : 2.4
+  }, {
+    "type" : "TREE",
+    "x" : 48.0,
+    "z" : 610.0,
+    "height" : 2.1,
+    "diameter" : 1.8
+  }, {
+    "type" : "TREE",
+    "x" : 44.0,
+    "z" : 611.0,
+    "height" : 4.0,
+    "diameter" : 2.0
+  }, {
+    "type" : "TREE",
+    "x" : 43.0,
+    "z" : 612.0,
+    "height" : 3.9,
+    "diameter" : 3.7
+  }, {
+    "type" : "TREE",
+    "x" : 44.0,
+    "z" : 612.0,
+    "height" : 3.5,
+    "diameter" : 2.0
+  }, {
+    "type" : "TREE",
+    "x" : 46.0,
+    "z" : 612.0,
+    "height" : 3.7,
+    "diameter" : 2.3
+  }, {
+    "type" : "HERRING",
+    "x" : 31.0,
+    "z" : 613.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "TREE",
+    "x" : 40.0,
+    "z" : 613.0,
+    "height" : 2.8,
+    "diameter" : 1.7
+  }, {
+    "type" : "TREE",
+    "x" : 42.0,
+    "z" : 613.0,
+    "height" : 3.4,
+    "diameter" : 2.2
+  }, {
+    "type" : "TREE",
+    "x" : 43.0,
+    "z" : 613.0,
+    "height" : 3.6,
+    "diameter" : 2.4
+  }, {
+    "type" : "TREE",
+    "x" : 44.0,
+    "z" : 613.0,
+    "height" : 3.1,
+    "diameter" : 2.8
+  }, {
+    "type" : "TREE",
+    "x" : 45.0,
+    "z" : 613.0,
+    "height" : 2.5,
+    "diameter" : 2.5
+  }, {
+    "type" : "TREE",
+    "x" : 46.0,
+    "z" : 613.0,
+    "height" : 2.5,
+    "diameter" : 2.1
+  }, {
+    "type" : "HERRING",
+    "x" : 84.0,
+    "z" : 613.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "TREE",
+    "x" : 12.0,
+    "z" : 614.0,
+    "height" : 3.9,
+    "diameter" : 3.3
+  }, {
+    "type" : "TREE",
+    "x" : 44.0,
+    "z" : 614.0,
+    "height" : 2.9,
+    "diameter" : 2.8
+  }, {
+    "type" : "TREE",
+    "x" : 45.0,
+    "z" : 614.0,
+    "height" : 2.4,
+    "diameter" : 1.3
+  }, {
+    "type" : "TREE",
+    "x" : 11.0,
+    "z" : 615.0,
+    "height" : 2.5,
+    "diameter" : 2.1
+  }, {
+    "type" : "TREE",
+    "x" : 12.0,
+    "z" : 615.0,
+    "height" : 3.3,
+    "diameter" : 2.1
+  }, {
+    "type" : "HERRING",
+    "x" : 30.0,
+    "z" : 615.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "HERRING",
+    "x" : 70.0,
+    "z" : 615.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "HERRING",
+    "x" : 85.0,
+    "z" : 615.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "TREE",
+    "x" : 11.0,
+    "z" : 616.0,
+    "height" : 2.7,
+    "diameter" : 2.2
+  }, {
+    "type" : "HERRING",
+    "x" : 29.0,
+    "z" : 616.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "TREE",
+    "x" : 11.0,
+    "z" : 617.0,
+    "height" : 2.6,
+    "diameter" : 1.7
+  }, {
+    "type" : "TREE",
+    "x" : 13.0,
+    "z" : 617.0,
+    "height" : 3.1,
+    "diameter" : 1.6
+  }, {
+    "type" : "HERRING",
+    "x" : 86.0,
+    "z" : 617.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "TREE",
+    "x" : 12.0,
+    "z" : 618.0,
+    "height" : 2.9,
+    "diameter" : 2.1
+  }, {
+    "type" : "TREE",
+    "x" : 13.0,
+    "z" : 618.0,
+    "height" : 2.5,
+    "diameter" : 2.4
+  }, {
+    "type" : "TREE",
+    "x" : 11.0,
+    "z" : 623.0,
+    "height" : 3.2,
+    "diameter" : 3.2
+  }, {
+    "type" : "TREE",
+    "x" : 12.0,
+    "z" : 623.0,
+    "height" : 2.3,
+    "diameter" : 1.6
+  }, {
+    "type" : "TREE",
+    "x" : 10.0,
+    "z" : 624.0,
+    "height" : 2.6,
+    "diameter" : 2.2
+  }, {
+    "type" : "TREE",
+    "x" : 11.0,
+    "z" : 624.0,
+    "height" : 2.5,
+    "diameter" : 2.0
+  }, {
+    "type" : "HERRING",
+    "x" : 82.0,
+    "z" : 629.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "HERRING",
+    "x" : 24.0,
+    "z" : 630.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "SHRUB",
+    "x" : 94.0,
+    "z" : 632.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "SHRUB",
+    "x" : 94.0,
+    "z" : 633.0,
+    "height" : 0.9,
+    "diameter" : 0.9
+  }, {
+    "type" : "SHRUB",
+    "x" : 93.0,
+    "z" : 634.0,
+    "height" : 0.7,
+    "diameter" : 0.7
+  }, {
+    "type" : "SHRUB",
+    "x" : 92.0,
+    "z" : 635.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "SHRUB",
+    "x" : 92.0,
+    "z" : 636.0,
+    "height" : 0.7,
+    "diameter" : 0.7
+  }, {
+    "type" : "SHRUB",
+    "x" : 92.0,
+    "z" : 638.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "HERRING",
+    "x" : 81.0,
+    "z" : 640.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "TREE",
+    "x" : 91.0,
+    "z" : 642.0,
+    "height" : 3.1,
+    "diameter" : 2.1
+  }, {
+    "type" : "TREE",
+    "x" : 93.0,
+    "z" : 642.0,
+    "height" : 3.5,
+    "diameter" : 3.1
+  }, {
+    "type" : "HERRING",
+    "x" : 81.0,
+    "z" : 643.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "TREE",
+    "x" : 94.0,
+    "z" : 643.0,
+    "height" : 2.1,
+    "diameter" : 1.5
+  }, {
+    "type" : "TREE",
+    "x" : 91.0,
+    "z" : 644.0,
+    "height" : 2.1,
+    "diameter" : 1.5
+  }, {
+    "type" : "TREE",
+    "x" : 93.0,
+    "z" : 644.0,
+    "height" : 2.1,
+    "diameter" : 1.4
+  }, {
+    "type" : "HERRING",
+    "x" : 82.0,
+    "z" : 645.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "TREE",
+    "x" : 91.0,
+    "z" : 645.0,
+    "height" : 3.4,
+    "diameter" : 2.8
+  }, {
+    "type" : "TREE",
+    "x" : 95.0,
+    "z" : 645.0,
+    "height" : 2.8,
+    "diameter" : 1.6
+  }, {
+    "type" : "TREE",
+    "x" : 93.0,
+    "z" : 646.0,
+    "height" : 2.0,
+    "diameter" : 1.7
+  }, {
+    "type" : "TREE",
+    "x" : 94.0,
+    "z" : 646.0,
+    "height" : 2.1,
+    "diameter" : 1.7
+  }, {
+    "type" : "TREE",
+    "x" : 96.0,
+    "z" : 646.0,
+    "height" : 3.3,
+    "diameter" : 1.9
+  }, {
+    "type" : "TREE",
+    "x" : 94.0,
+    "z" : 647.0,
+    "height" : 2.1,
+    "diameter" : 2.0
+  }, {
+    "type" : "TREE",
+    "x" : 94.0,
+    "z" : 648.0,
+    "height" : 3.7,
+    "diameter" : 2.4
+  }, {
+    "type" : "TREE",
+    "x" : 95.0,
+    "z" : 648.0,
+    "height" : 3.0,
+    "diameter" : 2.2
+  }, {
+    "type" : "TREE",
+    "x" : 96.0,
+    "z" : 648.0,
+    "height" : 3.6,
+    "diameter" : 3.2
+  }, {
+    "type" : "TREE",
+    "x" : 93.0,
+    "z" : 649.0,
+    "height" : 2.1,
+    "diameter" : 2.1
+  }, {
+    "type" : "TREE",
+    "x" : 94.0,
+    "z" : 649.0,
+    "height" : 2.9,
+    "diameter" : 2.3
+  }, {
+    "type" : "TREE",
+    "x" : 95.0,
+    "z" : 649.0,
+    "height" : 2.7,
+    "diameter" : 1.6
+  }, {
+    "type" : "TREE",
+    "x" : 96.0,
+    "z" : 649.0,
+    "height" : 2.7,
+    "diameter" : 1.9
+  }, {
+    "type" : "TREE",
+    "x" : 93.0,
+    "z" : 650.0,
+    "height" : 3.2,
+    "diameter" : 2.2
+  }, {
+    "type" : "TREE",
+    "x" : 92.0,
+    "z" : 651.0,
+    "height" : 3.6,
+    "diameter" : 3.0
+  }, {
+    "type" : "HERRING",
+    "x" : 19.0,
+    "z" : 663.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "HERRING",
+    "x" : 21.0,
+    "z" : 666.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "HERRING",
+    "x" : 22.0,
+    "z" : 667.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "HERRING",
+    "x" : 81.0,
+    "z" : 680.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "HERRING",
+    "x" : 35.0,
+    "z" : 681.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "HERRING",
+    "x" : 81.0,
+    "z" : 682.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "HERRING",
+    "x" : 37.0,
+    "z" : 683.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "TREE",
+    "x" : 92.0,
+    "z" : 683.0,
+    "height" : 3.5,
+    "diameter" : 2.6
+  }, {
+    "type" : "TREE",
+    "x" : 92.0,
+    "z" : 684.0,
+    "height" : 2.6,
+    "diameter" : 1.5
+  }, {
+    "type" : "HERRING",
+    "x" : 38.0,
+    "z" : 685.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "TREE",
+    "x" : 92.0,
+    "z" : 685.0,
+    "height" : 3.4,
+    "diameter" : 2.2
+  }, {
+    "type" : "TREE",
+    "x" : 92.0,
+    "z" : 686.0,
+    "height" : 3.6,
+    "diameter" : 3.1
+  }, {
+    "type" : "TREE",
+    "x" : 91.0,
+    "z" : 687.0,
+    "height" : 3.9,
+    "diameter" : 2.8
+  }, {
+    "type" : "TREE",
+    "x" : 90.0,
+    "z" : 688.0,
+    "height" : 3.8,
+    "diameter" : 3.8
+  }, {
+    "type" : "TREE",
+    "x" : 91.0,
+    "z" : 688.0,
+    "height" : 2.7,
+    "diameter" : 2.4
+  }, {
+    "type" : "TREE",
+    "x" : 90.0,
+    "z" : 689.0,
+    "height" : 2.5,
+    "diameter" : 2.4
+  }, {
+    "type" : "HERRING",
+    "x" : 16.0,
+    "z" : 690.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "TREE",
+    "x" : 89.0,
+    "z" : 690.0,
+    "height" : 2.4,
+    "diameter" : 1.3
+  }, {
+    "type" : "TREE",
+    "x" : 89.0,
+    "z" : 691.0,
+    "height" : 3.3,
+    "diameter" : 2.1
+  }, {
+    "type" : "TREE",
+    "x" : 88.0,
+    "z" : 692.0,
+    "height" : 2.1,
+    "diameter" : 1.1
+  }, {
+    "type" : "TREE",
+    "x" : 89.0,
+    "z" : 692.0,
+    "height" : 3.7,
+    "diameter" : 2.6
+  }, {
+    "type" : "TREE",
+    "x" : 90.0,
+    "z" : 692.0,
+    "height" : 2.6,
+    "diameter" : 1.5
+  }, {
+    "type" : "HERRING",
+    "x" : 15.0,
+    "z" : 693.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "HERRING",
+    "x" : 76.0,
+    "z" : 693.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "TREE",
+    "x" : 88.0,
+    "z" : 693.0,
+    "height" : 3.5,
+    "diameter" : 3.3
+  }, {
+    "type" : "TREE",
+    "x" : 89.0,
+    "z" : 693.0,
+    "height" : 3.2,
+    "diameter" : 2.5
+  }, {
+    "type" : "TREE",
+    "x" : 90.0,
+    "z" : 693.0,
+    "height" : 3.1,
+    "diameter" : 2.1
+  }, {
+    "type" : "TREE",
+    "x" : 88.0,
+    "z" : 694.0,
+    "height" : 2.2,
+    "diameter" : 2.0
+  }, {
+    "type" : "TREE",
+    "x" : 89.0,
+    "z" : 694.0,
+    "height" : 2.9,
+    "diameter" : 2.6
+  }, {
+    "type" : "TREE",
+    "x" : 89.0,
+    "z" : 695.0,
+    "height" : 2.4,
+    "diameter" : 1.5
+  }, {
+    "type" : "HERRING",
+    "x" : 15.0,
+    "z" : 696.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "TREE",
+    "x" : 89.0,
+    "z" : 696.0,
+    "height" : 3.1,
+    "diameter" : 1.7
+  }, {
+    "type" : "TREE",
+    "x" : 89.0,
+    "z" : 697.0,
+    "height" : 3.4,
+    "diameter" : 2.4
+  }, {
+    "type" : "TREE",
+    "x" : 89.0,
+    "z" : 698.0,
+    "height" : 2.2,
+    "diameter" : 1.1
+  }, {
+    "type" : "TREE",
+    "x" : 90.0,
+    "z" : 698.0,
+    "height" : 2.4,
+    "diameter" : 1.6
+  }, {
+    "type" : "TREE",
+    "x" : 91.0,
+    "z" : 698.0,
+    "height" : 3.9,
+    "diameter" : 2.7
+  }, {
+    "type" : "TREE",
+    "x" : 95.0,
+    "z" : 709.0,
+    "height" : 2.9,
+    "diameter" : 2.2
+  }, {
+    "type" : "TREE",
+    "x" : 95.0,
+    "z" : 710.0,
+    "height" : 3.3,
+    "diameter" : 2.5
+  }, {
+    "type" : "HERRING",
+    "x" : 35.0,
+    "z" : 711.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "HERRING",
+    "x" : 83.0,
+    "z" : 711.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "TREE",
+    "x" : 95.0,
+    "z" : 711.0,
+    "height" : 3.3,
+    "diameter" : 2.5
+  }, {
+    "type" : "TREE",
+    "x" : 95.0,
+    "z" : 712.0,
+    "height" : 3.7,
+    "diameter" : 3.6
+  }, {
+    "type" : "HERRING",
+    "x" : 64.0,
+    "z" : 713.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "TREE",
+    "x" : 95.0,
+    "z" : 713.0,
+    "height" : 3.5,
+    "diameter" : 2.8
+  }, {
+    "type" : "HERRING",
+    "x" : 36.0,
+    "z" : 714.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "TREE",
+    "x" : 95.0,
+    "z" : 714.0,
+    "height" : 3.6,
+    "diameter" : 2.4
+  }, {
+    "type" : "TREE",
+    "x" : 94.0,
+    "z" : 715.0,
+    "height" : 2.4,
+    "diameter" : 1.6
+  }, {
+    "type" : "HERRING",
+    "x" : 36.0,
+    "z" : 716.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "HERRING",
+    "x" : 66.0,
+    "z" : 716.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "TREE",
+    "x" : 94.0,
+    "z" : 716.0,
+    "height" : 3.4,
+    "diameter" : 2.2
+  }, {
+    "type" : "TREE",
+    "x" : 94.0,
+    "z" : 717.0,
+    "height" : 2.5,
+    "diameter" : 1.4
+  }, {
+    "type" : "HERRING",
+    "x" : 36.0,
+    "z" : 719.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "TREE",
+    "x" : 95.0,
+    "z" : 719.0,
+    "height" : 2.1,
+    "diameter" : 1.5
+  }, {
+    "type" : "TREE",
+    "x" : 96.0,
+    "z" : 720.0,
+    "height" : 2.8,
+    "diameter" : 2.3
+  }, {
+    "type" : "TREE",
+    "x" : 96.0,
+    "z" : 721.0,
+    "height" : 3.1,
+    "diameter" : 1.7
+  }, {
+    "type" : "TREE",
+    "x" : 96.0,
+    "z" : 723.0,
+    "height" : 2.1,
+    "diameter" : 1.7
+  }, {
+    "type" : "FLAG",
+    "x" : 85.0,
+    "z" : 726.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "FLAG",
+    "x" : 85.0,
+    "z" : 727.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "HERRING",
+    "x" : 51.0,
+    "z" : 733.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "HERRING",
+    "x" : 82.0,
+    "z" : 734.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "HERRING",
+    "x" : 50.0,
+    "z" : 736.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "HERRING",
+    "x" : 50.0,
+    "z" : 739.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "HERRING",
+    "x" : 74.0,
+    "z" : 740.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "TREE",
+    "x" : 90.0,
+    "z" : 745.0,
+    "height" : 2.3,
+    "diameter" : 1.4
+  }, {
+    "type" : "HERRING",
+    "x" : 33.0,
+    "z" : 746.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "TREE",
+    "x" : 88.0,
+    "z" : 747.0,
+    "height" : 4.0,
+    "diameter" : 2.1
+  }, {
+    "type" : "HERRING",
+    "x" : 69.0,
+    "z" : 748.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "TREE",
+    "x" : 87.0,
+    "z" : 748.0,
+    "height" : 3.2,
+    "diameter" : 2.3
+  }, {
+    "type" : "TREE",
+    "x" : 88.0,
+    "z" : 748.0,
+    "height" : 3.3,
+    "diameter" : 2.1
+  }, {
+    "type" : "HERRING",
+    "x" : 34.0,
+    "z" : 749.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "TREE",
+    "x" : 87.0,
+    "z" : 749.0,
+    "height" : 3.8,
+    "diameter" : 2.4
+  }, {
+    "type" : "TREE",
+    "x" : 87.0,
+    "z" : 750.0,
+    "height" : 3.6,
+    "diameter" : 3.2
+  }, {
+    "type" : "TREE",
+    "x" : 89.0,
+    "z" : 750.0,
+    "height" : 2.4,
+    "diameter" : 1.9
+  }, {
+    "type" : "TREE",
+    "x" : 87.0,
+    "z" : 751.0,
+    "height" : 2.8,
+    "diameter" : 1.4
+  }, {
+    "type" : "TREE",
+    "x" : 87.0,
+    "z" : 752.0,
+    "height" : 3.8,
+    "diameter" : 3.0
+  }, {
+    "type" : "TREE",
+    "x" : 87.0,
+    "z" : 753.0,
+    "height" : 2.8,
+    "diameter" : 2.2
+  }, {
+    "type" : "TREE",
+    "x" : 89.0,
+    "z" : 753.0,
+    "height" : 3.7,
+    "diameter" : 3.0
+  }, {
+    "type" : "TREE",
+    "x" : 87.0,
+    "z" : 754.0,
+    "height" : 3.5,
+    "diameter" : 3.4
+  }, {
+    "type" : "TREE",
+    "x" : 90.0,
+    "z" : 754.0,
+    "height" : 2.1,
+    "diameter" : 1.2
+  }, {
+    "type" : "TREE",
+    "x" : 87.0,
+    "z" : 755.0,
+    "height" : 3.0,
+    "diameter" : 2.4
+  }, {
+    "type" : "TREE",
+    "x" : 88.0,
+    "z" : 755.0,
+    "height" : 2.5,
+    "diameter" : 2.0
+  }, {
+    "type" : "TREE",
+    "x" : 90.0,
+    "z" : 755.0,
+    "height" : 2.4,
+    "diameter" : 1.7
+  }, {
+    "type" : "TREE",
+    "x" : 89.0,
+    "z" : 756.0,
+    "height" : 3.5,
+    "diameter" : 2.1
+  }, {
+    "type" : "TREE",
+    "x" : 90.0,
+    "z" : 756.0,
+    "height" : 3.0,
+    "diameter" : 2.1
+  }, {
+    "type" : "TREE",
+    "x" : 89.0,
+    "z" : 757.0,
+    "height" : 3.2,
+    "diameter" : 1.8
+  }, {
+    "type" : "TREE",
+    "x" : 89.0,
+    "z" : 759.0,
+    "height" : 3.4,
+    "diameter" : 2.5
+  }, {
+    "type" : "HERRING",
+    "x" : 39.0,
+    "z" : 764.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "HERRING",
+    "x" : 76.0,
+    "z" : 764.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "HERRING",
+    "x" : 39.0,
+    "z" : 766.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "HERRING",
+    "x" : 78.0,
+    "z" : 767.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "TREE",
+    "x" : 40.0,
+    "z" : 770.0,
+    "height" : 2.8,
+    "diameter" : 2.1
+  }, {
+    "type" : "TREE",
+    "x" : 40.0,
+    "z" : 771.0,
+    "height" : 2.5,
+    "diameter" : 2.0
+  }, {
+    "type" : "TREE",
+    "x" : 38.0,
+    "z" : 773.0,
+    "height" : 2.1,
+    "diameter" : 1.7
+  }, {
+    "type" : "TREE",
+    "x" : 39.0,
+    "z" : 773.0,
+    "height" : 3.3,
+    "diameter" : 3.2
+  }, {
+    "type" : "TREE",
+    "x" : 90.0,
+    "z" : 778.0,
+    "height" : 2.4,
+    "diameter" : 1.2
+  }, {
+    "type" : "TREE",
+    "x" : 89.0,
+    "z" : 779.0,
+    "height" : 3.2,
+    "diameter" : 1.7
+  }, {
+    "type" : "TREE",
+    "x" : 90.0,
+    "z" : 779.0,
+    "height" : 3.3,
+    "diameter" : 2.2
+  }, {
+    "type" : "TREE",
+    "x" : 91.0,
+    "z" : 779.0,
+    "height" : 4.0,
+    "diameter" : 3.4
+  }, {
+    "type" : "TREE",
+    "x" : 89.0,
+    "z" : 780.0,
+    "height" : 3.0,
+    "diameter" : 2.3
+  }, {
+    "type" : "TREE",
+    "x" : 91.0,
+    "z" : 780.0,
+    "height" : 2.6,
+    "diameter" : 2.3
+  }, {
+    "type" : "TREE",
+    "x" : 89.0,
+    "z" : 781.0,
+    "height" : 2.1,
+    "diameter" : 1.6
+  }, {
+    "type" : "TREE",
+    "x" : 91.0,
+    "z" : 781.0,
+    "height" : 2.3,
+    "diameter" : 2.2
+  }, {
+    "type" : "TREE",
+    "x" : 89.0,
+    "z" : 782.0,
+    "height" : 3.3,
+    "diameter" : 2.8
+  }, {
+    "type" : "TREE",
+    "x" : 91.0,
+    "z" : 782.0,
+    "height" : 2.5,
+    "diameter" : 1.6
+  }, {
+    "type" : "TREE",
+    "x" : 90.0,
+    "z" : 783.0,
+    "height" : 3.6,
+    "diameter" : 3.4
+  }, {
+    "type" : "TREE",
+    "x" : 91.0,
+    "z" : 783.0,
+    "height" : 3.6,
+    "diameter" : 2.1
+  }, {
+    "type" : "TREE",
+    "x" : 92.0,
+    "z" : 783.0,
+    "height" : 2.8,
+    "diameter" : 1.5
+  }, {
+    "type" : "SHRUB",
+    "x" : 36.0,
+    "z" : 784.0,
+    "height" : 1.1,
+    "diameter" : 1.1
+  }, {
+    "type" : "TREE",
+    "x" : 91.0,
+    "z" : 784.0,
+    "height" : 3.0,
+    "diameter" : 2.5
+  }, {
+    "type" : "SHRUB",
+    "x" : 37.0,
+    "z" : 785.0,
+    "height" : 0.9,
+    "diameter" : 0.9
+  }, {
+    "type" : "SHRUB",
+    "x" : 38.0,
+    "z" : 785.0,
+    "height" : 0.9,
+    "diameter" : 0.9
+  }, {
+    "type" : "TREE",
+    "x" : 92.0,
+    "z" : 785.0,
+    "height" : 3.8,
+    "diameter" : 2.8
+  }, {
+    "type" : "SHRUB",
+    "x" : 37.0,
+    "z" : 786.0,
+    "height" : 0.6,
+    "diameter" : 0.6
+  }, {
+    "type" : "SHRUB",
+    "x" : 38.0,
+    "z" : 786.0,
+    "height" : 1.2,
+    "diameter" : 1.2
+  }, {
+    "type" : "HERRING",
+    "x" : 60.0,
+    "z" : 786.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "SHRUB",
+    "x" : 37.0,
+    "z" : 787.0,
+    "height" : 0.7,
+    "diameter" : 0.7
+  }, {
+    "type" : "SHRUB",
+    "x" : 38.0,
+    "z" : 787.0,
+    "height" : 0.8,
+    "diameter" : 0.8
+  }, {
+    "type" : "SHRUB",
+    "x" : 39.0,
+    "z" : 787.0,
+    "height" : 1.2,
+    "diameter" : 1.2
+  }, {
+    "type" : "SHRUB",
+    "x" : 40.0,
+    "z" : 787.0,
+    "height" : 1.1,
+    "diameter" : 1.1
+  }, {
+    "type" : "TREE",
+    "x" : 92.0,
+    "z" : 787.0,
+    "height" : 3.8,
+    "diameter" : 2.8
+  }, {
+    "type" : "SHRUB",
+    "x" : 38.0,
+    "z" : 788.0,
+    "height" : 0.7,
+    "diameter" : 0.7
+  }, {
+    "type" : "SHRUB",
+    "x" : 39.0,
+    "z" : 788.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "HERRING",
+    "x" : 59.0,
+    "z" : 788.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "HERRING",
+    "x" : 76.0,
+    "z" : 788.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "TREE",
+    "x" : 93.0,
+    "z" : 788.0,
+    "height" : 3.1,
+    "diameter" : 2.5
+  }, {
+    "type" : "HERRING",
+    "x" : 59.0,
+    "z" : 790.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "TREE",
+    "x" : 96.0,
+    "z" : 797.0,
+    "height" : 3.6,
+    "diameter" : 2.5
+  }, {
+    "type" : "HERRING",
+    "x" : 24.0,
+    "z" : 798.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "TREE",
+    "x" : 95.0,
+    "z" : 798.0,
+    "height" : 2.5,
+    "diameter" : 1.9
+  }, {
+    "type" : "HERRING",
+    "x" : 22.0,
+    "z" : 801.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "TREE",
+    "x" : 96.0,
+    "z" : 801.0,
+    "height" : 3.3,
+    "diameter" : 2.5
+  }, {
+    "type" : "TREE",
+    "x" : 96.0,
+    "z" : 802.0,
+    "height" : 2.5,
+    "diameter" : 1.9
+  }, {
+    "type" : "TREE",
+    "x" : 96.0,
+    "z" : 803.0,
+    "height" : 2.7,
+    "diameter" : 1.9
+  }, {
+    "type" : "TREE",
+    "x" : 96.0,
+    "z" : 804.0,
+    "height" : 3.9,
+    "diameter" : 2.7
+  }, {
+    "type" : "HERRING",
+    "x" : 20.0,
+    "z" : 805.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "TREE",
+    "x" : 94.0,
+    "z" : 805.0,
+    "height" : 2.5,
+    "diameter" : 1.8
+  }, {
+    "type" : "TREE",
+    "x" : 95.0,
+    "z" : 805.0,
+    "height" : 2.1,
+    "diameter" : 1.8
+  }, {
+    "type" : "TREE",
+    "x" : 94.0,
+    "z" : 806.0,
+    "height" : 3.8,
+    "diameter" : 3.7
+  }, {
+    "type" : "TREE",
+    "x" : 95.0,
+    "z" : 806.0,
+    "height" : 2.3,
+    "diameter" : 2.2
+  }, {
+    "type" : "TREE",
+    "x" : 96.0,
+    "z" : 806.0,
+    "height" : 3.9,
+    "diameter" : 2.5
+  }, {
+    "type" : "TREE",
+    "x" : 94.0,
+    "z" : 807.0,
+    "height" : 2.6,
+    "diameter" : 2.5
+  }, {
+    "type" : "HERRING",
+    "x" : 20.0,
+    "z" : 808.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "TREE",
+    "x" : 94.0,
+    "z" : 808.0,
+    "height" : 2.3,
+    "diameter" : 1.3
+  }, {
+    "type" : "TREE",
+    "x" : 94.0,
+    "z" : 809.0,
+    "height" : 2.7,
+    "diameter" : 1.7
+  }, {
+    "type" : "TREE",
+    "x" : 96.0,
+    "z" : 809.0,
+    "height" : 3.6,
+    "diameter" : 3.5
+  }, {
+    "type" : "HERRING",
+    "x" : 85.0,
+    "z" : 810.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "TREE",
+    "x" : 95.0,
+    "z" : 810.0,
+    "height" : 3.7,
+    "diameter" : 3.0
+  }, {
+    "type" : "TREE",
+    "x" : 96.0,
+    "z" : 810.0,
+    "height" : 2.6,
+    "diameter" : 1.4
+  }, {
+    "type" : "TREE",
+    "x" : 95.0,
+    "z" : 811.0,
+    "height" : 2.2,
+    "diameter" : 2.1
+  }, {
+    "type" : "TREE",
+    "x" : 96.0,
+    "z" : 811.0,
+    "height" : 3.3,
+    "diameter" : 2.2
+  }, {
+    "type" : "TREE",
+    "x" : 95.0,
+    "z" : 812.0,
+    "height" : 2.9,
+    "diameter" : 2.9
+  }, {
+    "type" : "TREE",
+    "x" : 96.0,
+    "z" : 812.0,
+    "height" : 3.6,
+    "diameter" : 2.5
+  }, {
+    "type" : "TREE",
+    "x" : 94.0,
+    "z" : 813.0,
+    "height" : 2.8,
+    "diameter" : 1.4
+  }, {
+    "type" : "TREE",
+    "x" : 95.0,
+    "z" : 813.0,
+    "height" : 3.7,
+    "diameter" : 2.7
+  }, {
+    "type" : "TREE",
+    "x" : 96.0,
+    "z" : 813.0,
+    "height" : 3.5,
+    "diameter" : 3.0
+  }, {
+    "type" : "TREE",
+    "x" : 32.0,
+    "z" : 814.0,
+    "height" : 2.9,
+    "diameter" : 2.7
+  }, {
+    "type" : "TREE",
+    "x" : 33.0,
+    "z" : 814.0,
+    "height" : 3.3,
+    "diameter" : 2.3
+  }, {
+    "type" : "HERRING",
+    "x" : 85.0,
+    "z" : 814.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "TREE",
+    "x" : 96.0,
+    "z" : 814.0,
+    "height" : 2.4,
+    "diameter" : 2.3
+  }, {
+    "type" : "TREE",
+    "x" : 32.0,
+    "z" : 815.0,
+    "height" : 2.5,
+    "diameter" : 1.7
+  }, {
+    "type" : "TREE",
+    "x" : 33.0,
+    "z" : 815.0,
+    "height" : 2.3,
+    "diameter" : 1.8
+  }, {
+    "type" : "TREE",
+    "x" : 93.0,
+    "z" : 815.0,
+    "height" : 3.1,
+    "diameter" : 3.1
+  }, {
+    "type" : "TREE",
+    "x" : 32.0,
+    "z" : 816.0,
+    "height" : 3.1,
+    "diameter" : 2.2
+  }, {
+    "type" : "TREE",
+    "x" : 93.0,
+    "z" : 816.0,
+    "height" : 3.1,
+    "diameter" : 2.9
+  }, {
+    "type" : "TREE",
+    "x" : 96.0,
+    "z" : 816.0,
+    "height" : 3.1,
+    "diameter" : 2.5
+  }, {
+    "type" : "TREE",
+    "x" : 31.0,
+    "z" : 817.0,
+    "height" : 3.5,
+    "diameter" : 2.1
+  }, {
+    "type" : "TREE",
+    "x" : 94.0,
+    "z" : 817.0,
+    "height" : 2.0,
+    "diameter" : 1.3
+  }, {
+    "type" : "TREE",
+    "x" : 94.0,
+    "z" : 818.0,
+    "height" : 2.4,
+    "diameter" : 2.1
+  }, {
+    "type" : "TREE",
+    "x" : 97.0,
+    "z" : 818.0,
+    "height" : 3.3,
+    "diameter" : 2.6
+  }, {
+    "type" : "TREE",
+    "x" : 97.0,
+    "z" : 819.0,
+    "height" : 3.7,
+    "diameter" : 2.8
+  }, {
+    "type" : "TREE",
+    "x" : 95.0,
+    "z" : 820.0,
+    "height" : 2.0,
+    "diameter" : 1.6
+  }, {
+    "type" : "TREE",
+    "x" : 95.0,
+    "z" : 821.0,
+    "height" : 2.5,
+    "diameter" : 1.8
+  }, {
+    "type" : "TREE",
+    "x" : 97.0,
+    "z" : 821.0,
+    "height" : 2.9,
+    "diameter" : 2.8
+  }, {
+    "type" : "SHRUB",
+    "x" : 38.0,
+    "z" : 822.0,
+    "height" : 1.1,
+    "diameter" : 1.1
+  }, {
+    "type" : "SHRUB",
+    "x" : 39.0,
+    "z" : 822.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "TREE",
+    "x" : 95.0,
+    "z" : 822.0,
+    "height" : 3.7,
+    "diameter" : 2.0
+  }, {
+    "type" : "TREE",
+    "x" : 97.0,
+    "z" : 822.0,
+    "height" : 4.0,
+    "diameter" : 3.9
+  }, {
+    "type" : "SHRUB",
+    "x" : 39.0,
+    "z" : 823.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "TREE",
+    "x" : 94.0,
+    "z" : 823.0,
+    "height" : 3.1,
+    "diameter" : 3.0
+  }, {
+    "type" : "TREE",
+    "x" : 95.0,
+    "z" : 823.0,
+    "height" : 2.5,
+    "diameter" : 2.4
+  }, {
+    "type" : "SHRUB",
+    "x" : 39.0,
+    "z" : 824.0,
+    "height" : 0.9,
+    "diameter" : 0.9
+  }, {
+    "type" : "TREE",
+    "x" : 89.0,
+    "z" : 824.0,
+    "height" : 2.1,
+    "diameter" : 1.6
+  }, {
+    "type" : "TREE",
+    "x" : 90.0,
+    "z" : 824.0,
+    "height" : 2.3,
+    "diameter" : 2.1
+  }, {
+    "type" : "TREE",
+    "x" : 93.0,
+    "z" : 824.0,
+    "height" : 3.4,
+    "diameter" : 2.0
+  }, {
+    "type" : "TREE",
+    "x" : 98.0,
+    "z" : 824.0,
+    "height" : 2.2,
+    "diameter" : 2.0
+  }, {
+    "type" : "HERRING",
+    "x" : 69.0,
+    "z" : 825.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "TREE",
+    "x" : 89.0,
+    "z" : 825.0,
+    "height" : 3.9,
+    "diameter" : 3.4
+  }, {
+    "type" : "TREE",
+    "x" : 90.0,
+    "z" : 825.0,
+    "height" : 2.9,
+    "diameter" : 2.6
+  }, {
+    "type" : "TREE",
+    "x" : 91.0,
+    "z" : 825.0,
+    "height" : 2.5,
+    "diameter" : 1.8
+  }, {
+    "type" : "TREE",
+    "x" : 91.0,
+    "z" : 826.0,
+    "height" : 2.8,
+    "diameter" : 2.1
+  }, {
+    "type" : "TREE",
+    "x" : 93.0,
+    "z" : 826.0,
+    "height" : 3.8,
+    "diameter" : 3.5
+  }, {
+    "type" : "TREE",
+    "x" : 98.0,
+    "z" : 826.0,
+    "height" : 2.8,
+    "diameter" : 2.4
+  }, {
+    "type" : "TREE",
+    "x" : 92.0,
+    "z" : 827.0,
+    "height" : 3.0,
+    "diameter" : 1.9
+  }, {
+    "type" : "TREE",
+    "x" : 93.0,
+    "z" : 827.0,
+    "height" : 3.5,
+    "diameter" : 2.6
+  }, {
+    "type" : "TREE",
+    "x" : 97.0,
+    "z" : 827.0,
+    "height" : 2.5,
+    "diameter" : 1.8
+  }, {
+    "type" : "HERRING",
+    "x" : 35.0,
+    "z" : 828.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "HERRING",
+    "x" : 76.0,
+    "z" : 828.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "TREE",
+    "x" : 93.0,
+    "z" : 828.0,
+    "height" : 2.1,
+    "diameter" : 1.2
+  }, {
+    "type" : "TREE",
+    "x" : 97.0,
+    "z" : 828.0,
+    "height" : 3.4,
+    "diameter" : 1.7
+  }, {
+    "type" : "HERRING",
+    "x" : 18.0,
+    "z" : 829.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "TREE",
+    "x" : 94.0,
+    "z" : 829.0,
+    "height" : 3.4,
+    "diameter" : 3.0
+  }, {
+    "type" : "HERRING",
+    "x" : 36.0,
+    "z" : 830.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "TREE",
+    "x" : 94.0,
+    "z" : 830.0,
+    "height" : 3.0,
+    "diameter" : 2.8
+  }, {
+    "type" : "TREE",
+    "x" : 95.0,
+    "z" : 831.0,
+    "height" : 3.2,
+    "diameter" : 1.9
+  }, {
+    "type" : "HERRING",
+    "x" : 15.0,
+    "z" : 832.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "TREE",
+    "x" : 95.0,
+    "z" : 833.0,
+    "height" : 2.0,
+    "diameter" : 1.7
+  }, {
+    "type" : "TREE",
+    "x" : 32.0,
+    "z" : 834.0,
+    "height" : 2.1,
+    "diameter" : 2.1
+  }, {
+    "type" : "TREE",
+    "x" : 33.0,
+    "z" : 834.0,
+    "height" : 2.8,
+    "diameter" : 2.1
+  }, {
+    "type" : "TREE",
+    "x" : 34.0,
+    "z" : 834.0,
+    "height" : 3.6,
+    "diameter" : 3.0
+  }, {
+    "type" : "HERRING",
+    "x" : 54.0,
+    "z" : 834.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "TREE",
+    "x" : 95.0,
+    "z" : 834.0,
+    "height" : 3.9,
+    "diameter" : 2.3
+  }, {
+    "type" : "TREE",
+    "x" : 32.0,
+    "z" : 835.0,
+    "height" : 2.3,
+    "diameter" : 2.1
+  }, {
+    "type" : "TREE",
+    "x" : 33.0,
+    "z" : 835.0,
+    "height" : 2.1,
+    "diameter" : 1.6
+  }, {
+    "type" : "TREE",
+    "x" : 34.0,
+    "z" : 835.0,
+    "height" : 3.0,
+    "diameter" : 2.3
+  }, {
+    "type" : "HERRING",
+    "x" : 53.0,
+    "z" : 836.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "TREE",
+    "x" : 31.0,
+    "z" : 837.0,
+    "height" : 3.7,
+    "diameter" : 2.3
+  }, {
+    "type" : "TREE",
+    "x" : 33.0,
+    "z" : 837.0,
+    "height" : 2.1,
+    "diameter" : 1.1
+  }, {
+    "type" : "HERRING",
+    "x" : 77.0,
+    "z" : 837.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "HERRING",
+    "x" : 79.0,
+    "z" : 839.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "HERRING",
+    "x" : 80.0,
+    "z" : 840.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "HERRING",
+    "x" : 82.0,
+    "z" : 843.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "HERRING",
+    "x" : 39.0,
+    "z" : 845.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "HERRING",
+    "x" : 57.0,
+    "z" : 846.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "HERRING",
+    "x" : 65.0,
+    "z" : 846.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "HERRING",
+    "x" : 67.0,
+    "z" : 846.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "TREE",
+    "x" : 91.0,
+    "z" : 847.0,
+    "height" : 3.4,
+    "diameter" : 1.8
+  }, {
+    "type" : "HERRING",
+    "x" : 57.0,
+    "z" : 848.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "HERRING",
+    "x" : 75.0,
+    "z" : 848.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "TREE",
+    "x" : 91.0,
+    "z" : 848.0,
+    "height" : 2.6,
+    "diameter" : 1.8
+  }, {
+    "type" : "TREE",
+    "x" : 91.0,
+    "z" : 850.0,
+    "height" : 2.2,
+    "diameter" : 2.1
+  }, {
+    "type" : "SHRUB",
+    "x" : 8.0,
+    "z" : 851.0,
+    "height" : 0.7,
+    "diameter" : 0.7
+  }, {
+    "type" : "HERRING",
+    "x" : 11.0,
+    "z" : 851.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "HERRING",
+    "x" : 82.0,
+    "z" : 851.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "TREE",
+    "x" : 91.0,
+    "z" : 851.0,
+    "height" : 3.2,
+    "diameter" : 2.9
+  }, {
+    "type" : "TREE",
+    "x" : 92.0,
+    "z" : 851.0,
+    "height" : 3.5,
+    "diameter" : 3.1
+  }, {
+    "type" : "SHRUB",
+    "x" : 9.0,
+    "z" : 852.0,
+    "height" : 1.1,
+    "diameter" : 1.1
+  }, {
+    "type" : "TREE",
+    "x" : 92.0,
+    "z" : 852.0,
+    "height" : 2.8,
+    "diameter" : 2.6
+  }, {
+    "type" : "SHRUB",
+    "x" : 9.0,
+    "z" : 853.0,
+    "height" : 1.1,
+    "diameter" : 1.1
+  }, {
+    "type" : "HERRING",
+    "x" : 35.0,
+    "z" : 853.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "HERRING",
+    "x" : 12.0,
+    "z" : 854.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "HERRING",
+    "x" : 71.0,
+    "z" : 854.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "HERRING",
+    "x" : 13.0,
+    "z" : 855.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "HERRING",
+    "x" : 33.0,
+    "z" : 855.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "HERRING",
+    "x" : 82.0,
+    "z" : 856.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "SHRUB",
+    "x" : 5.0,
+    "z" : 857.0,
+    "height" : 1.1,
+    "diameter" : 1.1
+  }, {
+    "type" : "SHRUB",
+    "x" : 5.0,
+    "z" : 858.0,
+    "height" : 0.8,
+    "diameter" : 0.8
+  }, {
+    "type" : "SHRUB",
+    "x" : 7.0,
+    "z" : 859.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "TREE",
+    "x" : 8.0,
+    "z" : 859.0,
+    "height" : 2.9,
+    "diameter" : 1.9
+  }, {
+    "type" : "HERRING",
+    "x" : 71.0,
+    "z" : 859.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "TREE",
+    "x" : 94.0,
+    "z" : 859.0,
+    "height" : 3.7,
+    "diameter" : 3.0
+  }, {
+    "type" : "TREE",
+    "x" : 8.0,
+    "z" : 860.0,
+    "height" : 2.2,
+    "diameter" : 2.1
+  }, {
+    "type" : "TREE",
+    "x" : 38.0,
+    "z" : 860.0,
+    "height" : 2.4,
+    "diameter" : 1.9
+  }, {
+    "type" : "TREE",
+    "x" : 39.0,
+    "z" : 860.0,
+    "height" : 2.8,
+    "diameter" : 1.5
+  }, {
+    "type" : "TREE",
+    "x" : 94.0,
+    "z" : 860.0,
+    "height" : 3.8,
+    "diameter" : 2.7
+  }, {
+    "type" : "TREE",
+    "x" : 8.0,
+    "z" : 861.0,
+    "height" : 2.2,
+    "diameter" : 1.8
+  }, {
+    "type" : "TREE",
+    "x" : 9.0,
+    "z" : 861.0,
+    "height" : 3.0,
+    "diameter" : 2.1
+  }, {
+    "type" : "TREE",
+    "x" : 37.0,
+    "z" : 861.0,
+    "height" : 2.0,
+    "diameter" : 1.6
+  }, {
+    "type" : "TREE",
+    "x" : 38.0,
+    "z" : 861.0,
+    "height" : 2.8,
+    "diameter" : 1.6
+  }, {
+    "type" : "TREE",
+    "x" : 39.0,
+    "z" : 861.0,
+    "height" : 2.4,
+    "diameter" : 1.5
+  }, {
+    "type" : "HERRING",
+    "x" : 78.0,
+    "z" : 861.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "HERRING",
+    "x" : 84.0,
+    "z" : 861.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "TREE",
+    "x" : 94.0,
+    "z" : 861.0,
+    "height" : 3.8,
+    "diameter" : 3.7
+  }, {
+    "type" : "TREE",
+    "x" : 95.0,
+    "z" : 861.0,
+    "height" : 2.2,
+    "diameter" : 1.4
+  }, {
+    "type" : "TREE",
+    "x" : 94.0,
+    "z" : 862.0,
+    "height" : 3.7,
+    "diameter" : 3.6
+  }, {
+    "type" : "TREE",
+    "x" : 37.0,
+    "z" : 863.0,
+    "height" : 2.2,
+    "diameter" : 1.3
+  }, {
+    "type" : "TREE",
+    "x" : 38.0,
+    "z" : 863.0,
+    "height" : 3.2,
+    "diameter" : 2.5
+  }, {
+    "type" : "HERRING",
+    "x" : 76.0,
+    "z" : 863.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "TREE",
+    "x" : 37.0,
+    "z" : 864.0,
+    "height" : 3.0,
+    "diameter" : 2.2
+  }, {
+    "type" : "TREE",
+    "x" : 94.0,
+    "z" : 864.0,
+    "height" : 2.3,
+    "diameter" : 1.8
+  }, {
+    "type" : "TREE",
+    "x" : 95.0,
+    "z" : 864.0,
+    "height" : 2.7,
+    "diameter" : 1.8
+  }, {
+    "type" : "TREE",
+    "x" : 37.0,
+    "z" : 865.0,
+    "height" : 2.4,
+    "diameter" : 2.1
+  }, {
+    "type" : "HERRING",
+    "x" : 74.0,
+    "z" : 865.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "HERRING",
+    "x" : 85.0,
+    "z" : 865.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "HERRING",
+    "x" : 23.0,
+    "z" : 866.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "TREE",
+    "x" : 38.0,
+    "z" : 866.0,
+    "height" : 2.7,
+    "diameter" : 1.5
+  }, {
+    "type" : "TREE",
+    "x" : 37.0,
+    "z" : 867.0,
+    "height" : 2.4,
+    "diameter" : 1.8
+  }, {
+    "type" : "SHRUB",
+    "x" : 10.0,
+    "z" : 868.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "SHRUB",
+    "x" : 11.0,
+    "z" : 868.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "SHRUB",
+    "x" : 12.0,
+    "z" : 868.0,
+    "height" : 1.1,
+    "diameter" : 1.1
+  }, {
+    "type" : "HERRING",
+    "x" : 62.0,
+    "z" : 868.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "HERRING",
+    "x" : 71.0,
+    "z" : 868.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "TREE",
+    "x" : 37.0,
+    "z" : 869.0,
+    "height" : 3.4,
+    "diameter" : 2.2
+  }, {
+    "type" : "TREE",
+    "x" : 37.0,
+    "z" : 870.0,
+    "height" : 2.6,
+    "diameter" : 2.4
+  }, {
+    "type" : "HERRING",
+    "x" : 70.0,
+    "z" : 870.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "TREE",
+    "x" : 37.0,
+    "z" : 871.0,
+    "height" : 3.0,
+    "diameter" : 2.3
+  }, {
+    "type" : "HERRING",
+    "x" : 77.0,
+    "z" : 871.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "TREE",
+    "x" : 37.0,
+    "z" : 872.0,
+    "height" : 3.5,
+    "diameter" : 2.6
+  }, {
+    "type" : "HERRING",
+    "x" : 61.0,
+    "z" : 872.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "HERRING",
+    "x" : 63.0,
+    "z" : 874.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "HERRING",
+    "x" : 79.0,
+    "z" : 874.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "HERRING",
+    "x" : 15.0,
+    "z" : 875.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "HERRING",
+    "x" : 31.0,
+    "z" : 875.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "TREE",
+    "x" : 38.0,
+    "z" : 875.0,
+    "height" : 3.3,
+    "diameter" : 1.7
+  }, {
+    "type" : "TREE",
+    "x" : 39.0,
+    "z" : 875.0,
+    "height" : 2.6,
+    "diameter" : 2.1
+  }, {
+    "type" : "TREE",
+    "x" : 40.0,
+    "z" : 875.0,
+    "height" : 2.2,
+    "diameter" : 1.7
+  }, {
+    "type" : "TREE",
+    "x" : 93.0,
+    "z" : 875.0,
+    "height" : 2.4,
+    "diameter" : 2.0
+  }, {
+    "type" : "TREE",
+    "x" : 39.0,
+    "z" : 876.0,
+    "height" : 4.0,
+    "diameter" : 3.3
+  }, {
+    "type" : "TREE",
+    "x" : 40.0,
+    "z" : 876.0,
+    "height" : 3.6,
+    "diameter" : 2.8
+  }, {
+    "type" : "HERRING",
+    "x" : 32.0,
+    "z" : 877.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "HERRING",
+    "x" : 81.0,
+    "z" : 877.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "TREE",
+    "x" : 93.0,
+    "z" : 877.0,
+    "height" : 3.9,
+    "diameter" : 2.2
+  }, {
+    "type" : "TREE",
+    "x" : 5.0,
+    "z" : 878.0,
+    "height" : 3.6,
+    "diameter" : 3.1
+  }, {
+    "type" : "SHRUB",
+    "x" : 6.0,
+    "z" : 878.0,
+    "height" : 0.9,
+    "diameter" : 0.9
+  }, {
+    "type" : "TREE",
+    "x" : 7.0,
+    "z" : 878.0,
+    "height" : 3.7,
+    "diameter" : 3.6
+  }, {
+    "type" : "TREE",
+    "x" : 5.0,
+    "z" : 879.0,
+    "height" : 3.9,
+    "diameter" : 3.1
+  }, {
+    "type" : "TREE",
+    "x" : 6.0,
+    "z" : 879.0,
+    "height" : 3.3,
+    "diameter" : 3.1
+  }, {
+    "type" : "TREE",
+    "x" : 7.0,
+    "z" : 879.0,
+    "height" : 2.5,
+    "diameter" : 2.5
+  }, {
+    "type" : "TREE",
+    "x" : 17.0,
+    "z" : 879.0,
+    "height" : 2.3,
+    "diameter" : 1.3
+  }, {
+    "type" : "TREE",
+    "x" : 18.0,
+    "z" : 879.0,
+    "height" : 2.9,
+    "diameter" : 2.4
+  }, {
+    "type" : "HERRING",
+    "x" : 79.0,
+    "z" : 879.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "TREE",
+    "x" : 94.0,
+    "z" : 879.0,
+    "height" : 3.7,
+    "diameter" : 3.6
+  }, {
+    "type" : "TREE",
+    "x" : 5.0,
+    "z" : 880.0,
+    "height" : 2.6,
+    "diameter" : 2.5
+  }, {
+    "type" : "SHRUB",
+    "x" : 6.0,
+    "z" : 880.0,
+    "height" : 0.7,
+    "diameter" : 0.7
+  }, {
+    "type" : "HERRING",
+    "x" : 13.0,
+    "z" : 880.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "TREE",
+    "x" : 16.0,
+    "z" : 880.0,
+    "height" : 3.8,
+    "diameter" : 1.9
+  }, {
+    "type" : "TREE",
+    "x" : 17.0,
+    "z" : 880.0,
+    "height" : 3.5,
+    "diameter" : 1.9
+  }, {
+    "type" : "TREE",
+    "x" : 18.0,
+    "z" : 880.0,
+    "height" : 3.4,
+    "diameter" : 2.9
+  }, {
+    "type" : "TREE",
+    "x" : 15.0,
+    "z" : 881.0,
+    "height" : 3.4,
+    "diameter" : 2.5
+  }, {
+    "type" : "TREE",
+    "x" : 18.0,
+    "z" : 881.0,
+    "height" : 2.6,
+    "diameter" : 2.2
+  }, {
+    "type" : "TREE",
+    "x" : 95.0,
+    "z" : 883.0,
+    "height" : 3.2,
+    "diameter" : 1.8
+  }, {
+    "type" : "TREE",
+    "x" : 95.0,
+    "z" : 884.0,
+    "height" : 2.8,
+    "diameter" : 1.5
+  }, {
+    "type" : "HERRING",
+    "x" : 70.0,
+    "z" : 885.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "HERRING",
+    "x" : 72.0,
+    "z" : 885.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "TREE",
+    "x" : 95.0,
+    "z" : 886.0,
+    "height" : 3.9,
+    "diameter" : 2.6
+  }, {
+    "type" : "TREE",
+    "x" : 95.0,
+    "z" : 887.0,
+    "height" : 2.1,
+    "diameter" : 1.6
+  }, {
+    "type" : "HERRING",
+    "x" : 88.0,
+    "z" : 889.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "TREE",
+    "x" : 95.0,
+    "z" : 889.0,
+    "height" : 4.0,
+    "diameter" : 3.8
+  }, {
+    "type" : "HERRING",
+    "x" : 8.0,
+    "z" : 890.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "HERRING",
+    "x" : 88.0,
+    "z" : 890.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "TREE",
+    "x" : 39.0,
+    "z" : 892.0,
+    "height" : 3.6,
+    "diameter" : 3.5
+  }, {
+    "type" : "HERRING",
+    "x" : 71.0,
+    "z" : 892.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "TREE",
+    "x" : 39.0,
+    "z" : 893.0,
+    "height" : 2.1,
+    "diameter" : 2.0
+  }, {
+    "type" : "TREE",
+    "x" : 20.0,
+    "z" : 894.0,
+    "height" : 2.8,
+    "diameter" : 2.4
+  }, {
+    "type" : "TREE",
+    "x" : 21.0,
+    "z" : 894.0,
+    "height" : 3.6,
+    "diameter" : 2.4
+  }, {
+    "type" : "SHRUB",
+    "x" : 22.0,
+    "z" : 894.0,
+    "height" : 0.6,
+    "diameter" : 0.6
+  }, {
+    "type" : "TREE",
+    "x" : 23.0,
+    "z" : 894.0,
+    "height" : 3.4,
+    "diameter" : 2.7
+  }, {
+    "type" : "TREE",
+    "x" : 39.0,
+    "z" : 894.0,
+    "height" : 3.8,
+    "diameter" : 3.3
+  }, {
+    "type" : "HERRING",
+    "x" : 88.0,
+    "z" : 894.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "TREE",
+    "x" : 21.0,
+    "z" : 895.0,
+    "height" : 2.7,
+    "diameter" : 2.7
+  }, {
+    "type" : "TREE",
+    "x" : 22.0,
+    "z" : 895.0,
+    "height" : 2.8,
+    "diameter" : 1.5
+  }, {
+    "type" : "TREE",
+    "x" : 24.0,
+    "z" : 895.0,
+    "height" : 3.4,
+    "diameter" : 3.2
+  }, {
+    "type" : "TREE",
+    "x" : 26.0,
+    "z" : 895.0,
+    "height" : 2.8,
+    "diameter" : 1.9
+  }, {
+    "type" : "TREE",
+    "x" : 37.0,
+    "z" : 895.0,
+    "height" : 3.0,
+    "diameter" : 2.2
+  }, {
+    "type" : "TREE",
+    "x" : 38.0,
+    "z" : 895.0,
+    "height" : 3.6,
+    "diameter" : 2.8
+  }, {
+    "type" : "TREE",
+    "x" : 39.0,
+    "z" : 895.0,
+    "height" : 2.9,
+    "diameter" : 1.6
+  }, {
+    "type" : "TREE",
+    "x" : 45.0,
+    "z" : 895.0,
+    "height" : 3.3,
+    "diameter" : 1.6
+  }, {
+    "type" : "SHRUB",
+    "x" : 23.0,
+    "z" : 896.0,
+    "height" : 0.7,
+    "diameter" : 0.7
+  }, {
+    "type" : "TREE",
+    "x" : 24.0,
+    "z" : 896.0,
+    "height" : 3.0,
+    "diameter" : 2.7
+  }, {
+    "type" : "SHRUB",
+    "x" : 25.0,
+    "z" : 896.0,
+    "height" : 0.6,
+    "diameter" : 0.6
+  }, {
+    "type" : "TREE",
+    "x" : 26.0,
+    "z" : 896.0,
+    "height" : 3.1,
+    "diameter" : 2.7
+  }, {
+    "type" : "TREE",
+    "x" : 39.0,
+    "z" : 896.0,
+    "height" : 3.0,
+    "diameter" : 1.9
+  }, {
+    "type" : "TREE",
+    "x" : 45.0,
+    "z" : 896.0,
+    "height" : 3.0,
+    "diameter" : 2.8
+  }, {
+    "type" : "TREE",
+    "x" : 8.0,
+    "z" : 897.0,
+    "height" : 2.6,
+    "diameter" : 1.6
+  }, {
+    "type" : "HERRING",
+    "x" : 19.0,
+    "z" : 897.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "TREE",
+    "x" : 23.0,
+    "z" : 897.0,
+    "height" : 2.8,
+    "diameter" : 1.8
+  }, {
+    "type" : "HERRING",
+    "x" : 79.0,
+    "z" : 897.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "TREE",
+    "x" : 7.0,
+    "z" : 898.0,
+    "height" : 3.8,
+    "diameter" : 3.4
+  }, {
+    "type" : "TREE",
+    "x" : 8.0,
+    "z" : 898.0,
+    "height" : 2.4,
+    "diameter" : 1.6
+  }, {
+    "type" : "TREE",
+    "x" : 9.0,
+    "z" : 898.0,
+    "height" : 3.7,
+    "diameter" : 3.5
+  }, {
+    "type" : "TREE",
+    "x" : 43.0,
+    "z" : 898.0,
+    "height" : 2.4,
+    "diameter" : 1.5
+  }, {
+    "type" : "SHRUB",
+    "x" : 55.0,
+    "z" : 898.0,
+    "height" : 0.8,
+    "diameter" : 0.8
+  }, {
+    "type" : "TREE",
+    "x" : 56.0,
+    "z" : 898.0,
+    "height" : 3.4,
+    "diameter" : 2.9
+  }, {
+    "type" : "TREE",
+    "x" : 9.0,
+    "z" : 899.0,
+    "height" : 2.1,
+    "diameter" : 1.3
+  }, {
+    "type" : "SHRUB",
+    "x" : 54.0,
+    "z" : 899.0,
+    "height" : 0.7,
+    "diameter" : 0.7
+  }, {
+    "type" : "SHRUB",
+    "x" : 55.0,
+    "z" : 899.0,
+    "height" : 0.7,
+    "diameter" : 0.7
+  }, {
+    "type" : "TREE",
+    "x" : 57.0,
+    "z" : 899.0,
+    "height" : 3.8,
+    "diameter" : 2.3
+  }, {
+    "type" : "TREE",
+    "x" : 58.0,
+    "z" : 899.0,
+    "height" : 2.6,
+    "diameter" : 1.8
+  }, {
+    "type" : "TREE",
+    "x" : 59.0,
+    "z" : 899.0,
+    "height" : 2.0,
+    "diameter" : 1.4
+  }, {
+    "type" : "TREE",
+    "x" : 10.0,
+    "z" : 900.0,
+    "height" : 4.0,
+    "diameter" : 3.4
+  }, {
+    "type" : "TREE",
+    "x" : 11.0,
+    "z" : 900.0,
+    "height" : 3.7,
+    "diameter" : 2.4
+  }, {
+    "type" : "TREE",
+    "x" : 12.0,
+    "z" : 900.0,
+    "height" : 2.5,
+    "diameter" : 2.1
+  }, {
+    "type" : "SHRUB",
+    "x" : 54.0,
+    "z" : 900.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "TREE",
+    "x" : 56.0,
+    "z" : 900.0,
+    "height" : 2.9,
+    "diameter" : 1.6
+  }, {
+    "type" : "TREE",
+    "x" : 57.0,
+    "z" : 900.0,
+    "height" : 3.7,
+    "diameter" : 2.5
+  }, {
+    "type" : "TREE",
+    "x" : 8.0,
+    "z" : 901.0,
+    "height" : 3.7,
+    "diameter" : 2.0
+  }, {
+    "type" : "TREE",
+    "x" : 9.0,
+    "z" : 901.0,
+    "height" : 3.3,
+    "diameter" : 2.9
+  }, {
+    "type" : "TREE",
+    "x" : 10.0,
+    "z" : 901.0,
+    "height" : 3.9,
+    "diameter" : 3.7
+  }, {
+    "type" : "SHRUB",
+    "x" : 11.0,
+    "z" : 901.0,
+    "height" : 1.2,
+    "diameter" : 1.2
+  }, {
+    "type" : "SHRUB",
+    "x" : 12.0,
+    "z" : 901.0,
+    "height" : 0.7,
+    "diameter" : 0.7
+  }, {
+    "type" : "TREE",
+    "x" : 13.0,
+    "z" : 901.0,
+    "height" : 3.1,
+    "diameter" : 2.7
+  }, {
+    "type" : "TREE",
+    "x" : 14.0,
+    "z" : 901.0,
+    "height" : 2.6,
+    "diameter" : 2.4
+  }, {
+    "type" : "TREE",
+    "x" : 15.0,
+    "z" : 901.0,
+    "height" : 3.8,
+    "diameter" : 2.8
+  }, {
+    "type" : "SHRUB",
+    "x" : 54.0,
+    "z" : 901.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "TREE",
+    "x" : 56.0,
+    "z" : 901.0,
+    "height" : 2.2,
+    "diameter" : 2.0
+  }, {
+    "type" : "TREE",
+    "x" : 57.0,
+    "z" : 901.0,
+    "height" : 2.3,
+    "diameter" : 1.3
+  }, {
+    "type" : "TREE",
+    "x" : 59.0,
+    "z" : 901.0,
+    "height" : 2.2,
+    "diameter" : 1.3
+  }, {
+    "type" : "HERRING",
+    "x" : 70.0,
+    "z" : 901.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "TREE",
+    "x" : 8.0,
+    "z" : 902.0,
+    "height" : 3.7,
+    "diameter" : 3.7
+  }, {
+    "type" : "TREE",
+    "x" : 11.0,
+    "z" : 902.0,
+    "height" : 2.9,
+    "diameter" : 1.5
+  }, {
+    "type" : "TREE",
+    "x" : 12.0,
+    "z" : 902.0,
+    "height" : 3.3,
+    "diameter" : 1.7
+  }, {
+    "type" : "TREE",
+    "x" : 13.0,
+    "z" : 902.0,
+    "height" : 3.0,
+    "diameter" : 2.7
+  }, {
+    "type" : "TREE",
+    "x" : 14.0,
+    "z" : 902.0,
+    "height" : 3.7,
+    "diameter" : 3.5
+  }, {
+    "type" : "HERRING",
+    "x" : 24.0,
+    "z" : 902.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "SHRUB",
+    "x" : 55.0,
+    "z" : 902.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "TREE",
+    "x" : 56.0,
+    "z" : 902.0,
+    "height" : 3.9,
+    "diameter" : 2.9
+  }, {
+    "type" : "TREE",
+    "x" : 57.0,
+    "z" : 902.0,
+    "height" : 2.7,
+    "diameter" : 2.6
+  }, {
+    "type" : "TREE",
+    "x" : 58.0,
+    "z" : 902.0,
+    "height" : 2.8,
+    "diameter" : 1.8
+  }, {
+    "type" : "TREE",
+    "x" : 59.0,
+    "z" : 902.0,
+    "height" : 2.3,
+    "diameter" : 2.2
+  }, {
+    "type" : "SHRUB",
+    "x" : 13.0,
+    "z" : 903.0,
+    "height" : 0.6,
+    "diameter" : 0.6
+  }, {
+    "type" : "SHRUB",
+    "x" : 55.0,
+    "z" : 903.0,
+    "height" : 0.9,
+    "diameter" : 0.9
+  }, {
+    "type" : "TREE",
+    "x" : 57.0,
+    "z" : 903.0,
+    "height" : 3.5,
+    "diameter" : 3.4
+  }, {
+    "type" : "HERRING",
+    "x" : 69.0,
+    "z" : 903.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "TREE",
+    "x" : 42.0,
+    "z" : 904.0,
+    "height" : 3.8,
+    "diameter" : 2.9
+  }, {
+    "type" : "TREE",
+    "x" : 43.0,
+    "z" : 904.0,
+    "height" : 2.1,
+    "diameter" : 1.8
+  }, {
+    "type" : "SHRUB",
+    "x" : 55.0,
+    "z" : 904.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "HERRING",
+    "x" : 81.0,
+    "z" : 904.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "TREE",
+    "x" : 42.0,
+    "z" : 905.0,
+    "height" : 2.4,
+    "diameter" : 2.1
+  }, {
+    "type" : "TREE",
+    "x" : 44.0,
+    "z" : 905.0,
+    "height" : 3.6,
+    "diameter" : 1.9
+  }, {
+    "type" : "SHRUB",
+    "x" : 54.0,
+    "z" : 905.0,
+    "height" : 1.1,
+    "diameter" : 1.1
+  }, {
+    "type" : "HERRING",
+    "x" : 69.0,
+    "z" : 905.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "TREE",
+    "x" : 42.0,
+    "z" : 906.0,
+    "height" : 2.5,
+    "diameter" : 1.4
+  }, {
+    "type" : "HERRING",
+    "x" : 79.0,
+    "z" : 906.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "TREE",
+    "x" : 42.0,
+    "z" : 907.0,
+    "height" : 2.8,
+    "diameter" : 1.8
+  }, {
+    "type" : "TREE",
+    "x" : 43.0,
+    "z" : 907.0,
+    "height" : 3.3,
+    "diameter" : 2.0
+  }, {
+    "type" : "HERRING",
+    "x" : 71.0,
+    "z" : 907.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "TREE",
+    "x" : 43.0,
+    "z" : 908.0,
+    "height" : 2.3,
+    "diameter" : 1.7
+  }, {
+    "type" : "TREE",
+    "x" : 43.0,
+    "z" : 909.0,
+    "height" : 3.7,
+    "diameter" : 2.0
+  }, {
+    "type" : "HERRING",
+    "x" : 49.0,
+    "z" : 909.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "TREE",
+    "x" : 44.0,
+    "z" : 910.0,
+    "height" : 2.1,
+    "diameter" : 1.2
+  }, {
+    "type" : "HERRING",
+    "x" : 49.0,
+    "z" : 911.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "HERRING",
+    "x" : 89.0,
+    "z" : 911.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "HERRING",
+    "x" : 50.0,
+    "z" : 913.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "HERRING",
+    "x" : 75.0,
+    "z" : 913.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "HERRING",
+    "x" : 89.0,
+    "z" : 915.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "TREE",
+    "x" : 32.0,
+    "z" : 916.0,
+    "height" : 3.9,
+    "diameter" : 2.8
+  }, {
+    "type" : "TREE",
+    "x" : 33.0,
+    "z" : 916.0,
+    "height" : 3.1,
+    "diameter" : 1.7
+  }, {
+    "type" : "HERRING",
+    "x" : 77.0,
+    "z" : 916.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "TREE",
+    "x" : 32.0,
+    "z" : 917.0,
+    "height" : 2.7,
+    "diameter" : 2.1
+  }, {
+    "type" : "TREE",
+    "x" : 33.0,
+    "z" : 917.0,
+    "height" : 3.1,
+    "diameter" : 1.7
+  }, {
+    "type" : "TREE",
+    "x" : 34.0,
+    "z" : 917.0,
+    "height" : 3.0,
+    "diameter" : 2.2
+  }, {
+    "type" : "HERRING",
+    "x" : 88.0,
+    "z" : 917.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "TREE",
+    "x" : 32.0,
+    "z" : 918.0,
+    "height" : 3.3,
+    "diameter" : 2.6
+  }, {
+    "type" : "SHRUB",
+    "x" : 33.0,
+    "z" : 918.0,
+    "height" : 0.7,
+    "diameter" : 0.7
+  }, {
+    "type" : "TREE",
+    "x" : 34.0,
+    "z" : 918.0,
+    "height" : 2.6,
+    "diameter" : 2.3
+  }, {
+    "type" : "SHRUB",
+    "x" : 33.0,
+    "z" : 919.0,
+    "height" : 1.1,
+    "diameter" : 1.1
+  }, {
+    "type" : "TREE",
+    "x" : 34.0,
+    "z" : 919.0,
+    "height" : 2.2,
+    "diameter" : 2.0
+  }, {
+    "type" : "TREE",
+    "x" : 32.0,
+    "z" : 920.0,
+    "height" : 3.2,
+    "diameter" : 2.2
+  }, {
+    "type" : "TREE",
+    "x" : 33.0,
+    "z" : 920.0,
+    "height" : 4.0,
+    "diameter" : 2.1
+  }, {
+    "type" : "TREE",
+    "x" : 34.0,
+    "z" : 921.0,
+    "height" : 3.2,
+    "diameter" : 2.6
+  }, {
+    "type" : "TREE",
+    "x" : 31.0,
+    "z" : 922.0,
+    "height" : 2.5,
+    "diameter" : 2.1
+  }, {
+    "type" : "HERRING",
+    "x" : 26.0,
+    "z" : 924.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "TREE",
+    "x" : 48.0,
+    "z" : 925.0,
+    "height" : 2.3,
+    "diameter" : 1.2
+  }, {
+    "type" : "TREE",
+    "x" : 43.0,
+    "z" : 926.0,
+    "height" : 3.6,
+    "diameter" : 2.1
+  }, {
+    "type" : "TREE",
+    "x" : 46.0,
+    "z" : 926.0,
+    "height" : 2.6,
+    "diameter" : 2.3
+  }, {
+    "type" : "TREE",
+    "x" : 47.0,
+    "z" : 926.0,
+    "height" : 3.2,
+    "diameter" : 2.9
+  }, {
+    "type" : "TREE",
+    "x" : 93.0,
+    "z" : 926.0,
+    "height" : 3.7,
+    "diameter" : 3.6
+  }, {
+    "type" : "TREE",
+    "x" : 17.0,
+    "z" : 927.0,
+    "height" : 2.8,
+    "diameter" : 1.9
+  }, {
+    "type" : "TREE",
+    "x" : 43.0,
+    "z" : 927.0,
+    "height" : 2.1,
+    "diameter" : 2.0
+  }, {
+    "type" : "TREE",
+    "x" : 46.0,
+    "z" : 927.0,
+    "height" : 3.7,
+    "diameter" : 3.1
+  }, {
+    "type" : "TREE",
+    "x" : 48.0,
+    "z" : 927.0,
+    "height" : 3.0,
+    "diameter" : 2.8
+  }, {
+    "type" : "TREE",
+    "x" : 93.0,
+    "z" : 927.0,
+    "height" : 4.0,
+    "diameter" : 2.5
+  }, {
+    "type" : "TREE",
+    "x" : 15.0,
+    "z" : 928.0,
+    "height" : 3.5,
+    "diameter" : 1.9
+  }, {
+    "type" : "TREE",
+    "x" : 16.0,
+    "z" : 928.0,
+    "height" : 2.2,
+    "diameter" : 1.5
+  }, {
+    "type" : "TREE",
+    "x" : 45.0,
+    "z" : 928.0,
+    "height" : 2.9,
+    "diameter" : 1.6
+  }, {
+    "type" : "TREE",
+    "x" : 46.0,
+    "z" : 928.0,
+    "height" : 2.8,
+    "diameter" : 1.5
+  }, {
+    "type" : "TREE",
+    "x" : 48.0,
+    "z" : 928.0,
+    "height" : 3.5,
+    "diameter" : 2.9
+  }, {
+    "type" : "TREE",
+    "x" : 49.0,
+    "z" : 928.0,
+    "height" : 3.5,
+    "diameter" : 3.3
+  }, {
+    "type" : "SHRUB",
+    "x" : 52.0,
+    "z" : 928.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "SHRUB",
+    "x" : 53.0,
+    "z" : 928.0,
+    "height" : 0.9,
+    "diameter" : 0.9
+  }, {
+    "type" : "TREE",
+    "x" : 93.0,
+    "z" : 928.0,
+    "height" : 2.1,
+    "diameter" : 1.1
+  }, {
+    "type" : "TREE",
+    "x" : 15.0,
+    "z" : 929.0,
+    "height" : 2.6,
+    "diameter" : 2.2
+  }, {
+    "type" : "TREE",
+    "x" : 18.0,
+    "z" : 929.0,
+    "height" : 3.7,
+    "diameter" : 2.2
+  }, {
+    "type" : "TREE",
+    "x" : 46.0,
+    "z" : 929.0,
+    "height" : 3.2,
+    "diameter" : 2.0
+  }, {
+    "type" : "TREE",
+    "x" : 47.0,
+    "z" : 929.0,
+    "height" : 3.1,
+    "diameter" : 2.6
+  }, {
+    "type" : "TREE",
+    "x" : 14.0,
+    "z" : 930.0,
+    "height" : 2.2,
+    "diameter" : 1.6
+  }, {
+    "type" : "SHRUB",
+    "x" : 16.0,
+    "z" : 930.0,
+    "height" : 0.8,
+    "diameter" : 0.8
+  }, {
+    "type" : "TREE",
+    "x" : 17.0,
+    "z" : 930.0,
+    "height" : 3.2,
+    "diameter" : 2.1
+  }, {
+    "type" : "TREE",
+    "x" : 47.0,
+    "z" : 930.0,
+    "height" : 2.7,
+    "diameter" : 2.5
+  }, {
+    "type" : "SHRUB",
+    "x" : 53.0,
+    "z" : 930.0,
+    "height" : 0.6,
+    "diameter" : 0.6
+  }, {
+    "type" : "SHRUB",
+    "x" : 54.0,
+    "z" : 930.0,
+    "height" : 0.9,
+    "diameter" : 0.9
+  }, {
+    "type" : "SHRUB",
+    "x" : 64.0,
+    "z" : 930.0,
+    "height" : 1.2,
+    "diameter" : 1.2
+  }, {
+    "type" : "TREE",
+    "x" : 13.0,
+    "z" : 931.0,
+    "height" : 2.9,
+    "diameter" : 2.8
+  }, {
+    "type" : "SHRUB",
+    "x" : 15.0,
+    "z" : 931.0,
+    "height" : 0.6,
+    "diameter" : 0.6
+  }, {
+    "type" : "TREE",
+    "x" : 16.0,
+    "z" : 931.0,
+    "height" : 3.8,
+    "diameter" : 3.6
+  }, {
+    "type" : "TREE",
+    "x" : 17.0,
+    "z" : 931.0,
+    "height" : 3.5,
+    "diameter" : 2.7
+  }, {
+    "type" : "TREE",
+    "x" : 49.0,
+    "z" : 931.0,
+    "height" : 3.3,
+    "diameter" : 2.8
+  }, {
+    "type" : "TREE",
+    "x" : 13.0,
+    "z" : 932.0,
+    "height" : 2.6,
+    "diameter" : 1.6
+  }, {
+    "type" : "TREE",
+    "x" : 14.0,
+    "z" : 932.0,
+    "height" : 3.4,
+    "diameter" : 2.2
+  }, {
+    "type" : "TREE",
+    "x" : 15.0,
+    "z" : 932.0,
+    "height" : 3.1,
+    "diameter" : 2.1
+  }, {
+    "type" : "TREE",
+    "x" : 16.0,
+    "z" : 932.0,
+    "height" : 2.2,
+    "diameter" : 1.9
+  }, {
+    "type" : "TREE",
+    "x" : 49.0,
+    "z" : 932.0,
+    "height" : 4.0,
+    "diameter" : 2.7
+  }, {
+    "type" : "SHRUB",
+    "x" : 54.0,
+    "z" : 932.0,
+    "height" : 0.8,
+    "diameter" : 0.8
+  }, {
+    "type" : "SHRUB",
+    "x" : 63.0,
+    "z" : 932.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "TREE",
+    "x" : 16.0,
+    "z" : 933.0,
+    "height" : 2.9,
+    "diameter" : 2.5
+  }, {
+    "type" : "TREE",
+    "x" : 50.0,
+    "z" : 933.0,
+    "height" : 2.0,
+    "diameter" : 1.1
+  }, {
+    "type" : "SHRUB",
+    "x" : 53.0,
+    "z" : 933.0,
+    "height" : 1.2,
+    "diameter" : 1.2
+  }, {
+    "type" : "TREE",
+    "x" : 16.0,
+    "z" : 934.0,
+    "height" : 2.8,
+    "diameter" : 2.6
+  }, {
+    "type" : "HERRING",
+    "x" : 21.0,
+    "z" : 935.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "TREE",
+    "x" : 49.0,
+    "z" : 935.0,
+    "height" : 2.1,
+    "diameter" : 2.0
+  }, {
+    "type" : "TREE",
+    "x" : 49.0,
+    "z" : 937.0,
+    "height" : 3.7,
+    "diameter" : 2.9
+  }, {
+    "type" : "TREE",
+    "x" : 24.0,
+    "z" : 938.0,
+    "height" : 3.5,
+    "diameter" : 3.3
+  }, {
+    "type" : "TREE",
+    "x" : 25.0,
+    "z" : 938.0,
+    "height" : 2.9,
+    "diameter" : 2.4
+  }, {
+    "type" : "TREE",
+    "x" : 26.0,
+    "z" : 938.0,
+    "height" : 3.3,
+    "diameter" : 3.3
+  }, {
+    "type" : "TREE",
+    "x" : 47.0,
+    "z" : 938.0,
+    "height" : 2.6,
+    "diameter" : 1.8
+  }, {
+    "type" : "TREE",
+    "x" : 25.0,
+    "z" : 939.0,
+    "height" : 2.5,
+    "diameter" : 1.9
+  }, {
+    "type" : "TREE",
+    "x" : 26.0,
+    "z" : 939.0,
+    "height" : 2.1,
+    "diameter" : 1.6
+  }, {
+    "type" : "TREE",
+    "x" : 49.0,
+    "z" : 939.0,
+    "height" : 2.2,
+    "diameter" : 1.5
+  }, {
+    "type" : "HERRING",
+    "x" : 21.0,
+    "z" : 940.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "TREE",
+    "x" : 24.0,
+    "z" : 940.0,
+    "height" : 3.3,
+    "diameter" : 3.0
+  }, {
+    "type" : "TREE",
+    "x" : 25.0,
+    "z" : 940.0,
+    "height" : 2.8,
+    "diameter" : 1.4
+  }, {
+    "type" : "TREE",
+    "x" : 26.0,
+    "z" : 940.0,
+    "height" : 2.2,
+    "diameter" : 1.1
+  }, {
+    "type" : "TREE",
+    "x" : 45.0,
+    "z" : 940.0,
+    "height" : 3.0,
+    "diameter" : 2.6
+  }, {
+    "type" : "TREE",
+    "x" : 46.0,
+    "z" : 940.0,
+    "height" : 2.2,
+    "diameter" : 1.6
+  }, {
+    "type" : "TREE",
+    "x" : 48.0,
+    "z" : 940.0,
+    "height" : 3.5,
+    "diameter" : 2.6
+  }, {
+    "type" : "TREE",
+    "x" : 49.0,
+    "z" : 940.0,
+    "height" : 2.9,
+    "diameter" : 2.6
+  }, {
+    "type" : "TREE",
+    "x" : 50.0,
+    "z" : 940.0,
+    "height" : 2.6,
+    "diameter" : 1.7
+  }, {
+    "type" : "HERRING",
+    "x" : 58.0,
+    "z" : 940.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "TREE",
+    "x" : 8.0,
+    "z" : 941.0,
+    "height" : 2.7,
+    "diameter" : 1.4
+  }, {
+    "type" : "TREE",
+    "x" : 25.0,
+    "z" : 941.0,
+    "height" : 2.4,
+    "diameter" : 2.1
+  }, {
+    "type" : "TREE",
+    "x" : 50.0,
+    "z" : 941.0,
+    "height" : 3.4,
+    "diameter" : 3.1
+  }, {
+    "type" : "TREE",
+    "x" : 51.0,
+    "z" : 941.0,
+    "height" : 3.5,
+    "diameter" : 1.8
+  }, {
+    "type" : "HERRING",
+    "x" : 58.0,
+    "z" : 941.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "TREE",
+    "x" : 8.0,
+    "z" : 942.0,
+    "height" : 2.3,
+    "diameter" : 1.2
+  }, {
+    "type" : "TREE",
+    "x" : 9.0,
+    "z" : 942.0,
+    "height" : 3.2,
+    "diameter" : 1.9
+  }, {
+    "type" : "TREE",
+    "x" : 25.0,
+    "z" : 942.0,
+    "height" : 3.1,
+    "diameter" : 2.6
+  }, {
+    "type" : "TREE",
+    "x" : 43.0,
+    "z" : 942.0,
+    "height" : 3.3,
+    "diameter" : 2.0
+  }, {
+    "type" : "TREE",
+    "x" : 48.0,
+    "z" : 942.0,
+    "height" : 2.9,
+    "diameter" : 1.5
+  }, {
+    "type" : "TREE",
+    "x" : 51.0,
+    "z" : 942.0,
+    "height" : 2.5,
+    "diameter" : 1.9
+  }, {
+    "type" : "TREE",
+    "x" : 7.0,
+    "z" : 943.0,
+    "height" : 2.2,
+    "diameter" : 1.9
+  }, {
+    "type" : "TREE",
+    "x" : 8.0,
+    "z" : 943.0,
+    "height" : 2.6,
+    "diameter" : 1.5
+  }, {
+    "type" : "TREE",
+    "x" : 9.0,
+    "z" : 943.0,
+    "height" : 2.5,
+    "diameter" : 1.3
+  }, {
+    "type" : "TREE",
+    "x" : 23.0,
+    "z" : 943.0,
+    "height" : 3.3,
+    "diameter" : 2.8
+  }, {
+    "type" : "TREE",
+    "x" : 24.0,
+    "z" : 943.0,
+    "height" : 3.7,
+    "diameter" : 3.6
+  }, {
+    "type" : "TREE",
+    "x" : 25.0,
+    "z" : 943.0,
+    "height" : 4.0,
+    "diameter" : 2.4
+  }, {
+    "type" : "TREE",
+    "x" : 42.0,
+    "z" : 943.0,
+    "height" : 2.0,
+    "diameter" : 1.2
+  }, {
+    "type" : "TREE",
+    "x" : 43.0,
+    "z" : 943.0,
+    "height" : 2.0,
+    "diameter" : 1.7
+  }, {
+    "type" : "TREE",
+    "x" : 46.0,
+    "z" : 943.0,
+    "height" : 2.0,
+    "diameter" : 1.8
+  }, {
+    "type" : "TREE",
+    "x" : 47.0,
+    "z" : 943.0,
+    "height" : 3.5,
+    "diameter" : 2.1
+  }, {
+    "type" : "TREE",
+    "x" : 48.0,
+    "z" : 943.0,
+    "height" : 3.6,
+    "diameter" : 2.4
+  }, {
+    "type" : "TREE",
+    "x" : 49.0,
+    "z" : 943.0,
+    "height" : 2.8,
+    "diameter" : 1.9
+  }, {
+    "type" : "TREE",
+    "x" : 7.0,
+    "z" : 944.0,
+    "height" : 4.0,
+    "diameter" : 2.1
+  }, {
+    "type" : "TREE",
+    "x" : 8.0,
+    "z" : 944.0,
+    "height" : 3.3,
+    "diameter" : 2.4
+  }, {
+    "type" : "HERRING",
+    "x" : 16.0,
+    "z" : 944.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "TREE",
+    "x" : 22.0,
+    "z" : 944.0,
+    "height" : 2.2,
+    "diameter" : 2.1
+  }, {
+    "type" : "TREE",
+    "x" : 23.0,
+    "z" : 944.0,
+    "height" : 3.9,
+    "diameter" : 2.3
+  }, {
+    "type" : "TREE",
+    "x" : 50.0,
+    "z" : 944.0,
+    "height" : 3.3,
+    "diameter" : 2.1
+  }, {
+    "type" : "TREE",
+    "x" : 90.0,
+    "z" : 944.0,
+    "height" : 2.7,
+    "diameter" : 2.6
+  }, {
+    "type" : "TREE",
+    "x" : 62.0,
+    "z" : 945.0,
+    "height" : 2.6,
+    "diameter" : 1.3
+  }, {
+    "type" : "TREE",
+    "x" : 90.0,
+    "z" : 945.0,
+    "height" : 3.2,
+    "diameter" : 1.9
+  }, {
+    "type" : "TREE",
+    "x" : 91.0,
+    "z" : 945.0,
+    "height" : 3.9,
+    "diameter" : 3.1
+  }, {
+    "type" : "TREE",
+    "x" : 51.0,
+    "z" : 946.0,
+    "height" : 2.8,
+    "diameter" : 2.7
+  }, {
+    "type" : "TREE",
+    "x" : 52.0,
+    "z" : 947.0,
+    "height" : 3.5,
+    "diameter" : 2.4
+  }, {
+    "type" : "TREE",
+    "x" : 63.0,
+    "z" : 947.0,
+    "height" : 3.4,
+    "diameter" : 3.0
+  }, {
+    "type" : "TREE",
+    "x" : 52.0,
+    "z" : 948.0,
+    "height" : 2.4,
+    "diameter" : 1.7
+  }, {
+    "type" : "TREE",
+    "x" : 53.0,
+    "z" : 949.0,
+    "height" : 3.8,
+    "diameter" : 2.0
+  }, {
+    "type" : "TREE",
+    "x" : 3.0,
+    "z" : 951.0,
+    "height" : 3.5,
+    "diameter" : 2.3
+  }, {
+    "type" : "TREE",
+    "x" : 4.0,
+    "z" : 951.0,
+    "height" : 2.8,
+    "diameter" : 2.5
+  }, {
+    "type" : "TREE",
+    "x" : 3.0,
+    "z" : 952.0,
+    "height" : 2.7,
+    "diameter" : 1.4
+  }, {
+    "type" : "HERRING",
+    "x" : 11.0,
+    "z" : 952.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "TREE",
+    "x" : 4.0,
+    "z" : 953.0,
+    "height" : 2.4,
+    "diameter" : 1.7
+  }, {
+    "type" : "TREE",
+    "x" : 5.0,
+    "z" : 953.0,
+    "height" : 3.9,
+    "diameter" : 2.2
+  }, {
+    "type" : "TREE",
+    "x" : 6.0,
+    "z" : 953.0,
+    "height" : 3.3,
+    "diameter" : 2.6
+  }, {
+    "type" : "HERRING",
+    "x" : 47.0,
+    "z" : 955.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "TREE",
+    "x" : 22.0,
+    "z" : 956.0,
+    "height" : 2.8,
+    "diameter" : 1.4
+  }, {
+    "type" : "TREE",
+    "x" : 23.0,
+    "z" : 956.0,
+    "height" : 3.0,
+    "diameter" : 2.5
+  }, {
+    "type" : "TREE",
+    "x" : 24.0,
+    "z" : 956.0,
+    "height" : 2.0,
+    "diameter" : 1.1
+  }, {
+    "type" : "TREE",
+    "x" : 23.0,
+    "z" : 957.0,
+    "height" : 3.7,
+    "diameter" : 3.7
+  }, {
+    "type" : "TREE",
+    "x" : 24.0,
+    "z" : 957.0,
+    "height" : 3.4,
+    "diameter" : 2.1
+  }, {
+    "type" : "TREE",
+    "x" : 25.0,
+    "z" : 957.0,
+    "height" : 3.9,
+    "diameter" : 2.8
+  }, {
+    "type" : "FLAG",
+    "x" : 70.0,
+    "z" : 957.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "FLAG",
+    "x" : 71.0,
+    "z" : 957.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "TREE",
+    "x" : 7.0,
+    "z" : 958.0,
+    "height" : 3.3,
+    "diameter" : 2.7
+  }, {
+    "type" : "TREE",
+    "x" : 8.0,
+    "z" : 958.0,
+    "height" : 2.3,
+    "diameter" : 2.1
+  }, {
+    "type" : "TREE",
+    "x" : 22.0,
+    "z" : 958.0,
+    "height" : 2.2,
+    "diameter" : 1.2
+  }, {
+    "type" : "TREE",
+    "x" : 24.0,
+    "z" : 958.0,
+    "height" : 3.7,
+    "diameter" : 3.5
+  }, {
+    "type" : "TREE",
+    "x" : 25.0,
+    "z" : 958.0,
+    "height" : 2.8,
+    "diameter" : 1.8
+  }, {
+    "type" : "HERRING",
+    "x" : 42.0,
+    "z" : 959.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "TREE",
+    "x" : 8.0,
+    "z" : 960.0,
+    "height" : 3.3,
+    "diameter" : 2.9
+  }, {
+    "type" : "TREE",
+    "x" : 9.0,
+    "z" : 960.0,
+    "height" : 2.6,
+    "diameter" : 2.4
+  }, {
+    "type" : "TREE",
+    "x" : 10.0,
+    "z" : 961.0,
+    "height" : 2.4,
+    "diameter" : 1.5
+  }, {
+    "type" : "HERRING",
+    "x" : 41.0,
+    "z" : 961.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "TREE",
+    "x" : 10.0,
+    "z" : 962.0,
+    "height" : 3.9,
+    "diameter" : 3.6
+  }, {
+    "type" : "TREE",
+    "x" : 11.0,
+    "z" : 962.0,
+    "height" : 3.7,
+    "diameter" : 2.5
+  }, {
+    "type" : "FLAG",
+    "x" : 74.0,
+    "z" : 962.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "FLAG",
+    "x" : 75.0,
+    "z" : 962.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "FLAG",
+    "x" : 76.0,
+    "z" : 962.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "FLAG",
+    "x" : 77.0,
+    "z" : 962.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "FLAG",
+    "x" : 78.0,
+    "z" : 962.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "FLAG",
+    "x" : 79.0,
+    "z" : 962.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "FLAG",
+    "x" : 80.0,
+    "z" : 962.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "FLAG",
+    "x" : 81.0,
+    "z" : 962.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "FLAG",
+    "x" : 82.0,
+    "z" : 962.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "TREE",
+    "x" : 12.0,
+    "z" : 963.0,
+    "height" : 3.7,
+    "diameter" : 2.5
+  }, {
+    "type" : "HERRING",
+    "x" : 24.0,
+    "z" : 963.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "HERRING",
+    "x" : 27.0,
+    "z" : 963.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "HERRING",
+    "x" : 30.0,
+    "z" : 963.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "TREE",
+    "x" : 13.0,
+    "z" : 964.0,
+    "height" : 2.1,
+    "diameter" : 2.0
+  }, {
+    "type" : "TREE",
+    "x" : 14.0,
+    "z" : 964.0,
+    "height" : 2.9,
+    "diameter" : 2.8
+  }, {
+    "type" : "TREE",
+    "x" : 17.0,
+    "z" : 964.0,
+    "height" : 3.7,
+    "diameter" : 2.1
+  }, {
+    "type" : "TREE",
+    "x" : 18.0,
+    "z" : 964.0,
+    "height" : 2.3,
+    "diameter" : 2.1
+  }, {
+    "type" : "HERRING",
+    "x" : 42.0,
+    "z" : 964.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "TREE",
+    "x" : 15.0,
+    "z" : 965.0,
+    "height" : 3.1,
+    "diameter" : 2.8
+  }, {
+    "type" : "TREE",
+    "x" : 19.0,
+    "z" : 965.0,
+    "height" : 3.0,
+    "diameter" : 2.6
+  }, {
+    "type" : "TREE",
+    "x" : 15.0,
+    "z" : 966.0,
+    "height" : 3.3,
+    "diameter" : 2.6
+  }, {
+    "type" : "TREE",
+    "x" : 16.0,
+    "z" : 966.0,
+    "height" : 3.6,
+    "diameter" : 2.7
+  }, {
+    "type" : "TREE",
+    "x" : 17.0,
+    "z" : 966.0,
+    "height" : 3.0,
+    "diameter" : 1.8
+  }, {
+    "type" : "HERRING",
+    "x" : 43.0,
+    "z" : 966.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "TREE",
+    "x" : 17.0,
+    "z" : 967.0,
+    "height" : 3.5,
+    "diameter" : 1.9
+  }, {
+    "type" : "HERRING",
+    "x" : 44.0,
+    "z" : 967.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "TREE",
+    "x" : 18.0,
+    "z" : 968.0,
+    "height" : 4.0,
+    "diameter" : 2.1
+  }, {
+    "type" : "HERRING",
+    "x" : 45.0,
+    "z" : 969.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "HERRING",
+    "x" : 48.0,
+    "z" : 973.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "FLAG",
+    "x" : 65.0,
+    "z" : 976.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "FLAG",
+    "x" : 66.0,
+    "z" : 980.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "SHRUB",
+    "x" : 35.0,
+    "z" : 983.0,
+    "height" : 1.2,
+    "diameter" : 1.2
+  }, {
+    "type" : "SHRUB",
+    "x" : 36.0,
+    "z" : 983.0,
+    "height" : 0.7,
+    "diameter" : 0.7
+  }, {
+    "type" : "SHRUB",
+    "x" : 34.0,
+    "z" : 984.0,
+    "height" : 0.8,
+    "diameter" : 0.8
+  }, {
+    "type" : "FLAG",
+    "x" : 57.0,
+    "z" : 984.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "FLAG",
+    "x" : 65.0,
+    "z" : 984.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "TREE",
+    "x" : 38.0,
+    "z" : 985.0,
+    "height" : 3.8,
+    "diameter" : 1.9
+  }, {
+    "type" : "TREE",
+    "x" : 36.0,
+    "z" : 986.0,
+    "height" : 2.3,
+    "diameter" : 1.5
+  }, {
+    "type" : "TREE",
+    "x" : 38.0,
+    "z" : 986.0,
+    "height" : 3.7,
+    "diameter" : 2.8
+  }, {
+    "type" : "FLAG",
+    "x" : 53.0,
+    "z" : 986.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "TREE",
+    "x" : 36.0,
+    "z" : 987.0,
+    "height" : 2.6,
+    "diameter" : 2.2
+  }, {
+    "type" : "TREE",
+    "x" : 38.0,
+    "z" : 987.0,
+    "height" : 3.9,
+    "diameter" : 2.4
+  }, {
+    "type" : "FLAG",
+    "x" : 63.0,
+    "z" : 987.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "FLAG",
+    "x" : 49.0,
+    "z" : 989.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "FLAG",
+    "x" : 60.0,
+    "z" : 990.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "FLAG",
+    "x" : 47.0,
+    "z" : 991.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "FLAG",
+    "x" : 57.0,
+    "z" : 991.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "FLAG",
+    "x" : 47.0,
+    "z" : 995.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  }, {
+    "type" : "START",
+    "x" : 50.0,
+    "z" : 996.0,
+    "height" : 6.0,
+    "diameter" : 9.0
+  }, {
+    "type" : "FLAG",
+    "x" : 54.0,
+    "z" : 996.0,
+    "height" : 1.0,
+    "diameter" : 1.0
+  } ]
+}

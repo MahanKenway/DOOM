@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tux Racer</title>
+</head>
+<body>
+<div id="game">
+  <canvas id="game-canvas"></canvas>
+
+  <div id="game-time-wrapper" class="hud-text">
+    <img src="assets/hud/time.webp" class="hud-icon" />
+    <span id="game-time-minutes">00</span>:<span id="game-time-seconds"
+  >00</span
+  ><span id="game-time-deciseconds">00</span>
+  </div>
+
+  <div id="game-points-wrapper" class="hud-text">
+    <span id="game-points">000</span>
+    <img src="assets/hud/herring.webp" class="hud-icon" />
+  </div>
+
+  <div id="game-speed-wrapper">
+    <canvas id="game-speed-canvas"></canvas>
+    <span id="game-speed-text" class="hud-text">000</span>
+  </div>
+
+  <canvas id="game-touch-stick-canvas"></canvas>
+</div>
+
+<div id="loading-screen">
+  <div id="loading-screen-content">
+    <img id="loading-screen-image" src="assets/splash.webp">
+    <p class="hud-text">LOADING...</p>
+  </div>
+</div>
+
+<script type="module" src="src/main.ts"></script>
+</body>
+</html>

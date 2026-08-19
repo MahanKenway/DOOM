@@ -1,0 +1,766 @@
+{
+  "materials": [
+    {
+      "name": "whitecol",
+      "diffuseColor": [0.78, 0.78, 0.78],
+      "specularColor": [0.2, 0.2, 0.2],
+      "specularExponent": 50.0
+    },
+    {
+      "name": "blackcol",
+      "diffuseColor": [0.1, 0.1, 0.1],
+      "specularColor": [0.5, 0.5, 0.5],
+      "specularExponent": 20.0
+    },
+    {
+      "name": "beakcol",
+      "diffuseColor": [0.64, 0.54, 0.06],
+      "specularColor": [0.4, 0.4, 0.4],
+      "specularExponent": 5.0
+    },
+    {
+      "name": "iriscol",
+      "diffuseColor": [0.01, 0.01, 0.41],
+      "specularColor": [0.4, 0.4, 0.4],
+      "specularExponent": 90.0
+    },
+    {
+      "name": "whitecol",
+      "diffuseColor": [0.78, 0.78, 0.78],
+      "specularColor": [0.2, 0.2, 0.2],
+      "specularExponent": 50.0
+    },
+    {
+      "name": "blackcol",
+      "diffuseColor": [0.1, 0.1, 0.1],
+      "specularColor": [0.5, 0.5, 0.5],
+      "specularExponent": 20.0
+    },
+    {
+      "name": "beakcol",
+      "diffuseColor": [0.64, 0.54, 0.06],
+      "specularColor": [0.4, 0.4, 0.4],
+      "specularExponent": 5.0
+    },
+    {
+      "name": "iriscol",
+      "diffuseColor": [0.01, 0.01, 0.41],
+      "specularColor": [0.4, 0.4, 0.4],
+      "specularExponent": 90.0
+    }
+  ],
+  "nodes": [
+    {
+      "id": 1,
+      "parentId": 0,
+      "name": "complete figure",
+      "scale": [0.35, 0.35, 0.35],
+      "transformationOrder": ["SCL"]
+    },
+    {
+      "id": 2,
+      "parentId": 1,
+      "name": "body",
+      "scale": [0.9, 0.9, 0.9],
+      "transformationOrder": ["SCL"]
+    },
+    {
+      "id": 72,
+      "parentId": 2,
+      "name": "black part of the body",
+      "scale": [0.95, 1.0, 0.8],
+      "visibility": 10,
+      "material": "blackcol",
+      "shadow": true,
+      "transformationOrder": ["SCL"]
+    },
+    {
+      "id": 73,
+      "parentId": 2,
+      "name": "white part of the body",
+      "scale": [0.8, 0.9, 0.7],
+      "translation": [-0.0, 0.0, 0.17],
+      "visibility": 10,
+      "material": "whitecol",
+      "transformationOrder": ["SCL", "TRANS"]
+    },
+    {
+      "id": 3,
+      "parentId": 1,
+      "name": "breast",
+      "translation": [0.0, 0.4, 0.05],
+      "transformationOrder": ["TRANS"]
+    },
+    {
+      "id": 4,
+      "parentId": 3,
+      "name": "breast",
+      "scale": [0.72, 0.72, 0.72],
+      "transformationOrder": ["SCL"]
+    },
+    {
+      "id": 74,
+      "parentId": 4,
+      "name": "black part of the breast",
+      "scale": [0.95, 1.0, 0.8],
+      "visibility": 10,
+      "material": "blackcol",
+      "transformationOrder": ["SCL"]
+    },
+    {
+      "id": 75,
+      "parentId": 4,
+      "name": "white part of the breast",
+      "scale": [0.8, 0.9, 0.7],
+      "translation": [0.0, 0.0, 0.17],
+      "visibility": 10,
+      "material": "whitecol",
+      "transformationOrder": ["SCL", "TRANS"]
+    },
+    {
+      "id": 5,
+      "parentId": 1,
+      "name": "neck and head",
+      "translation": [0.0, 0.9, 0.07],
+      "rotation": [0.0, 90.0, 0.0],
+      "transformationOrder": ["ROT_Y", "TRANS"]
+    },
+    {
+      "id": 6,
+      "parentId": 5,
+      "name": "joint for neck",
+      "joint": "NECK"
+    },
+    {
+      "id": 7,
+      "parentId": 6,
+      "name": "neck and head",
+      "rotation": [0.0, -90.0, 0.0],
+      "transformationOrder": ["ROT_Y"]
+    },
+    {
+      "id": 8,
+      "parentId": 7,
+      "name": "neck",
+      "scale": [0.45, 0.5, 0.45],
+      "transformationOrder": ["SCL"]
+    },
+    {
+      "id": 9,
+      "parentId": 8,
+      "name": "black part of the neck",
+      "visibility": 10,
+      "material": "blackcol",
+      "shadow": true
+    },
+    {
+      "id": 10,
+      "parentId": 8,
+      "name": "white part of the neck",
+      "scale": [0.8, 0.9, 0.7],
+      "translation": [0.0, -0.08, 0.35],
+      "visibility": 10,
+      "material": "whitecol",
+      "transformationOrder": ["SCL", "TRANS"]
+    },
+    {
+      "id": 11,
+      "parentId": 7,
+      "name": "head",
+      "translation": [0.0, 0.3, 0.07],
+      "rotation": [0.0, 90.0, 0.0],
+      "transformationOrder": ["ROT_Y", "TRANS"]
+    },
+    {
+      "id": 12,
+      "parentId": 11,
+      "name": "joint for head",
+      "joint": "HEAD"
+    },
+    {
+      "id": 14,
+      "parentId": 12,
+      "name": "head",
+      "translation": [0.0, 0.2, 0.0],
+      "rotation": [0.0, -90.0, 0.0],
+      "transformationOrder": ["ROT_Y", "TRANS"]
+    },
+    {
+      "id": 15,
+      "parentId": 14,
+      "name": "head",
+      "scale": [0.42, 0.5, 0.42],
+      "visibility": 10,
+      "material": "blackcol",
+      "shadow": true,
+      "transformationOrder": ["SCL"]
+    },
+    {
+      "id": 16,
+      "parentId": 14,
+      "name": "beak",
+      "scale": [0.23, 0.12, 0.4],
+      "translation": [0.0, -0.2, 0.3],
+      "rotation": [10.0, 0.0, 0.0],
+      "visibility": 4,
+      "material": "beakcol",
+      "transformationOrder": ["SCL", "ROT_X", "TRANS"]
+    },
+    {
+      "id": 17,
+      "parentId": 14,
+      "name": "beak",
+      "scale": [0.21, 0.17, 0.38],
+      "translation": [0.0, -0.23, 0.3],
+      "rotation": [10.0, 0.0, 0.0],
+      "visibility": 4,
+      "material": "beakcol",
+      "transformationOrder": ["SCL", "ROT_X", "TRANS"]
+    },
+    {
+      "id": 18,
+      "parentId": 14,
+      "name": "left eye",
+      "scale": [0.1, 0.13, 0.03],
+      "translation": [0.13, -0.03, 0.38],
+      "rotation": [5.0, 18.0, -5.0],
+      "visibility": 4,
+      "material": "whitecol",
+      "transformationOrder": ["SCL", "ROT_X", "ROT_Z", "ROT_Y", "TRANS"]
+    },
+    {
+      "id": 19,
+      "parentId": 14,
+      "name": "right eye",
+      "scale": [0.1, 0.13, 0.03],
+      "translation": [-0.13, -0.03, 0.38],
+      "rotation": [5.0, -18.0, -5.0],
+      "visibility": 4,
+      "material": "whitecol",
+      "transformationOrder": ["SCL", "ROT_X", "ROT_Z", "ROT_Y", "TRANS"]
+    },
+    {
+      "id": 20,
+      "parentId": 14,
+      "name": "left iris",
+      "scale": [0.05, 0.07, 0.03],
+      "translation": [0.12, -0.05, 0.4],
+      "rotation": [5.0, 18.0, 5.0],
+      "visibility": 2,
+      "material": "iriscol",
+      "transformationOrder": ["SCL", "ROT_X", "ROT_Z", "ROT_Y", "TRANS"]
+    },
+    {
+      "id": 21,
+      "parentId": 14,
+      "name": "right iris",
+      "scale": [0.05, 0.07, 0.03],
+      "translation": [-0.12, -0.05, 0.4],
+      "rotation": [5.0, -18.0, -5.0],
+      "visibility": 2,
+      "material": "iriscol",
+      "transformationOrder": ["SCL", "ROT_X", "ROT_Z", "ROT_Y", "TRANS"]
+    },
+    {
+      "id": 22,
+      "parentId": 3,
+      "name": "left arm",
+      "translation": [-0.56, 0.3, 0.0],
+      "rotation": [90.0, 180.0, 45.0],
+      "transformationOrder": ["ROT_X", "ROT_Z", "TRANS", "ROT_Y"]
+    },
+    {
+      "id": 23,
+      "parentId": 22,
+      "name": "joint for left shoulder",
+      "joint": "LEFT_SHOULDER"
+    },
+    {
+      "id": 24,
+      "parentId": 23,
+      "name": "left arm",
+      "translation": [-0.22, 0.0, 0.0],
+      "rotation": [-90.0, 0.0, 0.0],
+      "transformationOrder": ["ROT_X", "TRANS"]
+    },
+    {
+      "id": 25,
+      "parentId": 24,
+      "name": "left upper arm",
+      "scale": [0.34, 0.1, 0.2],
+      "visibility": 5,
+      "material": "blackcol",
+      "shadow": true,
+      "transformationOrder": ["SCL"]
+    },
+    {
+      "id": 30,
+      "parentId": 24,
+      "name": "left forearm and hand",
+      "translation": [-0.23, 0.0, 0.0],
+      "rotation": [90.0, 0.0, 20.0],
+      "transformationOrder": ["ROT_X", "ROT_Z", "TRANS"]
+    },
+    {
+      "id": 31,
+      "parentId": 30,
+      "name": "joint for left_elbow",
+      "joint": "LEFT_ELBOW"
+    },
+    {
+      "id": 32,
+      "parentId": 31,
+      "name": "left forearm and hand",
+      "translation": [-0.19, 0.0, 0.0],
+      "rotation": [-90.0, 0.0, 0.0],
+      "transformationOrder": ["ROT_X", "TRANS"]
+    },
+    {
+      "id": 33,
+      "parentId": 32,
+      "name": "left forearm",
+      "scale": [0.3, 0.07, 0.15],
+      "visibility": 5,
+      "material": "blackcol",
+      "shadow": true,
+      "transformationOrder": ["SCL"]
+    },
+    {
+      "id": 38,
+      "parentId": 32,
+      "name": "left hand",
+      "translation": [-0.24, 0.0, 0.0],
+      "rotation": [90.0, 0.0, 20.0],
+      "transformationOrder": ["ROT_X", "ROT_Z", "TRANS"]
+    },
+    {
+      "id": 39,
+      "parentId": 38,
+      "name": "joint for left hand",
+      "joint": "LEFT_HAND"
+    },
+    {
+      "id": 40,
+      "parentId": 39,
+      "name": "left hand",
+      "translation": [-0.1, 0.0, 0.0],
+      "rotation": [-90.0, 0.0, 0.0],
+      "transformationOrder": ["ROT_X", "TRANS"]
+    },
+    {
+      "id": 41,
+      "parentId": 40,
+      "name": "left hand",
+      "scale": [0.12, 0.05, 0.12],
+      "visibility": 3,
+      "material": "blackcol",
+      "shadow": true,
+      "transformationOrder": ["SCL"]
+    },
+    {
+      "id": 26,
+      "parentId": 3,
+      "name": "right arm",
+      "translation": [-0.56, 0.3, 0.0],
+      "rotation": [-90.0, 0.0, 45.0],
+      "transformationOrder": ["ROT_X", "ROT_Z", "TRANS"]
+    },
+    {
+      "id": 27,
+      "parentId": 26,
+      "name": "joint for right shoulder",
+      "joint": "RIGHT_SHOULDER"
+    },
+    {
+      "id": 28,
+      "parentId": 27,
+      "name": "right arm",
+      "translation": [-0.22, 0.0, 0.0],
+      "rotation": [90.0, 0.0, 0.0],
+      "transformationOrder": ["ROT_X", "TRANS"]
+    },
+    {
+      "id": 29,
+      "parentId": 28,
+      "name": "right upper arm",
+      "scale": [0.34, 0.1, 0.2],
+      "visibility": 5,
+      "material": "blackcol",
+      "shadow": true,
+      "transformationOrder": ["SCL"]
+    },
+    {
+      "id": 34,
+      "parentId": 28,
+      "name": "rigth forearm and hand",
+      "translation": [-0.23, 0.0, 0.0],
+      "rotation": [-90.0, 0.0, 20.0],
+      "transformationOrder": ["ROT_X", "ROT_Z", "TRANS"]
+    },
+    {
+      "id": 35,
+      "parentId": 34,
+      "name": "joint for right elbow",
+      "joint": "RIGHT_ELBOW"
+    },
+    {
+      "id": 36,
+      "parentId": 35,
+      "name": "right forearm and hand",
+      "translation": [-0.19, 0.0, 0.0],
+      "rotation": [90.0, 0.0, 0.0],
+      "transformationOrder": ["ROT_X", "TRANS"]
+    },
+    {
+      "id": 37,
+      "parentId": 36,
+      "name": "right forearm",
+      "scale": [0.3, 0.07, 0.15],
+      "visibility": 5,
+      "material": "blackcol",
+      "shadow": true,
+      "transformationOrder": ["SCL"]
+    },
+    {
+      "id": 42,
+      "parentId": 36,
+      "name": "right hand",
+      "translation": [-0.24, 0.0, 0.0],
+      "rotation": [-90.0, 0.0, 20.0],
+      "transformationOrder": ["ROT_X", "ROT_Z", "TRANS"]
+    },
+    {
+      "id": 43,
+      "parentId": 42,
+      "name": "joint for right hand",
+      "joint": "RIGHT_HAND"
+    },
+    {
+      "id": 44,
+      "parentId": 43,
+      "name": "right hand",
+      "translation": [-0.1, 0.0, 0.0],
+      "rotation": [90.0, 0.0, 0.0],
+      "transformationOrder": ["ROT_X", "TRANS"]
+    },
+    {
+      "id": 45,
+      "parentId": 44,
+      "name": "right hand",
+      "scale": [0.12, 0.05, 0.12],
+      "visibility": 3,
+      "material": "blackcol",
+      "shadow": true,
+      "transformationOrder": ["SCL"]
+    },
+    {
+      "id": 46,
+      "parentId": 1,
+      "name": "left leg",
+      "translation": [-0.28, -0.8, 0.0],
+      "rotation": [0.0, 180.0, 110.0],
+      "transformationOrder": ["ROT_YZ", "TRANS", "ROT_Y"]
+    },
+    {
+      "id": 47,
+      "parentId": 46,
+      "name": "joint for left leg",
+      "joint": "LEFT_HIP"
+    },
+    {
+      "id": 48,
+      "parentId": 47,
+      "name": "left leg",
+      "translation": [0.0, -0.1, 0.0],
+      "rotation": [0.0, -110.0, 0.0],
+      "transformationOrder": ["ROT_Y", "TRANS"]
+    },
+    {
+      "id": 49,
+      "parentId": 48,
+      "name": "left highbone",
+      "scale": [0.07, 0.3, 0.07],
+      "visibility": 3,
+      "material": "beakcol",
+      "shadow": true,
+      "transformationOrder": ["SCL"]
+    },
+    {
+      "id": 50,
+      "parentId": 48,
+      "name": "left hip",
+      "scale": [0.09, 0.18, 0.09],
+      "translation": [0.0, 0.05, 0.0],
+      "visibility": 3,
+      "material": "blackcol",
+      "transformationOrder": ["SCL", "TRANS"]
+    },
+    {
+      "id": 56,
+      "parentId": 48,
+      "name": "left lower leg and foot",
+      "translation": [0.0, -0.21, 0.0],
+      "rotation": [0.0, 90.0, 0.0],
+      "transformationOrder": ["ROT_Y", "TRANS"]
+    },
+    {
+      "id": 57,
+      "parentId": 56,
+      "name": "joint for left knee",
+      "joint": "LEFT_KNEE"
+    },
+    {
+      "id": 58,
+      "parentId": 57,
+      "name": "left lower leg and foot",
+      "translation": [0.0, -0.13, 0.0],
+      "rotation": [0.0, -90.0, 0.0],
+      "transformationOrder": ["ROT_Y", "TRANS"]
+    },
+    {
+      "id": 59,
+      "parentId": 58,
+      "name": "left lower leg",
+      "scale": [0.06, 0.18, 0.06],
+      "visibility": 3,
+      "material": "beakcol",
+      "transformationOrder": ["SCL"]
+    },
+    {
+      "id": 64,
+      "parentId": 58,
+      "name": "left foot",
+      "translation": [0.0, -0.18, 0.0],
+      "rotation": [0.0, -50.0, 0.0],
+      "transformationOrder": ["ROT_Y", "TRANS"]
+    },
+    {
+      "id": 65,
+      "parentId": 64,
+      "name": "joint for left ankle",
+      "joint": "LEFT_ANKLE"
+    },
+    {
+      "id": 76,
+      "parentId": 65,
+      "name": "left foot",
+      "scale": [1.1, 1.0, 1.3],
+      "translation": [-0.13, 0.0, 0.0],
+      "transformationOrder": ["SCL", "TRANS"]
+    },
+    {
+      "id": 77,
+      "parentId": 76,
+      "name": "left foot",
+      "scale": [0.25, 0.08, 0.18],
+      "visibility": 8,
+      "material": "beakcol",
+      "transformationOrder": ["SCL"]
+    },
+    {
+      "id": 78,
+      "parentId": 76,
+      "name": "toe at left foot",
+      "scale": [0.27, 0.07, 0.11],
+      "translation": [-0.07, 0.0, 0.1],
+      "rotation": [0.0, 30.0, 0.0],
+      "visibility": 8,
+      "material": "beakcol",
+      "shadow": true,
+      "transformationOrder": ["SCL", "ROT_Y", "TRANS"]
+    },
+    {
+      "id": 79,
+      "parentId": 76,
+      "name": "toe at left foot",
+      "scale": [0.27, 0.07, 0.11],
+      "translation": [-0.07, 0.0, -0.1],
+      "rotation": [0.0, -30.0, 0.0],
+      "visibility": 8,
+      "material": "beakcol",
+      "shadow": true,
+      "transformationOrder": ["SCL", "ROT_Y", "TRANS"]
+    },
+    {
+      "id": 80,
+      "parentId": 76,
+      "name": "toe at left foot",
+      "scale": [0.27, 0.07, 0.1],
+      "translation": [-0.08, 0.0, 0.0],
+      "visibility": 8,
+      "material": "beakcol",
+      "shadow": true,
+      "transformationOrder": ["SCL", "TRANS"]
+    },
+    {
+      "id": 51,
+      "parentId": 1,
+      "name": "right leg",
+      "translation": [-0.28, -0.8, 0.0],
+      "rotation": [0.0, -110.0, 0.0],
+      "transformationOrder": ["ROT_Y", "TRANS"]
+    },
+    {
+      "id": 52,
+      "parentId": 51,
+      "name": "joint for right leg",
+      "joint": "RIGHT_HIP"
+    },
+    {
+      "id": 53,
+      "parentId": 52,
+      "name": "right leg",
+      "translation": [0.0, -0.1, 0.0],
+      "rotation": [0.0, 110.0, 0.0],
+      "transformationOrder": ["ROT_Y", "TRANS"]
+    },
+    {
+      "id": 54,
+      "parentId": 53,
+      "name": "right highbone",
+      "scale": [0.07, 0.3, 0.07],
+      "visibility": 3,
+      "material": "beakcol",
+      "shadow": true,
+      "transformationOrder": ["SCL"]
+    },
+    {
+      "id": 55,
+      "parentId": 53,
+      "name": "right hip",
+      "scale": [0.09, 0.18, 0.09],
+      "translation": [0.0, 0.05, 0.0],
+      "visibility": 3,
+      "material": "blackcol",
+      "transformationOrder": ["SCL", "TRANS"]
+    },
+    {
+      "id": 60,
+      "parentId": 53,
+      "name": "right lower leg and foot",
+      "translation": [0.0, -0.21, 0.0],
+      "rotation": [0.0, -90.0, 0.0],
+      "transformationOrder": ["ROT_Y", "TRANS"]
+    },
+    {
+      "id": 61,
+      "parentId": 60,
+      "name": "joint for right knee",
+      "joint": "RIGHT_KNEE"
+    },
+    {
+      "id": 62,
+      "parentId": 61,
+      "name": "right lower leg and foot",
+      "translation": [0.0, -0.13, 0.0],
+      "rotation": [0.0, 90.0, 0.0],
+      "transformationOrder": ["ROT_Y", "TRANS"]
+    },
+    {
+      "id": 63,
+      "parentId": 62,
+      "name": "right lower leg",
+      "scale": [0.06, 0.18, 0.06],
+      "visibility": 3,
+      "material": "beakcol",
+      "transformationOrder": ["SCL"]
+    },
+    {
+      "id": 66,
+      "parentId": 62,
+      "name": "right foot",
+      "translation": [0.0, -0.18, 0.0],
+      "rotation": [0.0, 50.0, 0.0],
+      "transformationOrder": ["ROT_Y", "TRANS"]
+    },
+    {
+      "id": 67,
+      "parentId": 66,
+      "name": "joint for right ankle",
+      "joint": "RIGHT_ANKLE"
+    },
+    {
+      "id": 81,
+      "parentId": 67,
+      "name": "right foot",
+      "scale": [1.1, 1.0, 1.3],
+      "translation": [-0.13, 0.0, 0.0],
+      "transformationOrder": ["SCL", "TRANS"]
+    },
+    {
+      "id": 82,
+      "parentId": 81,
+      "name": "right foot",
+      "scale": [0.25, 0.08, 0.18],
+      "visibility": 8,
+      "material": "beakcol",
+      "transformationOrder": ["SCL"]
+    },
+    {
+      "id": 83,
+      "parentId": 81,
+      "name": "toe at right foot",
+      "scale": [0.27, 0.07, 0.11],
+      "translation": [-0.07, 0.0, 0.1],
+      "rotation": [0.0, 30.0, 0.0],
+      "visibility": 8,
+      "material": "beakcol",
+      "shadow": true,
+      "transformationOrder": ["SCL", "ROT_Y", "TRANS"]
+    },
+    {
+      "id": 84,
+      "parentId": 81,
+      "name": "toe at right foot",
+      "scale": [0.27, 0.07, 0.11],
+      "translation": [-0.07, 0.0, -0.1],
+      "rotation": [0.0, -30.0, 0.0],
+      "visibility": 8,
+      "material": "beakcol",
+      "shadow": true,
+      "transformationOrder": ["SCL", "ROT_Y", "TRANS"]
+    },
+    {
+      "id": 85,
+      "parentId": 81,
+      "name": "toe at right foot",
+      "scale": [0.27, 0.07, 0.1],
+      "translation": [-0.08, 0.0, 0.0],
+      "visibility": 8,
+      "material": "beakcol",
+      "shadow": true,
+      "transformationOrder": ["SCL", "TRANS"]
+    },
+    {
+      "id": 68,
+      "parentId": 1,
+      "name": "tail",
+      "translation": [0.0, -0.4, -0.5],
+      "rotation": [-60.0, 0.0, 0.0],
+      "transformationOrder": ["ROT_X", "TRANS"]
+    },
+    {
+      "id": 69,
+      "parentId": 68,
+      "name": "joint for tail",
+      "joint": "TAIL"
+    },
+    {
+      "id": 70,
+      "parentId": 69,
+      "name": "tail",
+      "translation": [0.0, 0.15, 0.0],
+      "transformationOrder": ["TRANS"]
+    },
+    {
+      "id": 71,
+      "parentId": 70,
+      "name": "tail",
+      "scale": [0.2, 0.3, 0.1],
+      "visibility": 2,
+      "material": "blackcol",
+      "shadow": true,
+      "transformationOrder": ["SCL"]
+    }
+  ]
+}

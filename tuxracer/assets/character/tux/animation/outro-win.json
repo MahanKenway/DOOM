@@ -1,0 +1,139 @@
+{
+  "keyframes": [
+    {
+      "time": 0.2,
+      "position": [0.0, 0.0, 0.0],
+      "rotation": [109.0, 180.0, 0.0],
+      "neckRotationZ": -50.0,
+      "headRotationY": -8.0,
+      "leftHipRotationZ": -30.0,
+      "rightHipRotationZ": -30.0
+    },
+    {
+      "time": 0.2,
+      "position": [0.0, 0.1, 0.0],
+      "rotation": [90.0, 180.0, 0.0],
+      "neckRotationZ": -50.0,
+      "leftHipRotationZ": -20.0,
+      "rightHipRotationZ": -20.0,
+      "leftKneeRotationZ": -20.0,
+      "rightKneeRotationZ": -20.0
+    },
+    {
+      "time": 0.2,
+      "position": [0.0, 0.2, 0.0],
+      "rotation": [70.0, 180.0, 0.0],
+      "neckRotationZ": -18.0,
+      "leftHipRotationZ": -30.0,
+      "rightHipRotationZ": -30.0,
+      "leftKneeRotationZ": -40.0,
+      "rightKneeRotationZ": -40.0
+    },
+    {
+      "time": 0.2,
+      "position": [0.0, 0.2, 0.0],
+      "rotation": [70.0, 180.0, 0.0],
+      "neckRotationZ": -26.0,
+      "leftHipRotationZ": -30.0,
+      "rightHipRotationZ": -30.0,
+      "leftKneeRotationZ": -50.0,
+      "rightKneeRotationZ": -50.0
+    },
+    {
+      "time": 0.3,
+      "position": [0.0, 0.2, 0.0],
+      "rotation": [70.0, 180.0, 0.0],
+      "neckRotationZ": -26.0,
+      "leftShoulderRotationY": -59.0,
+      "rightShoulderRotationY": 59.0,
+      "leftHipRotationZ": -30.0,
+      "rightHipRotationZ": -30.0,
+      "leftKneeRotationZ": -50.0,
+      "rightKneeRotationZ": -50.0
+    },
+    {
+      "time": 0.3,
+      "position": [0.0, 0.2, 0.0],
+      "rotation": [70.0, 180.0, 0.0],
+      "neckRotationZ": -26.0,
+      "leftHipRotationZ": -30.0,
+      "rightHipRotationZ": -30.0,
+      "leftKneeRotationZ": -50.0,
+      "rightKneeRotationZ": -50.0
+    },
+    {
+      "time": 0.3,
+      "position": [0.0, 0.35, 0.0],
+      "rotation": [1.0, 180.0, 0.0]
+    },
+    {
+      "time": 0.3,
+      "position": [0.0, 0.35, 0.0],
+      "rotation": [1.0, 135.0, 9.0],
+      "leftHipRotationZ": 30.0,
+      "rightHipRotationZ": 0.0
+    },
+    {
+      "time": 0.3,
+      "position": [0.0, 0.35, 0.0],
+      "rotation": [1.0, 90.0, 0.0],
+      "leftHipRotationZ": 3.0,
+      "rightHipRotationZ": 0.0
+    },
+    {
+      "time": 0.3,
+      "position": [0.0, 0.35, 0.0],
+      "rotation": [-10.0, 45.0, -10.0],
+      "leftHipRotationZ": 3.0,
+      "rightHipRotationZ": 42.0
+    },
+    {
+      "time": 0.3,
+      "position": [0.0, 0.35, 0.0],
+      "rotation": [-10.0, 5.0, 0.0],
+      "neckRotationZ": -15.0,
+      "leftHipRotationZ": 3.0,
+      "rightHipRotationZ": 0.0
+    },
+    {
+      "time": 0.3,
+      "position": [0.0, 0.6, 0.0],
+      "rotation": [-10.0, 5.0, 0.0],
+      "neckRotationZ": -15.0,
+      "leftShoulderRotationY": -86.0,
+      "leftShoulderRotationZ": 161.0,
+      "rightShoulderRotationY": 88.0,
+      "rightShoulderRotationZ": 165.0,
+      "leftHipRotationZ": 3.0,
+      "rightHipRotationZ": 0.0
+    },
+    {
+      "time": 0.3,
+      "position": [0.0, 0.35, 0.0],
+      "rotation": [-10.0, 5.0, 0.0],
+      "neckRotationZ": -15.0,
+      "leftHipRotationZ": 3.0,
+      "rightHipRotationZ": 0.0
+    },
+    {
+      "time": 0.3,
+      "position": [0.0, 0.6, 0.0],
+      "rotation": [-10.0, 5.0, 0.0],
+      "neckRotationZ": -15.0,
+      "leftShoulderRotationY": -86.0,
+      "leftShoulderRotationZ": 161.0,
+      "rightShoulderRotationY": 88.0,
+      "rightShoulderRotationZ": 165.0,
+      "leftHipRotationZ": 3.0,
+      "rightHipRotationZ": 0.0
+    },
+    {
+      "time": 0.3,
+      "position": [0.0, 0.35, 0.0],
+      "rotation": [-10.0, 5.0, 0.0],
+      "neckRotationZ": -15.0,
+      "leftHipRotationZ": 3.0,
+      "rightHipRotationZ": 0.0
+    }
+  ]
+}

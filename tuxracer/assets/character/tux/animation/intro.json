@@ -1,0 +1,99 @@
+{
+  "keyframes": [
+    {
+      "time": 0.5,
+      "position": [-1.25, 0.25, 1.0],
+      "rotation": [0.0, 100.0, 0.0],
+      "leftShoulderRotationZ": -20.0,
+      "rightShoulderRotationZ": 40.0,
+      "leftHipRotationZ": -25.0,
+      "rightHipRotationZ": 20.0
+    },
+    {
+      "time": 0.5,
+      "position": [-1.0, 0.25, 1.0],
+      "rotation": [0.0, 80.0, 0.0],
+      "headRotationY": -45.0,
+      "leftShoulderRotationZ": 40.0,
+      "rightShoulderRotationZ": -20.0,
+      "leftHipRotationZ": 20.0,
+      "rightHipRotationZ": -25.0
+    },
+    {
+      "time": 0.5,
+      "position": [-0.75, 0.25, 1.0],
+      "rotation": [0.0, 100.0, 0.0],
+      "headRotationY": -60.0,
+      "leftShoulderRotationZ": -20.0,
+      "rightShoulderRotationZ": 40.0,
+      "leftHipRotationZ": -25.0,
+      "rightHipRotationZ": 20.0
+    },
+    {
+      "time": 0.5,
+      "position": [-0.5, 0.25, 1.0],
+      "rotation": [0.0, 80.0, 0.0],
+      "headRotationY": -60.0,
+      "leftShoulderRotationZ": 40.0,
+      "rightShoulderRotationZ": -20.0,
+      "leftHipRotationZ": 20.0,
+      "rightHipRotationZ": -25.0
+    },
+    {
+      "time": 0.5,
+      "position": [-0.25, 0.25, 1.0],
+      "rotation": [0.0, 100.0, 0.0],
+      "leftShoulderRotationZ": -20.0,
+      "rightShoulderRotationZ": 40.0,
+      "leftHipRotationZ": -25.0,
+      "rightHipRotationZ": 20.0
+    },
+    {
+      "time": 0.5,
+      "position": [0.0, 0.25, 1.0],
+      "rotation": [0.0, 80.0, 0.0],
+      "headRotationY": 60.0,
+      "leftShoulderRotationZ": 40.0,
+      "rightShoulderRotationZ": -20.0,
+      "leftHipRotationZ": 20.0,
+      "rightHipRotationZ": -25.0
+    },
+    {
+      "time": 0.5,
+      "position": [0.0, 0.25, 1.0],
+      "rotation": [0.0, 180.0, 0.0]
+    },
+    {
+      "time": 0.4,
+      "position": [0.0, 0.25, 1.0],
+      "rotation": [0.0, 180.0, 0.0],
+      "leftShoulderRotationZ": -60.0,
+      "rightShoulderRotationZ": -60.0
+    },
+    {
+      "time": 0.4,
+      "position": [0.0, 0.25, 1.0],
+      "rotation": [0.0, 180.0, 0.0],
+      "leftShoulderRotationZ": 20.0,
+      "rightShoulderRotationZ": 20.0
+    },
+    {
+      "time": 0.2,
+      "position": [0.0, 0.25, 0.3],
+      "rotation": [60.0, 180.0, 0.0],
+      "neckRotationZ": -25.0,
+      "leftShoulderRotationZ": 90.0,
+      "rightShoulderRotationZ": 90.0,
+      "leftHipRotationZ": -20.0,
+      "rightHipRotationZ": -20.0
+    },
+    {
+      "time": 9.0,
+      "position": [0.0, 0.0, 0.0],
+      "rotation": [110.0, 180.0, 0.0],
+      "neckRotationZ": -50.0,
+      "leftHipRotationZ": -40.0,
+      "rightHipRotationZ": -40.0
+    }
+  ]
+}

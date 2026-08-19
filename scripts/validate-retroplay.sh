@@ -56,6 +56,28 @@ grep -q "controller-status" blasphemer.html
 grep -q 'data-key="ControlLeft"' blasphemer.html
 ! grep -q 'type="file"' blasphemer.html
 
+test -f tuxracer.html
+test -x scripts/build-tuxracer-web.sh
+test -f tuxracer/index.html
+test -f tuxracer/LICENSE
+test -f tuxracer/NOTICE.md
+test -f third_party/tuxracer-js/LICENSE
+test -f third_party/tuxracer-js/README.md
+test -f third_party/tuxracer-js/package.json
+test -f third_party/tuxracer-js/pnpm-lock.yaml
+test -f third_party/tuxracer-js/index.html
+test -f assets/screenshots/tuxracer-runtime.webp
+grep -q "id: 'tuxracer-js'" src/catalog.js
+grep -q "tuxracer.html" src/catalog.js
+grep -q "tuxracer-runtime.webp" src/catalog.js
+grep -q "tuxracer.html" sitemap.xml
+grep -q "Package TuxRacer.js fully bundled 3D downhill runtime" .github/workflows/build-and-deploy.yml
+grep -q 'src="src/runtime-shell.js"' tuxracer.html
+grep -q 'data-key="ArrowUp"' tuxracer.html
+grep -q 'data-key="ArrowDown"' tuxracer.html
+grep -q 'data-runtime-fullscreen' tuxracer.html
+! grep -q 'type="file"' tuxracer.html
+
 test -f neon-rift.html
 test -f neon-rift/index.html
 test -f assets/screenshots/neon-rift-runtime.webp
