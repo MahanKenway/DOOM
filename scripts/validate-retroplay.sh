@@ -67,6 +67,11 @@ grep -q 'data-key="ArrowUp"' neon-rift.html
 grep -q 'data-runtime-fullscreen\|id="fullscreen"' neon-rift.html
 ! grep -q 'type="file"' neon-rift.html
 test -f assets/retroplay-mark.png
+test -f assets/gamecube-tab-mark.png
+test -f assets/favicon-tab.png
+test -f assets/favicon.ico
+grep -q 'favicon.ico?v=gamecube-1' index.html
+grep -q 'gamecube-tab-mark.png' .gitignore || true
 test -f assets/icon-192.png
 grep -q 'neon-rift.html' .github/workflows/build-and-deploy.yml
 for removed in orbit-lander skyline-sprint comet-breaker vector-putt; do
@@ -141,6 +146,15 @@ grep -q '2048.html javascript-tetris.html adarkroom.html digger.html' .github/wo
 grep -q 'Mahan Tavakoli' index.html
 grep -q 'ماهان توکلی' index.html
 grep -q 'https://github.com/MahanKenway' index.html
+grep -q 'card-download-link' src/catalog.js
+grep -q 'card-download-note' styles/main.css
+for link in 'moddb.com/games/doom-ii/addons/ancient-aliens' 'moddb.com/mods/eviternity' 'doomworld.com/files/file/18748-back-to-saturn-x-e1-get-out-of-my-stations' 'bigbrikgames.itch.io/square' 'store.steampowered.com/app/2290/Final_DOOM' 'maniacsvault.net/ecwolf/download.php'; do
+  grep -q "$link" src/catalog.js
+done
+# These entries are intentionally grouped after immediately playable titles.
+last_bundled_line=$(grep -n "id: 'adarkroom'" src/catalog.js | cut -d: -f1)
+first_external_line=$(grep -n "id: 'ancient-aliens'" src/catalog.js | cut -d: -f1)
+test "$first_external_line" -gt "$last_bundled_line"
 grep -q 'data-retro-nav="about"' index.html
 grep -q 'button.dataset.retroNav' src/catalog.js
 grep -q 'about-panel' styles/main.css
