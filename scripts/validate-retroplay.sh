@@ -66,6 +66,22 @@ grep -q 'src="src/runtime-shell.js"' neon-rift.html
 grep -q 'data-key="ArrowUp"' neon-rift.html
 grep -q 'data-runtime-fullscreen\|id="fullscreen"' neon-rift.html
 ! grep -q 'type="file"' neon-rift.html
+test -f shadow-station.html
+test -f shadow-station/index.html
+test -f third_party/openresident-web/obsidian_relay.cpp
+test -f assets/screenshots/obsidian-relay-runtime.webp
+grep -q "id: 'obsidian-relay'" src/catalog.js
+grep -q "shadow-station.html" src/catalog.js
+grep -q "obsidian-relay-runtime.webp" src/catalog.js
+grep -q "shadow-station.html" sitemap.xml
+grep -q "Compile Obsidian Relay original survival runtime" .github/workflows/build-and-deploy.yml
+grep -q 'src="src/runtime-shell.js"' shadow-station.html
+grep -q 'data-key="ArrowUp"' shadow-station.html
+grep -q 'data-key="Space"' shadow-station.html
+grep -q 'data-runtime-fullscreen' shadow-station.html
+grep -q 'obsidian_relay_init' shadow-station/index.html
+! grep -q 'type="file"' shadow-station.html
+
 test -f assets/retroplay-mark.png
 test -f assets/gamecube-tab-mark.png
 test -f assets/favicon-tab.png

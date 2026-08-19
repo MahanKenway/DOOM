@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#061015">
+  <title>Obsidian Relay — RetroPlay</title>
+  <style>
+    :root { color-scheme: dark; font-family: "Courier New", ui-monospace, monospace; }
+    * { box-sizing: border-box; }
+    html, body { width: 100%; height: 100%; margin: 0; overflow: hidden; background: #03080b; }
+    #stage { position: relative; width: 100%; height: 100%; min-height: 320px; overflow: hidden; background: #061015; }
+    #canvas { width: 100%; height: 100%; display: block; background: #061015; image-rendering: auto; outline: none; touch-action: none; }
+    #hud { position: absolute; inset: 0; z-index: 3; pointer-events: none; color: #d9fcff; text-shadow: 0 1px 2px #000, 0 0 10px rgba(0,220,230,.25); letter-spacing: .08em; font-size: clamp(10px, 1.45vw, 15px); }
+    .hud-top { position: absolute; top: max(14px, env(safe-area-inset-top)); left: max(16px, env(safe-area-inset-left)); right: max(16px, env(safe-area-inset-right)); display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; }
+    .panel { border: 1px solid rgba(92,239,248,.45); background: rgba(2,12,16,.55); padding: 8px 10px; box-shadow: inset 0 0 18px rgba(22,201,216,.08); }
+    .label { display: block; color: #74c7ce; font-size: .75em; margin-bottom: 6px; }
+    .health-line { display: flex; align-items: center; gap: 9px; }
+    .health-frame { width: clamp(120px, 21vw, 245px); height: 9px; border: 1px solid #6be8ee; background: rgba(0,0,0,.55); padding: 1px; }
+    #health-fill { height: 100%; width: 100%; background: linear-gradient(90deg, #10c7d2, #5af2d9); transition: width .12s linear, background .15s linear; }
+    #cells { color: #57f6f5; font-size: 1.15em; }
+    .objective { position: absolute; left: max(16px, env(safe-area-inset-left)); bottom: max(16px, env(safe-area-inset-bottom)); max-width: min(580px, calc(100% - 32px)); border-left: 3px solid #f3a347; background: linear-gradient(90deg, rgba(12,16,18,.92), rgba(12,16,18,.34)); padding: 10px 14px; }
+    .objective .label { color: #eab174; margin-bottom: 4px; }
+    #objective-text { color: #f4f8eb; line-height: 1.45; text-transform: uppercase; font-size: .86em; }
+    #prompt { position: absolute; left: 50%; bottom: max(82px, calc(env(safe-area-inset-bottom) + 62px)); transform: translateX(-50%); min-width: min(440px, calc(100vw - 30px)); text-align: center; padding: 9px 13px; background: rgba(0,0,0,.68); border: 1px solid rgba(100,232,237,.42); color: #e4ffff; opacity: 0; transition: opacity .16s ease; font-size: .85em; }
+    #prompt.show { opacity: 1; }
+    #loading, #failure, #briefing { position: absolute; inset: 0; z-index: 5; display: grid; place-items: center; padding: 24px; background: radial-gradient(circle at 50% 52%, rgba(16,63,70,.18), rgba(1,6,8,.94) 68%); text-align: center; }
+    #loading.hidden, #briefing.hidden { opacity: 0; visibility: hidden; transition: opacity .6s ease, visibility .6s step-end; }
+    #failure { display: none; }
+    #failure.show { display: grid; }
+    .loader-card { width: min(520px, 100%); border: 1px solid rgba(99,240,246,.55); padding: 25px; background: rgba(3,13,17,.85); box-shadow: 0 0 45px rgba(0,209,220,.10), inset 0 0 35px rgba(0,209,220,.06); }
+    .eyebrow { color: #58dce6; font-size: .74em; letter-spacing: .22em; }
+    h1 { margin: 11px 0 8px; font-size: clamp(25px, 4.6vw, 47px); letter-spacing: .10em; color: #effffd; font-weight: 600; }
+    .loader-copy { margin: 0; color: #94bfc2; line-height: 1.65; font-family: system-ui, sans-serif; font-size: .91em; }
+    .load-rule { width: 100%; height: 3px; background: #12333a; margin: 20px 0 11px; overflow: hidden; }
+    .load-rule::after { content: ""; display: block; width: 36%; height: 100%; background: #48e1e9; animation: scan 1.1s ease-in-out infinite alternate; }
+    @keyframes scan { from { transform: translateX(-100%); } to { transform: translateX(330%); } }
+    #briefing { z-index: 4; align-items: end; pointer-events: none; background: linear-gradient(transparent 42%, rgba(0,0,0,.72)); }
+    .briefing-card { width: min(620px, calc(100% - 30px)); margin-bottom: max(33px, env(safe-area-inset-bottom)); padding: 16px 18px; border-left: 3px solid #3fe8ef; background: rgba(2,12,16,.78); text-align: left; }
+    .briefing-card p { margin: 8px 0 0; color: #d3f0f1; line-height: 1.55; font-family: system-ui, sans-serif; font-size: .9em; }
+    .key { display: inline-block; min-width: 1.6em; padding: 1px 5px; border: 1px solid #78edf2; color: #aafffd; font-size: .82em; text-align: center; }
+    #error-text { margin: 10px 0 0; color: #ffc29b; line-height: 1.6; font-family: system-ui, sans-serif; }
+    @media (max-width: 520px) { .hud-top { top: 8px; left: 8px; right: 8px; } .panel { padding: 6px 7px; } .objective { left: 8px; bottom: 8px; max-width: calc(100% - 16px); padding: 8px 10px; } #prompt { bottom: 70px; } }
+  </style>
+</head>
+<body>
+  <main id="stage" aria-label="Obsidian Relay game runtime">
+    <canvas id="canvas" tabindex="0" aria-label="Obsidian Relay 3D game canvas"></canvas>
+    <section id="hud" aria-live="polite">
+      <div class="hud-top">
+        <div class="panel">
+          <span class="label">SURVEYOR VITALS</span>
+          <div class="health-line"><div class="health-frame"><div id="health-fill"></div></div><strong id="health-value">100</strong></div>
+        </div>
+        <div class="panel"><span class="label">SIGNAL CELLS</span><strong id="cells">0 / 2</strong></div>
+      </div>
+      <div id="prompt"></div>
+      <div class="objective"><span class="label">MISSION</span><div id="objective-text">RECOVER TWO SIGNAL CELLS</div></div>
+    </section>
+    <section id="loading" aria-live="polite"><div class="loader-card"><div class="eyebrow">RETROPLAY ORIGINAL // OPENRESIDENT WEBGL2 PATH</div><h1>OBSIDIAN RELAY</h1><p class="loader-copy">Establishing a secure relay link. Loading original station geometry…</p><div class="load-rule"></div><div class="eyebrow">WEBASSEMBLY INITIALIZATION</div></div></section>
+    <section id="briefing"><div class="briefing-card"><div class="eyebrow">SIGNAL LOST // DEEP RELAY STATION</div><p>Recover two signal cells, restore the relay console, then reach the emergency bulkhead. Move with <span class="key">WASD</span> or arrows. Hold <span class="key">SHIFT</span> to move faster. Use <span class="key">E</span>, <span class="key">X</span>, or <span class="key">ENTER</span> at the console.</p></div></section>
+    <section id="failure"><div class="loader-card"><div class="eyebrow">RUNTIME LINK FAILED</div><h1>DISPLAY UNAVAILABLE</h1><p id="error-text">Obsidian Relay requires a browser with WebGL2 enabled.</p></div></section>
+  </main>
+  <script type="module">
+    import createObsidianRelay from './obsidian-relay.js';
+
+    const canvas = document.querySelector('#canvas');
+    const loading = document.querySelector('#loading');
+    const failure = document.querySelector('#failure');
+    const errorText = document.querySelector('#error-text');
+    const briefing = document.querySelector('#briefing');
+    const healthFill = document.querySelector('#health-fill');
+    const healthValue = document.querySelector('#health-value');
+    const cells = document.querySelector('#cells');
+    const objective = document.querySelector('#objective-text');
+    const prompt = document.querySelector('#prompt');
+
+    const keyActions = new Map([
+      ['ArrowUp', 0], ['w', 0], ['W', 0],
+      ['ArrowRight', 1], ['d', 1], ['D', 1],
+      ['ArrowDown', 2], ['s', 2], ['S', 2],
+      ['ArrowLeft', 3], ['a', 3], ['A', 3],
+      ['Shift', 4]
+    ]);
+    const phaseText = [
+      'RECOVER TWO SIGNAL CELLS',
+      'BRING BOTH CELLS TO THE RELAY CONSOLE',
+      'RELAY RESTORED — REACH THE EMERGENCY BULKHEAD',
+      'RELAY LINK SECURED',
+      'SIGNAL LOST — REINITIALIZE THE SURVEY'
+    ];
+    const promptText = [
+      '',
+      'PRESS E / X / ENTER TO RESTORE THE RELAY',
+      'FIND THE RELAY CONSOLE',
+      'BULKHEAD OPEN — MOVE THROUGH THE EXIT',
+      'SURVEYOR DOWN — PRESS ENTER OR X TO RESTART',
+      'RELAY SECURED — PRESS ENTER OR X TO RUN AGAIN'
+    ];
+
+    let api = null;
+    let lastTime = 0;
+    let hudTimer = 0;
+    let frame = 0;
+    let gamepadInteractHeld = false;
+    let briefingTimer = 0;
+
+    const report = (state, message) => {
+      if (window.parent !== window) {
+        window.parent.postMessage({ type: 'retroplay-runtime-status', state, message }, location.origin);
+      }
+    };
+    const resize = () => {
+      if (!api) return;
+      const rect = canvas.getBoundingClientRect();
+      const dpr = Math.min(window.devicePixelRatio || 1, 1.45);
+      const width = Math.max(320, Math.floor(rect.width * dpr));
+      const height = Math.max(240, Math.floor(rect.height * dpr));
+      if (canvas.width !== width || canvas.height !== height) {
+        canvas.width = width;
+        canvas.height = height;
+        api.resize(width, height);
+      }
+    };
+    const setAction = (action, down) => { if (api) api.setAction(action, down ? 1 : 0); };
+    const interact = () => { if (api) api.interact(); };
+    const restart = () => { if (api) api.restart(); };
+    const triggerAction = () => {
+      if (!api) return;
+      const phase = api.phase();
+      if (phase === 3 || phase === 4) restart(); else interact();
+    };
+    const updateHud = () => {
+      if (!api) return;
+      const health = Math.max(0, Math.min(100, api.health()));
+      const phase = api.phase();
+      const currentPrompt = api.prompt();
+      healthFill.style.width = `${health}%`;
+      healthFill.style.background = health < 33 ? '#ef6f52' : (health < 62 ? '#f0b049' : 'linear-gradient(90deg, #10c7d2, #5af2d9)');
+      healthValue.textContent = String(health).padStart(3, '0');
+      cells.textContent = `${api.cells()} / 2`;
+      objective.textContent = phaseText[phase] || phaseText[0];
+      prompt.textContent = promptText[currentPrompt] || '';
+      prompt.classList.toggle('show', currentPrompt !== 0);
+    };
+    const pollGamepad = () => {
+      const pads = navigator.getGamepads ? navigator.getGamepads() : [];
+      const pad = Array.from(pads).find(Boolean);
+      if (!pad) return;
+      const left = (pad.axes[0] || 0) < -0.35 || Boolean(pad.buttons[14]?.pressed);
+      const right = (pad.axes[0] || 0) > 0.35 || Boolean(pad.buttons[15]?.pressed);
+      const up = (pad.axes[1] || 0) < -0.35 || Boolean(pad.buttons[12]?.pressed);
+      const down = (pad.axes[1] || 0) > 0.35 || Boolean(pad.buttons[13]?.pressed);
+      setAction(0, up); setAction(1, right); setAction(2, down); setAction(3, left);
+      setAction(4, Boolean(pad.buttons[4]?.pressed || pad.buttons[5]?.pressed));
+      const pressed = Boolean(pad.buttons[0]?.pressed || pad.buttons[9]?.pressed);
+      if (pressed && !gamepadInteractHeld) triggerAction();
+      gamepadInteractHeld = pressed;
+    };
+    const loop = (time) => {
+      if (!api) return;
+      const dt = Math.min(0.05, Math.max(0, (time - lastTime) / 1000 || 0));
+      lastTime = time;
+      resize();
+      pollGamepad();
+      api.tick(dt);
+      hudTimer += dt;
+      briefingTimer += dt;
+      if (hudTimer > 0.09) { updateHud(); hudTimer = 0; }
+      if (briefingTimer > 4.5) briefing.classList.add('hidden');
+      frame = requestAnimationFrame(loop);
+    };
+    const releaseActions = () => { for (let action = 0; action < 5; action++) setAction(action, false); };
+
+    window.addEventListener('resize', resize, { passive: true });
+    window.addEventListener('blur', releaseActions);
+    document.addEventListener('visibilitychange', () => { if (document.hidden) releaseActions(); });
+    window.addEventListener('keydown', (event) => {
+      if (keyActions.has(event.key)) { event.preventDefault(); setAction(keyActions.get(event.key), true); return; }
+      if (!event.repeat && ['e', 'E', 'x', 'X', 'Enter', ' '].includes(event.key)) { event.preventDefault(); triggerAction(); }
+    });
+    window.addEventListener('keyup', (event) => {
+      if (keyActions.has(event.key)) { event.preventDefault(); setAction(keyActions.get(event.key), false); }
+    });
+
+    try {
+      const test = document.createElement('canvas').getContext('webgl2');
+      if (!test) throw new Error('WebGL2 is disabled or unsupported in this browser.');
+      test.getExtension('WEBGL_lose_context')?.loseContext();
+      const module = await createObsidianRelay({ canvas, noInitialRun: true, print: () => {}, printErr: console.warn });
+      api = {
+        init: module.cwrap('obsidian_relay_init', 'number', ['number', 'number']),
+        resize: module.cwrap('obsidian_relay_resize', null, ['number', 'number']),
+        setAction: module.cwrap('obsidian_relay_set_action', null, ['number', 'number']),
+        interact: module.cwrap('obsidian_relay_interact', null, []),
+        restart: module.cwrap('obsidian_relay_restart', null, []),
+        tick: module.cwrap('obsidian_relay_tick', null, ['number']),
+        health: module.cwrap('obsidian_relay_health', 'number', []),
+        cells: module.cwrap('obsidian_relay_cells', 'number', []),
+        phase: module.cwrap('obsidian_relay_phase', 'number', []),
+        prompt: module.cwrap('obsidian_relay_prompt', 'number', [])
+      };
+      const rect = canvas.getBoundingClientRect();
+      const dpr = Math.min(window.devicePixelRatio || 1, 1.45);
+      canvas.width = Math.max(320, Math.floor(rect.width * dpr));
+      canvas.height = Math.max(240, Math.floor(rect.height * dpr));
+      if (!api.init(canvas.width, canvas.height)) throw new Error('The WebGL2 renderer could not initialize.');
+      canvas.focus({ preventScroll: true });
+      updateHud();
+      loading.classList.add('hidden');
+      report('ready', 'Obsidian Relay online. Recover the signal cells.');
+      lastTime = performance.now();
+      frame = requestAnimationFrame(loop);
+    } catch (error) {
+      console.error(error);
+      cancelAnimationFrame(frame);
+      errorText.textContent = error?.message || 'The original WebAssembly runtime could not initialize.';
+      failure.classList.add('show');
+      loading.classList.add('hidden');
+      report('error', 'Obsidian Relay could not start in this browser.');
+    }
+  </script>
+</body>
+</html>

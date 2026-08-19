@@ -128,6 +128,15 @@ void renderClear();
 void renderSetCamera(const vec3i& pos, const vec3i& target, int32 persp);
 void renderSetAmbient(uint8 r, uint8 g, uint8 b);
 void renderSetLight(int32 index, const vec3s& pos, uint8 r, uint8 g, uint8 b, uint16 intensity);
+
+// Original RetroPlay extension: a small procedural primitive path for games
+// that ship their own world data. It does not depend on, parse or expose any
+// historic game-resource format.
+void renderPrimitiveSetFocus(float x, float z);
+void renderPrimitiveBegin();
+void renderPrimitiveBox(float minX, float minY, float minZ, float maxX, float maxY, float maxZ, uint32 color);
+void renderPrimitiveEnd();
+
 void renderBackground(const Texture* texture, const Texture* masks, const MaskChunk* chunks, uint32 chunksCount);
 
 #ifdef _DEBUG

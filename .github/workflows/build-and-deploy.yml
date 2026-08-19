@@ -103,6 +103,25 @@ jobs:
         test -f dist/openresident/openresident-probe.wasm || { echo "FATAL: OpenResident probe WASM not produced"; exit 1; }
         ls -lh dist/openresident/openresident-probe.*
 
+    - name: Compile Obsidian Relay original survival runtime
+      run: |
+        mkdir -p dist/shadow-station
+        em++ third_party/openresident-web/obsidian_relay.cpp third_party/openresident-web/render_web.cpp \
+          -Ithird_party/openresident-web/include \
+          -O2 -DNDEBUG -D__EMSCRIPTEN__=1 \
+          -s WASM=1 \
+          -s MODULARIZE=1 \
+          -s EXPORT_ES6=1 \
+          -s EXPORT_NAME=ObsidianRelay \
+          -s MIN_WEBGL_VERSION=2 \
+          -s MAX_WEBGL_VERSION=2 \
+          -s FULL_ES3=1 \
+          -s EXPORTED_FUNCTIONS='["_obsidian_relay_init","_obsidian_relay_resize","_obsidian_relay_set_action","_obsidian_relay_interact","_obsidian_relay_restart","_obsidian_relay_tick","_obsidian_relay_health","_obsidian_relay_cells","_obsidian_relay_phase","_obsidian_relay_prompt","_obsidian_relay_shutdown"]' \
+          -s EXPORTED_RUNTIME_METHODS='["cwrap"]' \
+          -o dist/shadow-station/obsidian-relay.js
+        test -f dist/shadow-station/obsidian-relay.wasm || { echo "FATAL: Obsidian Relay WASM not produced"; exit 1; }
+        ls -lh dist/shadow-station/obsidian-relay.*
+
     - name: Compile C-Dogs SDL independent runtime
       run: ./scripts/build-cdogs-web.sh
 
@@ -180,8 +199,8 @@ jobs:
 
     - name: Copy frontend files
       run: |
-        cp index.html neon-rift.html cdogs.html freedink.html opentyrian.html librequake.html openttd.html freerct.html neverball.html blasphemer.html hexgl.html hextris.html rocksndiamonds.html beats-into-shapes.html 2048.html javascript-tetris.html adarkroom.html digger.html ecwolf.html openresident.html coi-serviceworker.js manifest.json robots.txt sitemap.xml google*.html dist/ 2>/dev/null || true
-        cp -r styles src neon-rift dist/ 2>/dev/null || true
+        cp index.html neon-rift.html shadow-station.html cdogs.html freedink.html opentyrian.html librequake.html openttd.html freerct.html neverball.html blasphemer.html hexgl.html hextris.html rocksndiamonds.html beats-into-shapes.html 2048.html javascript-tetris.html adarkroom.html digger.html ecwolf.html openresident.html coi-serviceworker.js manifest.json robots.txt sitemap.xml google*.html dist/ 2>/dev/null || true
+        cp -r styles src neon-rift shadow-station dist/ 2>/dev/null || true
         mkdir -p dist/assets
         # Copy nested catalog artwork as well as existing icons. The WADs are
         # downloaded above into dist/assets and remain untouched because the

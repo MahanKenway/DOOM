@@ -504,6 +504,46 @@ const char* sh_background_mask =
     "#endif\n";
 
 
+// Original RetroPlay primitive renderer. It is intentionally data-agnostic:
+// callers submit only coordinates and RGBA colours created by their own game.
+struct PrimitiveVertex
+{
+    float x, y, z;
+    uint32 color;
+};
+
+Shader shaderPrimitive;
+GLuint primitiveVAO;
+GLuint primitiveVBO;
+GLint primitiveFocusLocation;
+float primitiveFocusX;
+float primitiveFocusZ;
+
+const char* sh_primitive =
+    "varying vec4 vColor;\n"
+
+    "#ifdef VERTEX\n"
+        "attribute vec3 aCoord;\n"
+        "attribute vec4 aColor;\n"
+        "uniform vec2 uRelayFocus;\n"
+        "void main() {\n"
+            // The original world layer supplies metre-like simulation values
+            // scaled by 256 for the adapter. This stable dimetric projection
+            // keeps the compact station visible at all browser aspect ratios
+            // without inheriting the asset-specific camera convention.
+            "vec3 p = aCoord / 256.0;\n"
+            "p.xz -= uRelayFocus;\n"
+            "float screenX = (p.x - p.z) * 0.083;\n"
+            "float screenY = (p.x + p.z) * 0.050 - p.y * 0.125 - 0.08;\n"
+            "float depth = 0.62 + (p.x + p.z) * 0.006 + p.y * 0.002;\n"
+            "vColor = aColor;\n"
+            "gl_Position = vec4(screenX, screenY, depth, 1.0);\n"
+        "}\n"
+
+    "#else\n"
+        "void main() { fragColor = vColor; }\n"
+    "#endif\n";
+
 #ifdef _DEBUG
 
 #define MAX_DEBUG_VERTICES  1024
@@ -1545,8 +1585,9 @@ void renderInit()
 
     compileShader(&shaderModel, sh_model);
     compileShader(&shaderBackground, sh_background);
-    compileShader(&shaderBackgroundMask, sh_background_mask);
-
+        compileShader(&shaderBackgroundMask, sh_background_mask);
+    compileShader(&shaderPrimitive, sh_primitive);
+    primitiveFocusLocation = glGetUniformLocation(shaderPrimitive.id, "uRelayFocus");
 #ifdef _DEBUG
     compileShader(&shaderDebug, sh_debug);
 
@@ -1605,11 +1646,21 @@ void renderInit()
     VertexUI* v = NULL;
     glVertexAttribPointer(aCoord, 4, GL_SHORT, GL_FALSE, sizeof(*v), &v->coord);
     glVertexAttribPointer(aTexCoord, 4, GL_SHORT, GL_FALSE, sizeof(*v), &v->uv);
-    glVertexAttribPointer(aColor, 4, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(*v), &v->color);
+        glVertexAttribPointer(aColor, 4, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(*v), &v->color);
+    glBindVertexArray(0);
 
+    glGenVertexArrays(1, &primitiveVAO);
+    glGenBuffers(1, &primitiveVBO);
+    glBindVertexArray(primitiveVAO);
+    glBindBuffer(GL_ARRAY_BUFFER, primitiveVBO);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(PrimitiveVertex) * 36, NULL, GL_DYNAMIC_DRAW);
+    glEnableVertexAttribArray(aCoord);
+    glEnableVertexAttribArray(aColor);
+    PrimitiveVertex* pv = NULL;
+    glVertexAttribPointer(aCoord, 3, GL_FLOAT, GL_FALSE, sizeof(*pv), &pv->x);
+    glVertexAttribPointer(aColor, 4, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(*pv), &pv->color);
     glBindVertexArray(0);
 }
-
 void renderFree()
 {
 #ifdef __EMSCRIPTEN__
@@ -1649,6 +1700,60 @@ void renderSwap()
 void renderClear()
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+}
+
+void renderPrimitiveSetFocus(float x, float z)
+{
+    primitiveFocusX = x;
+    primitiveFocusZ = z;
+}
+
+void renderPrimitiveBegin()
+{
+    shaderPrimitive.bind();
+    if (primitiveFocusLocation != -1)
+        glUniform2f(primitiveFocusLocation, primitiveFocusX, primitiveFocusZ);
+    glBindVertexArray(primitiveVAO);
+    glDisable(GL_CULL_FACE);
+    // The original station layer is rendered in authored painter order: floor,
+    // shell, props, then explorer and echoes. It avoids accidental occlusion
+    // by the fixed-camera shell while retaining clear silhouettes on mobile.
+    glDisable(GL_DEPTH_TEST);
+}
+
+void renderPrimitiveBox(float minX, float minY, float minZ, float maxX, float maxY, float maxZ, uint32 color)
+{
+    const PrimitiveVertex corners[8] = {
+        { minX, minY, minZ, color }, { maxX, minY, minZ, color },
+        { maxX, maxY, minZ, color }, { minX, maxY, minZ, color },
+        { minX, minY, maxZ, color }, { maxX, minY, maxZ, color },
+        { maxX, maxY, maxZ, color }, { minX, maxY, maxZ, color }
+    };
+    const uint8 faces[6][4] = {
+        { 0, 1, 2, 3 }, { 5, 4, 7, 6 }, { 4, 0, 3, 7 },
+        { 1, 5, 6, 2 }, { 3, 2, 6, 7 }, { 4, 5, 1, 0 }
+    };
+    PrimitiveVertex vertices[36];
+    int32 count = 0;
+    for (int32 i = 0; i < 6; i++)
+    {
+        const PrimitiveVertex& a = corners[faces[i][0]];
+        const PrimitiveVertex& b = corners[faces[i][1]];
+        const PrimitiveVertex& c = corners[faces[i][2]];
+        const PrimitiveVertex& d = corners[faces[i][3]];
+        vertices[count++] = a; vertices[count++] = b; vertices[count++] = c;
+        vertices[count++] = a; vertices[count++] = c; vertices[count++] = d;
+    }
+    glBindBuffer(GL_ARRAY_BUFFER, primitiveVBO);
+    glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(vertices), vertices);
+    glDrawArrays(GL_TRIANGLES, 0, count);
+}
+
+void renderPrimitiveEnd()
+{
+    glBindVertexArray(0);
+    glEnable(GL_CULL_FACE);
+    glEnable(GL_DEPTH_TEST);
 }
 
 void renderSetCamera(const vec3i& pos, const vec3i& target, int32 persp)
