@@ -7,9 +7,9 @@ OUTPUT_DIR="$ROOT_DIR/dist/tuxracer"
 
 PNPM=(pnpm)
 if ! pnpm --version >/dev/null 2>&1; then
-  PNPM_CLI="$(npm root -g)/pnpm/bin/pnpm.cjs"
-  test -f "$PNPM_CLI" || { echo "FATAL: a working pnpm CLI is required for the TuxRacer.js build" >&2; exit 1; }
-  PNPM=(node "$PNPM_CLI")
+  # GitHub's standard runner has npm/npx but may not have pnpm activated.
+  # Pin the package-manager version rather than relying on the stale Corepack shim.
+  PNPM=(npx --yes --package=pnpm@9.15.2 pnpm)
 fi
 
 # The upstream project is GPL-2.0-only and its lockfile pins the browser build
