@@ -577,6 +577,28 @@ export const COLLECTIONS = [
     projectUrl: 'https://github.com/XProger/OpenResident',
     projectLabel: 'Open WebGL2 probe',
   },
+  {
+    id: 'supertuxkart',
+    title: 'SuperTuxKart',
+    studio: 'SuperTuxKart team',
+    year: 'v1.5 stable release',
+    format: 'Full-game desktop download',
+    genre: 'Racing',
+    duration: 'Arcade cups, time trials and battle modes',
+    maps: 'Open-source 3D tracks and characters',
+    status: 'Free full game / download required',
+    license: 'GPLv3-or-later game and bundled open assets',
+    artwork: 'assets/screenshots/supertuxkart-runtime.jpg',
+    artworkCredit: 'Official screenshot: SuperTuxKart 1.5 release',
+    description: 'A polished 3D open-source kart racer with the bright arcade energy of late-1990s console racers. Download the complete game from its official release page for cups, time trials, battle modes and local multiplayer; RetroPlay links to the official build rather than repackaging a desktop game.',
+    projectUrl: 'https://supertuxkart.net/Download',
+    projectLabel: 'Open official download page',
+    downloadUrl: 'https://github.com/supertuxkart/stk-code/releases/download/1.5/SuperTuxKart-1.5-linux-x86_64.tar.gz',
+    downloadLabel: 'Direct Linux x86_64 v1.5 download',
+    downloadNote: 'Official full-game release. Use the official download page above for Windows, macOS, Android and other supported platforms.',
+    playable: false,
+    catalogState: 'OFFICIAL DOWNLOAD',
+  },
 ];
 
 const LIBRARY_KEY = 'retroplay-library-v2';

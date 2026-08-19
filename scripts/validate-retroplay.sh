@@ -155,6 +155,12 @@ done
 last_bundled_line=$(grep -n "id: 'adarkroom'" src/catalog.js | cut -d: -f1)
 first_external_line=$(grep -n "id: 'ancient-aliens'" src/catalog.js | cut -d: -f1)
 test "$first_external_line" -gt "$last_bundled_line"
+test -f assets/screenshots/supertuxkart-runtime.jpg
+grep -q "id: 'supertuxkart'" src/catalog.js
+grep -q 'supertuxkart.net/Download' src/catalog.js
+grep -q 'SuperTuxKart-1.5-linux-x86_64.tar.gz' src/catalog.js
+last_catalog_id=$(grep "id: '" src/catalog.js | tail -n1 | sed -E "s/.*id: '([^']+)'.*/\\1/")
+test "$last_catalog_id" = 'supertuxkart'
 grep -q 'data-retro-nav="about"' index.html
 grep -q 'button.dataset.retroNav' src/catalog.js
 grep -q 'about-panel' styles/main.css
