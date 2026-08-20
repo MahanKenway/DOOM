@@ -137,6 +137,28 @@ for removed in orbit-lander skyline-sprint comet-breaker vector-putt; do
   ! test -e "$removed.html"
 done
 
+test -f backdooms.html
+test -x scripts/build-backdooms-web.sh
+test -f third_party/backdooms/LICENSE
+test -f third_party/backdooms/README.md
+test -f third_party/backdooms/THE-BACKDOOMS.html
+test -f third_party/backdooms/SANITIZATION-NOTICE.md
+test -f assets/screenshots/backdooms-runtime.webp
+grep -q "id: 'backdooms'" src/catalog.js
+grep -q "backdooms.html" src/catalog.js
+grep -q "backdooms-runtime.webp" src/catalog.js
+grep -q "backdooms.html" sitemap.xml
+grep -q "Package Backdooms fully bundled 3D horror survival runtime" .github/workflows/build-and-deploy.yml
+grep -q 'data-key="ArrowUp"' backdooms.html
+grep -q 'data-key="ArrowDown"' backdooms.html
+grep -q 'data-key="ArrowLeft"' backdooms.html
+grep -q 'data-key="ArrowRight"' backdooms.html
+grep -q 'id="btn-fire"' backdooms.html
+grep -q "fullscreenchange" backdooms.html
+grep -q "gamepadconnected" backdooms.html
+grep -q "SOURCE-NOTICE.txt" scripts/build-backdooms-web.sh
+! grep -q 'type="file"' backdooms.html
+
 test -f astray.html
 test -x scripts/build-astray-web.sh
 test -f third_party/astray/License.md
