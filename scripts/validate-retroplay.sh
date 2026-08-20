@@ -56,6 +56,26 @@ grep -q "controller-status" blasphemer.html
 grep -q 'data-key="ControlLeft"' blasphemer.html
 ! grep -q 'type="file"' blasphemer.html
 
+test -f armawebtron.html
+test -f armawebtron/index.html
+test -f armawebtron/COPYING
+test -f third_party/armawebtron/COPYING
+test -f third_party/armawebtron/README.md
+test -f third_party/armawebtron/main/index.html
+test -f assets/screenshots/armawebtron-runtime.webp
+grep -q "id: 'armawebtron'" src/catalog.js
+grep -q "armawebtron.html" src/catalog.js
+grep -q "armawebtron-runtime.webp" src/catalog.js
+grep -q "armawebtron.html" sitemap.xml
+grep -q "armawebtron.html" .github/workflows/build-and-deploy.yml
+grep -q 'src="src/runtime-shell.js"' armawebtron.html
+grep -q 'data-key="KeyA"' armawebtron.html
+grep -q 'data-key="KeyJ"' armawebtron.html
+grep -q 'data-key="Space"' armawebtron.html
+grep -q 'data-runtime-fullscreen' armawebtron.html
+grep -q "const route = \['Play', 'Locally', 'Classic'\]" armawebtron/index.html
+! grep -q 'type="file"' armawebtron.html
+
 test -f tuxracer.html
 test -x scripts/build-tuxracer-web.sh
 test -f tuxracer/index.html

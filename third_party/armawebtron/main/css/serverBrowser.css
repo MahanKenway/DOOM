@@ -1,0 +1,71 @@
+
+#serverBrowser
+{
+	color: white;
+	
+	z-index: 20;
+	
+	height: 99%;
+	width: 100vw; height: 100vh;
+}
+
+#serverBrowser .bTableHolder
+{
+	position: relative;
+	padding-top: 50px;
+	height: calc(100% - 50px);
+	
+	overflow-y: scroll;
+}
+
+
+#serverBrowserTable
+{
+	width: calc(100% - 200px);
+	margin: auto;
+}
+
+
+#serverBrowserTable th
+{
+	text-align: left;
+}
+
+#serverBrowser .bExitButton
+{
+	position:absolute;
+	top: 16px; left: 16px;
+	z-index:1000;
+	font-size: 32px;
+}
+
+#bSearch
+{
+	position: absolute;
+	top: 10px; left: 100px;
+	z-index: 2000;
+}
+
+#bSearch *
+{
+	color:white; background:none;
+	font-family: inherit;
+	font-size: 18px;
+	border: none;
+}
+
+#bServerInfo
+{
+	background: rgba(0, 0, 0, 0.8);
+	position:absolute; bottom: 0;
+	left: 0; right: 16px;
+	padding: 4px;
+}
+
+#bServerInfo, .not_bServerInfo
+{
+	height: 160px;
+	min-height: 22px;
+	max-height: 20vh;
+}
+

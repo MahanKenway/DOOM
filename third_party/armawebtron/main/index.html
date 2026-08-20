@@ -1,0 +1,176 @@
+﻿<!DOCTYPE html>
+<html style="background:black">
+<head>
+
+	<title id="progtitle">Armawebtron</title>
+	<link rel="icon" type="image/x-icon" href="favicon.ico"/>
+
+
+	<link rel="stylesheet" type="text/css" href="css/main.css"/>
+	<link rel="stylesheet" type="text/css" href="css/arma.css"/>
+
+	<script  type="text/javascript" src="test.js"></script>
+
+	<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport'/>
+
+	<script type="text/javascript" src="src/lib/Three.js"></script><!-- webgl framework -->
+	<script type="text/javascript" src="src/lib/legacy/Projector.js"></script><!-- needed for softwarerenderer -->
+	<script type="text/javascript" src="src/lib/legacy/SoftwareRenderer.js"></script><!-- canvas renderer for older browsers -->
+	<script type="text/javascript" src="src/lib/Detector.js"></script><!--//detects webgl renderer -->
+	<script type="text/javascript" src="src/lib/OBJLoader.js"></script><!-- webgl framework addon for obj loading -->
+	<script type="text/javascript" src="src/lib/rAF.js"></script><!-- requestAnimationFrame shim/polyfill -->
+	<script type="text/javascript" src="src/lib/OrbitControls.js"></script><!-- camera orbit -->
+	<script type="text/javascript" src="src/lib/SceneUtils.js"></script>
+	<script type="text/javascript" src="src/lib/Reflector.js"></script>
+	
+	<script type="text/javascript" src="src/lib/xmllint.js"></script><!-- XML verification -->
+	
+	<script type="text/javascript" src="src/functions-head.js"></script><!-- predefined functions that can be in head -->
+
+	<script type="text/javascript" src="src/lib/buffer-loader.js"></script><!-- buffer loader for sound -->
+	<script type="text/javascript" src="src/sound.js"></script><!-- loading sound files -->	
+
+</head>
+
+<body>
+	<div id="inputbuttons">
+		<button class="cancel" onclick='keyboardKeyDown({keyCode:27});'>Cancel input</button>
+		<button class="bindtoesc" onclick="keyboardKeyDown({keyCode:27,forceHACK:true});">Bind to Escape key</button>
+	</div>
+
+	<div id="input">
+	<span>Say:</span>&nbsp;<input type="text" class="fakemenu-active" onblur="if(engine.inputState.substr(0,5)=='input')keyboardKeyDown({keyCode:27})"/>
+	<br />
+	<div class="input_preview"></div>
+	</div>
+	
+	<div id="menu-tooltip"></div>
+	<div id="menu" class="noselect mainbg_img"><h1>Armawebtron is loading...</div>
+
+	<pre id="console"><span><br></span></pre>
+
+	<span id="HUD" style="opacity:0">
+
+		<div id="gui_stats" class="noselect">
+		FPS : <span name="current_framerate" precision="0"></span><br>
+		(<span name="current_pos_x_adj" precision="2"></span>,<span name="current_pos_y_adj" precision="2"></span>)<br>
+		<!--(<span name="current_angle_x" precision="2"></span>,<span name="current_angle_y" precision="2"></span>)<br>-->
+		<!--Vel: <span name="player_speed" precision="1"></span><br>-->
+		<!--Time: <span name="current_time" precision="1"></span><br>-->
+		F:<span name="dist_to_impact_front" precision="2"></span><br>
+		F:<span name="time_to_impact_front" precision="2"></span>s<br>
+		L:<span name="dist_to_impact_left" precision="2"></span><br>
+		L:<span name="time_to_impact_left" precision="2"></span>s<br>
+		R:<span name="dist_to_impact_right" precision="2"></span><br>
+		R:<span name="time_to_impact_right" precision="2"></span>s<br>
+		<canvas id="canvas" style="position:absolute;right:0;width:200px;" ></canvas>
+		</div>
+		
+		<div id="game_stats" class="noselect" style="opacity:0">
+			<div style="color:white;position:fixed;bottom:4px;left:0;right:0">
+				<div style="text-align:center">
+					0
+					<div class="notprogressbar" style="text-align:center;position:absolute">
+						<span name="player_speed" toprecision=2></span>
+					</div>
+					<div class="progressbar">
+						<div name="player_speed" class="progress" style="background:white"></div>
+					</div> 
+					<span name="max_speed" precision=2></span>
+					<div style="text-align:center">Speed</div>
+				</div>
+			</div>
+
+			<div style="color:white;position:fixed;bottom:4px;left:1%">
+				0
+				<div class="progressbar" style="text-align:center">
+					<div name="player_rubber" class="progress" bgcolorgrad="0,15,0;15,0,0"></div>
+				</div>
+				<span name="cycle_rubber" toprecision=1></span>
+				<div style="text-align:center"><span name="player_rubber" precision=1 toprecision=2></span></div>
+			</div>
+
+			<div style="color:white;position:fixed;bottom:4px;right:1%">
+				0
+				<div class="progressbar" style="text-align:center">
+					<div name="player_brake" class="progress" bgcolorgrad="15,0,0;0,15,0"></div>
+				</div>
+				1
+				<div style="text-align:center">Brake</span></div>
+			</div>
+		</div>
+		
+		<canvas id="extraCanvas" style="position:absolute"></canvas>
+		
+		<div id="scoreboard">
+			<table style="width:100%">
+				<thead>
+					<tr><th>&nbsp;&nbsp;<span style="color:#f80">Name:</span></th><th>Alive:</th><th>Score:</th><th>Ping:</th><th>Team:</th></tr>
+				</thead>
+				<tbody>
+					<!--<tr><td>&nbsp;Test</td><td>huh</td><td>0</td><td>0</td><tr>-->
+				</tbody>
+			</table>
+		</div>
+		
+	</span>
+	
+	<div id="serverBrowser" style="display:none">
+		<span onclick="serverBrowserExit()" class="bExitButton">&lt;-</span>
+		<div class="bTableHolder">
+		<div id="bSearch">
+			<label for="bSearch">Filter: </label>
+			<input name="bSearch" type="text" onfocus="this.className='fakemenu-active'" onblur="this.className=''" />
+		</div>
+		<table id="serverBrowserTable">
+			<tr>
+				<th id="browser_name">Server Name<span></span></th>
+				<th id="browser_type">Type<span></span></th>
+				<th id="browser_ping">Ping<span></span></th>
+				<th id="browser_usrs">Users<span></span></th>
+			</tr>
+			<tr name="server_null">
+				<td>Please wait</td>
+				<td>null</td>
+				<td>-1</td>
+				<td>0/0</td>
+			</tr>
+		</table>
+		<div class="not_bServerInfo"></div>
+		</div>
+		<div id="bServerInfo">
+			
+		</div>
+	</div>
+
+
+	<div id="centerMessage">&nbsp;</div>
+
+
+
+	<script type="text/javascript" src="src/input.js"></script>
+	<script type="text/javascript" src="src/menu.js"></script>
+
+	<script type="text/javascript" src="src/config.js"></script><!-- configuration + local storage -->
+	<script type="text/javascript" src="src/engine.js"></script>
+	<script type="text/javascript" src="src/zone.js"></script>
+	<script type="text/javascript" src="src/player.js"></script>
+	<script type="text/javascript" src="src/team.js"></script>
+	<script type="text/javascript" src="src/ai.js"></script>
+	<script type="text/javascript" src="src/functions-body.js"></script><!-- body functions -->
+
+	<script type="text/javascript" src="src/buildObjects.js"></script><!-- builds usable scene objects -->
+
+	<script type="text/javascript" src="src/init.js"></script><!-- initializes render -->
+	<script type="text/javascript" src="src/game.js"></script><!-- game -->
+	<script type="text/javascript" src="src/render.js"></script><!-- render loop functions -->
+	
+	<!-- network crap -->
+	<script type="text/javascript" src="src/network/base.js"></script>
+	<script type="text/javascript" src="src/network/3dc_net.js"></script>
+	<script type="text/javascript" src="src/network/serverBrowser.js"></script>
+	<link rel="stylesheet" type="text/css" href="css/serverBrowser.css"/>
+	
+
+</body>
+</html>
