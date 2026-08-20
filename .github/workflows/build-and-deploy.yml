@@ -209,7 +209,7 @@ jobs:
     - name: Copy frontend files
       run: |
         cp index.html neon-rift.html shadow-station.html tuxracer.html armawebtron.html astray.html backdooms.html cdogs.html freedink.html opentyrian.html librequake.html openttd.html freerct.html neverball.html blasphemer.html hexgl.html hextris.html rocksndiamonds.html beats-into-shapes.html 2048.html javascript-tetris.html adarkroom.html digger.html ecwolf.html openresident.html coi-serviceworker.js manifest.json robots.txt sitemap.xml google*.html dist/ 2>/dev/null || true
-        cp -r styles src neon-rift shadow-station tuxracer armawebtron dist/ 2>/dev/null || true
+        cp -r styles src neon-rift shadow-station tuxracer armawebtron backdooms dist/ 2>/dev/null || true
         mkdir -p dist/assets
         # Copy nested catalog artwork as well as existing icons. The WADs are
         # downloaded above into dist/assets and remain untouched because the
