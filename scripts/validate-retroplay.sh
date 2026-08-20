@@ -137,6 +137,24 @@ for removed in orbit-lander skyline-sprint comet-breaker vector-putt; do
   ! test -e "$removed.html"
 done
 
+test -f astray.html
+test -x scripts/build-astray-web.sh
+test -f third_party/astray/License.md
+test -f third_party/astray/index.html
+test -f assets/screenshots/astray-runtime.webp
+grep -q "id: 'astray'" src/catalog.js
+grep -q "astray.html" src/catalog.js
+grep -q "astray-runtime.webp" src/catalog.js
+grep -q "astray.html" sitemap.xml
+grep -q "Package Astray fully bundled 3D physics maze runtime" .github/workflows/build-and-deploy.yml
+grep -q 'data-key="ArrowUp"' astray.html
+grep -q 'data-key="ArrowDown"' astray.html
+grep -q 'data-key="ArrowLeft"' astray.html
+grep -q 'data-key="ArrowRight"' astray.html
+grep -q "fullscreenchange" astray.html
+grep -q "gamepadconnected" astray.html
+! grep -q 'type="file"' astray.html
+
 test -f hexgl.html
 test -x scripts/build-hexgl-web.sh
 grep -q "hexgl.html" src/catalog.js
