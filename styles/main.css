@@ -197,3 +197,22 @@ html[data-performance="battery"] .game-topbar + #doom-canvas { box-shadow: none;
 .game-card.is-current .card-state { color:var(--lime-bright); }.game-card.is-current .game-card-media::after { background:linear-gradient(0deg, rgba(10,12,10,.77), rgba(185,200,45,.11) 60%, transparent); }
 @media (prefers-reduced-motion: reduce) { .game-card.is-current { box-shadow:0 0 0 2px rgba(185,200,45,.2); } }
 .collection-experimental::before { content:''; position:absolute; z-index:-1; width:75%; height:150%; border:1px solid rgba(25,28,25,.35); transform:rotate(42deg); top:-31%; left:15%; background:none; opacity:1; mix-blend-mode:normal; }
+
+
+/* Native 3D card lab: RetroPlay tilt / depth / quick-view ----------------- */
+.catalog-group .catalog-grid { perspective:1180px; perspective-origin:50% 38%; }
+.card-quickview { position:fixed; z-index:100; top:var(--tooltip-y,0); left:var(--tooltip-x,0); display:flex; align-items:center; gap:7px; max-width:calc(100vw - 28px); padding:6px 8px; border:1px solid rgba(24,28,24,.82); background:rgba(232,249,85,.96); color:var(--ink); box-shadow:4px 4px 0 rgba(24,28,24,.78); font:8px/1 var(--font-mono); letter-spacing:.075em; pointer-events:none; opacity:0; transform:translate3d(0,8px,0) rotate(-2deg); transition:opacity .18s var(--ease), transform .25s var(--ease); }
+.card-quickview span { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }.card-quickview i { width:5px; height:5px; flex:0 0 auto; background:var(--ink); transform:rotate(45deg); }.card-quickview.is-visible { opacity:1; transform:translate3d(0,0,0) rotate(-2deg); }
+@media (hover:hover) and (pointer:fine) {
+  .game-card.is-tilt-ready { transform-style:preserve-3d; will-change:transform; transition:transform .34s cubic-bezier(.16,1,.3,1), box-shadow .34s var(--ease), border-color .26s var(--ease); }
+  .game-card.is-tilting { z-index:5; transform:translate3d(0,-8px,0) rotateX(var(--tilt-x,0deg)) rotateY(var(--tilt-y,0deg)) scale3d(1.018,1.018,1.018); border-color:rgba(23,27,22,.9); box-shadow:calc(15px + var(--tilt-shift,0px)) 24px 0 rgba(24,28,24,.16), 0 28px 45px rgba(24,28,24,.14); }
+  .game-card.is-tilting .game-card-media { transform:translate3d(var(--tilt-shift,0px),0,24px); transition:transform .22s var(--ease); }
+  .game-card.is-tilting .game-card-media img { transform:scale(1.105); filter:saturate(.92) contrast(1.11); }
+  .game-card.is-tilting .game-card-body { transform:translate3d(0,0,14px); transition:transform .22s var(--ease); }
+  .game-card.is-tilting .card-overline { color:var(--ink); }.game-card.is-tilting .card-state { color:var(--lime-bright); text-shadow:0 1px 8px rgba(215,235,65,.38); }
+  .game-card.is-tilting::before { opacity:.92; background:radial-gradient(210px circle at var(--pointer-x,50%) var(--pointer-y,50%), rgba(232,249,85,.52), transparent 44%); }
+  .game-card.is-tilting::after { left:123%; transition:left .38s var(--ease); }
+  .game-card.is-tilting .retro-button-compact { transform:translate3d(var(--tilt-shift,0px),0,20px); }
+}
+.game-card:focus-within { z-index:4; border-color:var(--ink); box-shadow:0 0 0 2px rgba(185,200,45,.36), 10px 14px 0 rgba(25,28,25,.1); }
+@media (hover:none), (pointer:coarse), (prefers-reduced-motion:reduce) { .card-quickview { display:none !important; }.game-card.is-tilting, .game-card.is-tilt-ready { transform:none !important; }.game-card.is-tilting .game-card-media, .game-card.is-tilting .game-card-body, .game-card.is-tilting .retro-button-compact { transform:none !important; } }

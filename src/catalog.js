@@ -729,6 +729,9 @@ export class CatalogController {
   #featuredTransition = null;
   #motionObserver = null;
   #motionEnabled = false;
+  #tiltFrame = null;
+  #tiltState = null;
+  #quickView = null;
 
   constructor({ onPlayGame, onImportWad }) {
     this.#onPlay = onPlayGame;
@@ -794,16 +797,18 @@ export class CatalogController {
 
   #wireMotionSystem() {
     const reduced = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
-    if (reduced || !('IntersectionObserver' in window)) return;
+    if (reduced) return;
     this.#motionEnabled = true;
     document.documentElement.classList.add('motion-ready');
-    this.#motionObserver = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (!entry.isIntersecting) return;
-        entry.target.classList.add('is-revealed');
-        this.#motionObserver?.unobserve(entry.target);
-      });
-    }, { rootMargin: '0px 0px -8% 0px', threshold: 0.07 });
+    if ('IntersectionObserver' in window) {
+      this.#motionObserver = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          entry.target.classList.add('is-revealed');
+          this.#motionObserver?.unobserve(entry.target);
+        });
+      }, { rootMargin: '0px 0px -8% 0px', threshold: 0.07 });
+    }
     document.addEventListener('pointermove', (event) => {
       if (event.pointerType === 'touch') return;
       const target = event.target?.closest?.('.game-card, .collection-card, .featured-panel');
@@ -811,6 +816,58 @@ export class CatalogController {
       const bounds = target.getBoundingClientRect();
       target.style.setProperty('--pointer-x', `${((event.clientX - bounds.left) / bounds.width) * 100}%`);
       target.style.setProperty('--pointer-y', `${((event.clientY - bounds.top) / bounds.height) * 100}%`);
+    }, { passive: true });
+    this.#wireCardTilt();
+  }
+
+  #wireCardTilt() {
+    const finePointer = window.matchMedia?.('(hover: hover) and (pointer: fine)').matches;
+    if (!finePointer) return;
+    const caption = document.createElement('div');
+    caption.className = 'card-quickview';
+    caption.setAttribute('aria-hidden', 'true');
+    caption.innerHTML = '<span>QUICK VIEW</span><i></i>';
+    document.body.append(caption);
+    this.#quickView = caption;
+    const reset = (card) => {
+      card.classList.remove('is-tilting', 'is-tilt-ready');
+      card.style.removeProperty('--tilt-x');
+      card.style.removeProperty('--tilt-y');
+      card.style.removeProperty('--tilt-shift');
+      this.#quickView?.classList.remove('is-visible');
+      if (this.#tiltState?.card === card) this.#tiltState = null;
+    };
+    document.addEventListener('pointerover', (event) => {
+      const card = event.target?.closest?.('.game-card');
+      if (!card || card.contains(event.relatedTarget)) return;
+      card.classList.add('is-tilt-ready', 'is-tilting');
+      const title = card.querySelector('h3')?.textContent?.trim() ?? 'GAME';
+      this.#quickView.querySelector('span').textContent = `QUICK VIEW / ${title.toUpperCase()}`;
+      this.#quickView.classList.add('is-visible');
+    });
+    document.addEventListener('pointerout', (event) => {
+      const card = event.target?.closest?.('.game-card.is-tilting');
+      if (!card || card.contains(event.relatedTarget)) return;
+      reset(card);
+    });
+    document.addEventListener('pointermove', (event) => {
+      const card = event.target?.closest?.('.game-card.is-tilting');
+      if (!card) return;
+      this.#tiltState = { card, x: event.clientX, y: event.clientY };
+      if (this.#tiltFrame) return;
+      this.#tiltFrame = requestAnimationFrame(() => {
+        this.#tiltFrame = null;
+        const state = this.#tiltState;
+        if (!state?.card.isConnected) return;
+        const bounds = state.card.getBoundingClientRect();
+        const dx = ((state.x - bounds.left) / bounds.width) - 0.5;
+        const dy = ((state.y - bounds.top) / bounds.height) - 0.5;
+        state.card.style.setProperty('--tilt-x', `${(-dy * 7.5).toFixed(2)}deg`);
+        state.card.style.setProperty('--tilt-y', `${(dx * 8.5).toFixed(2)}deg`);
+        state.card.style.setProperty('--tilt-shift', `${(dx * 7).toFixed(1)}px`);
+        this.#quickView.style.setProperty('--tooltip-x', `${Math.min(window.innerWidth - 24, state.x + 18)}px`);
+        this.#quickView.style.setProperty('--tooltip-y', `${Math.min(window.innerHeight - 24, state.y + 18)}px`);
+      });
     }, { passive: true });
   }
 
