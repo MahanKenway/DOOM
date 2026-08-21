@@ -727,6 +727,8 @@ export class CatalogController {
   #featuredIndex = 0;
   #featuredInterval = null;
   #featuredTransition = null;
+  #motionObserver = null;
+  #motionEnabled = false;
 
   constructor({ onPlayGame, onImportWad }) {
     this.#onPlay = onPlayGame;
@@ -737,6 +739,7 @@ export class CatalogController {
     this.#pinned = this.#readLibrary();
     this.#wireControls();
     this.#wireFeaturedCarousel();
+    this.#wireMotionSystem();
     this.render();
     this.#selectGame(this.#featuredGames()[0] ?? COLLECTIONS[0], false, false);
     this.#startFeaturedAutoplay();
@@ -750,6 +753,7 @@ export class CatalogController {
     if (count) count.textContent = `${filtered.length.toString().padStart(2, '0')} records`;
     this.#renderLibrary();
     this.#renderCollectionStats();
+    this.#applyMotionTargets();
   }
 
   focusCatalog(genre = 'All') {
@@ -785,6 +789,40 @@ export class CatalogController {
     }, 0));
     document.addEventListener('visibilitychange', () => {
       if (document.hidden) this.#stopFeaturedAutoplay(); else this.#startFeaturedAutoplay();
+    });
+  }
+
+  #wireMotionSystem() {
+    const reduced = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+    if (reduced || !('IntersectionObserver' in window)) return;
+    this.#motionEnabled = true;
+    document.documentElement.classList.add('motion-ready');
+    this.#motionObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add('is-revealed');
+        this.#motionObserver?.unobserve(entry.target);
+      });
+    }, { rootMargin: '0px 0px -8% 0px', threshold: 0.07 });
+    document.addEventListener('pointermove', (event) => {
+      if (event.pointerType === 'touch') return;
+      const target = event.target?.closest?.('.game-card, .collection-card, .featured-panel');
+      if (!target) return;
+      const bounds = target.getBoundingClientRect();
+      target.style.setProperty('--pointer-x', `${((event.clientX - bounds.left) / bounds.width) * 100}%`);
+      target.style.setProperty('--pointer-y', `${((event.clientY - bounds.top) / bounds.height) * 100}%`);
+    }, { passive: true });
+  }
+
+  #applyMotionTargets() {
+    if (!this.#motionEnabled || !this.#motionObserver) return;
+    const targets = document.querySelectorAll('.featured-panel, .genre-deck, .catalog-heading, .filter-panel, .catalog-group, .import-panel, .library-section, .about-panel, .game-card, .collection-card');
+    targets.forEach((target, index) => {
+      if (target.dataset.motionBound) return;
+      target.dataset.motionBound = 'true';
+      target.classList.add('reveal-target');
+      target.style.setProperty('--reveal-delay', `${Math.min(index % 9, 6) * 38}ms`);
+      this.#motionObserver.observe(target);
     });
   }
 
@@ -916,6 +954,9 @@ export class CatalogController {
       if (dots) dots.innerHTML = this.#featuredGames().map((item, index) => `<button class="featured-dot ${item.id === game.id ? 'is-active' : ''}" data-action="select-featured" data-game="${item.id}" aria-label="Show ${item.title}" aria-current="${item.id === game.id ? 'true' : 'false'}"><span>${String(index + 1).padStart(2, '0')}</span></button>`).join('');
       const timer = document.getElementById('featured-timer');
       if (timer) { timer.classList.remove('is-counting'); void timer.offsetWidth; timer.classList.add('is-counting'); }
+      document.querySelectorAll('.game-card').forEach((card) => {
+        card.classList.toggle('is-current', Boolean(card.querySelector(`[data-game="${game.id}"]`)));
+      });
     };
     if (this.#featuredTransition) window.clearTimeout(this.#featuredTransition);
     const reduced = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
