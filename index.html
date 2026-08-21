@@ -54,31 +54,32 @@
     <main class="retro-main">
       <section id="featured" class="featured-zone" aria-labelledby="featured-title">
         <div class="section-tag"><span>// 01</span><span>Featured world</span></div>
-        <article class="featured-panel spatial-panel">
+        <article class="featured-panel spatial-panel" aria-roledescription="carousel" aria-label="Featured RetroPlay games">
           <div class="featured-media">
-            <img id="featured-cover" src="assets/screenshots/freedoom-phase1.png" alt="" />
+            <img id="featured-cover" src="assets/screenshots/hexgl-runtime.webp" alt="" />
             <div class="media-grid" aria-hidden="true"></div>
-            <span class="featured-index">R-01 / OPEN</span>
+            <span id="featured-index" class="featured-index">R-01 / 15</span>
+            <div class="featured-media-caption" aria-hidden="true"><span>10s cycle</span><i id="featured-timer"></i></div>
           </div>
           <div class="featured-copy">
-            <div class="featured-topline"><span class="lime-mark">✦</span><span>Currently compatible</span><span id="featured-status">Ready to play</span></div>
-            <h1 id="featured-title">Freedoom: Phase 1</h1>
-            <p id="featured-studio" class="featured-studio">Freedoom project · 2024</p>
-            <p id="featured-description" class="featured-description">The launch collection. A complete, open WAD ready to run in your browser.</p>
-            <p id="featured-license" class="featured-license">BSD-style free content · attribution retained</p>
+            <div class="featured-topline"><span class="lime-mark">✦</span><span>Rotating playable collection</span><span id="featured-status">Ready to play</span></div>
+            <h1 id="featured-title">HexGL</h1>
+            <p id="featured-studio" class="featured-studio">Thibaut Despoulain · WebGL runtime</p>
+            <p id="featured-description" class="featured-description">A high-speed three-dimensional race, ready to launch locally in your browser.</p>
+            <p id="featured-license" class="featured-license">Open-source runtime · attribution retained</p>
             <dl class="featured-specs">
-              <div><dt>Format</dt><dd id="featured-format">Bundled IWAD</dd></div>
-              <div><dt>Session</dt><dd id="featured-session">35–60 min</dd></div>
-              <div><dt>Topology</dt><dd id="featured-topology">9 maps</dd></div>
-              <div><dt>Input</dt><dd>KB / Mouse / Touch</dd></div>
+              <div><dt>Format</dt><dd id="featured-format">Bundled independent runtime</dd></div>
+              <div><dt>Session</dt><dd id="featured-session">Time trials</dd></div>
+              <div><dt>Topology</dt><dd id="featured-topology">Bundled track</dd></div>
+              <div><dt>Input</dt><dd>KB / Touch / Gamepad</dd></div>
             </dl>
-            <p id="featured-credit" class="featured-credit">Screenshot: Freedoom project</p>
+            <p id="featured-credit" class="featured-credit">Gameplay screenshot: RetroPlay local runtime</p>
             <div class="featured-actions">
               <button id="btn-freedoom" class="retro-button retro-button-primary" data-action="play-featured">Launch featured</button>
               <button class="retro-text-button" data-retro-nav="catalog">Browse catalog <span>↘</span></button>
             </div>
           </div>
-          <div class="featured-footer"><span>Archive state / open</span><span>Engine / WASM-32</span><span>Build / 01</span></div>
+          <div class="featured-footer"><span>Archive state / rotating</span><div class="featured-carousel-controls"><button id="featured-prev" class="featured-arrow" type="button" aria-label="Previous featured game">←</button><div id="featured-dots" class="featured-dots" aria-label="Choose a featured game"></div><button id="featured-next" class="featured-arrow" type="button" aria-label="Next featured game">→</button></div><span>Auto / 10 sec</span></div>
         </article>
       </section>
 

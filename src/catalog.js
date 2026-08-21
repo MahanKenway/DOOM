@@ -696,6 +696,24 @@ export const COLLECTIONS = [
   },
 ];
 
+const FEATURED_ORDER = [
+  'hexgl',
+  'ecwolf',
+  'astray',
+  'tuxracer-js',
+  'starter-kit-racing',
+  'neverball',
+  'freerct',
+  'openttd',
+  'librequake',
+  'opentyrian2000',
+  'gnu-freedink',
+  'blasphemer',
+  'hacx-1-2',
+  'freedoom-phase-1',
+  'freedoom-phase-2',
+];
+
 const LIBRARY_KEY = 'retroplay-library-v2';
 const LEGACY_LIBRARY_KEYS = ['riftwad-library-v2', 'riftwad-library-v1', 'retroplay-library-v1'];
 
@@ -705,7 +723,10 @@ export class CatalogController {
   #activeGenre = 'All';
   #query = '';
   #pinned = new Set();
-  #selectedId = 'freedoom-phase-1';
+  #selectedId = FEATURED_ORDER[0];
+  #featuredIndex = 0;
+  #featuredInterval = null;
+  #featuredTransition = null;
 
   constructor({ onPlayGame, onImportWad }) {
     this.#onPlay = onPlayGame;
@@ -715,15 +736,17 @@ export class CatalogController {
   init() {
     this.#pinned = this.#readLibrary();
     this.#wireControls();
+    this.#wireFeaturedCarousel();
     this.render();
-    this.#selectGame(COLLECTIONS.find((item) => item.featured) ?? COLLECTIONS[0], false);
+    this.#selectGame(this.#featuredGames()[0] ?? COLLECTIONS[0], false, false);
+    this.#startFeaturedAutoplay();
   }
 
   render() {
     const filtered = this.#filteredItems();
     const grid = document.getElementById('catalog-grid');
     const count = document.getElementById('result-count');
-    if (grid) grid.innerHTML = filtered.map((game, index) => this.#cardTemplate(game, index)).join('');
+    if (grid) grid.innerHTML = this.#catalogMarkup(filtered);
     if (count) count.textContent = `${filtered.length.toString().padStart(2, '0')} records`;
     this.#renderLibrary();
     this.#renderCollectionStats();
@@ -734,6 +757,54 @@ export class CatalogController {
     this.#syncGenreButtons();
     this.render();
     document.getElementById('catalog')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  #featuredGames() {
+    return FEATURED_ORDER.map((id) => COLLECTIONS.find((game) => game.id === id)).filter(Boolean);
+  }
+
+  #catalogMarkup(filtered) {
+    if (!filtered.length) return '<p class="catalog-empty">No games match this filter. Reset the filters to see the full library.</p>';
+    const allowed = new Set(filtered.map((game) => game.id));
+    const primary = this.#featuredGames().filter((game) => allowed.has(game.id));
+    const primaryIds = new Set(primary.map((game) => game.id));
+    const more = filtered.filter((game) => !primaryIds.has(game.id));
+    const group = (label, title, note, games, offset, extraClass = '') => !games.length ? '' : `<section class="catalog-group ${extraClass}"><header class="catalog-group-heading"><span>${label}</span><div><h3>${title}</h3><p>${note}</p></div><b>${String(games.length).padStart(2, '0')}</b></header><div class="catalog-grid">${games.map((game, index) => this.#cardTemplate(game, offset + index)).join('')}</div></section>`;
+    return `${group('// PRIME', 'Featured Games', 'The rotating playable selection at the top of RetroPlay.', primary, 0, 'catalog-group-featured')}${group('// ARCHIVE', 'And More Games', 'More engines, worlds, downloads and experiments in the RetroPlay archive.', more, primary.length, 'catalog-group-more')}`;
+  }
+
+  #wireFeaturedCarousel() {
+    const panel = document.querySelector('.featured-panel');
+    document.getElementById('featured-prev')?.addEventListener('click', () => this.#stepFeatured(-1, true));
+    document.getElementById('featured-next')?.addEventListener('click', () => this.#stepFeatured(1, true));
+    panel?.addEventListener('pointerenter', () => { panel.classList.add('is-paused'); this.#stopFeaturedAutoplay(); });
+    panel?.addEventListener('pointerleave', () => { panel.classList.remove('is-paused'); this.#startFeaturedAutoplay(); });
+    panel?.addEventListener('focusin', () => { panel.classList.add('is-paused'); this.#stopFeaturedAutoplay(); });
+    panel?.addEventListener('focusout', () => window.setTimeout(() => {
+      if (!panel.contains(document.activeElement)) { panel.classList.remove('is-paused'); this.#startFeaturedAutoplay(); }
+    }, 0));
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) this.#stopFeaturedAutoplay(); else this.#startFeaturedAutoplay();
+    });
+  }
+
+  #startFeaturedAutoplay() {
+    this.#stopFeaturedAutoplay();
+    if (window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) return;
+    this.#featuredInterval = window.setInterval(() => this.#stepFeatured(1, false), 10000);
+  }
+
+  #stopFeaturedAutoplay() {
+    if (this.#featuredInterval) window.clearInterval(this.#featuredInterval);
+    this.#featuredInterval = null;
+  }
+
+  #stepFeatured(direction, fromUser) {
+    const games = this.#featuredGames();
+    if (!games.length) return;
+    this.#featuredIndex = (this.#featuredIndex + direction + games.length) % games.length;
+    this.#selectGame(games[this.#featuredIndex], false, true);
+    if (fromUser) this.#startFeaturedAutoplay();
   }
 
   #wireControls() {
@@ -768,6 +839,11 @@ export class CatalogController {
       if (action === 'focus-genre') this.focusCatalog(button.dataset.genre ?? 'All');
       if (action === 'toggle-library' && game) { this.#toggleLibrary(game.id); this.render(); }
       if (action === 'select-game' && game) this.#selectGame(game);
+      if (action === 'select-featured' && game) {
+        this.#featuredIndex = this.#featuredGames().findIndex((item) => item.id === game.id);
+        this.#selectGame(game, false, true);
+        this.#startFeaturedAutoplay();
+      }
     });
   }
 
@@ -807,32 +883,51 @@ export class CatalogController {
     </article>`;
   }
 
-  #selectGame(game, scroll = true) {
+  #selectGame(game, scroll = true, animate = true) {
     if (!game) return;
-    this.#selectedId = game.id;
-    const fields = {
-      'featured-title': game.title,
-      'featured-studio': `${game.studio} · ${game.year}`,
-      'featured-description': game.description,
-      'featured-status': game.status,
-      'featured-license': game.license,
-      'featured-credit': game.artworkCredit,
+    const panel = document.querySelector('.featured-panel');
+    const apply = () => {
+      this.#selectedId = game.id;
+      const fields = {
+        'featured-title': game.title,
+        'featured-studio': `${game.studio} · ${game.year}`,
+        'featured-description': game.description,
+        'featured-status': game.status,
+        'featured-license': game.license,
+        'featured-credit': game.artworkCredit,
+        'featured-index': `R-${String(this.#featuredIndex + 1).padStart(2, '0')} / ${String(this.#featuredGames().length).padStart(2, '0')}`,
+      };
+      Object.entries(fields).forEach(([id, value]) => { const el = document.getElementById(id); if (el) el.textContent = value; });
+      const cover = document.getElementById('featured-cover');
+      if (cover) { cover.src = game.artwork; cover.alt = `${game.title} preview`; }
+      const button = document.getElementById('btn-freedoom');
+      if (button) {
+        const isRuntime = Boolean(game.runtimePath);
+        const isProbe = !game.playable && Boolean(game.probePath);
+        const isExternal = !game.playable && Boolean(game.projectUrl);
+        button.dataset.action = isRuntime ? 'open-runtime' : (game.playable ? 'play-game' : (isProbe ? 'open-probe' : (isExternal ? 'open-project' : 'import')));
+        button.dataset.game = game.id;
+        button.textContent = isRuntime ? (game.runtimeLabel ?? 'Launch runtime') : (game.playable ? (game.playLabel ?? 'Launch now') : (isProbe ? (game.projectLabel ?? 'Open technical probe') : (isExternal ? (game.projectLabel ?? 'View project') : 'Attach legal WAD')));
+      }
+      document.getElementById('featured-format').textContent = game.format;
+      document.getElementById('featured-session').textContent = game.duration;
+      document.getElementById('featured-topology').textContent = game.maps;
+      const dots = document.getElementById('featured-dots');
+      if (dots) dots.innerHTML = this.#featuredGames().map((item, index) => `<button class="featured-dot ${item.id === game.id ? 'is-active' : ''}" data-action="select-featured" data-game="${item.id}" aria-label="Show ${item.title}" aria-current="${item.id === game.id ? 'true' : 'false'}"><span>${String(index + 1).padStart(2, '0')}</span></button>`).join('');
+      const timer = document.getElementById('featured-timer');
+      if (timer) { timer.classList.remove('is-counting'); void timer.offsetWidth; timer.classList.add('is-counting'); }
     };
-    Object.entries(fields).forEach(([id, value]) => { const el = document.getElementById(id); if (el) el.textContent = value; });
-    const cover = document.getElementById('featured-cover');
-    if (cover) { cover.src = game.artwork; cover.alt = `${game.title} preview`; }
-    const button = document.getElementById('btn-freedoom');
-    if (button) {
-      const isRuntime = Boolean(game.runtimePath);
-      const isProbe = !game.playable && Boolean(game.probePath);
-      const isExternal = !game.playable && Boolean(game.projectUrl);
-      button.dataset.action = isRuntime ? 'open-runtime' : (game.playable ? 'play-game' : (isProbe ? 'open-probe' : (isExternal ? 'open-project' : 'import')));
-      button.dataset.game = game.id;
-      button.textContent = isRuntime ? (game.runtimeLabel ?? 'Launch runtime') : (game.playable ? (game.playLabel ?? 'Launch now') : (isProbe ? (game.projectLabel ?? 'Open technical probe') : (isExternal ? (game.projectLabel ?? 'View project') : 'Attach legal WAD')));
-    }
-    document.getElementById('featured-format').textContent = game.format;
-    document.getElementById('featured-session').textContent = game.duration;
-    document.getElementById('featured-topology').textContent = game.maps;
+    if (this.#featuredTransition) window.clearTimeout(this.#featuredTransition);
+    const reduced = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+    if (animate && panel && !reduced) {
+      panel.classList.add('is-transitioning');
+      this.#featuredTransition = window.setTimeout(() => {
+        apply();
+        panel.classList.remove('is-transitioning');
+        panel.classList.add('is-arriving');
+        requestAnimationFrame(() => panel.classList.remove('is-arriving'));
+      }, 220);
+    } else apply();
     if (scroll) document.getElementById('featured')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 
