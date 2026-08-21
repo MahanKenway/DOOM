@@ -732,6 +732,11 @@ export class CatalogController {
   #tiltFrame = null;
   #tiltState = null;
   #quickView = null;
+  #depthDeck = null;
+  #depthDeckPosition = 0;
+  #depthDeckDrag = null;
+  #depthDeckWheelTimer = null;
+  #catalogDepth = 0.78;
 
   constructor({ onPlayGame, onImportWad }) {
     this.#onPlay = onPlayGame;
@@ -742,6 +747,7 @@ export class CatalogController {
     this.#pinned = this.#readLibrary();
     this.#wireControls();
     this.#wireFeaturedCarousel();
+    this.#wireElasticDepthControl();
     this.#wireMotionSystem();
     this.render();
     this.#selectGame(this.#featuredGames()[0] ?? COLLECTIONS[0], false, false);
@@ -793,6 +799,117 @@ export class CatalogController {
     document.addEventListener('visibilitychange', () => {
       if (document.hidden) this.#stopFeaturedAutoplay(); else this.#startFeaturedAutoplay();
     });
+    this.#mountFeaturedDepthDeck();
+  }
+
+  #mountFeaturedDepthDeck() {
+    const media = document.querySelector('.featured-media');
+    const games = this.#featuredGames();
+    if (!media || !games.length) return;
+    const root = document.createElement('div');
+    root.className = 'depth-deck';
+    root.tabIndex = 0;
+    root.setAttribute('role', 'group');
+    root.setAttribute('aria-label', 'Featured games depth deck. Drag or use left and right arrow keys to browse.');
+    root.innerHTML = `<div class="depth-deck-stage">${games.map((game, index) => `<button class="depth-deck-card" data-depth-index="${index}" aria-label="Show ${game.title}"><img src="${game.artwork}" alt="" draggable="false" /><span>${String(index + 1).padStart(2, '0')}</span></button>`).join('')}</div><span class="depth-deck-hint" aria-hidden="true">DRAG / DEPTH</span>`;
+    media.append(root);
+    this.#depthDeck = root;
+    const setFocus = (raw, animate = true) => {
+      const count = games.length;
+      const index = ((Math.round(raw) % count) + count) % count;
+      this.#depthDeckPosition = index;
+      this.#layoutFeaturedDepthDeck(index, animate);
+      this.#featuredIndex = index;
+      this.#selectGame(games[index], false, true);
+    };
+    root.addEventListener('click', (event) => {
+      const card = event.target.closest('[data-depth-index]');
+      if (!card || this.#depthDeckDrag?.moved) return;
+      setFocus(Number(card.dataset.depthIndex), true);
+    });
+    root.addEventListener('pointerdown', (event) => {
+      this.#depthDeckDrag = { id: event.pointerId, x: event.clientX, start: this.#depthDeckPosition, moved: false };
+    });
+    root.addEventListener('pointermove', (event) => {
+      const drag = this.#depthDeckDrag;
+      if (!drag || drag.id !== event.pointerId) return;
+      const dx = event.clientX - drag.x;
+      if (!drag.moved && Math.abs(dx) > 4) { drag.moved = true; root.setPointerCapture?.(event.pointerId); }
+      if (!drag.moved) return;
+      const step = Math.max(root.getBoundingClientRect().width * .42, 80);
+      this.#layoutFeaturedDepthDeck(drag.start - dx / step, false);
+    });
+    const finishDrag = (event) => {
+      const drag = this.#depthDeckDrag;
+      if (!drag || (event && drag.id !== event.pointerId)) return;
+      this.#depthDeckDrag = null;
+      if (!drag.moved) return;
+      const dx = (event?.clientX ?? drag.x) - drag.x;
+      const step = Math.max(root.getBoundingClientRect().width * .42, 80);
+      setFocus(drag.start - dx / step, true);
+    };
+    root.addEventListener('pointerup', finishDrag);
+    root.addEventListener('pointercancel', finishDrag);
+    root.addEventListener('keydown', (event) => {
+      if (event.key === 'ArrowLeft') { event.preventDefault(); setFocus(this.#depthDeckPosition - 1, true); }
+      if (event.key === 'ArrowRight') { event.preventDefault(); setFocus(this.#depthDeckPosition + 1, true); }
+    });
+    root.addEventListener('wheel', (event) => {
+      if (!event.shiftKey) return;
+      event.preventDefault();
+      const direction = event.deltaY + event.deltaX > 0 ? 1 : -1;
+      this.#layoutFeaturedDepthDeck(this.#depthDeckPosition + direction * .34, false);
+      if (this.#depthDeckWheelTimer) window.clearTimeout(this.#depthDeckWheelTimer);
+      this.#depthDeckWheelTimer = window.setTimeout(() => setFocus(this.#depthDeckPosition + direction, true), 120);
+    }, { passive: false });
+    this.#layoutFeaturedDepthDeck(this.#featuredIndex, false);
+  }
+
+  #layoutFeaturedDepthDeck(position, animate = true) {
+    const root = this.#depthDeck;
+    if (!root) return;
+    const cards = [...root.querySelectorAll('.depth-deck-card')];
+    const count = cards.length;
+    const reduced = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+    cards.forEach((card, index) => {
+      let distance = index - position;
+      distance = ((distance % count) + count) % count;
+      if (distance > count / 2) distance -= count;
+      const back = Math.max(0, distance);
+      const shown = Math.abs(distance) <= 3.5;
+      const tx = 34 * distance;
+      const tz = -104 * distance;
+      const rotation = 11 * Math.max(0, Math.min(1, distance));
+      const opacity = distance < 0 ? Math.max(0, 1 + distance) : (shown ? 1 - back * .16 : 0);
+      card.style.transitionDuration = animate && !reduced ? '620ms' : '0ms';
+      card.style.transform = `translate(-50%, -50%) translateX(${tx.toFixed(1)}px) translateZ(${tz.toFixed(1)}px) rotateY(${rotation.toFixed(2)}deg)`;
+      card.style.opacity = opacity.toFixed(3);
+      card.style.filter = `brightness(${Math.max(.28, 1 - back * .18).toFixed(2)}) blur(${Math.min(4, back * 1.25).toFixed(2)}px)`;
+      card.style.zIndex = String(120 - Math.round(distance * 10));
+      card.style.pointerEvents = shown && opacity > .1 ? 'auto' : 'none';
+      card.classList.toggle('is-depth-active', Math.abs(distance) < .48);
+    });
+  }
+
+  #wireElasticDepthControl() {
+    const input = document.getElementById('catalog-depth');
+    const output = document.getElementById('catalog-depth-value');
+    const control = document.getElementById('elastic-depth-control');
+    if (!input || !output || !control) return;
+    const saved = Number(localStorage.getItem('retroplay-card-depth'));
+    if (Number.isFinite(saved) && saved >= 40 && saved <= 100) input.value = String(saved);
+    const apply = () => {
+      this.#catalogDepth = Number(input.value) / 100;
+      document.documentElement.style.setProperty('--catalog-depth', String(this.#catalogDepth));
+      control.style.setProperty('--range-fill', `${((Number(input.value) - 40) / 60) * 100}%`);
+      output.value = `${input.value}%`;
+      output.textContent = `${input.value}%`;
+      try { localStorage.setItem('retroplay-card-depth', input.value); } catch { /* session-only fallback */ }
+    };
+    input.addEventListener('input', apply);
+    input.addEventListener('pointerdown', () => control.classList.add('is-adjusting'));
+    ['pointerup', 'pointercancel', 'lostpointercapture', 'blur'].forEach((type) => input.addEventListener(type, () => control.classList.remove('is-adjusting')));
+    apply();
   }
 
   #wireMotionSystem() {
@@ -862,9 +979,9 @@ export class CatalogController {
         const bounds = state.card.getBoundingClientRect();
         const dx = ((state.x - bounds.left) / bounds.width) - 0.5;
         const dy = ((state.y - bounds.top) / bounds.height) - 0.5;
-        state.card.style.setProperty('--tilt-x', `${(-dy * 7.5).toFixed(2)}deg`);
-        state.card.style.setProperty('--tilt-y', `${(dx * 8.5).toFixed(2)}deg`);
-        state.card.style.setProperty('--tilt-shift', `${(dx * 7).toFixed(1)}px`);
+        state.card.style.setProperty('--tilt-x', `${(-dy * 15 * this.#catalogDepth).toFixed(2)}deg`);
+        state.card.style.setProperty('--tilt-y', `${(dx * 17 * this.#catalogDepth).toFixed(2)}deg`);
+        state.card.style.setProperty('--tilt-shift', `${(dx * 15 * this.#catalogDepth).toFixed(1)}px`);
         this.#quickView.style.setProperty('--tooltip-x', `${Math.min(window.innerWidth - 24, state.x + 18)}px`);
         this.#quickView.style.setProperty('--tooltip-y', `${Math.min(window.innerHeight - 24, state.y + 18)}px`);
       });
@@ -1014,6 +1131,12 @@ export class CatalogController {
       document.querySelectorAll('.game-card').forEach((card) => {
         card.classList.toggle('is-current', Boolean(card.querySelector(`[data-game="${game.id}"]`)));
       });
+      const selectedDepthIndex = this.#featuredGames().findIndex((item) => item.id === game.id);
+      if (selectedDepthIndex >= 0) {
+        this.#featuredIndex = selectedDepthIndex;
+        this.#depthDeckPosition = selectedDepthIndex;
+        this.#layoutFeaturedDepthDeck(selectedDepthIndex, !reduced);
+      }
     };
     if (this.#featuredTransition) window.clearTimeout(this.#featuredTransition);
     const reduced = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;

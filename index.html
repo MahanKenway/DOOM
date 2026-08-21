@@ -41,7 +41,7 @@
 <div id="wad-picker" class="screen" role="main" aria-label="RetroPlay classic game hub">
   <div class="retro-shell">
     <header class="retro-header">
-      <button class="brand-mark" data-retro-nav="featured" aria-label="Go to featured collection"><span>RETRO</span><b>PLAY</b><i aria-hidden="true"></i></button>
+      <button class="brand-mark" data-retro-nav="featured" aria-label="Go to featured collection"><span>RETRO</span><b>PLAY</b><canvas id="evil-eye" class="evil-eye" width="44" height="24" aria-hidden="true"></canvas><span class="evil-eye-fallback" aria-hidden="true"><i></i></span></button>
       <nav class="retro-nav" aria-label="Primary navigation">
         <button data-retro-nav="featured" class="is-active">Discover</button>
         <button data-retro-nav="catalog">Collections</button>
@@ -57,6 +57,8 @@
         <article class="featured-panel spatial-panel" aria-roledescription="carousel" aria-label="Featured RetroPlay games">
           <div class="featured-media">
             <img id="featured-cover" src="assets/screenshots/hexgl-runtime.webp" alt="" />
+            <canvas id="gradient-waves" class="gradient-waves" aria-hidden="true"></canvas>
+            <span class="waves-fallback" aria-hidden="true"></span>
             <div class="media-grid" aria-hidden="true"></div>
             <span id="featured-index" class="featured-index">R-01 / 15</span>
             <div class="featured-media-caption" aria-hidden="true"><span>10s cycle</span><i id="featured-timer"></i></div>
@@ -85,7 +87,7 @@
 
       <section id="genre-nav" class="genre-deck" aria-labelledby="genre-nav-title">
         <div class="genre-deck-heading"><p class="section-tag"><span>// 02</span><span>Genre navigation</span></p><div><h2 id="genre-nav-title">Choose a lane.<br />Enter a world.</h2><p>Every genre in the RetroPlay catalog has a direct route. Pick a lane to jump to its filtered collection, then switch or reset from the persistent catalog controls.</p></div></div>
-        <div class="collection-strip" aria-label="Browse every game genre">
+        <div class="collection-strip accordion-genre-strip" aria-label="Browse every game genre">
           <button class="collection-card collection-action" data-action="focus-genre" data-genre="Action"><span>// A</span><b>Action</b><small>Combat &amp; arcade</small><strong data-collection-count="Action">00</strong></button>
           <button class="collection-card collection-horror" data-action="focus-genre" data-genre="Horror"><span>// H</span><b>Horror</b><small>Tension &amp; survival</small><strong data-collection-count="Horror">00</strong></button>
           <button class="collection-card collection-explore" data-action="focus-genre" data-genre="Exploration"><span>// E</span><b>Exploration</b><small>Adventure &amp; discovery</small><strong data-collection-count="Exploration">00</strong></button>
@@ -104,6 +106,7 @@
           <div><p class="section-tag"><span>// 02</span><span>Curated catalog</span></p><h2 id="catalog-title">Find a world<br />worth entering.</h2></div>
           <div class="catalog-tools">
             <label class="search-field"><span>Search</span><input id="search-input" type="search" placeholder="Title, mood, format" autocomplete="off" /></label>
+            <div class="elastic-depth-control" id="elastic-depth-control" aria-label="Catalog depth control"><span aria-hidden="true">◒</span><label for="catalog-depth"><b>Depth</b><input id="catalog-depth" type="range" min="40" max="100" step="1" value="78" /></label><output id="catalog-depth-value" for="catalog-depth">78%</output><span aria-hidden="true">◉</span></div>
             <span id="result-count" class="record-count">13 records</span>
           </div>
         </div>

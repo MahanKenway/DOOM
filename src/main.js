@@ -24,6 +24,7 @@ import { DoomEngine }   from './engine/DoomEngine.js?v=retroplay-20260815-r2';
 import { WadLoader }    from './WadLoader.js?v=retroplay-20260815-r2';
 import { EventBus }     from './EventBus.js?v=retroplay-20260815-r2';
 import { CatalogController } from './catalog.js?v=retroplay-20260815-r2';
+import { initVisualEffects } from './visual-effects.js?v=retroplay-20260821-r1';
 import { loadSettings, saveSettings, profileIdFor, listSaveSlots, exportSaveBundle, importSaveBundle } from './persistence.js?v=retroplay-20260815-r2';
 import {
   LoadingScreen,
@@ -125,6 +126,7 @@ function bootstrapUI() {
     if (profileId === activeSaveProfile) renderSaveSlots(profileId);
   });
   catalog.init();
+  initVisualEffects();
 
   // Single persistent MobileControls instance for the whole page
   // lifetime. Its target callback is rebound on every startGame()
