@@ -137,6 +137,31 @@ for removed in orbit-lander skyline-sprint comet-breaker vector-putt; do
   ! test -e "$removed.html"
 done
 
+test -f starter-kit-racing.html
+test -x scripts/build-starter-kit-racing-web.sh
+test -f third_party/starter-kit-racing/LICENSE
+test -f third_party/starter-kit-racing/models/vehicle-truck-yellow.glb
+test -f starter-kit-racing/LICENSE
+test -f starter-kit-racing/SOURCE-NOTICE.txt
+test -f starter-kit-racing/models/vehicle-truck-yellow.glb
+test -f starter-kit-racing/models/track-finish.glb
+test -f starter-kit-racing/vendor/three/build/three.module.js
+test -f starter-kit-racing/vendor/crashcat/index.js
+test -f starter-kit-racing/vendor/mathcat/index.js
+test -f assets/screenshots/starter-kit-racing-runtime.webp
+grep -q "id: 'starter-kit-racing'" src/catalog.js
+grep -q "starter-kit-racing.html" src/catalog.js
+grep -q "starter-kit-racing-runtime.webp" src/catalog.js
+grep -q "starter-kit-racing.html" sitemap.xml
+grep -q "Package Starter Kit Racing fully bundled 3D mesh racing runtime" .github/workflows/build-and-deploy.yml
+grep -q 'data-key="ArrowUp"' starter-kit-racing.html
+grep -q 'data-key="ArrowDown"' starter-kit-racing.html
+grep -q 'data-key="ArrowLeft"' starter-kit-racing.html
+grep -q 'data-key="ArrowRight"' starter-kit-racing.html
+grep -q "fullscreenchange" starter-kit-racing.html
+grep -q "gamepadconnected" starter-kit-racing.html
+! grep -q 'type="file"' starter-kit-racing.html
+
 test -f astray.html
 test -x scripts/build-astray-web.sh
 test -f third_party/astray/License.md
