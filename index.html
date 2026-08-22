@@ -49,7 +49,7 @@
         <button data-retro-nav="library">Library <span id="library-count">00</span></button>
         <button data-retro-nav="about">About</button>
       </nav>
-      <div class="header-utility"><button id="theme-toggle" class="theme-toggle" type="button" aria-pressed="false" aria-label="Switch to dark mode"><span class="theme-toggle-track" aria-hidden="true"><i></i></span><span data-theme-label>Light</span></button><div class="header-status"><span class="status-dot"></span><span>Browser runtime</span><span class="header-divider"></span><span id="system-time">Online</span></div></div>
+      <div class="header-utility"><div class="retro-audio" aria-label="Retro Audio controls"><button id="retro-audio-toggle" class="audio-toggle" type="button" aria-pressed="false" aria-label="Enable Retro Audio"><span class="audio-toggle-icon" aria-hidden="true">♫</span><span id="retro-audio-label">Audio off</span></button><label class="audio-volume" for="retro-audio-volume"><span>VOL</span><input id="retro-audio-volume" type="range" min="0" max="100" step="1" value="42" aria-label="Retro Audio volume" /></label></div><button id="theme-toggle" class="theme-toggle" type="button" aria-pressed="false" aria-label="Switch to dark mode"><span class="theme-toggle-track" aria-hidden="true"><i></i></span><span data-theme-label>Light</span></button><div class="header-status"><span class="status-dot"></span><span>Browser runtime</span><span class="header-divider"></span><span id="system-time">Online</span></div></div>
     </header>
 
     <main class="retro-main">
@@ -79,6 +79,7 @@
             <p id="featured-credit" class="featured-credit">Gameplay screenshot: RetroPlay local runtime</p>
             <div class="featured-actions">
               <button id="btn-freedoom" class="retro-button retro-button-primary" data-magnet data-action="play-featured">Launch featured</button>
+              <button id="btn-featured-details" class="retro-button retro-button-quiet" data-action="show-detail">Game details</button>
               <button class="retro-text-button" data-retro-nav="catalog">Browse catalog <span>↘</span></button>
             </div>
           </div>
@@ -143,9 +144,29 @@
       </section>
     </main>
 
-    <footer class="retro-footer"><span>RetroPlay / GAME INDEX</span><span>Games, engines and archives remain the property of their creators.</span><span>Build 01 · 2026</span></footer>
+    <footer class="retro-footer"><span>RetroPlay / GAME INDEX</span><span>Games, engines and archives remain the property of their creators.</span><span>Audio: Theme Song [8-bit] / nene / CC0</span><span>Build 01 · 2026</span></footer>
   </div>
 </div>
+
+<audio id="retro-audio-player" loop preload="none" aria-hidden="true"><source src="assets/audio/retroplay-theme-nene.ogg" type="audio/ogg; codecs=opus" /><source src="assets/audio/retroplay-theme-nene.mp3" type="audio/mpeg" /></audio>
+
+<dialog id="game-detail-dialog" class="game-detail-dialog" aria-labelledby="detail-title" aria-describedby="detail-description">
+  <article class="game-detail-shell">
+    <button class="game-detail-close" type="button" data-action="close-detail" aria-label="Close game details">×</button>
+    <div class="game-detail-media"><img id="detail-cover" src="" alt="" /><span id="detail-state" class="detail-state"></span><span id="detail-index" class="detail-index"></span></div>
+    <div class="game-detail-copy">
+      <p id="detail-overline" class="detail-overline"></p>
+      <h2 id="detail-title">Game title</h2>
+      <p id="detail-studio" class="detail-studio"></p>
+      <p id="detail-description" class="detail-description"></p>
+      <dl class="detail-specs"><div><dt>Format</dt><dd id="detail-format"></dd></div><div><dt>Session</dt><dd id="detail-duration"></dd></div><div><dt>World</dt><dd id="detail-maps"></dd></div><div><dt>License</dt><dd id="detail-license"></dd></div></dl>
+      <p id="detail-credit" class="detail-credit"></p>
+      <div id="detail-links" class="detail-links"><a id="detail-project-link" target="_blank" rel="noopener noreferrer" hidden></a><a id="detail-download-link" target="_blank" rel="noopener noreferrer" hidden></a><p id="detail-download-note" class="detail-download-note" hidden></p></div>
+      <div class="detail-actions"><button id="detail-primary" class="retro-button retro-button-primary" data-magnet type="button"></button><button id="detail-library" class="retro-button retro-button-quiet" type="button"></button></div>
+      <p class="detail-note">RetroPlay launches only packaged local runtimes and clearly marked legal data paths. No account is required.</p>
+    </div>
+  </article>
+</dialog>
 
 <div id="game-screen" class="screen" role="main">
   <div id="crt-overlay" aria-hidden="true"></div>
@@ -167,6 +188,6 @@
 </div>
 
 <div id="click-to-play" class="click-overlay hidden" role="button" tabindex="0" aria-label="Click to capture mouse and start playing"><div class="click-box"><p>Capture mouse to play</p><p class="small">Press Esc to release</p></div></div>
-<script type="module" src="src/main.js?v=retroplay-20260815-r2"></script>
+<script type="module" src="src/main.js?v=retroplay-20260822-r3"></script>
 </body>
 </html>

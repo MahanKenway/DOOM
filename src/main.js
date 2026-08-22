@@ -26,6 +26,7 @@ import { EventBus }     from './EventBus.js?v=retroplay-20260815-r2';
 import { CatalogController } from './catalog.js?v=retroplay-20260815-r2';
 import { initVisualEffects, prepareVisualQuality } from './visual-effects.js?v=retroplay-20260822-r2';
 import { initTheme } from './theme.js?v=retroplay-20260822-r1';
+import { initRetroAudio } from './retro-audio.js?v=retroplay-20260822-r1';
 import { loadSettings, saveSettings, profileIdFor, listSaveSlots, exportSaveBundle, importSaveBundle } from './persistence.js?v=retroplay-20260815-r2';
 import {
   LoadingScreen,
@@ -114,6 +115,7 @@ function bootstrapUI() {
 
   prepareVisualQuality();
   initTheme();
+  initRetroAudio();
   wireWadPicker();
   wireGameControls();
   wireSettingsPanel();
@@ -204,6 +206,8 @@ async function startBundledGame(game) {
  * @param {'url'|'file'} type
  */
 async function startGame(sources, type, { catalogGame = null } = {}) {
+  // The hub soundtrack is intentionally silent while a game runtime loads or plays.
+  window.dispatchEvent(new CustomEvent('retroplay:audio-pause'));
   // Keep a stable restart target for either a bundled WAD or a locally
   // selected IWAD + PWAD set. File objects remain in this browser session.
   lastLaunch = { sources, type, catalogGame };
@@ -326,6 +330,7 @@ async function startGame(sources, type, { catalogGame = null } = {}) {
     console.error('[DOOM] Startup error:', err);
     logHistory.push({ text: `${err.name}: ${err.message}`, level: 'error', t: performance.now() });
     ui.loading.hide();
+    window.dispatchEvent(new CustomEvent('retroplay:audio-resume'));
     showFatalError(`${err.name}: ${err.message}${err.stack ? '\n\n' + err.stack : ''}`);
   }
 }
@@ -357,6 +362,7 @@ function wireGameControls() {
     ui.pause.hide();
     document.getElementById('game-screen')?.classList.remove('active');
     showWadPicker();
+    window.dispatchEvent(new CustomEvent('retroplay:audio-resume'));
     window.scrollTo({ top: 0, behavior: 'smooth' });
   });
 

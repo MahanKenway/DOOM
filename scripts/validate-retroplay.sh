@@ -4,12 +4,29 @@ set -euo pipefail
 cd "$(dirname "$0")/.."
 
 node --check src/catalog.js
+node --check src/retro-audio.js
 node --check src/runtime-shell.js
 node --check src/ui.js
 node --check src/engine/InputHandler.js
 node --check src/main.js
 
 git diff --check
+
+test -f assets/audio/retroplay-theme-nene.ogg
+test -f assets/audio/retroplay-theme-nene.mp3
+test -f assets/audio/ATTRIBUTION.md
+grep -q 'CC0 1.0' assets/audio/ATTRIBUTION.md
+grep -q 'opengameart.org/content/theme-song-8-bit' assets/audio/ATTRIBUTION.md
+grep -q 'id="retro-audio-toggle"' index.html
+grep -q 'id="retro-audio-player"' index.html
+grep -q "initRetroAudio" src/main.js
+grep -q "retroplay:retro-audio" src/retro-audio.js
+grep -q 'id="game-detail-dialog"' index.html
+grep -q 'data-action="show-detail"' index.html
+grep -q "#openDetail" src/catalog.js
+grep -q "card-detail-button" src/catalog.js
+grep -q "game-detail-dialog" styles/main.css
+! grep -R -E -q 'https?://[^[:space:]]+\.(mp3|ogg|wav)' index.html src styles
 
 mapfile -t artwork < <(grep -oE "assets/screenshots/[A-Za-z0-9._-]+" src/catalog.js | sort -u)
 for path in "${artwork[@]}"; do

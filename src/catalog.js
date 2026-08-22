@@ -739,6 +739,8 @@ export class CatalogController {
   #catalogDepth = 0.78;
   #lastResultCount = null;
   #countFrame = null;
+  #detailDialog = null;
+  #detailReturnFocus = null;
 
   constructor({ onPlayGame, onImportWad }) {
     this.#onPlay = onPlayGame;
@@ -751,6 +753,7 @@ export class CatalogController {
     this.#wireFeaturedCarousel();
     this.#wireElasticDepthControl();
     this.#wireMotionSystem();
+    this.#wireDetailDialog();
     this.render();
     this.#selectGame(this.#featuredGames()[0] ?? COLLECTIONS[0], false, false);
     this.#startFeaturedAutoplay();
@@ -914,6 +917,7 @@ export class CatalogController {
       card.style.transitionDuration = animate && !reduced ? '620ms' : '0ms';
       card.style.transform = `translate(-50%, -50%) translateX(${tx.toFixed(1)}px) translateZ(${tz.toFixed(1)}px) rotateY(${rotation.toFixed(2)}deg)`;
       card.style.opacity = opacity.toFixed(3);
+
       card.style.filter = `brightness(${Math.max(isDark ? .20 : .28, 1 - back * (isDark ? .23 : .18)).toFixed(2)}) blur(${Math.min(isDark ? 5.5 : 4, back * depthBlur).toFixed(2)}px)`;
       card.style.zIndex = String(120 - Math.round(distance * 10));
       card.style.pointerEvents = shown && opacity > .1 ? 'auto' : 'none';
@@ -1074,13 +1078,21 @@ export class CatalogController {
       if (!button) return;
       const game = COLLECTIONS.find((item) => item.id === button.dataset.game);
       const action = button.dataset.action;
+      if (action === 'show-detail') this.#openDetail(game ?? COLLECTIONS.find((item) => item.id === this.#selectedId), button);
+      if (action === 'close-detail') this.#closeDetail();
+      if (['play-game', 'import', 'open-project', 'open-runtime', 'open-probe'].includes(action)) this.#closeDetail();
       if (action === 'play-game' && game?.playable) this.#onPlay?.(game);
       if (action === 'import') this.#onImport?.(game);
       if (action === 'open-project' && game?.projectUrl) window.open(game.projectUrl, '_blank', 'noopener,noreferrer');
       if (action === 'open-runtime' && game?.runtimePath) window.location.assign(game.runtimePath);
       if (action === 'open-probe' && game?.probePath) window.location.assign(game.probePath);
       if (action === 'focus-genre') this.focusCatalog(button.dataset.genre ?? 'All');
-      if (action === 'toggle-library' && game) { this.#toggleLibrary(game.id); this.render(); }
+      if (action === 'toggle-library' && game) {
+        this.#toggleLibrary(game.id);
+        this.render();
+        const detailLibrary = document.getElementById('detail-library');
+        if (this.#detailDialog?.open && detailLibrary?.dataset.game === game.id) detailLibrary.textContent = this.#pinned.has(game.id) ? 'Remove from library' : 'Save to library';
+      }
       if (action === 'select-game' && game) this.#selectGame(game);
       if (action === 'select-featured' && game) {
         this.#featuredIndex = this.#featuredGames().findIndex((item) => item.id === game.id);
@@ -1088,6 +1100,74 @@ export class CatalogController {
         this.#startFeaturedAutoplay();
       }
     });
+  }
+
+  #wireDetailDialog() {
+    const dialog = document.getElementById('game-detail-dialog');
+    if (!dialog) return;
+    this.#detailDialog = dialog;
+    dialog.addEventListener('cancel', (event) => { event.preventDefault(); this.#closeDetail(); });
+    dialog.addEventListener('click', (event) => { if (event.target === dialog) this.#closeDetail(); });
+  }
+
+  #actionForGame(game) {
+    const isRuntime = Boolean(game.runtimePath);
+    const isProbe = !game.playable && Boolean(game.probePath);
+    const isExternal = !game.playable && Boolean(game.projectUrl);
+    return {
+      action: isRuntime ? 'open-runtime' : (game.playable ? 'play-game' : (isProbe ? 'open-probe' : (isExternal ? 'open-project' : 'import'))),
+      label: isRuntime ? (game.runtimeLabel ?? 'Launch runtime') : (game.playable ? (game.playLabel ?? 'Play now') : (isProbe ? (game.projectLabel ?? 'Open technical probe') : (isExternal ? (game.projectLabel ?? 'View project') : 'Attach WAD'))),
+    };
+  }
+
+  #openDetail(game, trigger) {
+    const dialog = this.#detailDialog;
+    if (!dialog || !game) return;
+    const { action, label } = this.#actionForGame(game);
+    const index = COLLECTIONS.findIndex((item) => item.id === game.id) + 1;
+    const saved = this.#pinned.has(game.id);
+    const setText = (id, value) => { const node = document.getElementById(id); if (node) node.textContent = value ?? ''; };
+    const cover = document.getElementById('detail-cover');
+    if (cover) { cover.src = game.artwork; cover.alt = `${game.title} gameplay screenshot`; }
+    setText('detail-state', game.catalogState ?? (game.playable ? 'READY / LOCAL' : 'ARCHIVE / REFERENCE'));
+    setText('detail-index', `ARCHIVE / ${String(index).padStart(2, '0')}`);
+    setText('detail-overline', `${game.genre} / ${game.format}`);
+    setText('detail-title', game.title);
+    setText('detail-studio', `${game.studio} · ${game.year}`);
+    setText('detail-description', game.description);
+    setText('detail-format', game.format);
+    setText('detail-duration', game.duration);
+    setText('detail-maps', game.maps);
+    setText('detail-license', game.license);
+    setText('detail-credit', game.artworkCredit);
+    const setLink = (id, url, text) => {
+      const link = document.getElementById(id);
+      if (!link) return;
+      link.hidden = !url;
+      if (url) { link.href = url; link.textContent = text; }
+      else { link.removeAttribute('href'); link.textContent = ''; }
+    };
+    setLink('detail-project-link', game.projectUrl, game.projectLabel ?? 'Official project ↗');
+    setLink('detail-download-link', game.downloadUrl, game.downloadLabel ?? 'Official download ↗');
+    const downloadNote = document.getElementById('detail-download-note');
+    if (downloadNote) { downloadNote.hidden = !game.downloadNote; downloadNote.textContent = game.downloadNote ?? ''; }
+    const primary = document.getElementById('detail-primary');
+    if (primary) { primary.dataset.action = action; primary.dataset.game = game.id; primary.textContent = label; }
+    const library = document.getElementById('detail-library');
+    if (library) { library.dataset.action = 'toggle-library'; library.dataset.game = game.id; library.textContent = saved ? 'Remove from library' : 'Save to library'; }
+    this.#detailReturnFocus = trigger instanceof HTMLElement ? trigger : document.activeElement;
+    if (!dialog.open) dialog.showModal();
+    document.body.classList.add('detail-open');
+    window.dispatchEvent(new CustomEvent('retroplay:audio-sfx', { detail: { kind: 'open' } }));
+    window.setTimeout(() => dialog.querySelector('.game-detail-close')?.focus(), 0);
+  }
+
+  #closeDetail() {
+    const dialog = this.#detailDialog;
+    if (!dialog) return;
+    if (dialog.open) dialog.close();
+    document.body.classList.remove('detail-open');
+    this.#detailReturnFocus?.focus?.();
   }
 
   #filteredItems() {
@@ -1121,7 +1201,7 @@ export class CatalogController {
         <h3>${game.title}</h3><p>${game.description}</p>
         <p class="card-license">${game.license}</p>
         <div class="card-meta"><span>${game.year}</span><span>${game.duration}</span><span>${game.maps}</span></div>
-        <div class="card-actions"><button class="retro-button retro-button-compact" data-magnet data-action="${action}" data-game="${game.id}">${actionLabel}</button><button class="icon-button ${saved ? 'is-saved' : ''}" data-action="toggle-library" data-game="${game.id}" aria-label="${saved ? 'Remove from' : 'Add to'} Library" aria-pressed="${saved}">${saved ? '★' : '☆'}</button></div>${download}${downloadNote}
+        <div class="card-actions"><button class="retro-button retro-button-compact" data-magnet data-action="${action}" data-game="${game.id}">${actionLabel}</button><button class="card-detail-button" data-action="show-detail" data-game="${game.id}">Details ↗</button><button class="icon-button ${saved ? 'is-saved' : ''}" data-action="toggle-library" data-game="${game.id}" aria-label="${saved ? 'Remove from' : 'Add to'} Library" aria-pressed="${saved}">${saved ? '★' : '☆'}</button></div>${download}${downloadNote}
       </div>
     </article>`;
   }
@@ -1150,6 +1230,7 @@ export class CatalogController {
         const isExternal = !game.playable && Boolean(game.projectUrl);
         button.dataset.action = isRuntime ? 'open-runtime' : (game.playable ? 'play-game' : (isProbe ? 'open-probe' : (isExternal ? 'open-project' : 'import')));
         button.dataset.game = game.id;
+        document.getElementById('btn-featured-details')?.setAttribute('data-game', game.id);
         button.textContent = isRuntime ? (game.runtimeLabel ?? 'Launch runtime') : (game.playable ? (game.playLabel ?? 'Launch now') : (isProbe ? (game.projectLabel ?? 'Open technical probe') : (isExternal ? (game.projectLabel ?? 'View project') : 'Attach legal WAD')));
       }
       document.getElementById('featured-format').textContent = game.format;
