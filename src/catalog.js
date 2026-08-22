@@ -1095,7 +1095,7 @@ export class CatalogController {
         <h3>${game.title}</h3><p>${game.description}</p>
         <p class="card-license">${game.license}</p>
         <div class="card-meta"><span>${game.year}</span><span>${game.duration}</span><span>${game.maps}</span></div>
-        <div class="card-actions"><button class="retro-button retro-button-compact" data-action="${action}" data-game="${game.id}">${actionLabel}</button><button class="icon-button ${saved ? 'is-saved' : ''}" data-action="toggle-library" data-game="${game.id}" aria-label="${saved ? 'Remove from' : 'Add to'} Library" aria-pressed="${saved}">${saved ? '★' : '☆'}</button></div>${download}${downloadNote}
+        <div class="card-actions"><button class="retro-button retro-button-compact" data-magnet data-action="${action}" data-game="${game.id}">${actionLabel}</button><button class="icon-button ${saved ? 'is-saved' : ''}" data-action="toggle-library" data-game="${game.id}" aria-label="${saved ? 'Remove from' : 'Add to'} Library" aria-pressed="${saved}">${saved ? '★' : '☆'}</button></div>${download}${downloadNote}
       </div>
     </article>`;
   }

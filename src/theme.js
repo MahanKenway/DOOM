@@ -50,9 +50,7 @@ export function initTheme() {
   const toggle = document.getElementById('theme-toggle');
   toggle?.addEventListener('click', () => {
     const nextTheme = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
-    document.documentElement.classList.add('theme-transitioning');
     applyTheme(nextTheme, { persist: true, source: 'toggle' });
-    window.setTimeout(() => document.documentElement.classList.remove('theme-transitioning'), 420);
   });
 
   const query = window.matchMedia?.('(prefers-color-scheme: dark)');
@@ -60,8 +58,57 @@ export function initTheme() {
     if (!storedTheme()) applyTheme(event.matches ? 'dark' : 'light', { source: 'system' });
   };
   query?.addEventListener?.('change', onSystemThemeChange);
+  const stopMagnet = initMagnet();
 
   return () => {
     query?.removeEventListener?.('change', onSystemThemeChange);
+    stopMagnet?.();
+  };
+}
+
+function initMagnet() {
+  const supported = window.matchMedia?.('(hover: hover) and (pointer: fine)').matches
+    && !window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+  if (!supported) return;
+  let active = null;
+  let frame = 0;
+  let pointer = null;
+  const reset = (button) => {
+    button?.classList.remove('is-magnet-active');
+    button?.style.removeProperty('--magnet-x');
+    button?.style.removeProperty('--magnet-y');
+  };
+  const update = () => {
+    frame = 0;
+    if (!active || !pointer || !active.isConnected) return;
+    const bounds = active.getBoundingClientRect();
+    const distanceX = pointer.x - (bounds.left + bounds.width / 2);
+    const distanceY = pointer.y - (bounds.top + bounds.height / 2);
+    const range = Math.max(bounds.width, bounds.height) * .82;
+    if (Math.hypot(distanceX, distanceY) > range) { reset(active); active = null; return; }
+    active.classList.add('is-magnet-active');
+    active.style.setProperty('--magnet-x', `${Math.max(-6, Math.min(6, distanceX / 10)).toFixed(2)}px`);
+    active.style.setProperty('--magnet-y', `${Math.max(-4, Math.min(4, distanceY / 12)).toFixed(2)}px`);
+  };
+  const onMove = (event) => {
+    const button = event.target?.closest?.('[data-magnet]');
+    if (button !== active) { reset(active); active = button ?? null; }
+    if (!active) return;
+    pointer = { x: event.clientX, y: event.clientY };
+    if (!frame) frame = requestAnimationFrame(update);
+  };
+  const onLeave = (event) => {
+    const button = event.target?.closest?.('[data-magnet]');
+    if (!button || button.contains(event.relatedTarget)) return;
+    if (button === active) active = null;
+    reset(button);
+  };
+  document.addEventListener('pointermove', onMove, { passive: true });
+  document.addEventListener('pointerout', onLeave);
+  return () => {
+    if (frame) cancelAnimationFrame(frame);
+    document.removeEventListener('pointermove', onMove);
+    document.removeEventListener('pointerout', onLeave);
+    reset(active);
   };
 }
