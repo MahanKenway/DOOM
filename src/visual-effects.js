@@ -75,9 +75,8 @@ const VISUAL_THEME = {
 };
 
 const QUALITY = {
-  high: { wavesScale: .82, eyeScale: 1, wavesFps: 30, eyeFps: 30, wavesSteps: 28 },
-  balanced: { wavesScale: .62, eyeScale: .8, wavesFps: 24, eyeFps: 24, wavesSteps: 20 },
-  eco: { wavesScale: 0, eyeScale: 0, wavesFps: 0, eyeFps: 0, wavesSteps: 0 },
+  high: { wavesScale: 1.25, eyeScale: 1.5, wavesFps: 60, eyeFps: 60, wavesSteps: 32 },
+  balanced: { wavesScale: 1.08, eyeScale: 1.25, wavesFps: 48, eyeFps: 48, wavesSteps: 30 },
   static: { wavesScale: 0, eyeScale: 0, wavesFps: 0, eyeFps: 0, wavesSteps: 0 },
 };
 
@@ -88,14 +87,9 @@ function hexToVec3(hex) {
 
 function chooseVisualQuality() {
   const reduced = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
-  const coarse = window.matchMedia?.('(pointer: coarse)').matches;
   const memory = Number(navigator.deviceMemory ?? 4);
   const cores = Number(navigator.hardwareConcurrency ?? 4);
-  const connection = navigator.connection ?? navigator.mozConnection ?? navigator.webkitConnection;
-  const constrainedNetwork = connection?.saveData || /(^|-)2g/.test(connection?.effectiveType ?? '');
-  const smallViewport = window.innerWidth < 680;
   if (reduced) return 'static';
-  if (coarse || smallViewport || memory <= 2 || cores <= 4 || constrainedNetwork) return 'eco';
   if (memory >= 8 && cores >= 8) return 'high';
   return 'balanced';
 }
@@ -118,7 +112,7 @@ function createProgram(gl, fragment) {
 }
 
 function mountShader(canvas, fragment, { mouse = false, className = '', quality } = {}) {
-  if (!canvas || quality === 'static' || quality === 'eco') { canvas?.classList.add('is-unavailable'); return; }
+  if (!canvas || quality === 'static') { canvas?.classList.add('is-unavailable'); return; }
   const preset = QUALITY[quality] ?? QUALITY.balanced;
   const isWaves = className === 'gradient-waves';
   const gl = canvas.getContext('webgl', { alpha: true, antialias: false, premultipliedAlpha: true, powerPreference: 'low-power', preserveDrawingBuffer: false });

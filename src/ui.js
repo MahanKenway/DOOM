@@ -14,6 +14,7 @@ export class LoadingScreen {
   #fill;   // .progress-fill div
   #pct;    // .progress-text span
   #hint;   // .loading-hint p
+  #driftWall = null;
 
   constructor() {
     this.#el   = document.getElementById('loading-screen');
@@ -23,8 +24,31 @@ export class LoadingScreen {
     this.#hint = this.#el?.querySelector('.loading-hint');
   }
 
-  show() { this.#el?.classList.add('active'); }
+  show() {
+    this.#mountDriftWall();
+    this.#el?.classList.add('active');
+  }
   hide() { this.#el?.classList.remove('active'); }
+
+  #mountDriftWall() {
+    const quality = document.documentElement.dataset.visualQuality;
+    if (!this.#el || this.#driftWall || quality === 'static') return;
+    const tiles = [
+      'assets/screenshots/hexgl-runtime.webp',
+      'assets/screenshots/astray-runtime.webp',
+      'assets/screenshots/tuxracer-runtime.webp',
+      'assets/screenshots/starter-kit-racing-runtime.webp',
+    ].map((path) => new URL(path, document.baseURI).href);
+    const wall = document.createElement('div');
+    wall.className = 'loading-drift-wall';
+    wall.setAttribute('aria-hidden', 'true');
+    wall.innerHTML = tiles.map((image, index) => {
+      const next = tiles[(index + 1) % tiles.length];
+      return `<div class="loading-drift-column loading-drift-column-${index + 1}" style="--drift-image:url('${image}');--drift-next:url('${next}')"><i></i><i></i><i></i></div>`;
+    }).join('');
+    this.#el.prepend(wall);
+    this.#driftWall = wall;
+  }
 
   /**
    * Append a line to the boot log.

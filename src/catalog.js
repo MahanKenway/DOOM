@@ -824,7 +824,7 @@ export class CatalogController {
       if (document.hidden) this.#stopFeaturedAutoplay(); else this.#startFeaturedAutoplay();
     });
     const quality = document.documentElement.dataset.visualQuality;
-    if (quality !== 'eco' && quality !== 'static') this.#mountFeaturedDepthDeck();
+    if (quality !== 'static') this.#mountFeaturedDepthDeck();
     window.addEventListener('retroplay:themechange', () => this.#layoutFeaturedDepthDeck(this.#depthDeckPosition, false));
   }
 
@@ -945,7 +945,7 @@ export class CatalogController {
   #wireMotionSystem() {
     const reduced = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
     const quality = document.documentElement.dataset.visualQuality;
-    if (reduced || quality === 'eco' || quality === 'static') return;
+    if (reduced || quality === 'static') return;
     this.#motionEnabled = true;
     document.documentElement.classList.add('motion-ready');
     if ('IntersectionObserver' in window) {

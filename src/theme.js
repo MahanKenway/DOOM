@@ -72,7 +72,7 @@ function initStatusRotation() {
   const target = document.getElementById('system-time');
   const reduced = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
   const quality = document.documentElement.dataset.visualQuality;
-  if (!target || reduced || quality === 'eco' || quality === 'static') return;
+  if (!target || reduced || quality === 'static') return;
   const messages = ['ONLINE', 'LOCAL READY', '36 WORLDS', 'KB / TOUCH / PAD'];
   let index = 0;
   let timer = 0;
