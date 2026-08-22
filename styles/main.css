@@ -350,3 +350,25 @@ html[data-theme] .filter-panel,html[data-theme] .game-card { backdrop-filter:non
 [data-magnet]:not(.is-magnet-active) { transition:transform .5s cubic-bezier(.16,1,.3,1),box-shadow .24s var(--ease),background-color .24s var(--ease),color .24s var(--ease); }
 html[data-theme='dark'] [data-magnet].is-magnet-active { box-shadow:5px 5px 0 rgba(217,250,93,.44),0 0 20px rgba(185,216,59,.14); }
 @media (hover:none),(pointer:coarse),(prefers-reduced-motion:reduce){[data-magnet],[data-magnet].is-magnet-active{transform:none !important;transition:none;will-change:auto}}
+
+
+/* Performance budget: visual effects progressively enhance capable devices only. */
+html[data-visual-quality='eco'] .depth-deck,
+html[data-visual-quality='static'] .depth-deck { display:none; }
+html[data-visual-quality='eco'] .featured-panel,
+html[data-visual-quality='eco'] .game-card,
+html[data-visual-quality='eco'] .collection-card { transform:none; filter:none; }
+html[data-visual-quality='eco'] .game-card::before,
+html[data-visual-quality='eco'] .game-card::after,
+html[data-visual-quality='eco'] .collection-card::after { animation:none; transition:none; }
+html[data-visual-quality='eco'] .featured-panel.is-arriving,
+html[data-visual-quality='eco'] .featured-panel.is-transitioning { animation:none; transition:none; }
+html[data-visual-quality='eco'] .waves-fallback { animation:none; opacity:.72; }
+html[data-visual-quality='eco'] .evil-eye-fallback i { animation:none; }
+html[data-visual-quality='static'] .waves-fallback,
+html[data-visual-quality='static'] .evil-eye-fallback { animation:none; }
+.is-status-rotating { display:inline-block; will-change:transform,opacity; }
+.is-status-rotating.is-status-exiting { opacity:0; transform:translateY(-4px); transition:transform 140ms ease,opacity 140ms ease; }
+.is-status-rotating.is-status-entering { animation:retroplay-status-in 220ms var(--ease); }
+@keyframes retroplay-status-in { from { opacity:0; transform:translateY(4px); } to { opacity:1; transform:translateY(0); } }
+@media (prefers-reduced-motion:reduce){.is-status-rotating,.is-status-rotating.is-status-exiting,.is-status-rotating.is-status-entering{animation:none;transition:none;transform:none}}

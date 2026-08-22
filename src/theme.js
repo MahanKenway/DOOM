@@ -59,11 +59,40 @@ export function initTheme() {
   };
   query?.addEventListener?.('change', onSystemThemeChange);
   const stopMagnet = initMagnet();
+  const stopStatusRotation = initStatusRotation();
 
   return () => {
     query?.removeEventListener?.('change', onSystemThemeChange);
     stopMagnet?.();
+    stopStatusRotation?.();
   };
+}
+
+function initStatusRotation() {
+  const target = document.getElementById('system-time');
+  const reduced = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+  const quality = document.documentElement.dataset.visualQuality;
+  if (!target || reduced || quality === 'eco' || quality === 'static') return;
+  const messages = ['ONLINE', 'LOCAL READY', '36 WORLDS', 'KB / TOUCH / PAD'];
+  let index = 0;
+  let timer = 0;
+  const rotate = () => {
+    target.classList.add('is-status-exiting');
+    window.setTimeout(() => {
+      index = (index + 1) % messages.length;
+      target.textContent = messages[index];
+      target.classList.remove('is-status-exiting');
+      target.classList.add('is-status-entering');
+      requestAnimationFrame(() => target.classList.remove('is-status-entering'));
+    }, 140);
+  };
+  const start = () => { if (!timer && !document.hidden) timer = window.setInterval(rotate, 5200); };
+  const stop = () => { if (timer) { window.clearInterval(timer); timer = 0; } };
+  const onVisibility = () => { if (document.hidden) stop(); else start(); };
+  document.addEventListener('visibilitychange', onVisibility);
+  target.classList.add('is-status-rotating');
+  start();
+  return () => { stop(); document.removeEventListener('visibilitychange', onVisibility); };
 }
 
 function initMagnet() {

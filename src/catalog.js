@@ -737,6 +737,8 @@ export class CatalogController {
   #depthDeckDrag = null;
   #depthDeckWheelTimer = null;
   #catalogDepth = 0.78;
+  #lastResultCount = null;
+  #countFrame = null;
 
   constructor({ onPlayGame, onImportWad }) {
     this.#onPlay = onPlayGame;
@@ -759,10 +761,32 @@ export class CatalogController {
     const grid = document.getElementById('catalog-grid');
     const count = document.getElementById('result-count');
     if (grid) grid.innerHTML = this.#catalogMarkup(filtered);
-    if (count) count.textContent = `${filtered.length.toString().padStart(2, '0')} records`;
+    if (count) this.#renderResultCount(count, filtered.length);
     this.#renderLibrary();
     this.#renderCollectionStats();
     this.#applyMotionTargets();
+  }
+
+  #renderResultCount(element, nextCount) {
+    const format = (value) => `${String(value).padStart(2, '0')} records`;
+    const reduced = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+    const startCount = this.#lastResultCount;
+    this.#lastResultCount = nextCount;
+    if (this.#countFrame) cancelAnimationFrame(this.#countFrame);
+    if (startCount === null || startCount === nextCount || reduced || document.hidden) {
+      element.textContent = format(nextCount);
+      return;
+    }
+    const startedAt = performance.now();
+    const duration = 320;
+    const tick = (now) => {
+      const progress = Math.min(1, (now - startedAt) / duration);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      element.textContent = format(Math.round(startCount + (nextCount - startCount) * eased));
+      if (progress < 1) this.#countFrame = requestAnimationFrame(tick);
+      else this.#countFrame = null;
+    };
+    this.#countFrame = requestAnimationFrame(tick);
   }
 
   focusCatalog(genre = 'All') {
@@ -799,7 +823,8 @@ export class CatalogController {
     document.addEventListener('visibilitychange', () => {
       if (document.hidden) this.#stopFeaturedAutoplay(); else this.#startFeaturedAutoplay();
     });
-    this.#mountFeaturedDepthDeck();
+    const quality = document.documentElement.dataset.visualQuality;
+    if (quality !== 'eco' && quality !== 'static') this.#mountFeaturedDepthDeck();
     window.addEventListener('retroplay:themechange', () => this.#layoutFeaturedDepthDeck(this.#depthDeckPosition, false));
   }
 
@@ -919,7 +944,8 @@ export class CatalogController {
 
   #wireMotionSystem() {
     const reduced = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
-    if (reduced) return;
+    const quality = document.documentElement.dataset.visualQuality;
+    if (reduced || quality === 'eco' || quality === 'static') return;
     this.#motionEnabled = true;
     document.documentElement.classList.add('motion-ready');
     if ('IntersectionObserver' in window) {
