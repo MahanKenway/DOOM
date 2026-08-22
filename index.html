@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
   <meta name="theme-color" content="#e9e8e3" />
+  <script>(function(){try{var t=localStorage.getItem('retroplay:theme');if(t!=='light'&&t!=='dark'){t=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'}document.documentElement.dataset.theme=t;document.documentElement.style.colorScheme=t;document.querySelector('meta[name="theme-color"]').setAttribute('content',t==='dark'?'#10140f':'#e7e6e0')}catch(e){document.documentElement.dataset.theme='light'}})();</script>
   <meta name="application-name" content="RetroPlay" />
   <meta name="description" content="RetroPlay is a curated browser hub for ready-to-play open-source retro games, classic engines and WAD worlds." />
   <meta name="robots" content="index,follow,max-image-preview:large" />
@@ -48,7 +49,7 @@
         <button data-retro-nav="library">Library <span id="library-count">00</span></button>
         <button data-retro-nav="about">About</button>
       </nav>
-      <div class="header-status"><span class="status-dot"></span><span>Browser runtime</span><span class="header-divider"></span><span id="system-time">Online</span></div>
+      <div class="header-utility"><button id="theme-toggle" class="theme-toggle" type="button" aria-pressed="false" aria-label="Switch to dark mode"><span class="theme-toggle-track" aria-hidden="true"><i></i></span><span data-theme-label>Light</span></button><div class="header-status"><span class="status-dot"></span><span>Browser runtime</span><span class="header-divider"></span><span id="system-time">Online</span></div></div>
     </header>
 
     <main class="retro-main">

@@ -231,3 +231,100 @@ html[data-performance="battery"] .game-topbar + #doom-canvas { box-shadow: none;
 @media (hover:none),(pointer:coarse),(prefers-reduced-motion:reduce) { .gradient-waves { display:none; }.depth-deck { display:none; }.accordion-genre-strip .collection-card,.accordion-genre-strip .collection-card:not(:hover) { transform:none !important; filter:none; }.accordion-genre-strip .collection-card b,.accordion-genre-strip .collection-card small { opacity:1; transform:none; }.elastic-depth-control.is-adjusting > span { animation:none; } }
 .evil-eye-fallback { display:none; position:relative; width:36px; height:20px; margin-left:8px; overflow:hidden; border:1px solid rgba(24,28,24,.78); background:radial-gradient(ellipse at 50% 50%,#d7eb41 0 19%,#93b720 22%,#26330c 45%,#141810 68%); box-shadow:0 0 12px rgba(185,200,45,.42),3px 3px 0 rgba(24,28,24,.12); transform:skewX(-8deg); }.evil-eye-fallback::before { content:''; position:absolute; inset:2px 3px; border-radius:50%; border-top:2px solid rgba(234,247,134,.72); border-bottom:2px solid rgba(18,23,14,.86); }.evil-eye-fallback i { position:absolute; top:50%; left:50%; width:7px; height:13px; border-radius:50%; background:#11150e; box-shadow:0 0 0 2px rgba(215,235,65,.18); transform:translate(-50%,-50%); animation:eye-scan 3.2s ease-in-out infinite; }@keyframes eye-scan { 0%,100%{margin-left:-6px}50%{margin-left:6px} }.evil-eye.is-unavailable + .evil-eye-fallback { display:inline-block; }.evil-eye:not(.is-unavailable) + .evil-eye-fallback { display:none; }@media (max-width:760px){.evil-eye-fallback{width:29px;height:17px;margin-left:6px}}@media (prefers-reduced-motion:reduce){.evil-eye-fallback i{animation:none}}
 .waves-fallback { display:none; position:absolute; z-index:1; inset:auto -20% -18% -20%; height:58%; opacity:.42; pointer-events:none; mix-blend-mode:screen; background:repeating-radial-gradient(ellipse at 48% 110%,rgba(222,245,96,.65) 0 1px,transparent 2px 18px),linear-gradient(180deg,transparent,rgba(95,131,23,.2)); transform:perspective(380px) rotateX(62deg) scale(1.5); transform-origin:bottom; animation:waves-fallback-roll 7s linear infinite; }.gradient-waves.is-unavailable + .waves-fallback { display:block; }@keyframes waves-fallback-roll { from{background-position:0 0,0 0}to{background-position:0 64px,0 0} }@media (prefers-reduced-motion:reduce){.waves-fallback{animation:none}}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   THEME TOKENS — the depth system reads these surfaces as light.
+   ═══════════════════════════════════════════════════════════════ */
+:root, html[data-theme='light'] {
+  --paper: #e7e6e0;
+  --paper-deep: #d9d8d1;
+  --ink: #161815;
+  --ink-soft: #4c5049;
+  --ink-muted: #777b73;
+  --line: rgba(23,26,23,.18);
+  --line-strong: rgba(23,26,23,.45);
+  --glass: rgba(255,255,251,.42);
+  --glass-deep: rgba(235,235,228,.74);
+  --lime: #9fac25;
+  --lime-bright: #c4d833;
+  --lime-fade: rgba(159,172,37,.16);
+  --theme-grid: rgba(24,28,24,.052);
+  --theme-glow: rgba(159,172,37,.12);
+  --surface-raised: rgba(255,255,251,.43);
+  --surface-footer: rgba(235,235,228,.42);
+  --depth-card-surface: #101410;
+  --depth-card-border: rgba(238,240,231,.5);
+  --depth-card-shadow: rgba(12,14,12,.74);
+  --depth-overlay-a: rgba(11,14,11,.64);
+  --depth-overlay-b: rgba(11,14,11,.75);
+  --depth-active-ring: rgba(190,214,45,.23);
+  --depth-active-shadow: rgba(12,14,12,.78);
+  --depth-panel-tint: .16;
+  --wave-line: rgba(212,228,84,.62);
+  --wave-fog: rgba(94,123,27,.20);
+  --eye-shell: #d7eb41;
+  --eye-core: #11150e;
+  --toggle-track: #c8c7bf;
+  --toggle-knob: #f8f7ef;
+  --toggle-icon: #4b5047;
+}
+html[data-theme='dark'] {
+  --paper: #10140f;
+  --paper-deep: #171d15;
+  --ink: #edf2e8;
+  --ink-soft: #bec8b8;
+  --ink-muted: #8d9988;
+  --line: rgba(225,240,218,.15);
+  --line-strong: rgba(225,240,218,.38);
+  --glass: rgba(24,31,22,.76);
+  --glass-deep: rgba(32,40,29,.9);
+  --lime: #b9d83b;
+  --lime-bright: #d9fa5d;
+  --lime-fade: rgba(185,216,59,.18);
+  --theme-grid: rgba(222,241,206,.052);
+  --theme-glow: rgba(185,216,59,.14);
+  --surface-raised: rgba(25,32,23,.88);
+  --surface-footer: rgba(18,24,16,.84);
+  --depth-card-surface: #071008;
+  --depth-card-border: rgba(218,247,122,.7);
+  --depth-card-shadow: rgba(0,0,0,.92);
+  --depth-overlay-a: rgba(0,9,2,.48);
+  --depth-overlay-b: rgba(0,6,1,.78);
+  --depth-active-ring: rgba(217,250,93,.42);
+  --depth-active-shadow: rgba(0,0,0,.95);
+  --depth-panel-tint: .31;
+  --wave-line: rgba(202,248,82,.78);
+  --wave-fog: rgba(73,132,45,.28);
+  --eye-shell: #c9f45d;
+  --eye-core: #030702;
+  --toggle-track: #27371e;
+  --toggle-knob: #d9fa5d;
+  --toggle-icon: #c8e975;
+}
+html[data-theme] body, html[data-theme] #wad-picker { background:var(--paper); color:var(--ink); }
+html[data-theme] #wad-picker::before { background:linear-gradient(var(--theme-grid) 1px,transparent 1px),linear-gradient(90deg,var(--theme-grid) 1px,transparent 1px),radial-gradient(circle at 85% 11%,color-mix(in srgb,var(--paper) 20%,transparent),transparent 28%),radial-gradient(circle at 11% 40%,var(--theme-glow),transparent 21%); background-size:36px 36px,36px 36px,auto,auto; }
+html[data-theme='dark'] #wad-picker::after { opacity:.16; mix-blend-mode:screen; }
+html[data-theme] .spatial-panel { box-shadow:16px 17px 0 color-mix(in srgb,var(--ink) 7%,transparent),0 16px 40px color-mix(in srgb,var(--ink) 11%,transparent); }
+html[data-theme] .spatial-panel::before { border-color:color-mix(in srgb,var(--ink) 18%,transparent); }
+html[data-theme] .featured-footer { background:var(--surface-footer); }
+html[data-theme] .game-card { background:var(--surface-raised); box-shadow:calc(7px + var(--card-index,0) * 1px) calc(8px + var(--card-index,0) * 1px) 0 color-mix(in srgb,var(--ink) 9%,transparent); }
+html[data-theme='dark'] .game-card:hover { box-shadow:12px 16px 0 color-mix(in srgb,var(--lime) 16%,transparent),0 20px 35px rgba(0,0,0,.36); }
+html[data-theme] .filter-chip, html[data-theme] .filter-group select, html[data-theme] .drop-zone { background:color-mix(in srgb,var(--glass-deep) 58%,transparent); color:var(--ink-soft); }
+html[data-theme='dark'] .collection-card.collection-action, html[data-theme='dark'] .collection-card.collection-explore, html[data-theme='dark'] .collection-card.collection-experimental { background:linear-gradient(145deg,#20291d,#121811); color:var(--ink); }
+html[data-theme='dark'] .collection-card.collection-strategy { background:linear-gradient(135deg,#34462c,#182214); color:var(--ink); }
+html[data-theme='dark'] .collection-card.collection-arcade { background:linear-gradient(135deg,#5d7024,#182110); color:#f5fae8; }
+html[data-theme='dark'] .collection-card.collection-gems { background:linear-gradient(135deg,#755a27,#261c0c); color:#fff1cf; }
+html[data-theme='dark'] .collection-card.collection-rhythm { background:linear-gradient(135deg,#522f44,#231320); }
+html[data-theme] .depth-deck-card { background:var(--depth-card-surface); border-color:var(--depth-card-border); box-shadow:0 22px 36px -16px var(--depth-card-shadow); }
+html[data-theme] .depth-deck-card::after { background:linear-gradient(120deg,var(--depth-overlay-a),transparent 48%),linear-gradient(0deg,var(--depth-overlay-b),transparent 50%); }
+html[data-theme] .depth-deck-card.is-depth-active { border-color:var(--lime-bright); box-shadow:0 0 0 2px var(--depth-active-ring),0 24px 38px -13px var(--depth-active-shadow); }
+html[data-theme='dark'] .depth-deck-card { filter:brightness(.96); }
+html[data-theme] .waves-fallback { background:repeating-radial-gradient(ellipse at 48% 110%,var(--wave-line) 0 1px,transparent 2px 18px),linear-gradient(180deg,transparent,var(--wave-fog)); }
+html[data-theme] .evil-eye-fallback { background:radial-gradient(ellipse at 50% 50%,var(--eye-shell) 0 19%,color-mix(in srgb,var(--eye-shell) 70%,#29370d) 22%,#26330c 45%,#141810 68%); }
+html[data-theme] .evil-eye-fallback i { background:var(--eye-core); box-shadow:0 0 0 2px color-mix(in srgb,var(--eye-shell) 18%,transparent); }
+/* Header theme switch */
+.header-utility { justify-self:end; display:flex; align-items:center; gap:14px; }.theme-toggle { display:inline-flex; align-items:center; gap:7px; min-height:28px; padding:0; border:0; background:transparent; color:var(--ink-muted); cursor:pointer; font:8px var(--font-mono); letter-spacing:.08em; text-transform:uppercase; }.theme-toggle-track { position:relative; display:block; width:30px; height:16px; border:1px solid var(--line-strong); border-radius:99px; background:var(--toggle-track); box-shadow:inset 0 1px 2px color-mix(in srgb,var(--ink) 20%,transparent); transition:background .32s var(--ease),border-color .32s var(--ease),box-shadow .32s var(--ease); }.theme-toggle-track::before { content:'☼'; position:absolute; left:3px; top:0; color:var(--toggle-icon); font:10px/14px var(--font-mono); transition:opacity .22s var(--ease); }.theme-toggle-track::after { content:'◐'; position:absolute; right:3px; top:0; color:var(--toggle-icon); font:10px/14px var(--font-mono); opacity:0; transition:opacity .22s var(--ease); }.theme-toggle-track i { position:absolute; z-index:1; top:2px; left:2px; width:10px; height:10px; border-radius:50%; background:var(--toggle-knob); box-shadow:0 1px 3px rgba(0,0,0,.28); transition:transform .34s var(--ease),background .34s var(--ease); }.theme-toggle[aria-pressed='true'] .theme-toggle-track i { transform:translateX(14px); }.theme-toggle[aria-pressed='true'] .theme-toggle-track::before { opacity:0; }.theme-toggle[aria-pressed='true'] .theme-toggle-track::after { opacity:1; }.theme-toggle:hover .theme-toggle-track,.theme-toggle:focus-visible .theme-toggle-track { border-color:var(--lime); box-shadow:0 0 0 3px var(--lime-fade); }.theme-toggle:focus-visible { outline:none; }.theme-toggle:focus-visible [data-theme-label] { color:var(--ink); }
+/* Theme transitions are opt-in to avoid first-load animation and respect reduced motion. */
+html.theme-transitioning #wad-picker,html.theme-transitioning .spatial-panel,html.theme-transitioning .game-card,html.theme-transitioning .filter-panel,html.theme-transitioning .collection-card,html.theme-transitioning .retro-header,html.theme-transitioning .retro-footer,html.theme-transitioning .featured-footer { transition:background-color .34s var(--ease),color .3s var(--ease),border-color .34s var(--ease),box-shadow .34s var(--ease),filter .34s var(--ease); }
+@media (max-width:760px){.header-utility{gap:8px}.header-utility .header-status{justify-self:auto}.theme-toggle [data-theme-label]{display:none}.theme-toggle{min-width:30px}.theme-toggle-track{width:30px}}@media (max-width:420px){.header-utility .header-status{display:none}}@media (prefers-reduced-motion:reduce){html.theme-transitioning #wad-picker,html.theme-transitioning .spatial-panel,html.theme-transitioning .game-card,html.theme-transitioning .filter-panel,html.theme-transitioning .collection-card,html.theme-transitioning .retro-header,html.theme-transitioning .retro-footer,html.theme-transitioning .featured-footer{transition:none}.theme-toggle-track,.theme-toggle-track i,.theme-toggle-track::before,.theme-toggle-track::after{transition:none}}

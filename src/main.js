@@ -25,6 +25,7 @@ import { WadLoader }    from './WadLoader.js?v=retroplay-20260815-r2';
 import { EventBus }     from './EventBus.js?v=retroplay-20260815-r2';
 import { CatalogController } from './catalog.js?v=retroplay-20260815-r2';
 import { initVisualEffects } from './visual-effects.js?v=retroplay-20260821-r1';
+import { initTheme } from './theme.js?v=retroplay-20260822-r1';
 import { loadSettings, saveSettings, profileIdFor, listSaveSlots, exportSaveBundle, importSaveBundle } from './persistence.js?v=retroplay-20260815-r2';
 import {
   LoadingScreen,
@@ -111,6 +112,7 @@ function bootstrapUI() {
   EventBus.on('game:paused',  () => ui.pause.show());
   EventBus.on('game:resumed', () => ui.pause.hide());
 
+  initTheme();
   wireWadPicker();
   wireGameControls();
   wireSettingsPanel();

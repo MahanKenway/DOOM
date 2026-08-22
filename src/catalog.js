@@ -800,6 +800,7 @@ export class CatalogController {
       if (document.hidden) this.#stopFeaturedAutoplay(); else this.#startFeaturedAutoplay();
     });
     this.#mountFeaturedDepthDeck();
+    window.addEventListener('retroplay:themechange', () => this.#layoutFeaturedDepthDeck(this.#depthDeckPosition, false));
   }
 
   #mountFeaturedDepthDeck() {
@@ -871,6 +872,10 @@ export class CatalogController {
     const cards = [...root.querySelectorAll('.depth-deck-card')];
     const count = cards.length;
     const reduced = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+    const isDark = document.documentElement.dataset.theme === 'dark';
+    const depthSpacing = isDark ? 120 : 104;
+    const depthFalloff = isDark ? .22 : .16;
+    const depthBlur = isDark ? 1.55 : 1.25;
     cards.forEach((card, index) => {
       let distance = index - position;
       distance = ((distance % count) + count) % count;
@@ -878,13 +883,13 @@ export class CatalogController {
       const back = Math.max(0, distance);
       const shown = Math.abs(distance) <= 3.5;
       const tx = 34 * distance;
-      const tz = -104 * distance;
-      const rotation = 11 * Math.max(0, Math.min(1, distance));
-      const opacity = distance < 0 ? Math.max(0, 1 + distance) : (shown ? 1 - back * .16 : 0);
+      const tz = -depthSpacing * distance;
+      const rotation = (isDark ? 13 : 11) * Math.max(0, Math.min(1, distance));
+      const opacity = distance < 0 ? Math.max(0, 1 + distance) : (shown ? 1 - back * depthFalloff : 0);
       card.style.transitionDuration = animate && !reduced ? '620ms' : '0ms';
       card.style.transform = `translate(-50%, -50%) translateX(${tx.toFixed(1)}px) translateZ(${tz.toFixed(1)}px) rotateY(${rotation.toFixed(2)}deg)`;
       card.style.opacity = opacity.toFixed(3);
-      card.style.filter = `brightness(${Math.max(.28, 1 - back * .18).toFixed(2)}) blur(${Math.min(4, back * 1.25).toFixed(2)}px)`;
+      card.style.filter = `brightness(${Math.max(isDark ? .20 : .28, 1 - back * (isDark ? .23 : .18)).toFixed(2)}) blur(${Math.min(isDark ? 5.5 : 4, back * depthBlur).toFixed(2)}px)`;
       card.style.zIndex = String(120 - Math.round(distance * 10));
       card.style.pointerEvents = shown && opacity > .1 ? 'auto' : 'none';
       card.classList.toggle('is-depth-active', Math.abs(distance) < .48);

@@ -8,7 +8,10 @@ precision highp float;
 uniform vec2 uResolution;
 uniform float uTime;
 uniform vec2 uMouse;
-varying vec2 vUv;
+uniform vec3 uHorizonColor;
+uniform vec3 uWaveColor;
+uniform vec3 uCrestColor;
+uniform float uOpacity;
 float plasma(vec3 r, vec2 freq, vec4 tc) {
   float mx = r.x + tc.x + 5.0 * sin((r.y + r.x) / 20.0 + tc.y);
   float my = r.y - tc.z + 3.0 * cos(r.x / 23.0 + tc.w);
@@ -34,12 +37,9 @@ void main() {
   vec4 tc = vec4(t / .13, t / .81, t / .20, t / .71);
   float dist = raymarch(vec3(0.0, 0.0, 30.0), dir, freq, tc);
   float fog = clamp(15.0 / max(dist, .001), 0.0, 1.0);
-  vec3 horizon = vec3(.72, .80, .12);
-  vec3 body = vec3(.02, .045, .035);
-  vec3 crest = vec3(.91, .96, .68);
-  vec3 color = mix(horizon, mix(body, crest, clamp(0.52 - dir.y * 2.2, 0.0, 1.0)), fog);
+  vec3 color = mix(uHorizonColor, mix(uWaveColor, uCrestColor, clamp(0.52 - dir.y * 2.2, 0.0, 1.0)), fog);
   color *= 0.72 + fog * 0.48;
-  gl_FragColor = vec4(color, fog * .60);
+  gl_FragColor = vec4(color, fog * uOpacity);
 }
 `;
 
@@ -48,6 +48,9 @@ precision highp float;
 uniform vec2 uResolution;
 uniform float uTime;
 uniform vec2 uMouse;
+uniform vec3 uEyeColor;
+uniform vec3 uCoreColor;
+uniform float uGlowIntensity;
 float hash(vec2 p) { return fract(sin(dot(p, vec2(127.1,311.7))) * 43758.5453); }
 float noise(vec2 p) {
   vec2 i = floor(p), f = fract(p); f = f*f*(3.0-2.0*f);
@@ -62,15 +65,33 @@ void main() {
   vec2 pupilUv = uv - uMouse * .075;
   float pupil = smoothstep(.23, .14, length(pupilUv * vec2(3.8, 1.0)));
   float iris = smoothstep(.68, .20, radius) - smoothstep(.35, .12, radius);
-  vec3 lime = vec3(.72, .92, .12);
-  vec3 core = vec3(.02, .028, .018);
-  float glow = shell * (0.42 + flame * .8) + iris * .72;
-  vec3 color = lime * glow;
-  color = mix(color, core, pupil);
-  color += lime * pow(max(0.0, 1.0 - radius), 5.0) * .6;
+  float glow = (shell * (0.42 + flame * .8) + iris * .72) * uGlowIntensity;
+  vec3 color = uEyeColor * glow;
+  color = mix(color, uCoreColor, pupil);
+  color += uEyeColor * pow(max(0.0, 1.0 - radius), 5.0) * .6;
   gl_FragColor = vec4(color, shell * .94);
 }
 `;
+
+const VISUAL_THEME = {
+  light: {
+    horizon: '#bccb35', wave: '#07100a', crest: '#e3ec9a', waveOpacity: .58,
+    eye: '#aec72c', eyeCore: '#11150e', eyeGlow: .84,
+  },
+  dark: {
+    horizon: '#c8f05b', wave: '#031006', crest: '#f0ffb5', waveOpacity: .78,
+    eye: '#c9f45d', eyeCore: '#030702', eyeGlow: 1.18,
+  },
+};
+
+function hexToVec3(hex) {
+  const value = hex.replace('#', '');
+  return new Float32Array([
+    parseInt(value.slice(0, 2), 16) / 255,
+    parseInt(value.slice(2, 4), 16) / 255,
+    parseInt(value.slice(4, 6), 16) / 255,
+  ]);
+}
 
 function compile(gl, type, source) {
   const shader = gl.createShader(type);
@@ -102,6 +123,26 @@ function mountShader(canvas, fragment, { mouse = false, className = '' } = {}) {
   const resolution = gl.getUniformLocation(program, 'uResolution');
   const time = gl.getUniformLocation(program, 'uTime');
   const pointer = gl.getUniformLocation(program, 'uMouse');
+  const themeUniforms = className === 'gradient-waves'
+    ? { horizon: gl.getUniformLocation(program, 'uHorizonColor'), wave: gl.getUniformLocation(program, 'uWaveColor'), crest: gl.getUniformLocation(program, 'uCrestColor'), opacity: gl.getUniformLocation(program, 'uOpacity') }
+    : { eye: gl.getUniformLocation(program, 'uEyeColor'), core: gl.getUniformLocation(program, 'uCoreColor'), glow: gl.getUniformLocation(program, 'uGlowIntensity') };
+  const applyThemeUniforms = (theme = document.documentElement.dataset.theme || 'light') => {
+    const palette = VISUAL_THEME[theme] ?? VISUAL_THEME.light;
+    gl.useProgram(program);
+    if (className === 'gradient-waves') {
+      gl.uniform3fv(themeUniforms.horizon, hexToVec3(palette.horizon));
+      gl.uniform3fv(themeUniforms.wave, hexToVec3(palette.wave));
+      gl.uniform3fv(themeUniforms.crest, hexToVec3(palette.crest));
+      gl.uniform1f(themeUniforms.opacity, palette.waveOpacity);
+    } else {
+      gl.uniform3fv(themeUniforms.eye, hexToVec3(palette.eye));
+      gl.uniform3fv(themeUniforms.core, hexToVec3(palette.eyeCore));
+      gl.uniform1f(themeUniforms.glow, palette.eyeGlow);
+    }
+  };
+  applyThemeUniforms();
+  const onThemeChange = (event) => applyThemeUniforms(event.detail?.theme);
+  window.addEventListener('retroplay:themechange', onThemeChange);
   let mouseX = .5, mouseY = .5, targetX = .5, targetY = .5;
   let visible = true, pageVisible = !document.hidden, frame = 0;
   const resize = () => {
@@ -147,6 +188,7 @@ function mountShader(canvas, fragment, { mouse = false, className = '' } = {}) {
     if (frame) cancelAnimationFrame(frame);
     observer.disconnect();
     document.removeEventListener('visibilitychange', onVisibility);
+    window.removeEventListener('retroplay:themechange', onThemeChange);
     canvas.removeEventListener('pointermove', pointerMove);
     canvas.removeEventListener('pointerleave', pointerLeave);
     gl.getExtension('WEBGL_lose_context')?.loseContext();
